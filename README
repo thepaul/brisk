@@ -16,7 +16,7 @@ To try it out run:
 
 3. view jobtracker
    
-    http://localhost:5300
+    http://localhost:50030
 
 4. examine CassandraFS
 
