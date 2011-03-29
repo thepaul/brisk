@@ -79,7 +79,7 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
             throw new IOException("unable to connect to server", e);
         }
         
-        Cassandra.Client client = new Cassandra.Client(new TBinaryProtocol(trans));
+        Cassandra.Client client = new Brisk.Client(new TBinaryProtocol(trans));
         
         //connect to last known keyspace
         if(ringKs != null)

@@ -133,7 +133,7 @@ args=`getopt fhtp:bD: "$@"`
 eval set -- "$args"
 
 #classname="org.apache.cassandra.thrift.CassandraDaemon"
-classname="com.datastax.brisk.CassandraDaemon"
+classname="com.datastax.brisk.BriskDaemon"
 
 while true; do
     case "$1" in

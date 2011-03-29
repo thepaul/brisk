@@ -1,4 +1,4 @@
-package org.apache.cassandra.hadoop.fs;
+package com.datastax.brisk;
 
 import org.apache.cassandra.service.ClientState;
 import org.apache.cassandra.thrift.CassandraServer;
@@ -11,7 +11,7 @@ import org.apache.thrift.TException;
  * 
  * We need to work around the fact CassandraServer tracks client state per-thread
  */
-public class CassandraInternalServer extends CassandraServer
+public class BriskInternalServer extends BriskServer
 {
     private String keySpace;
        

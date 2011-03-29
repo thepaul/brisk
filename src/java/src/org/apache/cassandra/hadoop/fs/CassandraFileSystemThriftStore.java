@@ -24,6 +24,8 @@ import java.net.URI;
 import java.nio.ByteBuffer;
 import java.util.*;
 
+import com.datastax.brisk.BriskInternalServer;
+
 import org.apache.cassandra.hadoop.CassandraProxyClient;
 import org.apache.cassandra.hadoop.trackers.CassandraJobConf;
 import org.apache.cassandra.thrift.*;
@@ -84,7 +86,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         
         //We could be running inside of cassandra...
         if(conf instanceof CassandraJobConf)
-            client = new CassandraInternalServer();
+            client = new BriskInternalServer();
         else
             client = CassandraProxyClient.newProxyConnection(host, port, true, true);
         
