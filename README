@@ -1,6 +1,24 @@
 DataStax Brisk
 ==============
 
-This package contains a HDFS layer and a CassandraJobConf
-which can be used to 
+This package contains a HDFS compatable layer (CassandraFS) and a CassandraJobConf
+which can be used to run MR jobs without HDFS or dedicated job/task trackers
+
+To try it out run:
+
+1. compile and download all dependencies
+   
+    ant
+
+2. start cassandra with built in job/task trackers
+
+    ./bin/brisk cassandra -t -f 
+
+3. view jobtracker
+   
+    http://localhost:5300
+
+4. examine CassandraFS
+
+    ./bin/brisk hadoop fs -lsr cassandra:///
 
