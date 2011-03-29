@@ -1,0 +1,130 @@
+package org.apache.cassandra.hadoop.trackers;
+
+import java.io.IOException;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.cassandra.utils.FBUtilities;
+import org.apache.hadoop.mapred.JobTracker;
+import org.apache.hadoop.mapred.TaskTracker;
+import org.apache.log4j.Logger;
+
+//Will start job and or task trackers
+//depending on the ring
+public class TrackerInitializer
+{
+    private static Logger logger = Logger.getLogger(TrackerInitializer.class);
+    private static final CountDownLatch jobTrackerStarted = new CountDownLatch(1);
+    
+    public static void init() 
+    {
+              
+        //Are we a JobTracker?
+        if(CassandraJobConf.getJobTrackerNode().equals(FBUtilities.getLocalAddress()))
+        {
+            Thread jobTrackerThread = getJobTrackerThread();
+            jobTrackerThread.start();
+            
+            try
+            {
+                jobTrackerStarted.await(1, TimeUnit.MINUTES);
+            }
+            catch (InterruptedException e)
+            {
+                throw new RuntimeException("JobTracker not started",e);
+            }            
+        }
+              
+        
+        getTaskTrackerThread().start();
+    }
+    
+    
+    private static Thread getJobTrackerThread()
+    {
+       Thread jobTrackerThread = new Thread(new Runnable() {
+            
+            public void run()
+            {
+                JobTracker jobTracker = null; 
+                               
+                //Wait for gossip                
+                try
+                {                    
+                    logger.info("Waiting for gossip to start");
+                    Thread.sleep(5000);
+                }
+                catch (InterruptedException e)
+                {
+                   throw new RuntimeException(e);
+                }
+                
+                while(true)
+                {
+                    try
+                    {
+                        jobTracker = JobTracker.startTracker(new CassandraJobConf());     
+                        logger.info("Hadoop Job Tracker Started...");
+                        jobTrackerStarted.countDown();
+                        jobTracker.offerService();
+                       
+                    }
+                    catch(Throwable t)
+                    {
+                        //on OOM shut down the tracker
+                        if(t instanceof OutOfMemoryError || t.getCause() instanceof OutOfMemoryError)
+                        {
+                            try
+                            {
+                                jobTracker.stopTracker();
+                            }
+                            catch (IOException e)
+                            {
+                               
+                            }
+                            break;
+                        }
+                        logger.warn("Error starting job tracker", t);
+                        break;
+                    }
+                }
+            }
+        });  
+       
+       return jobTrackerThread;
+    }
+    
+    
+    private static Thread getTaskTrackerThread()
+    {
+        Thread taskTrackerThread = new Thread(new Runnable() {
+            
+            public void run()
+            {
+                TaskTracker taskTracker = null; 
+                               
+                
+                while(true)
+                {
+                    try
+                    {
+                        taskTracker = new TaskTracker(new CassandraJobConf());  
+                        logger.info("Hadoop Task Tracker Started... ");
+                        taskTracker.run();
+                    }
+                    catch(Throwable t)
+                    {
+                        //on OOM shut down the tracker
+                        if(t instanceof OutOfMemoryError || t.getCause() instanceof OutOfMemoryError)
+                        {                         
+                            break;
+                        }
+                    }
+                }
+            }
+        });  
+       
+       return taskTrackerThread;
+    }
+    
+}

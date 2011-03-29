@@ -1,0 +1,6 @@
+DataStax Brisk
+==============
+
+This package contains a HDFS layer and a CassandraJobConf
+which can be used to 
+

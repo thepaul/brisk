@@ -1,0 +1,566 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+ ~ Licensed to the Apache Software Foundation (ASF) under one
+ ~ or more contributor license agreements.  See the NOTICE file
+ ~ distributed with this work for additional information
+ ~ regarding copyright ownership.  The ASF licenses this file
+ ~ to you under the Apache License, Version 2.0 (the
+ ~ "License"); you may not use this file except in compliance
+ ~ with the License.  You may obtain a copy of the License at
+ ~
+ ~    http://www.apache.org/licenses/LICENSE-2.0
+ ~
+ ~ Unless required by applicable law or agreed to in writing,
+ ~ software distributed under the License is distributed on an
+ ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ ~ KIND, either express or implied.  See the License for the
+ ~ specific language governing permissions and limitations
+ ~ under the License.
+ -->
+<project basedir="." default="build" name="brisk"
+         xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+    <property environment="env"/>
+    <property file="build.properties" />
+    <property file="build.properties.default" />
+    <property name="debuglevel" value="source,lines,vars"/>
+
+    <property name="basedir" value="."/>
+    <property name="build.src" value="${basedir}/src"/>
+    <property name="build.src.java" value="${basedir}/src/java"/>
+    <property name="build.src.gen-java" value="${basedir}/src/gen-java"/>
+    <property name="build.lib" value="${basedir}/lib"/>
+    <property name="build.dir" value="${basedir}/build"/>
+    <property name="build.dir.lib" value="${basedir}/build/lib"/>
+    <property name="build.test.dir" value="${build.dir}/test"/>
+    <property name="build.classes" value="${build.dir}/classes"/>
+    <property name="javadoc.dir" value="${build.dir}/javadoc"/>
+    <property name="interface.dir" value="${basedir}/interface"/>
+    <property name="interface.thrift.dir" value="${interface.dir}/thrift"/>
+    <property name="interface.thrift.gen-java" value="${interface.thrift.dir}/gen-java"/>
+    <property name="test.dir" value="${basedir}/test"/>
+    <property name="test.resources" value="${test.dir}/resources"/>
+    <property name="test.lib" value="${build.dir}/test/lib"/>
+    <property name="test.classes" value="${build.dir}/test/classes"/>
+    <property name="test.conf" value="${test.dir}/conf"/>
+    <property name="test.data" value="${test.dir}/data"/>
+    <property name="test.name" value="*Test"/>
+    <property name="test.unit.src" value="${test.dir}/unit"/>
+    <property name="dist.dir" value="${build.dir}/dist"/>
+
+    <property name="hadoop.dir" value="${basedir}/resources/hadoop"/>
+    <property name="hadoop.dir.lib" value="${hadoop.dir}/lib"/>
+    <property name="cassandra.dir" value="${basedir}/resources/cassandra"/>
+    <property name="cassandra.dir.lib" value="${cassandra.dir}/lib"/>
+
+    <property name="base.version" value="0.0.1"/>
+    <condition property="version" value="${base.version}">
+      <isset property="release"/>
+    </condition>
+    <property name="version" value="${base.version}-SNAPSHOT"/>
+    <property name="version.properties.dir"
+              value="${build.classes.main}/org/apache/cassandra/config/" />
+    <property name="final.name" value="${ant.project.name}-${version}"/>
+    <property name="maven-ant-tasks.version" value="2.1.1" />
+    <property name="maven-ant-tasks.url"
+              value="http://repo2.maven.org/maven2/org/apache/maven/maven-ant-tasks" />
+    <property name="test.timeout" value="60000" />
+    <property name="test.long.timeout" value="300000" />
+
+    <!-- http://cobertura.sourceforge.net/ -->
+    <property name="cobertura.version" value="1.9.4.1"/>
+    <property name="cobertura.build.dir" value="${build.dir}/cobertura"/>
+    <property name="cobertura.report.dir" value="${cobertura.build.dir}/report"/>
+    <property name="cobertura.classes.dir" value="${cobertura.build.dir}/classes"/>
+    <property name="cobertura.datafile" value="${cobertura.build.dir}/cobertura.ser"/>
+
+    <condition property="maven-ant-tasks.jar.exists">
+      <available file="${build.dir}/maven-ant-tasks-${maven-ant-tasks.version}.jar" />
+    </condition>
+
+    <condition property="is.source.artifact">
+      <available file="${build.src.java}" type="dir" />
+    </condition>
+
+    <!--
+         Add all the dependencies.
+    -->
+    <path id="maven-ant-tasks.classpath" path="${build.dir}/maven-ant-tasks-${maven-ant-tasks.version}.jar" />
+    <path id="cassandra.classpath">
+        <pathelement location="${cobertura.classes.dir}"/>
+        <pathelement location="${build.classes.main}" />
+        <pathelement location="${build.classes.thrift}" />
+        <fileset dir="${build.lib}">
+          <include name="**/*.jar" />
+        </fileset>
+        <fileset dir="${build.dir.lib}">
+          <include name="**/*.jar" />
+        </fileset>
+	<fileset dir="${hadoop.dir.lib}">
+          <include name="**/*.jar" />
+        </fileset>
+	<fileset dir="${cassandra.dir.lib}">
+          <include name="**/*.jar" />
+        </fileset>
+    </path>
+
+    <!--
+        Setup the output directories.
+    -->
+    <target name="init">
+        <fail unless="is.source.artifact"
+            message="Not a source artifact, stopping here." />
+        <mkdir dir="${build.classes}"/>
+        <mkdir dir="${test.lib}"/>
+        <mkdir dir="${test.classes}"/>
+        <mkdir dir="${build.src.gen-java}"/>
+    </target>
+
+    <target name="clean" description="Remove all locally created artifacts">
+        <delete dir="${build.test.dir}" />
+        <delete dir="${build.classes}" />
+        <delete dir="${cobertura.classes.dir}" />
+        <delete dir="${build.src.gen-java}" />
+    </target>
+    <target depends="clean" name="cleanall"/>
+
+    <target name="realclean" depends="clean">
+        <delete dir="${build.dir}" />
+    </target>
+
+    <!--
+       Fetch Maven Ant Tasks and Cassandra's dependencies
+       These targets are intentionally free of dependencies so that they
+       can be run stand-alone from a binary release artifact.
+    -->
+    <target name="maven-ant-tasks-download" unless="maven-ant-tasks.jar.exists">
+      <echo>Downloading Maven ANT Tasks...</echo>
+      <mkdir dir="${build.dir}" />
+      <get src="${maven-ant-tasks.url}/${maven-ant-tasks.version}/maven-ant-tasks-${maven-ant-tasks.version}.jar"
+           dest="${build.dir}/maven-ant-tasks-${maven-ant-tasks.version}.jar" usetimestamp="true" />
+    </target>
+
+    <target name="maven-ant-tasks-init" depends="maven-ant-tasks-download" unless="maven-ant-tasks.initialized">
+      <mkdir dir="${build.dir.lib}"/>
+      <typedef uri="antlib:org.apache.maven.artifact.ant" classpathref="maven-ant-tasks.classpath" />
+
+      <!-- define the remote repositories we use -->
+      <artifact:remoteRepository id="central"   url="${artifact.remoteRepository.central}"/>
+      <artifact:remoteRepository id="java.net2" url="${artifact.remoteRepository.java.net2}"/>
+      <artifact:remoteRepository id="apache"    url="${artifact.remoteRepository.apache}"/>
+      <artifact:remoteRepository id="cloudera"  url="${artifact.remoteRepository.cloudera}"/>
+      <!-- for distributed tests -->
+      <artifact:remoteRepository id="jclouds"   url="${artifact.remoteRepository.jclouds}"/>
+      <artifact:remoteRepository id="oauth"     url="${artifact.remoteRepository.oauth}"/>
+
+      <property name="maven-ant-tasks.initialized" value="true"/>
+    </target>
+
+    <target name="maven-ant-tasks-retrieve-build" depends="maven-ant-tasks-init">
+      <artifact:dependencies filesetId="build-dependency-jars" 
+                             sourcesFilesetId="build-dependency-sources" 
+                             cacheDependencyRefs="true" 
+                             dependencyRefsBuildFile="${build.dir}/build-dependencies.xml">
+	<!-- FIXME: paranamer can be dropped after we're depending on avro
+	     (since it depends on them). -->
+	<dependency groupId="com.thoughtworks.paranamer" artifactId="paranamer-ant" version="2.1"/>
+	<dependency groupId="junit" artifactId="junit" version="4.6" />
+	<dependency groupId="net.java.dev.jna" artifactId="jna" version="3.2.7"/>
+	<remoteRepository refid="central"/>
+	<remoteRepository refid="apache"/>
+	<remoteRepository refid="cloudera"/>
+	<remoteRepository refid="java.net2"/>
+      </artifact:dependencies>
+      <artifact:dependencies filesetId="hadoop-jars"
+			     cacheDependencyRefs="true" 
+			     dependencyRefsBuildFile="${build.dir}/build-hadoop-dependencies.xml">
+
+	<dependency groupId="org.apache.hadoop" artifactId="hadoop-core" version="0.20.2-CDH3B4"/>
+	<dependency groupId="org.apache.hadoop" artifactId="hadoop-streaming" version="0.20.2-CDH3B4"/>
+	<dependency groupId="org.apache.hadoop" artifactId="hadoop-tools" version="0.20.2-CDH3B4"/>
+	
+	<remoteRepository refid="central"/>
+	<remoteRepository refid="apache"/>
+	<remoteRepository refid="cloudera"/>
+	<remoteRepository refid="java.net2"/>
+      </artifact:dependencies>
+      <artifact:dependencies filesetId="cassandra-jars"
+			     cacheDependencyRefs="true" 
+                             dependencyRefsBuildFile="${build.dir}/build-cassandra-dependencies.xml">
+
+	<dependency groupId="org.slf4j" artifactId="slf4j-log4j12" version="1.6.1"/>	
+	<dependency groupId="org.apache.cassandra" artifactId="cassandra-all" version="0.7.4"/>
+          
+	<remoteRepository refid="central"/>
+	<remoteRepository refid="apache"/>
+	<remoteRepository refid="cloudera"/>
+	<remoteRepository refid="java.net2"/>
+      </artifact:dependencies>
+      
+      <artifact:dependencies pathId="cobertura.classpath">
+	<dependency groupId="net.sourceforge.cobertura" artifactId="cobertura" version="${cobertura.version}"/>
+	<remoteRepository refid="central"/>
+      </artifact:dependencies>
+      
+      <copy todir="${build.dir.lib}/jars">
+          <fileset refid="build-dependency-jars"/>
+          <mapper type="flatten"/>
+      </copy>
+      <copy todir="${build.dir.lib}/sources">
+          <fileset refid="build-dependency-sources"/>
+          <mapper type="flatten"/>
+      </copy>
+      
+      <copy todir="${hadoop.dir}">
+          <fileset refid="hadoop-jars"/>
+          <mapper type="flatten"/>
+      </copy>
+
+      <copy todir="${hadoop.dir.lib}">
+          <fileset refid="hadoop-jars"/>
+          <mapper type="flatten"/>
+      </copy>
+
+      <copy todir="${cassandra.dir.lib}">
+          <fileset refid="cassandra-jars"/>
+          <mapper type="flatten"/>
+      </copy>      
+    </target>
+
+    <!--
+       Generate thrift code.  We have targets to build java because
+       Cassandra depends on it, and python because that is what the system
+       tests run.
+    -->
+    <target name="gen-thrift-java"  description="Generate Thrift Java artifacts">
+      <echo>Generating Thrift Java code from ${basedir}/interface/brisk.thrift ....</echo>
+      <exec executable="thrift" dir="${basedir}/interface" failonerror="true">
+        <arg line="--gen java:hashcode" />
+	<arg line="-I ${basedir}/interface" />
+        <arg line="-o ${interface.thrift.dir}" />
+        <arg line="brisk.thrift" />
+      </exec>
+    </target>
+    <target name="gen-thrift-py" description="Generate Thrift Python artifacts">
+      <echo>Generating Thrift Python code from ${basedir}/interface/brisk.thrift ....</echo>
+      <exec executable="thrift" dir="${basedir}/interface" failonerror="true">
+        <arg line="--gen py" />
+	<arg line="-I ${basedir}/interface" />
+        <arg line="-o ${interface.thrift.dir}" />
+        <arg line="brisk.thrift" />
+      </exec>
+      <exec executable="thrift" dir="${basedir}/interface" failonerror="true">
+        <arg line="--gen py:twisted" />
+	<arg line="-I ${basedir}/interface" />
+        <arg line="-o ${interface.thrift.dir}" />
+        <arg line="brisk.thrift" />
+      </exec>
+    </target>
+
+    <!--
+        The build target builds all the .class files
+    -->
+    <target name="build"
+        depends="maven-ant-tasks-retrieve-build,build-subprojects,build-project" description="Compile Cassandra classes"/>
+    <target name="build-subprojects" description="Compile Cassandra contrib projects"/>
+    <target name="codecoverage" depends="cobertura-instrument,test,cobertura-report" description="Create code coverage report"/>
+
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <!-- Order matters! -->
+        <javac debug="true" debuglevel="${debuglevel}"
+               destdir="${build.classes}" includeantruntime="false">
+            <src path="${interface.thrift.dir}/gen-java"/>
+            <classpath refid="cassandra.classpath"/>
+        </javac>
+        <javac debug="true" debuglevel="${debuglevel}"
+               destdir="${build.classes}" includeantruntime="false">
+            <src path="${build.src.java}"/>
+            <src path="${build.src.gen-java}"/>
+            <classpath refid="cassandra.classpath"/>
+        </javac>
+        <taskdef name="paranamer" classname="com.thoughtworks.paranamer.ant.ParanamerGeneratorTask">
+          <classpath refid="cassandra.classpath" />
+        </taskdef>
+    </target>
+
+
+    <!--
+        The jar target makes cassandra.jar output.
+    -->
+    <target name="jar" depends="build" description="Assemble Cassandra JAR files">
+      <mkdir dir="${build.classes.main}/META-INF" />
+      <mkdir dir="${build.classes.thrift}/META-INF" />
+      <copy file="LICENSE.txt"
+            tofile="${build.classes.main}/META-INF/LICENSE.txt"/>
+      <copy file="LICENSE.txt"
+            tofile="${build.classes.thrift}/META-INF/LICENSE.txt"/>
+      <copy file="NOTICE.txt"
+            tofile="${build.classes.main}/META-INF/NOTICE.txt"/>
+      <copy file="NOTICE.txt"
+            tofile="${build.classes.thrift}/META-INF/NOTICE.txt"/>
+
+      <!-- Thrift Jar -->
+      <jar jarfile="${build.dir}/${ant.project.name}-thrift-${version}.jar"
+           basedir="${build.classes.thrift}">
+        <manifest>
+          <attribute name="Implementation-Title" value="Cassandra"/>
+          <attribute name="Implementation-Version" value="${version}"/>
+          <attribute name="Implementation-Vendor" value="Apache"/>
+        </manifest>
+      </jar>
+
+      <!-- Main Jar -->
+      <jar jarfile="${build.dir}/${final.name}.jar"
+           basedir="${build.classes.main}">
+        <manifest>
+        <!-- <section name="org/apache/cassandra/infrastructure"> -->
+          <attribute name="Implementation-Title" value="Cassandra"/>
+          <attribute name="Implementation-Version" value="${version}"/>
+          <attribute name="Implementation-Vendor" value="Apache"/>
+          <attribute name="Premain-Class"
+                     value="org.apache.cassandra.infrastructure.continuations.CAgent"/>
+          <attribute name="Class-Path"
+                     value="${ant.project.name}-thrift-${version}.jar" />
+        <!-- </section> -->
+        </manifest>
+      </jar>
+    </target>
+      
+    <!-- creates release tarballs -->
+    <target name="artifacts" depends="jar,javadoc"
+            description="Create Cassandra release artifacts">
+      <mkdir dir="${dist.dir}"/>
+      <copy todir="${dist.dir}/lib">
+        <fileset dir="${build.lib}"/>
+        <fileset dir="${build.dir}">
+          <include name="${final.name}.jar" />
+          <include name="${ant.project.name}-thrift-${version}.jar" />
+          <include name="${ant.project.name}-cql-${version}.jar" />
+        </fileset>
+      </copy>
+      <copy todir="${dist.dir}/javadoc">
+        <fileset dir="${javadoc.dir}"/>
+      </copy>
+      <copy todir="${dist.dir}/bin">
+        <fileset dir="bin"/>
+      </copy>
+      <copy todir="${dist.dir}/conf">
+        <fileset dir="conf"/>
+      </copy>
+      <copy todir="${dist.dir}/interface">
+        <fileset dir="interface">
+          <include name="**/*.thrift" />
+        </fileset>
+      </copy>
+      <copy todir="${dist.dir}/">
+        <fileset dir="${basedir}">
+          <include name="*.txt" />
+        </fileset>
+      </copy>
+
+      <tar compression="gzip" longfile="gnu"
+        destfile="${build.dir}/${final.name}-bin.tar.gz">
+
+        <!-- Everything but bin/ (default mode) -->
+        <tarfileset dir="${dist.dir}" prefix="${final.name}">
+          <include name="**"/>
+          <exclude name="bin/*" />
+        </tarfileset>
+        <!-- Shell includes in bin/ (default mode) -->
+        <tarfileset dir="${dist.dir}" prefix="${final.name}">
+          <include name="bin/*.in.sh" />
+        </tarfileset>
+        <!-- Executable scripts in bin/ -->
+        <tarfileset dir="${dist.dir}" prefix="${final.name}" mode="755">
+          <include name="bin/*"/>
+          <not>
+                <filename name="bin/*.in.sh" />
+          </not>
+        </tarfileset>
+      </tar>
+
+      <tar compression="gzip" longfile="gnu"
+           destfile="${build.dir}/${final.name}-src.tar.gz">
+
+        <tarfileset dir="${basedir}"
+                    prefix="${final.name}-src">
+          <include name="**"/>
+          <exclude name="build/**" />
+          <exclude name="src/gen-java/**" />
+          <exclude name=".git/**" />
+          <exclude name="bin/*" /> <!-- handled separately below -->
+          <!-- exclude Eclipse files -->
+          <exclude name=".project" />
+          <exclude name=".classpath" />
+          <exclude name=".settings/**" />
+          <exclude name=".externalToolBuilders/**" />
+        </tarfileset>
+
+        <!-- Shell includes and batch files in bin/ -->
+        <tarfileset dir="${basedir}" prefix="${final.name}-src">
+          <include name="bin/*.in.sh" />
+          <include name="bin/*.bat" />
+        </tarfileset>
+        <!-- Everything else (assumed to be scripts), is executable -->
+        <tarfileset dir="${basedir}" prefix="${final.name}-src" mode="755">
+          <include name="bin/*"/>
+          <exclude name="bin/*.in.sh" />
+          <exclude name="bin/*.bat" />
+        </tarfileset>
+      </tar>
+    </target>
+
+    <target name="release" depends="artifacts"
+            description="Create and QC release artifacts">
+      <checksum file="${build.dir}/${final.name}-bin.tar.gz"
+                forceOverwrite="yes"
+                todir="${build.dir}"
+                fileext=".md5"
+                algorithm="MD5" />
+      <checksum file="${build.dir}/${final.name}-src.tar.gz"
+                forceOverwrite="yes"
+                todir="${build.dir}"
+                fileext=".md5"
+                algorithm="MD5" />
+      <checksum file="${build.dir}/${final.name}-bin.tar.gz"
+                forceOverwrite="yes"
+                todir="${build.dir}"
+                fileext=".sha"
+                algorithm="SHA" />
+      <checksum file="${build.dir}/${final.name}-src.tar.gz"
+                forceOverwrite="yes"
+                todir="${build.dir}"
+                fileext=".sha"
+                algorithm="SHA" />
+    </target>
+
+  <target name="build-test" depends="build" description="Compile test classes">
+    <javac
+     debug="true"
+     debuglevel="${debuglevel}"
+     destdir="${test.classes}">
+      <classpath refid="cassandra.classpath"/>
+      <src path="${test.unit.src}"/>
+      <src path="${test.long.src}"/>
+      <src path="${test.src.driver}"/>
+    </javac>
+
+    <!-- Non-java resources needed by the test suite -->
+    <copy todir="${test.classes}">
+      <fileset dir="${test.resources}"/>
+    </copy>
+  </target>
+
+
+  <macrodef name="testmacro">
+    <attribute name="suitename" />
+    <attribute name="inputdir" />
+    <attribute name="timeout" />
+    <attribute name="forkmode" default="perTest"/>
+    <element name="optjvmargs" implicit="true" optional="true" />
+    <attribute name="filter" default="**/${test.name}.java"/>
+    <sequential>
+      <echo message="running @{suitename} tests"/>
+      <mkdir dir="${build.test.dir}/cassandra"/>
+      <mkdir dir="${build.test.dir}/output"/>
+      <junit fork="on" forkmode="@{forkmode}" failureproperty="testfailed" maxmemory="1024m" timeout="@{timeout}">
+        <sysproperty key="net.sourceforge.cobertura.datafile" file="${cobertura.datafile}"/>
+        <formatter type="xml" usefile="true"/>
+        <formatter type="brief" usefile="false"/>
+        <jvmarg value="-Dstorage-config=${test.conf}"/>
+        <jvmarg value="-Daccess.properties=${test.conf}/access.properties"/>
+        <jvmarg value="-Dlog4j.configuration=log4j-junit.properties" />
+        <jvmarg value="-ea"/>
+        <optjvmargs/>
+        <classpath>
+          <path refid="cassandra.classpath" />
+          <pathelement location="${test.classes}"/>
+          <path refid="cobertura.classpath"/>
+          <pathelement location="${test.conf}"/>
+          <fileset dir="${test.lib}">
+            <include name="**/*.jar" />
+          </fileset>
+        </classpath>
+        <batchtest todir="${build.test.dir}/output">
+          <fileset dir="@{inputdir}" includes="@{filter}" />
+        </batchtest>
+      </junit>
+      <fail message="Some @{suitename} test(s) failed.">
+        <condition>
+            <and>
+            <isset property="testfailed"/>
+            <not>
+              <isset property="ant.test.failure.ignore"/>
+            </not>
+          </and>
+        </condition>
+      </fail>
+    </sequential>
+  </macrodef>
+
+  <target name="test" depends="build-test" description="Execute unit tests">
+    <testmacro suitename="unit" inputdir="${test.unit.src}" timeout="60000">
+      <jvmarg value="-Dlegacy-sstable-root=${test.data}/legacy-sstables"/>
+      <jvmarg value="-Dcorrupt-sstable-root=${test.data}/corrupt-sstables"/>
+    </testmacro>
+    <testmacro suitename="driverunit" inputdir="${test.src.driver}" timeout="60000">
+      <jvmarg value="-Dlegacy-sstable-root=${test.data}/legacy-sstables"/>
+    </testmacro>
+  </target>
+    
+
+  <!-- instruments the classes to later create code coverage reports -->
+  <target name="cobertura-instrument" depends="build,build-test">
+    <taskdef resource="tasks.properties">
+      <classpath refid="cobertura.classpath"/>
+    </taskdef>
+
+    <delete file="${cobertura.datafile}"/>
+
+    <cobertura-instrument todir="${cobertura.classes.dir}" datafile="${cobertura.datafile}">
+      <ignore regex="org.apache.log4j.*"/>
+
+      <fileset dir="${build.classes.main}">
+        <include name="**/*.class"/>
+        <exclude name="**/*Test.class"/>
+        <exclude name="**/*TestCase.class"/>
+        <exclude name="**/test/*.class"/>
+        <!-- cobertura modifies the serialVersionUID of classes. Some of our unit tests rely on backward
+        wire compatability of these classes.  It was easier to exlude them from instrumentation than to
+        force their serialVersinUIDs. -->
+        <exclude name="**/*Token.class"/>
+        <exclude name="${cobertura.excludes}"/>
+      </fileset>
+
+    </cobertura-instrument>
+  </target>
+
+  <!-- create both html and xml code coverage reports -->
+  <target name="cobertura-report">
+    <cobertura-report format="html" destdir="${cobertura.report.dir}" srcdir="${build.src.java}"
+      datafile="${cobertura.datafile}"/>
+    <cobertura-report format="xml" destdir="${cobertura.report.dir}" srcdir="${build.src.java}"
+      datafile="${cobertura.datafile}"/>
+  </target>
+
+
+  <target name="javadoc" depends="init" description="Create javadoc">
+    <tstamp>
+      <format property="YEAR" pattern="yyyy"/>
+    </tstamp>
+    <javadoc destdir="${javadoc.dir}" author="true" version="true" use="true"
+      windowtitle="${ant.project.name} API" classpathref="cassandra.classpath"
+      bottom="Copyright &amp;copy; ${YEAR} The Apache Software Foundation"
+      useexternalfile="yes"
+      maxmemory="256m">
+
+      <fileset dir="${build.src.java}" defaultexcludes="yes">
+        <include name="org/apache/**/*.java"/>
+      </fileset>
+      <fileset dir="${interface.thrift.gen-java}" defaultexcludes="yes">
+        <include name="org/apache/**/*.java"/>
+      </fileset>
+    </javadoc>
+   </target>
+
+</project>
