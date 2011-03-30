@@ -15,13 +15,24 @@ if [ "x$1" = "xhadoop" ]; then
     exit $?
 fi
 
-if [ "x$1" = "xhive" ]; then
+if [ "x$1" = "xpig" ]; then
     shift
-    echo "Not yet working";
+    $PIG_HOME/bin/pig $*
     exit $?
 fi
 
-echo "$0: cassandra [options] | hadoop [options] | hive [options]"
+if [ "x$1" = "xhive" ]; then
+    shift
+
+    #we need to remove the conflicting antlr jar
+    export CLASSPATH=`echo $CLASSPATH | sed -E "s/antlr|slf4j/dne/g"`
+    export HADOOP_CLASSPATH=$CLASSPATH
+    
+    $HIVE_HOME/bin/hive $*
+    exit $?
+fi
+
+echo "$0: cassandra [options] | hadoop [options] | hive [options] | pig [options]"
 exit 1
 
 # vi:ai sw=4 ts=4 tw=0 et
