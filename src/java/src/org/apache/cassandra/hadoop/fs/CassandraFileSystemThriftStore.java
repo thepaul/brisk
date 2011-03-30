@@ -48,7 +48,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
     private static final ByteBuffer     dataCol          = ByteBufferUtil.bytes("data");
     private static final ByteBuffer     pathCol          = ByteBufferUtil.bytes("path");
-    private static final ByteBuffer     sentCol          = ByteBufferUtil.bytes("sentinal");
+    private static final ByteBuffer     sentCol          = ByteBufferUtil.bytes("sentinel");
 
     private static final ColumnPath     blockPath        = new ColumnPath(blockCf);
     private static final ColumnParent   blockParent      = new ColumnParent(blockCf);
