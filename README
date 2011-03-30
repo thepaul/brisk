@@ -1,8 +1,25 @@
 DataStax Brisk
 ==============
 
+This is a internal readme file for developers...
+
 This package contains a HDFS compatable layer (CassandraFS) and a CassandraJobConf
 which can be used to run MR jobs without HDFS or dedicated job/task trackers
+
+Hive and Pig are setup to work with MR cluster.
+
+
+Required Setup
+==============
+
+One thing to note on linux systems, you need to set as root
+
+    echo 1 > /proc/sys/vm/overcommit_memory
+
+This is to avoid OOM errors when tasks are spawned.
+
+Getting Started
+===============
 
 To try it out run:
 
@@ -21,4 +38,24 @@ To try it out run:
 4. examine CassandraFS
 
     ./bin/brisk hadoop fs -lsr cassandra:///
+
+
+Using Hive (Development version)
+==========
+1. checkout our hive repo and switch to brisk branch build package into brisk resource
+
+   cd $HIVE_DEV; ant package -Dtarget.dir=$BRISK_DEV/resources/hive
+
+2. start cassandra with built in job/task trackers
+
+   ./bin/brisk cassandra -t -f
+
+3. start hive shell or webUI
+   
+   ./bin/brisk hive
+
+   or
+ 
+   ./bin/brisk hive --service hwi
+   open web browser to http://localhost:9999/hwi
 
