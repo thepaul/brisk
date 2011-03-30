@@ -57,11 +57,11 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
     private String              ringKs;
     private CircuitBreaker      breaker = new CircuitBreaker(1, 1);
 
-    public static Cassandra.Iface newProxyConnection(String host, int port, boolean framed, boolean randomizeConnections)
+    public static Brisk.Iface newProxyConnection(String host, int port, boolean framed, boolean randomizeConnections)
             throws IOException
     {
 
-        return (Cassandra.Iface) java.lang.reflect.Proxy.newProxyInstance(Cassandra.Client.class.getClassLoader(),
+        return (Brisk.Iface) java.lang.reflect.Proxy.newProxyInstance(Brisk.Client.class.getClassLoader(),
                 Cassandra.Client.class.getInterfaces(), new CassandraProxyClient(host, port, framed,
                         randomizeConnections));
     }
