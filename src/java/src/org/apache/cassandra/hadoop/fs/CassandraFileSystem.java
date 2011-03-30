@@ -400,7 +400,7 @@ public class CassandraFileSystem extends FileSystem
 
         CassandraFileStatus(Path f, INode inode) throws IOException
         {
-            super(findLength(inode), inode.isDirectory(), 1, findBlocksize(inode), 0, f);
+            super(findLength(inode), inode.isDirectory(), 1, findBlocksize(inode), inode.mtime, f);
 
             this.inode = inode;
             this.setGroup(inode.group);

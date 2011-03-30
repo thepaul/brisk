@@ -226,7 +226,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
             throw new IOException(e);
         }
 
-        return INode.deserialize(ByteBufferUtil.inputStream(pathInfo.column.value));
+        return INode.deserialize(ByteBufferUtil.inputStream(pathInfo.column.value), pathInfo.column.getTimestamp());
     }
 
     public void storeBlock(Block block, ByteArrayOutputStream os) throws IOException

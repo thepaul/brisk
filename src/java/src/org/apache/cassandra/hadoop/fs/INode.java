@@ -37,6 +37,7 @@ public class INode
     public final String            group;
     public final FsPermission      perms;
     private Block[]                blocks;
+    public long mtime = 0;
 
     public INode(String user, String group, FsPermission perms, FileType fileType, Block[] blocks)
     {
@@ -51,6 +52,12 @@ public class INode
             throw new IllegalArgumentException("A directory cannot contain blocks.");
         }
         this.blocks = blocks;
+    }
+
+    public INode(String user, String group, FsPermission perms, FileType fileType, Block[] blocks, long mtime)
+    {
+        this(user, group, perms, fileType, blocks);
+        this.mtime = mtime;
     }
 
     public Block[] getBlocks()
@@ -97,7 +104,7 @@ public class INode
         return ByteBuffer.wrap(bytes.toByteArray());
     }
 
-    public static INode deserialize(InputStream in) throws IOException
+    public static INode deserialize(InputStream in, long ts) throws IOException
     {
         if (in == null)
         {
@@ -119,7 +126,7 @@ public class INode
         {
         case DIRECTORY:
             in.close();
-            return new INode(new String(ubuf), new String(gbuf), perms, fileType, null);
+            return new INode(new String(ubuf), new String(gbuf), perms, fileType, null, ts);
         case FILE:
             int numBlocks = dataIn.readInt();
             Block[] blocks = new Block[numBlocks];
@@ -133,9 +140,10 @@ public class INode
                 blocks[i] = new Block(new UUID(mostSigBits,leastSigBits), offset, length);
             }
             in.close();
-            return new INode(new String(ubuf), new String(gbuf), perms, fileType, blocks);
+            return new INode(new String(ubuf), new String(gbuf), perms, fileType, blocks, ts);
         default:
             throw new IllegalArgumentException("Cannot deserialize inode.");
         }
     }
+
 }
