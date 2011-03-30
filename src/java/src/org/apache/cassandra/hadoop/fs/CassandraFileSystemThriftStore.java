@@ -20,6 +20,7 @@ package org.apache.cassandra.hadoop.fs;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.InetAddress;
 import java.net.URI;
 import java.nio.ByteBuffer;
 import java.util.*;
@@ -78,9 +79,9 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         String host = uri.getHost();
         int    port = uri.getPort();
         
-        if(host == null || host.isEmpty())
-            throw new IOException("Invalid URI: "+uri);
-        
+        if(host == null || host.isEmpty() || host.equals("null"))
+            host = InetAddress.getLocalHost().getHostName();
+            
         if(port == -1)
             port = 9160; //default
         
