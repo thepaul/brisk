@@ -4,7 +4,9 @@ export CASSANDRA_HOME=`dirname $0`/../resources/cassandra
 
 . $CASSANDRA_HOME/bin/cassandra.in.sh
  
-export CLASSPATH=$CLASSPATH:`dirname $0`/../build/classes
+for jar in `dirname $0`/../build/brisk*.jar; do
+    export CLASSPATH=$CLASSPATH:$jar
+done
 export HADOOP_CLASSPATH=$CLASSPATH
 
 #zomg hadoop is so annoying requires absolute home
