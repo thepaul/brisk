@@ -62,7 +62,7 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
     {
 
         return (Brisk.Iface) java.lang.reflect.Proxy.newProxyInstance(Brisk.Client.class.getClassLoader(),
-                Cassandra.Client.class.getInterfaces(), new CassandraProxyClient(host, port, framed,
+                Brisk.Client.class.getInterfaces(), new CassandraProxyClient(host, port, framed,
                         randomizeConnections));
     }
 
