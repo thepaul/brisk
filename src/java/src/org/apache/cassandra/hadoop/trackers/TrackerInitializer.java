@@ -89,7 +89,7 @@ public class TrackerInitializer
                     }
                 }
             }
-        });  
+        }, "JOB-TRACKER-INIT");  
        
        return jobTrackerThread;
     }
@@ -107,7 +107,7 @@ public class TrackerInitializer
                 while(true)
                 {
                     try
-                    {
+                    {                        
                         taskTracker = new TaskTracker(new CassandraJobConf());  
                         logger.info("Hadoop Task Tracker Started... ");
                         taskTracker.run();
@@ -122,7 +122,7 @@ public class TrackerInitializer
                     }
                 }
             }
-        });  
+        }, "TASK-TRACKER-INIT");  
        
        return taskTrackerThread;
     }
