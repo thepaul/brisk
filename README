@@ -58,11 +58,3 @@ Using Hive (Development version)
  
    ./bin/brisk hive --service hwi
    open web browser to http://localhost:9999/hwi
-
-Using Sqoop (Development)
-1. checkout our sqoop repo
-   cd $SQOOP_DEV; ant;
-
-2. Create a soft link in $BRISK_DEV called sqoop that points to $SQOOP_DEV
-
-3. Run sqoop by issuing ./bin/brisk sqoop {args}

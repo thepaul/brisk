@@ -32,12 +32,6 @@ if [ "x$1" = "xhive" ]; then
     exit $?
 fi
 
-if [ "x$1" = "xsqoop" ]; then
-    shift
-    $SQOOP_HOME/bin/sqoop $*
-    exit $?
-fi
-
 echo "$0: cassandra [options] | hadoop [options] | hive [options] | pig [options] | sqoop [options]"
 exit 1
 

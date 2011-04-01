@@ -19,8 +19,3 @@ export PIG_CLASSPATH=$HADOOP_HOME/conf:$CLASSPATH
 
 export HIVE_HOME=`dirname $0`/../resources/hive
 
-export SQOOP_HOME=`dirname $0`/../resources/sqoop
-
-export HBASE_HOME=$HADOOP_HOME
-export ZOOKEEPER_HOME=$HADOOP_HOME
-
