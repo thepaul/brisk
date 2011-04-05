@@ -158,6 +158,7 @@
       <artifact:remoteRepository id="java.net2" url="${artifact.remoteRepository.java.net2}"/>
       <artifact:remoteRepository id="apache"    url="${artifact.remoteRepository.apache}"/>
       <artifact:remoteRepository id="datastax"  url="${artifact.remoteRepository.datastax}"/>
+      <artifact:remoteRepository id="datanucleus"  url="${artifact.remoteRepository.datanucleus}"/>
       <!-- for distributed tests -->
       <artifact:remoteRepository id="jclouds"   url="${artifact.remoteRepository.jclouds}"/>
       <artifact:remoteRepository id="oauth"     url="${artifact.remoteRepository.oauth}"/>
@@ -229,6 +230,7 @@
 	<dependency groupId="commons-codec" artifactId="commons-codec" version="1.3"/>
 
 	<remoteRepository refid="datastax"/>
+	<remoteRepository refid="datanucleus"/>
 	<remoteRepository refid="central"/>
 	<remoteRepository refid="apache"/>
 	<remoteRepository refid="java.net2"/>
