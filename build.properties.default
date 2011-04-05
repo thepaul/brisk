@@ -5,7 +5,7 @@ artifact.remoteRepository.apache:      https://repository.apache.org/content/rep
 artifact.remoteRepository.datastax:    http://mvn.riptano.com/content/repositories/datastax-snapshot
 artifact.remoteRepository.jclouds:     http://jclouds.googlecode.com/svn/repo
 artifact.remoteRepository.oauth:       http://oauth.googlecode.com/svn/code/maven
-atrifact.remoteRepository.datanucleus: http://www.datanucleus.org/downloads/maven2
+artifact.remoteRepository.datanucleus: http://www.datanucleus.org/downloads/maven2
 
 hadoop.build.version:		       0.20.203.1-LATEST
 hive.build.version:		       0.7.0.1-LATEST
