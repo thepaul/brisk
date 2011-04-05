@@ -53,6 +53,8 @@
     <property name="hadoop.dir.lib" value="${hadoop.dir}/lib"/>
     <property name="cassandra.dir" value="${basedir}/resources/cassandra"/>
     <property name="cassandra.dir.lib" value="${cassandra.dir}/lib"/>
+    <property name="hive.dir" value="${basedir}/resources/hive"/>
+    <property name="hive.dir.lib" value="${hive.dir}/lib"/>
 
     <property name="base.version" value="0.0.1"/>
     <condition property="version" value="${base.version}">
@@ -97,10 +99,12 @@
         <fileset dir="${cassandra.dir.lib}">
           <include name="**/*.jar" />
         </fileset>
-	    <fileset dir="${hadoop.dir.lib}">
+	<fileset dir="${hadoop.dir.lib}">
           <include name="**/*.jar" />
         </fileset>
-	   
+	<fileset dir="${hive.dir.lib}">
+          <include name="**/*.jar" />
+        </fileset>	   
     </path>
 
     <!--
@@ -120,6 +124,12 @@
         <delete dir="${build.classes}" />
         <delete dir="${cobertura.classes.dir}" />
         <delete dir="${build.src.gen-java}" />
+	<delete dir="${cassandra.dir.lib}" />
+	<delete dir="${hadoop.dir.lib}" />
+	<delete dir="${hadoop.dir}" >
+	  <include name="**/*.jar"/>
+	</delete>
+	<delete dir="${hive.dir.lib}" />
     </target>
     <target depends="clean" name="cleanall"/>
 
@@ -147,7 +157,7 @@
       <artifact:remoteRepository id="central"   url="${artifact.remoteRepository.central}"/>
       <artifact:remoteRepository id="java.net2" url="${artifact.remoteRepository.java.net2}"/>
       <artifact:remoteRepository id="apache"    url="${artifact.remoteRepository.apache}"/>
-      <artifact:remoteRepository id="cloudera"  url="${artifact.remoteRepository.cloudera}"/>
+      <artifact:remoteRepository id="datastax"  url="${artifact.remoteRepository.datastax}"/>
       <!-- for distributed tests -->
       <artifact:remoteRepository id="jclouds"   url="${artifact.remoteRepository.jclouds}"/>
       <artifact:remoteRepository id="oauth"     url="${artifact.remoteRepository.oauth}"/>
@@ -166,21 +176,21 @@
 	<dependency groupId="junit" artifactId="junit" version="4.6" />
 	<dependency groupId="net.java.dev.jna" artifactId="jna" version="3.2.7"/>
 	<remoteRepository refid="central"/>
-	<remoteRepository refid="apache"/>
-	<remoteRepository refid="cloudera"/>
 	<remoteRepository refid="java.net2"/>
+	<remoteRepository refid="apache"/>
       </artifact:dependencies>
       <artifact:dependencies filesetId="hadoop-jars"
 			     cacheDependencyRefs="true" 
 			     dependencyRefsBuildFile="${build.dir}/build-hadoop-dependencies.xml">
 
-	<dependency groupId="org.apache.hadoop" artifactId="hadoop-core" version="0.20.2-CDH3B4"/>
-	<dependency groupId="org.apache.hadoop" artifactId="hadoop-streaming" version="0.20.2-CDH3B4"/>
-	<dependency groupId="org.apache.hadoop" artifactId="hadoop-tools" version="0.20.2-CDH3B4"/>
+	<dependency groupId="org.apache.hadoop" artifactId="hadoop-core" version="${hadoop.build.version}"/>
+	<dependency groupId="org.apache.hadoop" artifactId="hadoop-streaming" version="${hadoop.build.version}"/>
+	<dependency groupId="org.apache.hadoop" artifactId="hadoop-tools" version="${hadoop.build.version}"/>
+
 	
+	<remoteRepository refid="datastax"/>
 	<remoteRepository refid="central"/>
 	<remoteRepository refid="apache"/>
-	<remoteRepository refid="cloudera"/>
 	<remoteRepository refid="java.net2"/>
       </artifact:dependencies>
       <artifact:dependencies filesetId="cassandra-jars"
@@ -188,11 +198,39 @@
                              dependencyRefsBuildFile="${build.dir}/build-cassandra-dependencies.xml">
 
 	<dependency groupId="org.slf4j" artifactId="slf4j-log4j12" version="1.6.1"/>	
-	<dependency groupId="org.apache.cassandra" artifactId="cassandra-all" version="0.7.4"/>
+	<dependency groupId="org.apache.cassandra" artifactId="cassandra-all" version="${cassandra.build.version}"/>
           
 	<remoteRepository refid="central"/>
 	<remoteRepository refid="apache"/>
-	<remoteRepository refid="cloudera"/>
+	<remoteRepository refid="java.net2"/>
+      </artifact:dependencies>
+
+      <artifact:dependencies filesetId="hive-jars"
+			     cacheDependencyRefs="true" 
+                             dependencyRefsBuildFile="${build.dir}/build-hive-dependencies.xml">
+
+	<dependency groupId="org.apache.hive" artifactId="hive-common" version="${hive.build.version}"/>
+	<dependency groupId="org.apache.hive" artifactId="hive-exec" version="${hive.build.version}"/>
+	<dependency groupId="org.apache.hive" artifactId="hive-cli" version="${hive.build.version}"/>
+	<dependency groupId="org.apache.hive" artifactId="hive-shims" version="${hive.build.version}"/>
+	<dependency groupId="org.apache.hive" artifactId="hive-jdbc" version="${hive.build.version}"/>
+	<dependency groupId="org.apache.hive" artifactId="hive-hwi" version="${hive.build.version}" type="jar" classifier="compile"/>
+	<dependency groupId="org.apache.hive" artifactId="hive-hwi" version="${hive.build.version}" type="war" classifier="compile"/>
+	<dependency groupId="org.apache.hive" artifactId="hive-metastore" version="${hive.build.version}"/>
+	<dependency groupId="org.apache.hive" artifactId="hive-cassandra-handler" version="${hive.build.version}"/>
+
+	<dependency groupId="org.apache.hive" artifactId="hive-deps" version="${hive.build.version}" classifier="derby"/>
+	<dependency groupId="org.apache.hive" artifactId="hive-deps" version="${hive.build.version}" classifier="thrift-fb303"/>
+	<dependency groupId="org.apache.hive" artifactId="hive-deps" version="${hive.build.version}" classifier="json"/>
+	<dependency groupId="org.apache.hive" artifactId="hive-deps" version="${hive.build.version}" classifier="thrift"/>
+
+	<dependency groupId="org.antlr" artifactId="antlr" version="3.0.1"/>
+	<dependency groupId="commons-collections" artifactId="commons-collections" version="3.2.1"/>
+	<dependency groupId="commons-codec" artifactId="commons-codec" version="1.3"/>
+
+	<remoteRepository refid="datastax"/>
+	<remoteRepository refid="central"/>
+	<remoteRepository refid="apache"/>
 	<remoteRepository refid="java.net2"/>
       </artifact:dependencies>
       
@@ -223,6 +261,14 @@
       <copy todir="${cassandra.dir.lib}">
           <fileset refid="cassandra-jars"/>
           <mapper type="flatten"/>
+      </copy>      
+
+      <copy todir="${hive.dir.lib}">
+          <fileset refid="hive-jars"/>
+	  <mapper>
+	    <mapper type="regexp" from="hive-hwi-(.*)\.war" to="hive-hwi-brisk.war"/>
+	    <mapper type="flatten"/>
+	  </mapper>
       </copy>      
     </target>
 
