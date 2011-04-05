@@ -21,6 +21,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.*;
 import java.net.URI;
+import java.net.InetAddress;
 import java.util.Arrays;
 import java.util.Set;
 
@@ -33,6 +34,7 @@ import org.apache.cassandra.EmbeddedServer;
 import org.apache.cassandra.config.ConfigurationException;
 import org.apache.cassandra.config.DatabaseDescriptor;
 import org.apache.cassandra.service.EmbeddedCassandraService;
+import org.apache.cassandra.utils.FBUtilities;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
 import org.apache.hadoop.fs.FileSystem;
@@ -110,7 +112,7 @@ public class CassandraFileSystemTest extends CleanupHelper
         //Check block info
         BlockLocation[] info = fs.getFileBlockLocations(stat, 0, stat.getLen());
         assertEquals(1, info.length);
-        assertEquals("localhost:"+DatabaseDescriptor.getRpcPort(), info[0].getHosts()[0]);
+        assertEquals(FBUtilities.getLocalAddress().getHostName()+":"+DatabaseDescriptor.getRpcPort(), info[0].getHosts()[0]);
         
         //Check dir status
         stat = fs.getFileStatus(new Path("/mytestdir"));
