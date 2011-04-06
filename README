@@ -39,18 +39,7 @@ To try it out run:
 
     ./bin/brisk hadoop fs -lsr cassandra:///
 
-
-Using Hive (Development version)
-==========
-1. checkout our hive repo and switch to brisk branch build package into brisk resource
-
-   cd $HIVE_DEV; ant package -Dtarget.dir=$BRISK_DEV/resources/hive
-
-2. start cassandra with built in job/task trackers
-
-   ./bin/brisk cassandra -t -f
-
-3. start hive shell or webUI
+5. start hive shell or webUI
    
    ./bin/brisk hive
 
