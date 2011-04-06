@@ -364,11 +364,8 @@
             description="Create Cassandra release artifacts">
       <mkdir dir="${dist.dir}"/>
       <copy todir="${dist.dir}/lib">
-        <fileset dir="${build.lib}"/>
         <fileset dir="${build.dir}">
           <include name="${final.name}.jar" />
-          <include name="${ant.project.name}-thrift-${version}.jar" />
-          <include name="${ant.project.name}-cql-${version}.jar" />
         </fileset>
       </copy>
       <copy todir="${dist.dir}/javadoc">
@@ -377,13 +374,13 @@
       <copy todir="${dist.dir}/bin">
         <fileset dir="bin"/>
       </copy>
-      <copy todir="${dist.dir}/conf">
-        <fileset dir="conf"/>
-      </copy>
       <copy todir="${dist.dir}/interface">
         <fileset dir="interface">
           <include name="**/*.thrift" />
         </fileset>
+      </copy>
+      <copy todir="${dist.dir}/resources">
+        <fileset dir="resources"/>
       </copy>
       <copy todir="${dist.dir}/">
         <fileset dir="${basedir}">
