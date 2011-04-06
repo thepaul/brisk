@@ -477,9 +477,9 @@
           <include name="**/*.thrift" />
         </fileset>
       </copy>
-      <copy todir="${dist.dir}/resources">
-        <fileset dir="resources"/>
-      </copy>
+      <exec executable="cp">
+	<arg line="-r ${basedir}/resources ${dist.dir}/resources"/>
+      </exec>
       <copy todir="${dist.dir}/">
         <fileset dir="${basedir}">
           <include name="*.txt" />
@@ -501,6 +501,9 @@
         <!-- Executable scripts in bin/ -->
         <tarfileset dir="${dist.dir}" prefix="${final.name}" mode="755">
           <include name="bin/*"/>
+	  <include name="resources/cassandra/bin/*"/>
+	  <include name="resources/hadoop/bin/*"/>
+	  <include name="resources/hive/bin/*"/>
           <not>
                 <filename name="bin/*.in.sh" />
           </not>
@@ -532,6 +535,9 @@
         <!-- Everything else (assumed to be scripts), is executable -->
         <tarfileset dir="${basedir}" prefix="${final.name}-src" mode="755">
           <include name="bin/*"/>
+	  <include name="resources/cassandra/bin/*"/>
+	  <include name="resources/hadoop/bin/*"/>
+	  <include name="resources/hive/bin/*"/>
           <exclude name="bin/*.in.sh" />
           <exclude name="bin/*.bat" />
         </tarfileset>

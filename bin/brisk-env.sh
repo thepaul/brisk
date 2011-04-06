@@ -8,6 +8,10 @@ for jar in `pwd`/`dirname $0`/../build/brisk*.jar; do
     export CLASSPATH=$CLASSPATH:$jar
 done
 
+for jar in `pwd`/`dirname $0`/../lib/brisk*.jar; do
+    export CLASSPATH=$CLASSPATH:$jar
+done
+
 export HADOOP_CLASSPATH=$CLASSPATH
 
 #hadoop requires absolute home
