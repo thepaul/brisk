@@ -18,7 +18,8 @@
  ~ under the License.
  -->
 <project basedir="." default="jar" name="brisk"
-         xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+         xmlns:artifact="antlib:org.apache.maven.artifact.ant"
+	 xmlns:rsel="antlib:org.apache.tools.ant.types.resources.selectors">
     <property environment="env"/>
     <property file="build.properties" />
     <property file="build.properties.default" />
@@ -97,6 +98,9 @@
           <include name="**/*.jar" />
         </fileset>
         <fileset dir="${cassandra.dir.lib}">
+          <include name="**/*.jar" />
+        </fileset>
+	<fileset dir="${hadoop.dir}">
           <include name="**/*.jar" />
         </fileset>
 	<fileset dir="${hadoop.dir.lib}">
@@ -251,13 +255,21 @@
       </copy>
       
       <copy todir="${hadoop.dir}">
+	 <restrict>
           <fileset refid="hadoop-jars"/>
-          <mapper type="flatten"/>
+	  <rsel:name name="*hadoop-*.jar"/>
+	 </restrict>
+	 <mapper type="flatten"/>
       </copy>
 
       <copy todir="${hadoop.dir.lib}">
+	<restrict>
           <fileset refid="hadoop-jars"/>
-          <mapper type="flatten"/>
+	  <rsel:not>
+	    <rsel:name name="*hadoop-*.jar"/>
+	  </rsel:not>
+	</restrict>	
+	<mapper type="flatten"/>
       </copy>
 
       <copy todir="${cassandra.dir.lib}">
@@ -478,9 +490,9 @@
           <include name="**/*.thrift" />
         </fileset>
       </copy>
-      <copy todir="${dist.dir}/resources">
-        <fileset dir="resources"/>
-      </copy>
+      <exec executable="cp">
+	<arg line="-r ${basedir}/resources ${dist.dir}/resources"/>
+      </exec>
       <copy todir="${dist.dir}/">
         <fileset dir="${basedir}">
           <include name="*.txt" />
@@ -502,6 +514,9 @@
         <!-- Executable scripts in bin/ -->
         <tarfileset dir="${dist.dir}" prefix="${final.name}" mode="755">
           <include name="bin/*"/>
+	  <include name="resources/cassandra/bin/*"/>
+	  <include name="resources/hadoop/bin/*"/>
+	  <include name="resources/hive/bin/*"/>
           <not>
                 <filename name="bin/*.in.sh" />
           </not>
@@ -533,6 +548,9 @@
         <!-- Everything else (assumed to be scripts), is executable -->
         <tarfileset dir="${basedir}" prefix="${final.name}-src" mode="755">
           <include name="bin/*"/>
+	  <include name="resources/cassandra/bin/*"/>
+	  <include name="resources/hadoop/bin/*"/>
+	  <include name="resources/hive/bin/*"/>
           <exclude name="bin/*.in.sh" />
           <exclude name="bin/*.bat" />
         </tarfileset>
