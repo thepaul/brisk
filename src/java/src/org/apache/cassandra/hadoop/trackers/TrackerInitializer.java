@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.cassandra.utils.FBUtilities;
 import org.apache.hadoop.mapred.JobTracker;
 import org.apache.hadoop.mapred.TaskTracker;
+import org.apache.hadoop.metrics2.util.MBeans;
 import org.apache.log4j.Logger;
 
 //Will start job and or task trackers
@@ -108,7 +109,8 @@ public class TrackerInitializer
                 {
                     try
                     {                        
-                        taskTracker = new TaskTracker(new CassandraJobConf());  
+                        taskTracker = new TaskTracker(new CassandraJobConf());
+                        MBeans.register("TaskTracker", "TaskTrackerInfo", taskTracker);
                         logger.info("Hadoop Task Tracker Started... ");
                         taskTracker.run();
                     }
