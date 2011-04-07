@@ -12,4 +12,13 @@
   <name>mapred.child.java.opts</name>
   <value>-Xmx1024M</value>
 </property>
+
+<property>
+  <name>mapred.job.tracker</name>
+  <value>localhost:8012</value>
+  <description>
+    The address of the job tracker
+  </description>                                                                                                      
+</property>
+
 </configuration>

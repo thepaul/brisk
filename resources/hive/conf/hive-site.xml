@@ -20,15 +20,6 @@
 </property>
 
 <property>
-  <name>mapred.job.tracker</name>
-  <value>localhost:8012</value>
-  <description>
-    The address of the job tracker
-  </description>
-</property>
-
-
-<property>
   <name>hive.metastore.warehouse.dir</name>
   <value>cassandra:///user/hive/warehouse</value>
   <description>
