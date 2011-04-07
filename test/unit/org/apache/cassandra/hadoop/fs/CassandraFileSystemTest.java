@@ -32,8 +32,10 @@ import org.apache.cassandra.EmbeddedServer;
 import org.apache.cassandra.config.ConfigurationException;
 import org.apache.cassandra.config.DatabaseDescriptor;
 import org.apache.cassandra.utils.FBUtilities;
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.BlockLocation;
 import org.apache.hadoop.fs.FileStatus;
+import org.apache.hadoop.fs.Path;
 import org.apache.thrift.transport.TTransportException;
 
 public class CassandraFileSystemTest extends CleanupHelper
