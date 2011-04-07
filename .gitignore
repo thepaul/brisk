@@ -1,4 +1,6 @@
-*.jar
+lib/*.jar
+build/*.jar
+resources/*.jar
 *~
 .project
 .classpath
