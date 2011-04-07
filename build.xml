@@ -278,7 +278,7 @@
   <target name="generate-eclipse-files" depends="build">
     <echo file=".project"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-  <name>${eclipse.project.name}</name>
+  <name>brisk</name>
   <comment></comment>
   <projects>
   </projects>
@@ -309,6 +309,7 @@
   <classpathentry kind="output" path="build/classes/main"/>
   <classpathentry kind="lib" path="build/classes/thrift"/>
   <classpathentry kind="lib" path="build/test/classes"/>
+  <classpathentry kind="lib" path="build/classes"/>		
   <classpathentry kind="lib" path="test/conf"/>
 ]]>
 	</echo>	  
@@ -355,7 +356,7 @@
 <booleanAttribute key="org.eclipse.ant.ui.ATTR_TARGETS_UPDATED" value="true"/>
 <booleanAttribute key="org.eclipse.ant.ui.DEFAULT_VM_INSTALL" value="false"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/${eclipse.project.name}/build.xml"/>
+<listEntry value="/brisk/build.xml"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
@@ -363,11 +364,11 @@
 <booleanAttribute key="org.eclipse.debug.ui.ATTR_LAUNCH_IN_BACKGROUND" value="false"/>
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.ant.ui.AntClasspathProvider"/>
 <booleanAttribute key="org.eclipse.jdt.launching.DEFAULT_CLASSPATH" value="true"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="${eclipse.project.name}"/>
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="$${workspace_loc:/${eclipse.project.name}/build.xml}"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="brisk"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_LOCATION" value="$${workspace_loc:/brisk/build.xml}"/>
 <stringAttribute key="org.eclipse.ui.externaltools.ATTR_RUN_BUILD_KINDS" value="full,incremental,auto,clean,"/>
 <booleanAttribute key="org.eclipse.ui.externaltools.ATTR_TRIGGERS_CONFIGURED" value="true"/>
-<stringAttribute key="org.eclipse.ui.externaltools.ATTR_WORKING_DIRECTORY" value="$${workspace_loc:/${eclipse.project.name}}"/>
+<stringAttribute key="org.eclipse.ui.externaltools.ATTR_WORKING_DIRECTORY" value="$${workspace_loc:/brisk}"/>
 </launchConfiguration>]]>
     </echo>
   </target>
