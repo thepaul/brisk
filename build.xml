@@ -18,7 +18,8 @@
  ~ under the License.
  -->
 <project basedir="." default="jar" name="brisk"
-         xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+         xmlns:artifact="antlib:org.apache.maven.artifact.ant"
+	 xmlns:rsel="antlib:org.apache.tools.ant.types.resources.selectors">
     <property environment="env"/>
     <property file="build.properties" />
     <property file="build.properties.default" />
@@ -97,6 +98,9 @@
           <include name="**/*.jar" />
         </fileset>
         <fileset dir="${cassandra.dir.lib}">
+          <include name="**/*.jar" />
+        </fileset>
+	<fileset dir="${hadoop.dir}">
           <include name="**/*.jar" />
         </fileset>
 	<fileset dir="${hadoop.dir.lib}">
@@ -251,13 +255,21 @@
       </copy>
       
       <copy todir="${hadoop.dir}">
+	 <restrict>
           <fileset refid="hadoop-jars"/>
-          <mapper type="flatten"/>
+	  <rsel:name name="*hadoop-*.jar"/>
+	 </restrict>
+	 <mapper type="flatten"/>
       </copy>
 
       <copy todir="${hadoop.dir.lib}">
+	<restrict>
           <fileset refid="hadoop-jars"/>
-          <mapper type="flatten"/>
+	  <rsel:not>
+	    <rsel:name name="*hadoop-*.jar"/>
+	  </rsel:not>
+	</restrict>	
+	<mapper type="flatten"/>
       </copy>
 
       <copy todir="${cassandra.dir.lib}">
