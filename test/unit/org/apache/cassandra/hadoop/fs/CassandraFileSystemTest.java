@@ -21,7 +21,6 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.*;
 import java.net.URI;
-import java.net.InetAddress;
 import java.util.Arrays;
 import java.util.Set;
 
@@ -30,14 +29,11 @@ import org.junit.Test;
 
 import org.apache.cassandra.CleanupHelper;
 import org.apache.cassandra.EmbeddedServer;
-
 import org.apache.cassandra.config.ConfigurationException;
 import org.apache.cassandra.config.DatabaseDescriptor;
-import org.apache.cassandra.service.EmbeddedCassandraService;
 import org.apache.cassandra.utils.FBUtilities;
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.fs.*;
-import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.BlockLocation;
+import org.apache.hadoop.fs.FileStatus;
 import org.apache.thrift.transport.TTransportException;
 
 public class CassandraFileSystemTest extends CleanupHelper

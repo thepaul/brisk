@@ -20,6 +20,8 @@ package org.apache.cassandra;
  * 
  */
 
+import static org.junit.Assert.assertTrue;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -36,8 +38,6 @@ import org.apache.cassandra.gms.ApplicationState;
 import org.apache.cassandra.gms.VersionedValue;
 import org.apache.cassandra.service.StorageService;
 import org.apache.cassandra.utils.ByteBufferUtil;
-
-import static org.junit.Assert.assertTrue;
 
 public class Util
 {

@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+   "http://www.w3.org/TR/html4/loose.dtd">
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>DataStax Portfolio Manager Demo</title>
+	<meta name="generator" content="TextMate http://macromates.com/">
+	<meta name="author" content="Jake Luciani">
+	<!-- Date: 2011-03-22 -->
+	<script type="text/javascript" src="jquery.min.js"></script>
+	<script src="thrift.js"                  type="text/javascript" charset="utf-8"></script>
+  	<script src="portfolio_types.js" type="text/javascript" charset="utf-8"></script>
+  	<script src="PortfolioMgr.js"       type="text/javascript" charset="utf-8"></script>
+	<script type="text/javascript" charset="utf-8">
+	  $(document).ready(function(){
+	    var transport = new Thrift.Transport("service")
+	    var protocol  = new Thrift.Protocol(transport)
+	    var client    = new PortfolioMgrClient(protocol)
+	
+	    portfolios = client.get_portfolios("",10);
+		if(portfolios != null)
+		{
+			for(i=0; i<portfolios.length; i++)
+			   document.write(
+				'<div class="portfolio">'+
+				   '<div class="name">'+portfolios[i].name+'</div>'+
+				   '<div class="price">'+portfolios[i].price+'</div>'+
+				   '<div class="constituents">'+portfolios[i].constituents.length+'</div>'+
+				'</div>');
+				
+		}
+	 });
+	</script>
+</head>
+<script>
+</script>
+<body>
+
+</body>
+</html>
