@@ -318,14 +318,14 @@
   <classpathentry kind="src" path="interface/thrift/gen-java"/>  
   <classpathentry kind="src" path="test/unit"/>
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-  <classpathentry kind="output" path="build/classes/main"/>
-  <classpathentry kind="lib" path="build/classes/thrift"/>
-  <classpathentry kind="lib" path="build/test/classes"/>
-  <classpathentry kind="lib" path="build/classes"/>		
+  <classpathentry kind="output" path="build/classes/main"/>		
   <classpathentry kind="lib" path="test/conf"/>
 ]]>
 	</echo>	  
   	<path id="eclipse-project-libs-path">
+ 	 <fileset dir="${hadoop.dir}">
+ 	    <include name="**/*.jar" />
+    </fileset>  		
   	 <fileset dir="${hadoop.dir.lib}">
   	    <include name="**/*.jar" />
      </fileset>
