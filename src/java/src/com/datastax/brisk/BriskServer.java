@@ -9,7 +9,6 @@ import org.apache.cassandra.config.DatabaseDescriptor;
 import org.apache.cassandra.service.StorageService;
 import org.apache.cassandra.thrift.Brisk;
 import org.apache.cassandra.thrift.CassandraServer;
-import org.apache.cassandra.thrift.Brisk.Iface;
 import org.apache.cassandra.utils.FBUtilities;
 import org.apache.thrift.TException;
 

@@ -1,7 +1,6 @@
 package com.datastax.brisk;
 
 import org.apache.cassandra.service.ClientState;
-import org.apache.cassandra.thrift.CassandraServer;
 import org.apache.cassandra.thrift.InvalidRequestException;
 import org.apache.thrift.TException;
 

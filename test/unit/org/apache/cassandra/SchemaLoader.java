@@ -18,11 +18,9 @@
 
 package org.apache.cassandra;
 
-import org.apache.cassandra.config.CFMetaData;
-import org.apache.cassandra.config.ConfigurationException;
-import org.apache.cassandra.config.DatabaseDescriptor;
-import org.apache.cassandra.config.KSMetaData;
 import org.junit.BeforeClass;
+
+import org.apache.cassandra.config.*;
 
 public class SchemaLoader
 {

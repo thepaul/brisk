@@ -45,7 +45,6 @@ public class CassandraFileSystem extends FileSystem
         this.store = new CassandraFileSystemThriftStore();
     }
 
-    @Override
     public void initialize(URI uri, Configuration conf) throws IOException
     {
         super.initialize(uri, conf);
