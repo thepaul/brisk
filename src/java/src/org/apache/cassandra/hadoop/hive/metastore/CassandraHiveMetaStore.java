@@ -1,10 +1,25 @@
 package org.apache.cassandra.hadoop.hive.metastore;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.cassandra.config.KSMetaData;
 import org.apache.cassandra.hadoop.CassandraProxyClient;
 import org.apache.cassandra.thrift.Cassandra;
+import org.apache.cassandra.thrift.CfDef;
+import org.apache.cassandra.thrift.Column;
+import org.apache.cassandra.thrift.ColumnOrSuperColumn;
+import org.apache.cassandra.thrift.ColumnParent;
+import org.apache.cassandra.thrift.ConsistencyLevel;
+import org.apache.cassandra.thrift.KsDef;
+import org.apache.cassandra.thrift.Mutation;
+import org.apache.cassandra.thrift.SlicePredicate;
+import org.apache.cassandra.thrift.SliceRange;
+import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hive.metastore.RawStore;
 import org.apache.hadoop.hive.metastore.api.Database;
@@ -59,12 +74,84 @@ public class CassandraHiveMetaStore implements RawStore {
     }
     
     public Configuration getConf()
-    {
-        
+    {        
         return configuration;
+    }    
+
+    
+    public void createDatabase(Database database) throws InvalidObjectException, MetaException
+    {
+        log.debug("createDatabase with {}", database);
+        // Database_entities : {[name].name=name}
+        // FIXME add these params to configuration
+        // databaseName=metastore_db;create=true
+        CfDef cf = new CfDef("HiveMetaStore", "MetaStore");
+        KsDef ks = new KsDef("HiveMetaStore", "org.apache.cassandra.locator.SimpleStrategy", 1, Arrays.asList(cf));
+        try {
+            client.system_add_keyspace(ks);
+            //client.insert(ByteBufferUtil.bytes("Entity.Database"), new ColumnParent("MetaStore"), arg2, arg3)
+            //client.batch_mutate(map<bb,map<string,list<mutation>>>, arg1)
+            // TODO general purpose 'flattenEntity' function for insert into MetaStore CF
+            BatchMutation batchMutation = new BatchMutation();
+            batchMutation.addInsertion(ByteBufferUtil.bytes("Entity.Database"), 
+                    Arrays.asList("MetaStore"), new Column(ByteBufferUtil.bytes(database.getName() + ".name"), 
+                            ByteBufferUtil.bytes(database.getName()), System.currentTimeMillis() * 1000));
+            batchMutation.addInsertion(ByteBufferUtil.bytes("Entity.Database"), 
+                    Arrays.asList("MetaStore"), new Column(ByteBufferUtil.bytes(database.getName() + ".description"), 
+                            ByteBufferUtil.bytes(database.getDescription()), System.currentTimeMillis() * 1000));
+            batchMutation.addInsertion(ByteBufferUtil.bytes("Entity.Database"), 
+                    Arrays.asList("MetaStore"), new Column(ByteBufferUtil.bytes(database.getName() + ".locationUri"), 
+                            ByteBufferUtil.bytes(database.getLocationUri()), System.currentTimeMillis() * 1000));
+            // FIXME
+            batchMutation.addInsertion(ByteBufferUtil.bytes("Entity.Database"),                     
+                    Arrays.asList("MetaStore"), new Column(ByteBufferUtil.bytes(database.getName() + ".parameters"), 
+                            ByteBufferUtil.bytes(database.getParameters().toString()), System.currentTimeMillis() * 1000));
+            client.set_keyspace("HiveMetaStore");
+            client.batch_mutate(batchMutation.getMutationMap(), ConsistencyLevel.QUORUM);
+        } catch (Exception e) {
+            throw new CassandraHiveMetaStoreException("Could not create Hive MetaStore database: " + e.getMessage(), e);
+        }
     }
 
-    @Override
+
+
+    public Database getDatabase(String database) throws NoSuchObjectException
+    {
+        log.info("in getDatabase with database name: {}", database);
+        try {
+            Database db = new Database();
+            // FIXME naked literals! need to be config-level
+            client.set_keyspace("HiveMetaStore");
+            SliceRange sliceRange = new SliceRange(ByteBufferUtil.bytes(""), ByteBufferUtil.bytes(""), false, 10);
+            List<ColumnOrSuperColumn> cols = client.get_slice(ByteBufferUtil.bytes("Entity.Database"), new ColumnParent("MetaStore"), 
+                    new SlicePredicate().setSlice_range(sliceRange), ConsistencyLevel.QUORUM);
+            db.setName(database);
+            log.debug("cosc: {}",cols);
+            for (ColumnOrSuperColumn cosc : cols)
+            {   
+                log.debug("cosc: {}",cosc);
+                if (ByteBufferUtil.string(cosc.column.name.duplicate()).endsWith("description") ) {
+                    db.setDescription(ByteBufferUtil.string(cosc.column.value.duplicate()));
+                } else if (ByteBufferUtil.string(cosc.column.name.duplicate()).endsWith("locationUri") ) {
+                    db.setLocationUri(ByteBufferUtil.string(cosc.column.value.duplicate()));
+                }                
+            }
+            // FIXME move to metaStorePersister
+            db.setParameters(new HashMap<String, String>());
+            return db;
+        } catch (Exception e) {
+            // TODO fancier exception catching mechanism
+            throw new CassandraHiveMetaStoreException("Could not create Hive MetaStore database: " + e.getMessage(), e);
+        }
+        //return new Database("db_name", "My Database", "file:///tmp/", new HashMap<String, String>());
+    }
+    
+    public void createTable(Table arg0) throws InvalidObjectException, MetaException
+    {
+        // TODO Auto-generated method stub
+
+    }
+
     public boolean addIndex(Index arg0) throws InvalidObjectException,
             MetaException
     {
@@ -127,21 +214,7 @@ public class CassandraHiveMetaStore implements RawStore {
         return false;
     }
 
-    @Override
-    public void createDatabase(Database arg0) throws InvalidObjectException,
-            MetaException
-    {
-        // TODO Auto-generated method stub
 
-    }
-
-    @Override
-    public void createTable(Table arg0) throws InvalidObjectException,
-            MetaException
-    {
-        // TODO Auto-generated method stub
-
-    }
 
     @Override
     public boolean createType(Type arg0)
@@ -219,17 +292,11 @@ public class CassandraHiveMetaStore implements RawStore {
         return null;
     }
 
-    @Override
-    public Database getDatabase(String arg0) throws NoSuchObjectException
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     @Override
-    public List<String> getDatabases(String arg0) throws MetaException
+    public List<String> getDatabases(String catalog) throws MetaException
     {
-        // TODO Auto-generated method stub
+        log.debug("in getDatabases with catalog: {}", catalog);
         return null;
     }
 
@@ -324,11 +391,11 @@ public class CassandraHiveMetaStore implements RawStore {
         return null;
     }
 
-    @Override
-    public List<String> getTables(String arg0, String arg1)
+
+    public List<String> getTables(String dbName, String tableName)
             throws MetaException
     {
-        // TODO Auto-generated method stub
+        log.info("in getTables with dbName: {} and tableName: {}", dbName, tableName);
         return null;
     }
 
@@ -497,6 +564,8 @@ public class CassandraHiveMetaStore implements RawStore {
 
     }
 
+    // TODO are there more appropriate hive config parameters to use here?
+    
     private static final String CONF_PARAM_PREFIX = "cassandra.connection.";
     /** Initial Apache Cassandra node to which we will connect (localhost) */
     public static final String CONF_PARAM_HOST = CONF_PARAM_PREFIX+"host";
