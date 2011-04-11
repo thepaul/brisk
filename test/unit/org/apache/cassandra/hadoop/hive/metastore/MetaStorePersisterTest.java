@@ -54,7 +54,7 @@ public class MetaStorePersisterTest extends CleanupHelper
         database.setDescription("description");
         database.setLocationUri("uri");
         database.setParameters(new HashMap<String, String>());
-        metaStorePersister.save(database.metaDataMap, database); // save(TBase base).. via _Fields and findByThriftId, publi MetaDataMap
+        metaStorePersister.save(database.metaDataMap, database, database.getName()); // save(TBase base).. via _Fields and findByThriftId, publi MetaDataMap
     }
     
     @Test
@@ -65,9 +65,9 @@ public class MetaStorePersisterTest extends CleanupHelper
         database.setDescription("description");
         database.setLocationUri("uri");
         database.setParameters(new HashMap<String, String>());
-        metaStorePersister.save(database.metaDataMap, database);
-        
-        Database foundDb = (Database)metaStorePersister.load(Database.class, "name");
+        metaStorePersister.save(database.metaDataMap, database, database.getName());
+        Database foundDb = new Database();
+        metaStorePersister.load(foundDb, "name");
         assertEquals(database, foundDb);
     }
     

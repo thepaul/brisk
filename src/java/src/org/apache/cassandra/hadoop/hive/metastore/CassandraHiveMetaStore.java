@@ -49,6 +49,7 @@ public class CassandraHiveMetaStore implements RawStore {
     private static final Logger log = LoggerFactory.getLogger(CassandraHiveMetaStore.class);
     private Configuration configuration;
     private Cassandra.Iface client;
+    private MetaStorePersister metaStorePersister;
     
     public CassandraHiveMetaStore()
     {
@@ -66,6 +67,7 @@ public class CassandraHiveMetaStore implements RawStore {
                     conf.getInt(CONF_PARAM_PORT, 9160), 
                     conf.getBoolean(CONF_PARAM_FRAMED,true), 
                     conf.getBoolean(CONF_PARAM_RANDOMIZE_CONNECTIONS, true));
+            metaStorePersister = new MetaStorePersister(client);
         } 
         catch (IOException ioe) 
         {
@@ -89,69 +91,48 @@ public class CassandraHiveMetaStore implements RawStore {
         KsDef ks = new KsDef("HiveMetaStore", "org.apache.cassandra.locator.SimpleStrategy", 1, Arrays.asList(cf));
         try {
             client.system_add_keyspace(ks);
-            //client.insert(ByteBufferUtil.bytes("Entity.Database"), new ColumnParent("MetaStore"), arg2, arg3)
-            //client.batch_mutate(map<bb,map<string,list<mutation>>>, arg1)
-            // TODO general purpose 'flattenEntity' function for insert into MetaStore CF
-            BatchMutation batchMutation = new BatchMutation();
-            batchMutation.addInsertion(ByteBufferUtil.bytes("Entity.Database"), 
-                    Arrays.asList("MetaStore"), new Column(ByteBufferUtil.bytes(database.getName() + ".name"), 
-                            ByteBufferUtil.bytes(database.getName()), System.currentTimeMillis() * 1000));
-            batchMutation.addInsertion(ByteBufferUtil.bytes("Entity.Database"), 
-                    Arrays.asList("MetaStore"), new Column(ByteBufferUtil.bytes(database.getName() + ".description"), 
-                            ByteBufferUtil.bytes(database.getDescription()), System.currentTimeMillis() * 1000));
-            batchMutation.addInsertion(ByteBufferUtil.bytes("Entity.Database"), 
-                    Arrays.asList("MetaStore"), new Column(ByteBufferUtil.bytes(database.getName() + ".locationUri"), 
-                            ByteBufferUtil.bytes(database.getLocationUri()), System.currentTimeMillis() * 1000));
-            // FIXME
-            batchMutation.addInsertion(ByteBufferUtil.bytes("Entity.Database"),                     
-                    Arrays.asList("MetaStore"), new Column(ByteBufferUtil.bytes(database.getName() + ".parameters"), 
-                            ByteBufferUtil.bytes(database.getParameters().toString()), System.currentTimeMillis() * 1000));
-            client.set_keyspace("HiveMetaStore");
-            client.batch_mutate(batchMutation.getMutationMap(), ConsistencyLevel.QUORUM);
+            metaStorePersister.save(database.metaDataMap, database, database.getName());
         } catch (Exception e) {
             throw new CassandraHiveMetaStoreException("Could not create Hive MetaStore database: " + e.getMessage(), e);
         }
     }
 
-
-
+    
     public Database getDatabase(String database) throws NoSuchObjectException
     {
-        log.info("in getDatabase with database name: {}", database);
+        log.debug("in getDatabase with database name: {}", database);
         try {
             Database db = new Database();
-            // FIXME naked literals! need to be config-level
-            client.set_keyspace("HiveMetaStore");
-            SliceRange sliceRange = new SliceRange(ByteBufferUtil.bytes(""), ByteBufferUtil.bytes(""), false, 10);
-            List<ColumnOrSuperColumn> cols = client.get_slice(ByteBufferUtil.bytes("Entity.Database"), new ColumnParent("MetaStore"), 
-                    new SlicePredicate().setSlice_range(sliceRange), ConsistencyLevel.QUORUM);
-            db.setName(database);
-            log.debug("cosc: {}",cols);
-            for (ColumnOrSuperColumn cosc : cols)
-            {   
-                log.debug("cosc: {}",cosc);
-                if (ByteBufferUtil.string(cosc.column.name.duplicate()).endsWith("description") ) {
-                    db.setDescription(ByteBufferUtil.string(cosc.column.value.duplicate()));
-                } else if (ByteBufferUtil.string(cosc.column.name.duplicate()).endsWith("locationUri") ) {
-                    db.setLocationUri(ByteBufferUtil.string(cosc.column.value.duplicate()));
-                }                
-            }
-            // FIXME move to metaStorePersister
-            db.setParameters(new HashMap<String, String>());
+            metaStorePersister.load(db, database);
             return db;
         } catch (Exception e) {
             // TODO fancier exception catching mechanism
             throw new CassandraHiveMetaStoreException("Could not create Hive MetaStore database: " + e.getMessage(), e);
-        }
-        //return new Database("db_name", "My Database", "file:///tmp/", new HashMap<String, String>());
+        }        
     }
     
-    public void createTable(Table arg0) throws InvalidObjectException, MetaException
+    public void createTable(Table table) throws InvalidObjectException, MetaException
     {
-        // TODO Auto-generated method stub
-
+        try {            
+            metaStorePersister.save(table.metaDataMap, table, table.getDbName());
+        } catch (Exception e) {
+            throw new CassandraHiveMetaStoreException("Could not create Hive MetaStore database: " + e.getMessage(), e);
+        }
     }
 
+    public Table getTable(String databaseName, String tableName) throws MetaException
+    {
+        log.debug("in getTable with database name: {} and table name: {}", databaseName, tableName);
+        try {
+            Table table = new Table();
+            metaStorePersister.load(table, databaseName);
+            return table;
+        } catch (Exception e) {
+            throw new CassandraHiveMetaStoreException("Could not create Hive MetaStore database: " + e.getMessage(), e);
+        }
+    }
+
+    
     public boolean addIndex(Index arg0) throws InvalidObjectException,
             MetaException
     {
@@ -370,13 +351,6 @@ public class CassandraHiveMetaStore implements RawStore {
 
     @Override
     public Role getRole(String arg0) throws NoSuchObjectException
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public Table getTable(String arg0, String arg1) throws MetaException
     {
         // TODO Auto-generated method stub
         return null;

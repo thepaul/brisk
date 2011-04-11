@@ -10,7 +10,6 @@ import org.apache.cassandra.thrift.ColumnOrSuperColumn;
 import org.apache.cassandra.thrift.ColumnPath;
 import org.apache.cassandra.thrift.ConsistencyLevel;
 import org.apache.cassandra.utils.ByteBufferUtil;
-import org.apache.hadoop.hive.metastore.api.Database;
 import org.apache.thrift.TBase;
 import org.apache.thrift.TDeserializer;
 import org.apache.thrift.TFieldIdEnum;
@@ -19,6 +18,12 @@ import org.apache.thrift.meta_data.FieldMetaData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Generically persist and load the Hive Meta Store model classes
+ * 
+ * @author zznate
+ *
+ */
 public class MetaStorePersister
 {
     private static final Logger log = LoggerFactory.getLogger(MetaStorePersister.class);
@@ -34,16 +39,16 @@ public class MetaStorePersister
 
     @SuppressWarnings("unchecked")
     public void save(Map<? extends TFieldIdEnum, FieldMetaData> metaData,
-            TBase base) throws CassandraHiveMetaStoreException
+            TBase base, String databaseName) throws CassandraHiveMetaStoreException
     {
-        serializer = new TSerializer();
-        Database db = (Database) base;
+        // TODO need to add ID field to column name lookup to avoid overwrites
+        serializer = new TSerializer();        
         BatchMutation batchMutation = new BatchMutation();
         if ( log.isDebugEnabled() )
-            log.debug("class: {} dbname: {}", base.getClass().getName(), db.getName());
+            log.debug("class: {} dbname: {}", base.getClass().getName(), databaseName);
         try
         {
-            batchMutation.addInsertion(ByteBufferUtil.bytes(db.getName()), Arrays.asList("MetaStore"), 
+            batchMutation.addInsertion(ByteBufferUtil.bytes(databaseName), Arrays.asList("MetaStore"), 
                     new Column(
                     ByteBufferUtil.bytes(base.getClass().getName()),
                     ByteBuffer.wrap(serializer.serialize(base)), System
@@ -62,16 +67,17 @@ public class MetaStorePersister
     }
     
     @SuppressWarnings("unchecked")
-    public TBase load(Class clazz, String databaseName) 
+    public TBase load(TBase base, String databaseName) 
         throws CassandraHiveMetaStoreException
     {
-        log.debug("class: {} dbname: {}", clazz.getName(), databaseName);
+        if ( log.isDebugEnabled() )
+            log.debug("class: {} dbname: {}", base.getClass().getName(), databaseName);
         deserializer = new TDeserializer();
-        String colName = clazz.getName();
-        TBase base;
+        String colName = base.getClass().getName();
+
         try 
         {
-            base = (TBase)clazz.newInstance();
+
             client.set_keyspace("HiveMetaStore");
             ColumnPath columnPath = new ColumnPath("MetaStore");
             columnPath.setColumn(ByteBufferUtil.bytes(colName));

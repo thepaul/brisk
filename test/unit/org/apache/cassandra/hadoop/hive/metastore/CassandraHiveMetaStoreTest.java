@@ -11,6 +11,7 @@ import org.apache.cassandra.config.ConfigurationException;
 import org.apache.cassandra.config.DatabaseDescriptor;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hive.metastore.api.Database;
+import org.apache.hadoop.hive.metastore.api.Table;
 import org.apache.thrift.transport.TTransportException;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -53,7 +54,7 @@ public class CassandraHiveMetaStoreTest extends CleanupHelper {
     }
     
     @Test
-    public void testCreateDatabase() throws Exception 
+    public void testCreateDatabaseAndTable() throws Exception 
     {
         CassandraHiveMetaStore metaStore = new CassandraHiveMetaStore();
         metaStore.setConf(buildConfiguration());
@@ -61,6 +62,14 @@ public class CassandraHiveMetaStoreTest extends CleanupHelper {
         metaStore.createDatabase(database);
         Database foundDatabase = metaStore.getDatabase("db_name");
         assertEquals(database, foundDatabase);
+        
+        Table table = new Table();
+        table.setDbName("db_name");
+        table.setTableName("table_name");
+        metaStore.createTable(table);
+        
+        Table foundTable = metaStore.getTable("db_name", "table_name");
+        assertEquals(table, foundTable);
     }
     
     private Configuration buildConfiguration() 
