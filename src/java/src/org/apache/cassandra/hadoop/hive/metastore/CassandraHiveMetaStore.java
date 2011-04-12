@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.cassandra.config.KSMetaData;
+import org.apache.cassandra.db.marshal.UTF8Type;
 import org.apache.cassandra.hadoop.CassandraProxyClient;
 import org.apache.cassandra.thrift.Cassandra;
 import org.apache.cassandra.thrift.CfDef;
@@ -16,8 +17,10 @@ import org.apache.cassandra.thrift.Column;
 import org.apache.cassandra.thrift.ColumnOrSuperColumn;
 import org.apache.cassandra.thrift.ColumnParent;
 import org.apache.cassandra.thrift.ConsistencyLevel;
+import org.apache.cassandra.thrift.InvalidRequestException;
 import org.apache.cassandra.thrift.KsDef;
 import org.apache.cassandra.thrift.Mutation;
+import org.apache.cassandra.thrift.NotFoundException;
 import org.apache.cassandra.thrift.SlicePredicate;
 import org.apache.cassandra.thrift.SliceRange;
 import org.apache.cassandra.utils.ByteBufferUtil;
@@ -72,6 +75,7 @@ public class CassandraHiveMetaStore implements RawStore {
                     conf.getBoolean(CONF_PARAM_FRAMED,true), 
                     conf.getBoolean(CONF_PARAM_RANDOMIZE_CONNECTIONS, true));
             metaStorePersister = new MetaStorePersister(client);
+            createSchemaIfNeeded();
         } 
         catch (IOException ioe) 
         {
@@ -83,22 +87,37 @@ public class CassandraHiveMetaStore implements RawStore {
     {        
         return configuration;
     }    
+    
+    private void createSchemaIfNeeded() 
+    {
+        // Database_entities : {[name].name=name}
+        // FIXME add these params to configuration
+        // databaseName=metastore_db;create=true
+        try {
+            client.set_keyspace("HiveMetaStore");
+            return;
+        } catch (InvalidRequestException ire) {
+            log.info("HiveMetaStore keyspace did not exist. Creating.");
+        } catch (Exception e) {
+            throw new CassandraHiveMetaStoreException("Could not create or validate existing schema", e);
+        }
+        CfDef cf = new CfDef("HiveMetaStore", "MetaStore");
+        cf.setComparator_type("UTF8Type");
+        KsDef ks = new KsDef("HiveMetaStore", "org.apache.cassandra.locator.SimpleStrategy", 1, Arrays.asList(cf));
+        try {
+            client.system_add_keyspace(ks);            
+        } catch (Exception e) {
+            throw new CassandraHiveMetaStoreException("Could not create Hive MetaStore database: " + e.getMessage(), e);
+        }
+    }
 
     
     public void createDatabase(Database database) throws InvalidObjectException, MetaException
     {
         log.debug("createDatabase with {}", database);
-        // Database_entities : {[name].name=name}
-        // FIXME add these params to configuration
-        // databaseName=metastore_db;create=true
-        CfDef cf = new CfDef("HiveMetaStore", "MetaStore");
-        KsDef ks = new KsDef("HiveMetaStore", "org.apache.cassandra.locator.SimpleStrategy", 1, Arrays.asList(cf));
-        try {
-            client.system_add_keyspace(ks);
-            metaStorePersister.save(database.metaDataMap, database, database.getName());
-        } catch (Exception e) {
-            throw new CassandraHiveMetaStoreException("Could not create Hive MetaStore database: " + e.getMessage(), e);
-        }
+
+        metaStorePersister.save(database.metaDataMap, database, database.getName());
+        metaStorePersister.save(database.metaDataMap, database, "__databases__");
     }
 
     
@@ -106,9 +125,28 @@ public class CassandraHiveMetaStore implements RawStore {
     {
         log.debug("in getDatabase with database name: {}", database);
         Database db = new Database();
-        metaStorePersister.load(db, database);
+        try {
+            metaStorePersister.load(db, database);
+        } catch (NotFoundException e) {
+            throw new NoSuchObjectException("Database named " + database + " did not exist.");
+        }
+        
         return db;
     }
+    
+    public List<String> getDatabases(String databaseNamePattern) throws MetaException
+    {
+        log.debug("in getDatabases with databaseNamePattern: {}", databaseNamePattern);
+        List<TBase> databases = metaStorePersister.find(new Database(), "__databases__", databaseNamePattern,100);
+        List<String> results = new ArrayList<String>(databases.size());
+        for (TBase tBase : databases)
+        {
+            Database db = (Database)tBase;
+            if ( databaseNamePattern != null && !databaseNamePattern.isEmpty() && db.getName().matches(databaseNamePattern) )
+                results.add(db.getName());            
+        }
+        return results;
+    }    
     
     public void createTable(Table table) throws InvalidObjectException, MetaException
     {                   
@@ -120,7 +158,12 @@ public class CassandraHiveMetaStore implements RawStore {
         log.debug("in getTable with database name: {} and table name: {}", databaseName, tableName);
         Table table = new Table();
         table.setTableName(tableName);            
-        metaStorePersister.load(table, databaseName);
+        try {
+            metaStorePersister.load(table, databaseName);
+        } catch (NotFoundException e) {
+            //throw new MetaException("Table: " + tableName + " did not exist in database: " + databaseName);
+            return null;
+        }
         return table;
     }
     
@@ -162,7 +205,11 @@ public class CassandraHiveMetaStore implements RawStore {
         index.setDbName(databaseName);
         index.setIndexName(indexName);
         index.setOrigTableName(tableName);
-        metaStorePersister.load(index, databaseName);
+        try {
+            metaStorePersister.load(index, databaseName);
+        } catch (NotFoundException nfe) {
+            throw new MetaException("Index: " + indexName + " did not exist for table: " + tableName + " in database: " + databaseName );
+        }
         return index;
     }
     
@@ -187,7 +234,11 @@ public class CassandraHiveMetaStore implements RawStore {
         partition.setDbName(databaseName);
         partition.setTableName(tableName);
         partition.setValues(partitions);
-        metaStorePersister.load(partition, databaseName);
+        try {
+            metaStorePersister.load(partition, databaseName);
+        } catch (NotFoundException e) {
+            throw new NoSuchObjectException("Could not find partition for: " + partitions + " on table: " + tableName + " in database: " + databaseName);
+        }
         return partition;
     }
     
@@ -216,7 +267,11 @@ public class CassandraHiveMetaStore implements RawStore {
     {
         Role role = new Role();
         role.setRoleName(roleName);
-        metaStorePersister.load(role, "_meta_");
+        try {
+            metaStorePersister.load(role, "_meta_");
+        } catch (NotFoundException nfe) {
+            throw new NoSuchObjectException("could not find role: " + roleName);
+        }
         return role;
     }
     
@@ -232,7 +287,11 @@ public class CassandraHiveMetaStore implements RawStore {
     {
         Type t = new Type();
         t.setName(type);
-        metaStorePersister.load(t, "_meta_");
+        try {
+            metaStorePersister.load(t, "_meta_");
+        } catch (NotFoundException e) {
+            return null;
+        }
         return t;
     }
 
@@ -342,14 +401,6 @@ public class CassandraHiveMetaStore implements RawStore {
         // TODO Auto-generated method stub
         return null;
     }
-
-
-    @Override
-    public List<String> getDatabases(String databaseNamePattern) throws MetaException
-    {
-        log.debug("in getDatabases with databaseNamePatter: {}", databaseNamePattern);
-        return null;
-    }    
 
     @Override
     public PrincipalPrivilegeSet getPartitionPrivilegeSet(String arg0,

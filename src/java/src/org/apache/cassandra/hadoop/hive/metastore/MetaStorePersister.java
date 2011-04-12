@@ -12,6 +12,7 @@ import org.apache.cassandra.thrift.ColumnOrSuperColumn;
 import org.apache.cassandra.thrift.ColumnParent;
 import org.apache.cassandra.thrift.ColumnPath;
 import org.apache.cassandra.thrift.ConsistencyLevel;
+import org.apache.cassandra.thrift.NotFoundException;
 import org.apache.cassandra.thrift.SlicePredicate;
 import org.apache.cassandra.thrift.SliceRange;
 import org.apache.cassandra.utils.ByteBufferUtil;
@@ -53,6 +54,7 @@ public class MetaStorePersister
     public void save(Map<? extends TFieldIdEnum, FieldMetaData> metaData,
             TBase base, String databaseName) throws CassandraHiveMetaStoreException
     {
+        // FIXME turns out metaData is not needed anymore. Remove from sig.
         // TODO need to add ID field to column name lookup to avoid overwrites
         serializer = new TSerializer();        
         BatchMutation batchMutation = new BatchMutation();
@@ -80,7 +82,7 @@ public class MetaStorePersister
     
     @SuppressWarnings("unchecked")
     public TBase load(TBase base, String databaseName) 
-        throws CassandraHiveMetaStoreException
+        throws CassandraHiveMetaStoreException, NotFoundException
     {
         if ( log.isDebugEnabled() )
             log.debug("class: {} dbname: {}", base.getClass().getName(), databaseName);
@@ -93,6 +95,10 @@ public class MetaStorePersister
             ColumnOrSuperColumn cosc = client.get(ByteBufferUtil.bytes(databaseName), columnPath, ConsistencyLevel.QUORUM);
             deserializer.deserialize(base, cosc.getColumn().getValue());
         } 
+        catch (NotFoundException nfe)
+        {
+            throw nfe;
+        }
         catch (Exception e) 
         {
             // TODO same exception handling wrapper as above

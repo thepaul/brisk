@@ -15,6 +15,7 @@ import org.apache.cassandra.hadoop.CassandraProxyClient;
 import org.apache.cassandra.thrift.Cassandra;
 import org.apache.cassandra.thrift.CfDef;
 import org.apache.cassandra.thrift.KsDef;
+import org.apache.cassandra.thrift.NotFoundException;
 import org.apache.hadoop.hive.metastore.api.Database;
 import org.apache.hadoop.hive.metastore.api.Table;
 import org.apache.thrift.transport.TTransportException;
@@ -59,8 +60,16 @@ public class MetaStorePersisterTest extends CleanupHelper
         metaStorePersister.save(database.metaDataMap, database, database.getName()); // save(TBase base).. via _Fields and findByThriftId, publi MetaDataMap
     }
     
+    @Test(expected=NotFoundException.class)
+    public void testEntityNotFound() throws Exception
+    {
+        Database database = new Database();
+        database.setName("foo");
+        metaStorePersister.load(database, "name");
+    }
+    
     @Test
-    public void testBasicLoadMetaStoreEntity() 
+    public void testBasicLoadMetaStoreEntity() throws Exception 
     {
         Database database = new Database();
         database.setName("name");
