@@ -5,10 +5,6 @@
 
 <configuration>
 <property>
-  <name>jobtracker.thrift.address</name>
-  <value>0.0.0.0:9290</value>
-</property>
-<property>
   <name>mapred.child.java.opts</name>
   <value>-Xmx1024M</value>
 </property>
@@ -19,6 +15,18 @@
   <description>
     The address of the job tracker
   </description>                                                                                                      
+</property>
+
+<!-- Enable Hue plugins -->
+<property>
+  <name>mapred.jobtracker.plugins</name>
+  <value>org.apache.hadoop.thriftfs.ThriftJobTrackerPlugin</value>
+  <description>Comma-separated list of jobtracker plug-ins to be activated.
+  </description>
+</property>
+<property>
+  <name>jobtracker.thrift.address</name>
+  <value>0.0.0.0:9290</value>
 </property>
 
 </configuration>
