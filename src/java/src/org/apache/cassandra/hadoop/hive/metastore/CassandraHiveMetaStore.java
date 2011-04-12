@@ -165,7 +165,13 @@ public class CassandraHiveMetaStore implements RawStore {
         metaStorePersister.load(index, databaseName);
         return index;
     }
-
+    
+    public List<Index> getIndexes(String databaseName, String originalTableName, int max)
+            throws MetaException
+    {
+        List results = metaStorePersister.find(new Index(), databaseName, originalTableName, max);
+        return (List<Index>)results;
+    }
     
     public boolean addPartition(Partition partition) throws InvalidObjectException,
             MetaException
@@ -339,21 +345,11 @@ public class CassandraHiveMetaStore implements RawStore {
 
 
     @Override
-    public List<String> getDatabases(String catalog) throws MetaException
+    public List<String> getDatabases(String databaseNamePattern) throws MetaException
     {
-        log.debug("in getDatabases with catalog: {}", catalog);
+        log.debug("in getDatabases with databaseNamePatter: {}", databaseNamePattern);
         return null;
-    }
-
-    
-    @Override
-    public List<Index> getIndexes(String arg0, String arg1, int arg2)
-            throws MetaException
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
+    }    
 
     @Override
     public PrincipalPrivilegeSet getPartitionPrivilegeSet(String arg0,
