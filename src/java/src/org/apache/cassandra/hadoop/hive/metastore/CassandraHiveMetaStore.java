@@ -101,63 +101,98 @@ public class CassandraHiveMetaStore implements RawStore {
     public Database getDatabase(String database) throws NoSuchObjectException
     {
         log.debug("in getDatabase with database name: {}", database);
-        try {
-            Database db = new Database();
-            metaStorePersister.load(db, database);
-            return db;
-        } catch (Exception e) {
-            // TODO fancier exception catching mechanism
-            throw new CassandraHiveMetaStoreException("Could not create Hive MetaStore database: " + e.getMessage(), e);
-        }        
+        Database db = new Database();
+        metaStorePersister.load(db, database);
+        return db;
     }
     
     public void createTable(Table table) throws InvalidObjectException, MetaException
-    {
-        try {            
-            metaStorePersister.save(table.metaDataMap, table, table.getDbName());
-        } catch (Exception e) {
-            throw new CassandraHiveMetaStoreException("Could not create Hive MetaStore database: " + e.getMessage(), e);
-        }
+    {                   
+        metaStorePersister.save(table.metaDataMap, table, table.getDbName());        
     }
 
     public Table getTable(String databaseName, String tableName) throws MetaException
     {
         log.debug("in getTable with database name: {} and table name: {}", databaseName, tableName);
-        try {
-            Table table = new Table();
-            metaStorePersister.load(table, databaseName);
-            return table;
-        } catch (Exception e) {
-            throw new CassandraHiveMetaStoreException("Could not create Hive MetaStore database: " + e.getMessage(), e);
-        }
+        Table table = new Table();
+        table.setTableName(tableName);            
+        metaStorePersister.load(table, databaseName);
+        return table;
+    }
+    
+    public List<String> getTables(String dbName, String tableName)
+    throws MetaException
+    {
+        log.info("in getTables with dbName: {} and tableName: {}", dbName, tableName);
+        return null;
     }
 
     
-    public boolean addIndex(Index arg0) throws InvalidObjectException,
+    public boolean addIndex(Index index) throws InvalidObjectException,
             MetaException
     {
-        // TODO Auto-generated method stub
+        metaStorePersister.save(index.metaDataMap, index, index.getDbName());
         return false;
     }
 
-    @Override
-    public boolean addPartition(Partition arg0) throws InvalidObjectException,
-            MetaException
+
+    public Index getIndex(String databaseName, String tableName, String indexName)
+            throws MetaException
     {
-        // TODO Auto-generated method stub
-        return false;
+        Index index = new Index();
+        index.setDbName(databaseName);
+        index.setIndexName(indexName);
+        index.setOrigTableName(tableName);
+        metaStorePersister.load(index, databaseName);
+        return index;
     }
 
-    @Override
-    public boolean addRole(String arg0, String arg1)
+    
+    public boolean addPartition(Partition partition) throws InvalidObjectException,
+            MetaException
+    {
+        metaStorePersister.save(partition.metaDataMap, partition, partition.getDbName());
+        return true;
+    }
+
+    public boolean addRole(String roleName, String ownerName)
             throws InvalidObjectException, MetaException, NoSuchObjectException
     {
-        // TODO Auto-generated method stub
-        return false;
+        Role role = new Role();
+        role.setOwnerName(ownerName);
+        role.setRoleName(roleName);
+        // FIXME is this what we want to do for 'meta' level info (where db == null) ?
+        metaStorePersister.save(role.metaDataMap, role, "_meta_");
+        return true;
+    }
+    
+
+    public Role getRole(String roleName) throws NoSuchObjectException
+    {
+        Role role = new Role();
+        role.setRoleName(roleName);
+        metaStorePersister.load(role, "_meta_");
+        return role;
+    }
+    
+    
+    public boolean createType(Type type)
+    {
+        // FIXME same meta-level as addRole
+        metaStorePersister.save(type.metaDataMap, type, "_meta_");
+        return true;
+    }
+    
+    public Type getType(String type)
+    {
+        Type t = new Type();
+        t.setName(type);
+        metaStorePersister.load(t, "_meta_");
+        return t;
     }
 
     @Override
-    public boolean alterDatabase(String arg0, Database arg1)
+    public boolean alterDatabase(String databaseName, Database database)
             throws NoSuchObjectException, MetaException
     {
         // TODO Auto-generated method stub
@@ -190,15 +225,6 @@ public class CassandraHiveMetaStore implements RawStore {
 
     @Override
     public boolean commitTransaction()
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-
-
-    @Override
-    public boolean createType(Type arg0)
     {
         // TODO Auto-generated method stub
         return false;
@@ -281,14 +307,7 @@ public class CassandraHiveMetaStore implements RawStore {
         return null;
     }
 
-    @Override
-    public Index getIndex(String arg0, String arg1, String arg2)
-            throws MetaException
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
+    
     @Override
     public List<Index> getIndexes(String arg0, String arg1, int arg2)
             throws MetaException
@@ -350,13 +369,6 @@ public class CassandraHiveMetaStore implements RawStore {
     }
 
     @Override
-    public Role getRole(String arg0) throws NoSuchObjectException
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
     public PrincipalPrivilegeSet getTablePrivilegeSet(String arg0, String arg1,
             String arg2, List<String> arg3) throws InvalidObjectException,
             MetaException
@@ -365,20 +377,6 @@ public class CassandraHiveMetaStore implements RawStore {
         return null;
     }
 
-
-    public List<String> getTables(String dbName, String tableName)
-            throws MetaException
-    {
-        log.info("in getTables with dbName: {} and tableName: {}", dbName, tableName);
-        return null;
-    }
-
-    @Override
-    public Type getType(String arg0)
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     @Override
     public PrincipalPrivilegeSet getUserPrivilegeSet(String arg0,
@@ -497,7 +495,7 @@ public class CassandraHiveMetaStore implements RawStore {
     public boolean openTransaction()
     {
         // TODO Auto-generated method stub
-        return false;
+        return true;
     }
 
     @Override
