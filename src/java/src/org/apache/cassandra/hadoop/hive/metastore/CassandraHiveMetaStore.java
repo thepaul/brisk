@@ -2,6 +2,7 @@ package org.apache.cassandra.hadoop.hive.metastore;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -22,7 +23,9 @@ import org.apache.cassandra.thrift.SliceRange;
 import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hive.metastore.RawStore;
+import org.apache.hadoop.hive.metastore.Warehouse;
 import org.apache.hadoop.hive.metastore.api.Database;
+import org.apache.hadoop.hive.metastore.api.FieldSchema;
 import org.apache.hadoop.hive.metastore.api.Index;
 import org.apache.hadoop.hive.metastore.api.InvalidObjectException;
 import org.apache.hadoop.hive.metastore.api.MetaException;
@@ -41,6 +44,7 @@ import org.apache.hadoop.hive.metastore.model.MPartitionPrivilege;
 import org.apache.hadoop.hive.metastore.model.MRoleMap;
 import org.apache.hadoop.hive.metastore.model.MTableColumnPrivilege;
 import org.apache.hadoop.hive.metastore.model.MTablePrivilege;
+import org.apache.thrift.TBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -120,11 +124,26 @@ public class CassandraHiveMetaStore implements RawStore {
         return table;
     }
     
-    public List<String> getTables(String dbName, String tableName)
+    /**
+     * Retrieve the tables for the given database and pattern.
+     * 
+     * @param dbName
+     * @param tableNamePattern the pattern passed as is to {@link String#matches(String)} of
+     * {@link Table#getTableName()}
+     */
+    public List<String> getTables(String dbName, String tableNamePattern)
     throws MetaException
     {
-        log.info("in getTables with dbName: {} and tableName: {}", dbName, tableName);
-        return null;
+        log.info("in getTables with dbName: {} and tableNamePattern: {}", dbName, tableNamePattern);
+        List<TBase> tables = metaStorePersister.find(new Table(), dbName);
+        List<String> results = new ArrayList<String>(tables.size());
+        for (TBase tBase : tables)
+        {
+            Table table = (Table)tBase;
+            if ( table.getTableName().matches(tableNamePattern))
+                results.add(table.getTableName());
+        }
+        return results;
     }
 
     
@@ -154,6 +173,26 @@ public class CassandraHiveMetaStore implements RawStore {
         metaStorePersister.save(partition.metaDataMap, partition, partition.getDbName());
         return true;
     }
+        
+    public Partition getPartition(String databaseName, String tableName, List<String> partitions)
+            throws MetaException, NoSuchObjectException
+    {
+        Partition partition = new Partition();
+        partition.setDbName(databaseName);
+        partition.setTableName(tableName);
+        partition.setValues(partitions);
+        metaStorePersister.load(partition, databaseName);
+        return partition;
+    }
+    
+    public List<Partition> getPartitions(String databaseName, String tableName, int max)
+            throws MetaException
+    {
+        List results = metaStorePersister.find(new Partition(), databaseName, null, max);
+        
+        return (List<Partition>)results;
+    }
+    
 
     public boolean addRole(String roleName, String ownerName)
             throws InvalidObjectException, MetaException, NoSuchObjectException
@@ -223,11 +262,10 @@ public class CassandraHiveMetaStore implements RawStore {
 
     }
 
-    @Override
     public boolean commitTransaction()
     {
-        // TODO Auto-generated method stub
-        return false;
+        // FIXME default to true for now
+        return true;
     }
 
     @Override
@@ -316,13 +354,6 @@ public class CassandraHiveMetaStore implements RawStore {
         return null;
     }
 
-    @Override
-    public Partition getPartition(String arg0, String arg1, List<String> arg2)
-            throws MetaException, NoSuchObjectException
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     @Override
     public PrincipalPrivilegeSet getPartitionPrivilegeSet(String arg0,
@@ -337,14 +368,6 @@ public class CassandraHiveMetaStore implements RawStore {
     public Partition getPartitionWithAuth(String arg0, String arg1,
             List<String> arg2, String arg3, List<String> arg4)
             throws MetaException, NoSuchObjectException, InvalidObjectException
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<Partition> getPartitions(String arg0, String arg1, int arg2)
-            throws MetaException
     {
         // TODO Auto-generated method stub
         return null;

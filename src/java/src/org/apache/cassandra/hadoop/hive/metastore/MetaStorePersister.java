@@ -101,8 +101,14 @@ public class MetaStorePersister
         return base;
     }
     
-    @SuppressWarnings("unchecked")
     public List<TBase> find(TBase base, String databaseName) 
+    throws CassandraHiveMetaStoreException
+    {
+        return find(base, databaseName, null, 100);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public List<TBase> find(TBase base, String databaseName, String prefix, int count) 
         throws CassandraHiveMetaStoreException
     {
         if ( log.isDebugEnabled() )
@@ -113,7 +119,7 @@ public class MetaStorePersister
         try 
         {
             SlicePredicate predicate = new SlicePredicate();
-            predicate.setSlice_range(buildEntitySlicePrefix(base, null, 100));
+            predicate.setSlice_range(buildEntitySlicePrefix(base, prefix, count));
             client.set_keyspace("HiveMetaStore");
             List<ColumnOrSuperColumn> cols = client.get_slice(ByteBufferUtil.bytes(databaseName), 
                     new ColumnParent("MetaStore"), 
@@ -150,10 +156,11 @@ public class MetaStorePersister
             .append(((Index)base).getIndexName());
         } else if ( base instanceof Partition ) 
         {
-            colName.append(((Partition)base).getDbName())
-            .append("::")
-            .append(((Partition)base).getTableName());
-            // TODO may need to add values to key name?
+            colName.append(((Partition)base).getTableName());
+            for( String value : ((Partition)base).getValues()) 
+            {
+                colName.append("::").append(value);
+            }
         } else if ( base instanceof Type )
         {
             colName.append(((Type)base).getName());            
@@ -177,7 +184,7 @@ public class MetaStorePersister
         StringBuilder colName = new StringBuilder(96);
         colName.append(base.getClass().getName()).append("::");
         if ( prefix != null && !prefix.isEmpty() ) 
-            colName.append("::").append(prefix);
+            colName.append(prefix);
         SliceRange sliceRange = new SliceRange(ByteBufferUtil.bytes(colName.toString()), 
                 ByteBufferUtil.EMPTY_BYTE_BUFFER, false, count);
         if ( log.isDebugEnabled() )

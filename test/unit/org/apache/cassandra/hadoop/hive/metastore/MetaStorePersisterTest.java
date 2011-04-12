@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 import org.apache.cassandra.CleanupHelper;
 import org.apache.cassandra.EmbeddedServer;
@@ -15,6 +16,7 @@ import org.apache.cassandra.thrift.Cassandra;
 import org.apache.cassandra.thrift.CfDef;
 import org.apache.cassandra.thrift.KsDef;
 import org.apache.hadoop.hive.metastore.api.Database;
+import org.apache.hadoop.hive.metastore.api.Table;
 import org.apache.thrift.transport.TTransportException;
 import org.junit.After;
 import org.junit.Before;
@@ -58,7 +60,7 @@ public class MetaStorePersisterTest extends CleanupHelper
     }
     
     @Test
-    public void testBasicFindMetaStoreEntity() 
+    public void testBasicLoadMetaStoreEntity() 
     {
         Database database = new Database();
         database.setName("name");
@@ -69,6 +71,32 @@ public class MetaStorePersisterTest extends CleanupHelper
         Database foundDb = new Database();
         metaStorePersister.load(foundDb, "name");
         assertEquals(database, foundDb);
+    }
+    
+    @Test
+    public void testFindMetaStoreEntities() 
+    {
+        Database database = new Database();
+        database.setName("dbname");
+        database.setDescription("description");
+        database.setLocationUri("uri");
+        database.setParameters(new HashMap<String, String>());
+        metaStorePersister.save(database.metaDataMap, database, database.getName());
+        Table table = new Table();
+        table.setDbName("dbname");
+        table.setTableName("table_one");
+        metaStorePersister.save(table.metaDataMap, table, table.getDbName());
+        table.setTableName("table_two");
+        metaStorePersister.save(table.metaDataMap, table, table.getDbName());
+        table.setTableName("table_three");
+        metaStorePersister.save(table.metaDataMap, table, table.getDbName());
+        table.setTableName("other_table");
+        metaStorePersister.save(table.metaDataMap, table, table.getDbName());
+        
+        List tables = metaStorePersister.find(table, "dbname");
+        assertEquals(4, tables.size());
+        tables = metaStorePersister.find(table, "dbname", "table", 100);
+        assertEquals(3, tables.size());
     }
     
     @After
