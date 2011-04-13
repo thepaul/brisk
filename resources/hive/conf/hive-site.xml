@@ -32,11 +32,11 @@
   <value>lib/hive-hwi-brisk.war</value>
   <description>This sets the path to the HWI war file, relative to ${HIVE_HOME}. </description>
 </property>
-<!-- Uncomment to experiment with Cassandra-based Hive meta data storage
+<!-- Uncomment to experiment with Cassandra-based Hive meta data storage -->
 <property>
   <name>hive.metastore.rawstore.impl</name>
   <value>org.apache.cassandra.hadoop.hive.metastore.CassandraHiveMetaStore</value>
   <description>Use the Apache Cassandra Hive RawStore implementation</description>
 </property>
--->
+
 </configuration>
