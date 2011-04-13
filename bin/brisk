@@ -5,7 +5,7 @@ BIN=`dirname $0`
 
 if [ "x$1" = "xcassandra" ]; then
     shift
-    $CASSANDRA_HOME/bin/cassandra $*
+    $CASSANDRA_HOME/bin/cassandra $* -Djava.library.path=$JAVA_LIBRARY_PATH
     exit $?
 fi
 
