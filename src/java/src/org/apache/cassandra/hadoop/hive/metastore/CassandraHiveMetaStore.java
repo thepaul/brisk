@@ -186,6 +186,12 @@ public class CassandraHiveMetaStore implements RawStore {
         metaStorePersister.remove(database, databaseName);
         return true;
     }
+
+    public List<String> getAllDatabases() throws MetaException
+    {
+        return getDatabases("*");
+    }
+
     
     public void createTable(Table table) throws InvalidObjectException, MetaException
     {                   
@@ -231,6 +237,11 @@ public class CassandraHiveMetaStore implements RawStore {
         return results;
     }
 
+    public List<String> getAllTables(String databaseName) throws MetaException
+    {
+        return getTables(databaseName, "*");
+    }
+    
     public void alterTable(String databaseName, String tableName, Table table)
             throws InvalidObjectException, MetaException
     {
@@ -276,6 +287,18 @@ public class CassandraHiveMetaStore implements RawStore {
     {
         List results = metaStorePersister.find(new Index(), databaseName, originalTableName, max);
         return (List<Index>)results;
+    }
+    
+    public List<String> listIndexNames(String databaseName, String originalTableName, short max)
+            throws MetaException
+    {     
+        List<Index> indexes = getIndexes(databaseName, originalTableName, max);
+        List<String> results = new ArrayList<String>(indexes.size());
+        for (Index index : indexes)
+        {
+            results.add(index.getIndexName());
+        }        
+        return results;
     }
     
     public void alterIndex(String databaseName, String originalTableName, 
@@ -329,7 +352,17 @@ public class CassandraHiveMetaStore implements RawStore {
         return (List<Partition>)results;
     }
     
-    
+    public List<String> listPartitionNames(String databaseName, String tableName, short max)
+            throws MetaException
+    {   
+        List<Partition> partitions = getPartitions(databaseName, tableName, max);
+        List<String> results = new ArrayList<String>(partitions.size());
+        for (Partition partition : partitions)
+        {
+            results.addAll(partition.getValues());
+        }
+        return results;
+    }
 
     public void alterPartition(String databaseName, String tableName, Partition partition)
             throws InvalidObjectException, MetaException
@@ -349,9 +382,7 @@ public class CassandraHiveMetaStore implements RawStore {
         partition.setValues(partitions);
         metaStorePersister.remove(partition, databaseName);
         return true;
-    }
-    
-    
+    }       
 
     public boolean addRole(String roleName, String ownerName)
             throws InvalidObjectException, MetaException, NoSuchObjectException
@@ -359,12 +390,10 @@ public class CassandraHiveMetaStore implements RawStore {
         Role role = new Role();
         role.setOwnerName(ownerName);
         role.setRoleName(roleName);
-        // FIXME is this what we want to do for 'meta' level info (where db == null) ?
         metaStorePersister.save(role.metaDataMap, role, "_meta_");
         return true;
     }
     
-
     public Role getRole(String roleName) throws NoSuchObjectException
     {
         Role role = new Role();
@@ -376,8 +405,7 @@ public class CassandraHiveMetaStore implements RawStore {
         }
         return role;
     }
-    
-    
+        
     public boolean createType(Type type)
     {
         metaStorePersister.save(type.metaDataMap, type, "_meta_");
@@ -409,20 +437,6 @@ public class CassandraHiveMetaStore implements RawStore {
     {
         // FIXME default to true for now
         return true;
-    }
-
-    @Override
-    public List<String> getAllDatabases() throws MetaException
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<String> getAllTables(String arg0) throws MetaException
-    {
-        // TODO Auto-generated method stub
-        return null;
     }
 
     @Override
@@ -461,8 +475,8 @@ public class CassandraHiveMetaStore implements RawStore {
     }
 
     @Override
-    public List<Partition> getPartitionsByFilter(String arg0, String arg1,
-            String arg2, short arg3) throws MetaException,
+    public List<Partition> getPartitionsByFilter(String databaseName, String tableName,
+            String filter, short maxPartitions) throws MetaException,
             NoSuchObjectException
     {
         // TODO Auto-generated method stub
@@ -516,22 +530,6 @@ public class CassandraHiveMetaStore implements RawStore {
     @Override
     public List<MTablePrivilege> listAllTableGrants(String arg0,
             PrincipalType arg1, String arg2, String arg3)
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<String> listIndexNames(String arg0, String arg1, short arg2)
-            throws MetaException
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<String> listPartitionNames(String arg0, String arg1, short arg2)
-            throws MetaException
     {
         // TODO Auto-generated method stub
         return null;
