@@ -17,6 +17,7 @@ import org.apache.cassandra.thrift.NotFoundException;
 import org.apache.cassandra.thrift.SlicePredicate;
 import org.apache.cassandra.thrift.SliceRange;
 import org.apache.cassandra.utils.ByteBufferUtil;
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hive.metastore.api.Index;
 import org.apache.hadoop.hive.metastore.api.Partition;
 import org.apache.hadoop.hive.metastore.api.PrincipalPrivilegeSet;
@@ -44,11 +45,12 @@ public class MetaStorePersister
     
     private TSerializer serializer;
     private TDeserializer deserializer;
-    private Cassandra.Iface client;
+    private CassandraClientHolder cassandraClientHolder;
     
-    public MetaStorePersister(Cassandra.Iface client) 
+    public MetaStorePersister(Configuration conf) 
     {
-        this.client = client;
+        cassandraClientHolder = new CassandraClientHolder(conf);
+        cassandraClientHolder.applyKeyspace();
     }
 
     @SuppressWarnings("unchecked")
@@ -63,15 +65,15 @@ public class MetaStorePersister
             log.debug("class: {} dbname: {}", base.getClass().getName(), databaseName);
         try
         {
-            batchMutation.addInsertion(ByteBufferUtil.bytes(databaseName), Arrays.asList("MetaStore"), 
+            batchMutation.addInsertion(ByteBufferUtil.bytes(databaseName), 
+                    Arrays.asList(cassandraClientHolder.getColumnFamily()), 
                     new Column(
                     ByteBufferUtil.bytes(buildEntityColumnName(base)),
                     ByteBuffer.wrap(serializer.serialize(base)), System
                             .currentTimeMillis() * 1000));
-            
-            client.set_keyspace("HiveMetaStore");
-            client.batch_mutate(batchMutation.getMutationMap(),
-                    ConsistencyLevel.QUORUM);
+                       
+            cassandraClientHolder.getClient().batch_mutate(batchMutation.getMutationMap(),
+                    cassandraClientHolder.getWriteCl());
         } 
         catch (Exception e)
         {
@@ -90,10 +92,11 @@ public class MetaStorePersister
         deserializer = new TDeserializer();        
         try 
         {
-            client.set_keyspace("HiveMetaStore");
-            ColumnPath columnPath = new ColumnPath("MetaStore");
+            ColumnPath columnPath = new ColumnPath(cassandraClientHolder.getColumnFamily());
             columnPath.setColumn(ByteBufferUtil.bytes(buildEntityColumnName(base)));
-            ColumnOrSuperColumn cosc = client.get(ByteBufferUtil.bytes(databaseName), columnPath, ConsistencyLevel.QUORUM);
+            ColumnOrSuperColumn cosc = cassandraClientHolder.getClient()
+                .get(ByteBufferUtil.bytes(databaseName), columnPath, 
+                        cassandraClientHolder.getReadCl());
             deserializer.deserialize(base, cosc.getColumn().getValue());
         } 
         catch (NotFoundException nfe)
@@ -127,11 +130,10 @@ public class MetaStorePersister
         {
             SlicePredicate predicate = new SlicePredicate();
             predicate.setSlice_range(buildEntitySlicePrefix(base, prefix, count));
-            client.set_keyspace("HiveMetaStore");
-            List<ColumnOrSuperColumn> cols = client.get_slice(ByteBufferUtil.bytes(databaseName), 
-                    new ColumnParent("MetaStore"), 
+            List<ColumnOrSuperColumn> cols = cassandraClientHolder.getClient().get_slice(ByteBufferUtil.bytes(databaseName), 
+                    new ColumnParent(cassandraClientHolder.getColumnFamily()), 
                     predicate, 
-                    ConsistencyLevel.ONE);
+                    cassandraClientHolder.getReadCl());
             resultList = new ArrayList<TBase>(cols.size());
             for (ColumnOrSuperColumn cosc : cols)
             {
@@ -160,10 +162,11 @@ public class MetaStorePersister
             // FIXME generalize timestamp
             Deletion deletion = new Deletion(System.currentTimeMillis() * 1000);
 
-            batchMutation.addDeletion(ByteBufferUtil.bytes(databaseName), Arrays.asList("MetaStore"), deletion);
+            batchMutation.addDeletion(ByteBufferUtil.bytes(databaseName), 
+                    Arrays.asList(cassandraClientHolder.getColumnFamily()), deletion);
 
-            client.batch_mutate(batchMutation.getMutationMap(),
-                    ConsistencyLevel.QUORUM);
+            cassandraClientHolder.getClient().batch_mutate(batchMutation.getMutationMap(),
+                    cassandraClientHolder.getWriteCl());
         } 
         catch (Exception e)
         {            

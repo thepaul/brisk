@@ -75,10 +75,10 @@ public class CassandraHiveMetaStoreTest extends CleanupHelper {
     private Configuration buildConfiguration() 
     {
         Configuration conf = new Configuration();
-        conf.set(CassandraHiveMetaStore.CONF_PARAM_HOST, "localhost");
-        conf.setInt(CassandraHiveMetaStore.CONF_PARAM_PORT, DatabaseDescriptor.getRpcPort());
-        conf.setBoolean(CassandraHiveMetaStore.CONF_PARAM_FRAMED, true);
-        conf.setBoolean(CassandraHiveMetaStore.CONF_PARAM_RANDOMIZE_CONNECTIONS, true);
+        conf.set(CassandraClientHolder.CONF_PARAM_HOST, "localhost");
+        conf.setInt(CassandraClientHolder.CONF_PARAM_PORT, DatabaseDescriptor.getRpcPort());
+        conf.setBoolean(CassandraClientHolder.CONF_PARAM_FRAMED, true);
+        conf.setBoolean(CassandraClientHolder.CONF_PARAM_RANDOMIZE_CONNECTIONS, true);
         return conf;
     }
 }

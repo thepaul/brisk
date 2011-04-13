@@ -16,6 +16,7 @@ import org.apache.cassandra.thrift.Cassandra;
 import org.apache.cassandra.thrift.CfDef;
 import org.apache.cassandra.thrift.KsDef;
 import org.apache.cassandra.thrift.NotFoundException;
+import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hive.metastore.api.Database;
 import org.apache.hadoop.hive.metastore.api.Table;
 import org.apache.thrift.transport.TTransportException;
@@ -28,7 +29,7 @@ public class MetaStorePersisterTest extends CleanupHelper
 {
 
     private MetaStorePersister metaStorePersister;
-    private Cassandra.Iface client;
+    private CassandraClientHolder clientHolder;
     
     @BeforeClass
     public static void setup() throws TTransportException, IOException, InterruptedException, ConfigurationException
@@ -39,14 +40,14 @@ public class MetaStorePersisterTest extends CleanupHelper
     @Before
     public void setupClient() throws Exception 
     {
-        client = CassandraProxyClient.newProxyConnection("localhost",
-                DatabaseDescriptor.getRpcPort(),true,true); 
-        metaStorePersister = new MetaStorePersister(client);
+        clientHolder = new CassandraClientHolder(new Configuration());        
         
-        CfDef cf = new CfDef("HiveMetaStore", "MetaStore");
-        KsDef ks = new KsDef("HiveMetaStore", "org.apache.cassandra.locator.SimpleStrategy", 1, Arrays.asList(cf));
+        CfDef cf = new CfDef(clientHolder.getKeyspaceName(), clientHolder.getColumnFamily());
+        KsDef ks = new KsDef(clientHolder.getKeyspaceName(), "org.apache.cassandra.locator.SimpleStrategy", 1, Arrays.asList(cf));
         
-        client.system_add_keyspace(ks);        
+        clientHolder.getClient().system_add_keyspace(ks);        
+        
+        metaStorePersister = new MetaStorePersister(new Configuration());
     }
     
     @Test
@@ -135,6 +136,6 @@ public class MetaStorePersisterTest extends CleanupHelper
     @After
     public void teardownClient() throws Exception 
     {
-        client.system_drop_keyspace("HiveMetaStore");
+        clientHolder.getClient().system_drop_keyspace("HiveMetaStore");
     }
 }

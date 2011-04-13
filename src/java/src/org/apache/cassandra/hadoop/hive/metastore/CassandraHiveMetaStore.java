@@ -69,8 +69,8 @@ public class CassandraHiveMetaStore implements RawStore {
     
     private static final Logger log = LoggerFactory.getLogger(CassandraHiveMetaStore.class);
     private Configuration configuration;
-    private Cassandra.Iface client;
     private MetaStorePersister metaStorePersister;
+    private CassandraClientHolder cassandraClientHolder;
     
     public CassandraHiveMetaStore()
     {
@@ -81,20 +81,11 @@ public class CassandraHiveMetaStore implements RawStore {
     public void setConf(Configuration conf)
     {
         configuration = conf;
-        try {
-            // cassandra.connection.[host|port|framed|randomizeConnections]
-            // anything else needed?
-            client = CassandraProxyClient.newProxyConnection(conf.get(CONF_PARAM_HOST, "localhost"), 
-                    conf.getInt(CONF_PARAM_PORT, 9160), 
-                    conf.getBoolean(CONF_PARAM_FRAMED,true), 
-                    conf.getBoolean(CONF_PARAM_RANDOMIZE_CONNECTIONS, true));
-            metaStorePersister = new MetaStorePersister(client);
-            createSchemaIfNeeded();
-        } 
-        catch (IOException ioe) 
-        {
-            throw new CassandraHiveMetaStoreException("Could not connect to Cassandra. Reason: " + ioe.getMessage(), ioe);
-        }                
+        cassandraClientHolder = new CassandraClientHolder(configuration);
+        
+        Cassandra.Iface client = cassandraClientHolder.getClient();        
+        createSchemaIfNeeded(client, conf);                        
+        metaStorePersister = new MetaStorePersister(configuration);
     }
     
     public Configuration getConf()
@@ -102,24 +93,28 @@ public class CassandraHiveMetaStore implements RawStore {
         return configuration;
     }    
     
-    private void createSchemaIfNeeded() 
+    private void createSchemaIfNeeded(Cassandra.Iface client, Configuration conf) 
     {
         // Database_entities : {[name].name=name}
         // FIXME add these params to configuration
         // databaseName=metastore_db;create=true
         try {
-            client.set_keyspace("HiveMetaStore");
+            client.set_keyspace(cassandraClientHolder.getKeyspaceName());
             return;
         } catch (InvalidRequestException ire) {
             log.info("HiveMetaStore keyspace did not exist. Creating.");
         } catch (Exception e) {
             throw new CassandraHiveMetaStoreException("Could not create or validate existing schema", e);
         }
-        CfDef cf = new CfDef("HiveMetaStore", "MetaStore");
+        CfDef cf = new CfDef(cassandraClientHolder.getKeyspaceName(), 
+                cassandraClientHolder.getColumnFamily());
         cf.setComparator_type("UTF8Type");
-        KsDef ks = new KsDef("HiveMetaStore", "org.apache.cassandra.locator.SimpleStrategy", 1, Arrays.asList(cf));
+        KsDef ks = new KsDef(cassandraClientHolder.getKeyspaceName(), 
+                "org.apache.cassandra.locator.SimpleStrategy", 
+                conf.getInt(CassandraClientHolder.CONF_PARAM_REPLICATION_FACTOR, 1), 
+                Arrays.asList(cf));
         try {
-            client.system_add_keyspace(ks);            
+            client.system_add_keyspace(ks);
         } catch (Exception e) {
             throw new CassandraHiveMetaStoreException("Could not create Hive MetaStore database: " + e.getMessage(), e);
         }
@@ -131,7 +126,7 @@ public class CassandraHiveMetaStore implements RawStore {
         log.debug("createDatabase with {}", database);
 
         metaStorePersister.save(database.metaDataMap, database, database.getName());
-        metaStorePersister.save(database.metaDataMap, database, "__databases__");
+        metaStorePersister.save(database.metaDataMap, database, CassandraClientHolder.DATABASES_ROW_KEY);
     }
 
     
@@ -153,7 +148,8 @@ public class CassandraHiveMetaStore implements RawStore {
     public List<String> getDatabases(String databaseNamePattern) throws MetaException
     {
         log.debug("in getDatabases with databaseNamePattern: {}", databaseNamePattern);
-        List<TBase> databases = metaStorePersister.find(new Database(), "__databases__", databaseNamePattern,100);
+        List<TBase> databases = metaStorePersister.find(new Database(), 
+                CassandraClientHolder.DATABASES_ROW_KEY, databaseNamePattern,100);
         List<String> results = new ArrayList<String>(databases.size());
         for (TBase tBase : databases)
         {
@@ -189,7 +185,7 @@ public class CassandraHiveMetaStore implements RawStore {
 
     public List<String> getAllDatabases() throws MetaException
     {
-        return getDatabases("*");
+        return getDatabases(SELECT_ALL_REGEX);
     }
 
     
@@ -239,7 +235,7 @@ public class CassandraHiveMetaStore implements RawStore {
 
     public List<String> getAllTables(String databaseName) throws MetaException
     {
-        return getTables(databaseName, "*");
+        return getTables(databaseName, SELECT_ALL_REGEX);
     }
     
     public void alterTable(String databaseName, String tableName, Table table)
@@ -390,7 +386,7 @@ public class CassandraHiveMetaStore implements RawStore {
         Role role = new Role();
         role.setOwnerName(ownerName);
         role.setRoleName(roleName);
-        metaStorePersister.save(role.metaDataMap, role, "_meta_");
+        metaStorePersister.save(role.metaDataMap, role, CassandraClientHolder.META_DB_ROW_KEY);
         return true;
     }
     
@@ -399,7 +395,7 @@ public class CassandraHiveMetaStore implements RawStore {
         Role role = new Role();
         role.setRoleName(roleName);
         try {
-            metaStorePersister.load(role, "_meta_");
+            metaStorePersister.load(role, CassandraClientHolder.META_DB_ROW_KEY);
         } catch (NotFoundException nfe) {
             throw new NoSuchObjectException("could not find role: " + roleName);
         }
@@ -408,7 +404,7 @@ public class CassandraHiveMetaStore implements RawStore {
         
     public boolean createType(Type type)
     {
-        metaStorePersister.save(type.metaDataMap, type, "_meta_");
+        metaStorePersister.save(type.metaDataMap, type, CassandraClientHolder.META_DB_ROW_KEY);
         return true;
     }
     
@@ -417,7 +413,7 @@ public class CassandraHiveMetaStore implements RawStore {
         Type t = new Type();
         t.setName(type);
         try {
-            metaStorePersister.load(t, "_meta_");
+            metaStorePersister.load(t, CassandraClientHolder.META_DB_ROW_KEY);
         } catch (NotFoundException e) {
             return null;
         }
@@ -428,7 +424,7 @@ public class CassandraHiveMetaStore implements RawStore {
     {
         Type t = new Type();
         t.setName(type);
-        metaStorePersister.remove(t, "__meta__");
+        metaStorePersister.remove(t, CassandraClientHolder.META_DB_ROW_KEY);
         return true;
     }
 
@@ -644,16 +640,8 @@ public class CassandraHiveMetaStore implements RawStore {
 
     }
 
-    // TODO are there more appropriate hive config parameters to use here?
+    private static final String SELECT_ALL_REGEX = "*";
     
-    private static final String CONF_PARAM_PREFIX = "cassandra.connection.";
-    /** Initial Apache Cassandra node to which we will connect (localhost) */
-    public static final String CONF_PARAM_HOST = CONF_PARAM_PREFIX+"host";
-    /** Thrift port for Apache Cassandra (9160) */
-    public static final String CONF_PARAM_PORT = CONF_PARAM_PREFIX+"port";
-    /** Boolean indicating use of Framed vs. Non-Framed Thrift transport (true) */
-    public static final String CONF_PARAM_FRAMED = CONF_PARAM_PREFIX+"framed";
-    /** Pick a host at random from the ring as opposed to using the same host (true) */
-    public static final String CONF_PARAM_RANDOMIZE_CONNECTIONS = CONF_PARAM_PREFIX+"randomizeConnections";
+
 
 }
