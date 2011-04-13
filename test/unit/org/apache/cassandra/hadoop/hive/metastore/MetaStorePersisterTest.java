@@ -108,6 +108,30 @@ public class MetaStorePersisterTest extends CleanupHelper
         assertEquals(3, tables.size());
     }
     
+    @Test
+    public void testEntityDeletion() throws Exception 
+    {
+        Database database = new Database();
+        database.setName("name");
+        database.setDescription("description");
+        database.setLocationUri("uri");
+        database.setParameters(new HashMap<String, String>());
+        metaStorePersister.save(database.metaDataMap, database, database.getName());
+        
+        Database foundDb = new Database();
+        metaStorePersister.load(foundDb, "name");
+        assertEquals(database, foundDb);
+        metaStorePersister.remove(foundDb, "name");
+        try {
+            metaStorePersister.load(foundDb, "name");
+            fail();
+        } 
+        catch (NotFoundException e) 
+        {
+            // win! \o/
+        }
+    }
+    
     @After
     public void teardownClient() throws Exception 
     {

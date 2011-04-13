@@ -51,6 +51,20 @@ import org.apache.thrift.TBase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Serializes thrift structs for Hive Meta Store to Apache Cassandra.
+ * 
+ * All of the 'entities' in the meta store schema go into a single row for 
+ * the database for which they belong.
+ * 
+ * Database names are stored in a special row with the key '__databases__'
+ * 
+ * Meta information such as roles and privileges (that is, 'entities' that
+ * can be cross-database) go into the row with the key '__meta__'
+ *
+ *
+ * @author zznate
+ */
 public class CassandraHiveMetaStore implements RawStore {        
     
     private static final Logger log = LoggerFactory.getLogger(CassandraHiveMetaStore.class);
@@ -121,16 +135,18 @@ public class CassandraHiveMetaStore implements RawStore {
     }
 
     
-    public Database getDatabase(String database) throws NoSuchObjectException
+    public Database getDatabase(String databaseName) throws NoSuchObjectException
     {
-        log.debug("in getDatabase with database name: {}", database);
+        log.debug("in getDatabase with database name: {}", databaseName);
         Database db = new Database();
-        try {
-            metaStorePersister.load(db, database);
-        } catch (NotFoundException e) {
-            throw new NoSuchObjectException("Database named " + database + " did not exist.");
-        }
-        
+        try 
+        {
+            metaStorePersister.load(db, databaseName);
+        } 
+        catch (NotFoundException e) 
+        {
+            throw new NoSuchObjectException("Database named " + databaseName + " did not exist.");
+        }        
         return db;
     }
     
@@ -148,6 +164,29 @@ public class CassandraHiveMetaStore implements RawStore {
         return results;
     }    
     
+    public boolean alterDatabase(String databaseName, Database database)
+            throws NoSuchObjectException, MetaException
+    {
+        try 
+        {
+            createDatabase(database);
+        } 
+        catch (InvalidObjectException e) 
+        {
+            throw new CassandraHiveMetaStoreException("Error attempting to alter database: " + databaseName, e);
+        }        
+        return true;
+    }
+    
+    public boolean dropDatabase(String databaseName) throws NoSuchObjectException,
+            MetaException
+    {        
+        Database database = new Database();
+        database.setName(databaseName);
+        metaStorePersister.remove(database, databaseName);
+        return true;
+    }
+    
     public void createTable(Table table) throws InvalidObjectException, MetaException
     {                   
         metaStorePersister.save(table.metaDataMap, table, table.getDbName());        
@@ -158,9 +197,12 @@ public class CassandraHiveMetaStore implements RawStore {
         log.debug("in getTable with database name: {} and table name: {}", databaseName, tableName);
         Table table = new Table();
         table.setTableName(tableName);            
-        try {
+        try 
+        {
             metaStorePersister.load(table, databaseName);
-        } catch (NotFoundException e) {
+        } 
+        catch (NotFoundException e) 
+        {
             //throw new MetaException("Table: " + tableName + " did not exist in database: " + databaseName);
             return null;
         }
@@ -189,6 +231,23 @@ public class CassandraHiveMetaStore implements RawStore {
         return results;
     }
 
+    public void alterTable(String databaseName, String tableName, Table table)
+            throws InvalidObjectException, MetaException
+    {
+        if ( log.isDebugEnabled() ) 
+            log.debug("Altering table {} on datbase: {} Table: {}",
+                    new Object[]{tableName, databaseName, table});
+        createTable(table);
+    }   
+    
+    public boolean dropTable(String databaseName, String tableName) throws MetaException
+    {
+        Table table = new Table();
+        table.setDbName(databaseName);
+        table.setTableName(tableName);
+        metaStorePersister.remove(table, databaseName);
+        return true;
+    }
     
     public boolean addIndex(Index index) throws InvalidObjectException,
             MetaException
@@ -196,7 +255,6 @@ public class CassandraHiveMetaStore implements RawStore {
         metaStorePersister.save(index.metaDataMap, index, index.getDbName());
         return false;
     }
-
 
     public Index getIndex(String databaseName, String tableName, String indexName)
             throws MetaException
@@ -220,6 +278,27 @@ public class CassandraHiveMetaStore implements RawStore {
         return (List<Index>)results;
     }
     
+    public void alterIndex(String databaseName, String originalTableName, 
+            String indexName, Index index)
+            throws InvalidObjectException, MetaException
+    {
+        if ( log.isDebugEnabled() )
+            log.debug("Altering index {} on database: {} and table: {} Index: {}", 
+                    new Object[]{ indexName, databaseName, originalTableName, index});
+        addIndex(index);
+    }
+    
+    public boolean dropIndex(String databaseName, String originalTableName, String indexName)
+            throws MetaException
+    {
+        Index index = new Index();
+        index.setDbName(databaseName);
+        index.setOrigTableName(originalTableName);
+        index.setIndexName(indexName);
+        metaStorePersister.remove(index, databaseName);
+        return true;
+    }
+
     public boolean addPartition(Partition partition) throws InvalidObjectException,
             MetaException
     {
@@ -250,6 +329,29 @@ public class CassandraHiveMetaStore implements RawStore {
         return (List<Partition>)results;
     }
     
+    
+
+    public void alterPartition(String databaseName, String tableName, Partition partition)
+            throws InvalidObjectException, MetaException
+    {
+        if ( log.isDebugEnabled() ) 
+            log.debug("Altering partiion for table {} on database: {} Partition: {}",
+                    new Object[]{tableName, databaseName, partition});
+        addPartition(partition);
+    }
+
+    public boolean dropPartition(String databaseName, String tableName, List<String> partitions)
+            throws MetaException
+    {
+        Partition partition = new Partition();
+        partition.setDbName(databaseName);
+        partition.setTableName(tableName);
+        partition.setValues(partitions);
+        metaStorePersister.remove(partition, databaseName);
+        return true;
+    }
+    
+    
 
     public boolean addRole(String roleName, String ownerName)
             throws InvalidObjectException, MetaException, NoSuchObjectException
@@ -278,7 +380,6 @@ public class CassandraHiveMetaStore implements RawStore {
     
     public boolean createType(Type type)
     {
-        // FIXME same meta-level as addRole
         metaStorePersister.save(type.metaDataMap, type, "_meta_");
         return true;
     }
@@ -294,81 +395,20 @@ public class CassandraHiveMetaStore implements RawStore {
         }
         return t;
     }
-
-    @Override
-    public boolean alterDatabase(String databaseName, Database database)
-            throws NoSuchObjectException, MetaException
+    
+    public boolean dropType(String type)
     {
-        // TODO Auto-generated method stub
-        return false;
+        Type t = new Type();
+        t.setName(type);
+        metaStorePersister.remove(t, "__meta__");
+        return true;
     }
 
-    @Override
-    public void alterIndex(String arg0, String arg1, String arg2, Index arg3)
-            throws InvalidObjectException, MetaException
-    {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void alterPartition(String arg0, String arg1, Partition arg2)
-            throws InvalidObjectException, MetaException
-    {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void alterTable(String arg0, String arg1, Table arg2)
-            throws InvalidObjectException, MetaException
-    {
-        // TODO Auto-generated method stub
-
-    }
 
     public boolean commitTransaction()
     {
         // FIXME default to true for now
         return true;
-    }
-
-    @Override
-    public boolean dropDatabase(String arg0) throws NoSuchObjectException,
-            MetaException
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean dropIndex(String arg0, String arg1, String arg2)
-            throws MetaException
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean dropPartition(String arg0, String arg1, List<String> arg2)
-            throws MetaException
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean dropTable(String arg0, String arg1) throws MetaException
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
-
-    @Override
-    public boolean dropType(String arg0)
-    {
-        // TODO Auto-generated method stub
-        return false;
     }
 
     @Override

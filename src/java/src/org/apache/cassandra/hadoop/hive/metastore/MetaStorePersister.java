@@ -12,6 +12,7 @@ import org.apache.cassandra.thrift.ColumnOrSuperColumn;
 import org.apache.cassandra.thrift.ColumnParent;
 import org.apache.cassandra.thrift.ColumnPath;
 import org.apache.cassandra.thrift.ConsistencyLevel;
+import org.apache.cassandra.thrift.Deletion;
 import org.apache.cassandra.thrift.NotFoundException;
 import org.apache.cassandra.thrift.SlicePredicate;
 import org.apache.cassandra.thrift.SliceRange;
@@ -145,6 +146,30 @@ public class MetaStorePersister
             throw new CassandraHiveMetaStoreException(e.getMessage(), e);
         }                
         return resultList;
+    }
+    
+    @SuppressWarnings("unchecked")
+    public void remove(TBase base, String databaseName) 
+    {
+        serializer = new TSerializer();        
+        BatchMutation batchMutation = new BatchMutation();
+        if ( log.isDebugEnabled() )
+            log.debug("class: {} dbname: {}", base.getClass().getName(), databaseName);
+        try
+        {
+            // FIXME generalize timestamp
+            Deletion deletion = new Deletion(System.currentTimeMillis() * 1000);
+
+            batchMutation.addDeletion(ByteBufferUtil.bytes(databaseName), Arrays.asList("MetaStore"), deletion);
+
+            client.batch_mutate(batchMutation.getMutationMap(),
+                    ConsistencyLevel.QUORUM);
+        } 
+        catch (Exception e)
+        {            
+            throw new CassandraHiveMetaStoreException(e.getMessage(), e);
+        }
+    
     }
     
     private String buildEntityColumnName(TBase base) {
