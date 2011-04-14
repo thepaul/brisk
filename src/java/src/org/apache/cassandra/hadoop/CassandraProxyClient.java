@@ -307,7 +307,7 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
             catch (InvocationTargetException e)
             {
 
-                if (e.getCause() instanceof UnavailableException || e.getCause() instanceof TimeoutException
+                if (e.getCause() instanceof UnavailableException || e.getCause() instanceof TimedOutException
                         || e.getCause() instanceof TTransportException)
                 {
 
