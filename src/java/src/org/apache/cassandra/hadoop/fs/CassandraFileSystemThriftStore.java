@@ -407,7 +407,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
             {
                 List<String> endpoints = blockEndpoints.get(i);
                 Block b = blocks.get(i);
-
+                
                 // TODO: Add topology info if at all possible?
                 locations[i] = new BlockLocation(null, endpoints.toArray(new String[0]), b.offset, b.length);
             }
