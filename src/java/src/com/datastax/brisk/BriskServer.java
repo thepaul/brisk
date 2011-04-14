@@ -28,7 +28,7 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
             
             for(InetAddress endpoint : endpoints)
             {
-                hosts.add(endpoint.getHostName()+":"+DatabaseDescriptor.getRpcPort());
+                hosts.add(endpoint.getHostName());
             }
             
             keyEndpoints.add(hosts);

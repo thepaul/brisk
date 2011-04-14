@@ -40,14 +40,15 @@ public class MetaStorePersisterTest extends CleanupHelper
     @Before
     public void setupClient() throws Exception 
     {
-        clientHolder = new CassandraClientHolder(new Configuration());        
+        Configuration conf = buildConfiguration();
+        clientHolder = new CassandraClientHolder(conf);        
         
         CfDef cf = new CfDef(clientHolder.getKeyspaceName(), clientHolder.getColumnFamily());
         KsDef ks = new KsDef(clientHolder.getKeyspaceName(), "org.apache.cassandra.locator.SimpleStrategy", 1, Arrays.asList(cf));
         
         clientHolder.getClient().system_add_keyspace(ks);        
         
-        metaStorePersister = new MetaStorePersister(new Configuration());
+        metaStorePersister = new MetaStorePersister(conf);
     }
     
     @Test
@@ -137,5 +138,15 @@ public class MetaStorePersisterTest extends CleanupHelper
     public void teardownClient() throws Exception 
     {
         clientHolder.getClient().system_drop_keyspace("HiveMetaStore");
+    }
+    
+    private Configuration buildConfiguration() 
+    {
+        Configuration conf = new Configuration();
+        conf.set(CassandraClientHolder.CONF_PARAM_HOST, "localhost");
+        conf.setInt(CassandraClientHolder.CONF_PARAM_PORT, DatabaseDescriptor.getRpcPort());
+        conf.setBoolean(CassandraClientHolder.CONF_PARAM_FRAMED, true);
+        conf.setBoolean(CassandraClientHolder.CONF_PARAM_RANDOMIZE_CONNECTIONS, true);
+        return conf;
     }
 }

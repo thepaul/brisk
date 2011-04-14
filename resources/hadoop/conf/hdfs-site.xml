@@ -5,4 +5,9 @@
 
 <configuration>
 
+<property>
+  <name>dfs.block.size</name>
+  <value>8388608</value>
+</property>
+
 </configuration>
