@@ -23,7 +23,6 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.TimeoutException;
 
 import org.apache.cassandra.thrift.*;
 import org.apache.cassandra.utils.CircuitBreaker;
@@ -307,8 +306,8 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
             catch (InvocationTargetException e)
             {
 
-                if (e.getCause() instanceof UnavailableException || e.getCause() instanceof TimedOutException
-                        || e.getCause() instanceof TTransportException)
+                if (e.getTargetException() instanceof UnavailableException || e.getTargetException() instanceof TimedOutException
+                        || e.getTargetException() instanceof TTransportException)
                 {
 
                     breaker.failure();
