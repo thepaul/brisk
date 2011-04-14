@@ -111,8 +111,25 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
 
     private void initialize() throws IOException
     {
-        attemptReconnect();
+        
+        int maxInitAttempts = 10;
+        int attempt = 0;
+        while (client == null && attempt++ < maxInitAttempts)
+        {
+            attemptReconnect();
+            try
+            {
+                Thread.sleep(1050);
+            }
+            catch (InterruptedException e)
+            {
+                throw new IOException(e);
+            } // sleep and try again
+        }
 
+        if(client == null)
+            throw new IOException("Error connecting to node");
+        
         try
         {
             List<KsDef> allKs = client.describe_keyspaces();
@@ -180,20 +197,19 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
 
     }
 
-    private Cassandra.Iface attemptReconnect()
+    private void attemptReconnect()
     {
 
         // first try to connect to the same host as before
         if (!randomizeConnections || ring == null || ring.size() == 0)
         {
-
             try
             {
                 client = createConnection(host, port, framed);
                 breaker.success();
                 if(logger.isDebugEnabled())
                     logger.debug("Connected to cassandra at " + host + ":" + port);
-                return client;
+                return;
             }
             catch (IOException e)
             {
@@ -205,22 +221,26 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
         if (ring == null || ring.size() == 0)
         {
             logger.warn("No cassandra ring information found, no other nodes to connect to");
-            return null;
+            client = null;
+            return;
         }
 
-        // pick a different node from the ring
-        Random r = new Random();
-
-        List<String> endpoints = ring.get(r.nextInt(ring.size())).endpoints;
-        String endpoint = endpoints.get(r.nextInt(endpoints.size()));
-
-        if (!randomizeConnections)
+        String endpoint = host; 
+        
+        // pick a different node from the ring       
+        if (randomizeConnections)
         {
+            Random r = new Random();
+
+            List<String> endpoints = ring.get(r.nextInt(ring.size())).endpoints;
+            endpoints.get(r.nextInt(endpoints.size()));
+            
             // only one node (myself)
             if (endpoint.equals(host) && ring.size() == 1)
             {
                 logger.warn("No other cassandra nodes in this ring to connect to");
-                return null;
+                client = null;
+                return;
             }
 
             // make sure this is a node other than ourselves
@@ -247,16 +267,15 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
                 breaker.success();
                 if(logger.isDebugEnabled())
                     logger.debug("Connected to cassandra at " + host + ":" + port);
+            
             }
             catch (IOException e2)
             {
                 logger.warn("Connection failed to Cassandra node: " + host + ":" + port);
             }
 
-            return null;
+            client = null;
         }
-
-        return client;
     }
 
     public Object invoke(Object proxy, Method m, Object[] args) throws Throwable
@@ -299,19 +318,21 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
                     {
                         Thread.sleep(1050); // sleep and try again
                     }
-
                     attemptReconnect();
+                    
+                    if(client != null)
+                        tries--;                   
                 }
             }
             catch (InvocationTargetException e)
             {
 
-                if (e.getTargetException() instanceof UnavailableException || e.getTargetException() instanceof TimedOutException
-                        || e.getTargetException() instanceof TTransportException)
+                if (e.getTargetException() instanceof UnavailableException || 
+                        e.getTargetException() instanceof TimedOutException || 
+                        e.getTargetException() instanceof TTransportException)
                 {
 
                     breaker.failure();
-                    attemptReconnect();
 
                     // rethrow on last try
                     if (tries >= maxTries)
