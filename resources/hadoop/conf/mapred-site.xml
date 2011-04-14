@@ -19,7 +19,7 @@
 
 <property>
   <name>mapred.tasktracker.map.tasks.maximum</name>
-  <value>4</value>
+  <value>2</value>
 </property>
 
 <!-- Enable Hue plugins -->
