@@ -19,8 +19,12 @@ package org.apache.cassandra.hadoop.fs;
 
 import java.util.UUID;
 
+import org.apache.log4j.Logger;
+
 public class Block
 {
+    private static Logger logger = Logger.getLogger(Block.class);
+    
     public final UUID id;
     public final long length;
     public final long offset;
@@ -29,12 +33,12 @@ public class Block
     {
         this.id     = id;
         this.offset = offset;
-        this.length = length;
+        this.length = length;        
     }
     
     @Override
     public String toString() {
-      return "Block[" + id + ", " + length + ", "+ length+"]";
+      return "Block[" + id + ", " + offset + ", "+ length+"]";
     }
 
 }
