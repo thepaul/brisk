@@ -1,34 +1,18 @@
 package org.apache.cassandra.hadoop.hive.metastore;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import org.apache.cassandra.config.KSMetaData;
-import org.apache.cassandra.db.marshal.UTF8Type;
-import org.apache.cassandra.hadoop.CassandraProxyClient;
 import org.apache.cassandra.thrift.Cassandra;
 import org.apache.cassandra.thrift.CfDef;
-import org.apache.cassandra.thrift.Column;
-import org.apache.cassandra.thrift.ColumnOrSuperColumn;
-import org.apache.cassandra.thrift.ColumnParent;
-import org.apache.cassandra.thrift.ConsistencyLevel;
 import org.apache.cassandra.thrift.InvalidRequestException;
 import org.apache.cassandra.thrift.KsDef;
-import org.apache.cassandra.thrift.Mutation;
 import org.apache.cassandra.thrift.NotFoundException;
-import org.apache.cassandra.thrift.SlicePredicate;
-import org.apache.cassandra.thrift.SliceRange;
-import org.apache.cassandra.utils.ByteBufferUtil;
+import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hive.metastore.RawStore;
-import org.apache.hadoop.hive.metastore.Warehouse;
 import org.apache.hadoop.hive.metastore.api.Database;
-import org.apache.hadoop.hive.metastore.api.FieldSchema;
 import org.apache.hadoop.hive.metastore.api.Index;
 import org.apache.hadoop.hive.metastore.api.InvalidObjectException;
 import org.apache.hadoop.hive.metastore.api.MetaException;
@@ -154,7 +138,7 @@ public class CassandraHiveMetaStore implements RawStore {
         for (TBase tBase : databases)
         {
             Database db = (Database)tBase;
-            if ( databaseNamePattern != null && !databaseNamePattern.isEmpty() && db.getName().matches(databaseNamePattern) )
+            if ( StringUtils.isEmpty(databaseNamePattern) || db.getName().matches(databaseNamePattern) )
                 results.add(db.getName());            
         }
         return results;
@@ -185,7 +169,7 @@ public class CassandraHiveMetaStore implements RawStore {
 
     public List<String> getAllDatabases() throws MetaException
     {
-        return getDatabases(SELECT_ALL_REGEX);
+        return getDatabases(StringUtils.EMPTY);
     }
 
     
@@ -227,7 +211,7 @@ public class CassandraHiveMetaStore implements RawStore {
         for (TBase tBase : tables)
         {
             Table table = (Table)tBase;
-            if ( table.getTableName().matches(tableNamePattern))
+            if ( StringUtils.isEmpty(tableNamePattern) || table.getTableName().matches(tableNamePattern))
                 results.add(table.getTableName());
         }
         return results;
@@ -235,7 +219,8 @@ public class CassandraHiveMetaStore implements RawStore {
 
     public List<String> getAllTables(String databaseName) throws MetaException
     {
-        return getTables(databaseName, SELECT_ALL_REGEX);
+        log.debug("in getAllTables");
+        return getTables(databaseName, StringUtils.EMPTY);
     }
     
     public void alterTable(String databaseName, String tableName, Table table)
@@ -638,9 +623,7 @@ public class CassandraHiveMetaStore implements RawStore {
     {
         // TODO Auto-generated method stub
 
-    }
-
-    private static final String SELECT_ALL_REGEX = "*";
+    }    
     
 
 

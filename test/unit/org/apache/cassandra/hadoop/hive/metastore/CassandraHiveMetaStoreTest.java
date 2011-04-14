@@ -54,7 +54,7 @@ public class CassandraHiveMetaStoreTest extends CleanupHelper {
     }
     
     @Test
-    public void testCreateDatabaseAndTable() throws Exception 
+    public void testCreateDeleteDatabaseAndTable() throws Exception 
     {
         CassandraHiveMetaStore metaStore = new CassandraHiveMetaStore();
         metaStore.setConf(buildConfiguration());
@@ -70,6 +70,13 @@ public class CassandraHiveMetaStoreTest extends CleanupHelper {
         
         Table foundTable = metaStore.getTable("db_name", "table_name");
         assertEquals(table, foundTable);
+        
+        assertEquals(1,metaStore.getAllDatabases().size());
+        assertEquals(1,metaStore.getAllTables("db_name").size());
+        
+        metaStore.dropTable("db_name", "table_name");
+        assertNull(metaStore.getTable("db_name", "table_name"));
+        assertEquals(0,metaStore.getAllTables("db_name").size());
     }
     
     private Configuration buildConfiguration() 

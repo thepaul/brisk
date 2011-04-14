@@ -161,7 +161,9 @@ public class MetaStorePersister
         {
             // FIXME generalize timestamp
             Deletion deletion = new Deletion(System.currentTimeMillis() * 1000);
-
+            SlicePredicate predicate = new SlicePredicate();
+            predicate.addToColumn_names(ByteBufferUtil.bytes(buildEntityColumnName(base)));
+            deletion.setPredicate(predicate);
             batchMutation.addDeletion(ByteBufferUtil.bytes(databaseName), 
                     Arrays.asList(cassandraClientHolder.getColumnFamily()), deletion);
 
