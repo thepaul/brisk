@@ -110,7 +110,7 @@ public class CassandraFileSystemTest extends CleanupHelper
         //Check block info
         BlockLocation[] info = fs.getFileBlockLocations(stat, 0, stat.getLen());
         assertEquals(1, info.length);
-        assertEquals(FBUtilities.getLocalAddress().getHostName()+":"+DatabaseDescriptor.getRpcPort(), info[0].getHosts()[0]);
+        assertEquals(FBUtilities.getLocalAddress().getHostName(), info[0].getHosts()[0]);
         
         //Check dir status
         stat = fs.getFileStatus(new Path("/mytestdir"));
