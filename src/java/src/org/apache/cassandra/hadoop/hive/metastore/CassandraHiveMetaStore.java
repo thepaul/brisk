@@ -336,6 +336,8 @@ public class CassandraHiveMetaStore implements RawStore {
     public Partition getPartition(String databaseName, String tableName, List<String> partitions)
             throws MetaException, NoSuchObjectException
     {
+        log.debug("in getPartition databaseName: {} tableName: {} partitions: {}",
+                new Object[]{databaseName, tableName, partitions});
         Partition partition = new Partition();
         partition.setDbName(databaseName);
         partition.setTableName(tableName);
@@ -362,14 +364,15 @@ public class CassandraHiveMetaStore implements RawStore {
     public List<String> listPartitionNames(String databaseName, String tableName, short max)
             throws MetaException
     {   
+        log.debug("in listPartitionNames: databaseName: {} tableName: {} max: {}",
+                new Object[]{databaseName, tableName, max});
         List<Partition> partitions = getPartitions(databaseName, tableName, max);
         List<String> results = new ArrayList<String>(partitions.size());
         if ( partitions == null )
             return results;
         for (Partition partition : partitions)
         {       
-            if ( partition.getValues() != null && partition.getValues().size() > 0 )
-                results.addAll(partition.getValues());
+            results.add(partition.getSd().getLocation());
         }
         return results;
     }

@@ -60,11 +60,10 @@ public class MetaStorePersister
         // FIXME turns out metaData is not needed anymore. Remove from sig.
         // TODO need to add ID field to column name lookup to avoid overwrites
         if ( log.isDebugEnabled() )
-            log.debug("in save with class: {} dbname: {}", base.getClass().getName(), databaseName);
+            log.debug("in save with class: {} dbname: {}", base, databaseName);
         serializer = new TSerializer();        
         BatchMutation batchMutation = new BatchMutation();
-        if ( log.isDebugEnabled() )
-            log.debug("class: {} dbname: {}", base.getClass().getName(), databaseName);
+
         try
         {
             batchMutation.addInsertion(ByteBufferUtil.bytes(databaseName), 
@@ -145,8 +144,7 @@ public class MetaStorePersister
             for (ColumnOrSuperColumn cosc : cols)
             {
                 TBase other = base.getClass().newInstance();
-                deserializer.deserialize(other, cosc.getColumn().getValue());
-                log.debug("adding result: {} from raw: {}", other, cosc);
+                deserializer.deserialize(other, cosc.getColumn().getValue());                
                 resultList.add(other);
             }             
         } 
