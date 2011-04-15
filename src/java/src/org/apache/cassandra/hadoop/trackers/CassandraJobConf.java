@@ -45,7 +45,7 @@ public class CassandraJobConf extends org.apache.hadoop.mapred.JobConf
         Set<InetAddress> seeds    = DatabaseDescriptor.getSeeds();
         
         InetAddress[] sortedSeeds = seeds.toArray(new InetAddress[]{});
-        Arrays.sort(sortedSeeds, new Comparator<InetAddress>(){
+       /* Arrays.sort(sortedSeeds, new Comparator<InetAddress>(){
 
             public int compare(InetAddress a, InetAddress b)
             {
@@ -69,14 +69,16 @@ public class CassandraJobConf extends org.apache.hadoop.mapred.JobConf
                 
                 return 0;
             }         
-        });
+        }); */
         
 
         //Pick a seed in the same DC as this node to be the job tracker
         for (InetAddress seed : sortedSeeds)           
-            if (DatabaseDescriptor.getEndpointSnitch().getDatacenter(seed).equals(localDC))               
+            if (DatabaseDescriptor.getEndpointSnitch().getDatacenter(seed).equals(localDC))
+            {
+                logger.info("Chose seed "+seed.getHostAddress()+" as jobtracker");
                 return seed;
-              
+            } 
         
         throw new RuntimeException("No seeds found in this DC: "+localDC);
     }   
