@@ -1,8 +1,6 @@
 package org.apache.cassandra.hadoop.hive.metastore;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import org.apache.cassandra.thrift.Cassandra;
 import org.apache.cassandra.thrift.CfDef;
@@ -90,6 +88,28 @@ public class CassandraHiveMetaStore implements RawStore {
         } catch (Exception e) {
             throw new CassandraHiveMetaStoreException("Could not create or validate existing schema", e);
         }
+        
+        
+        //Sleep a random amount of time to stagger ks creations on many nodes
+        try
+        {
+            Thread.sleep(new Random().nextInt(5000));
+        }
+        catch (InterruptedException e1)
+        {
+          
+        }
+        
+        //check again...
+        try {
+            client.set_keyspace(cassandraClientHolder.getKeyspaceName());
+            return;
+        } catch (InvalidRequestException ire) {
+           
+        } catch (Exception e) {
+            throw new CassandraHiveMetaStoreException("Could not create or validate existing schema", e);
+        }
+        
         CfDef cf = new CfDef(cassandraClientHolder.getKeyspaceName(), 
                 cassandraClientHolder.getColumnFamily());
         cf.setComparator_type("UTF8Type");
