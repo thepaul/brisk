@@ -1,6 +1,7 @@
 package org.apache.cassandra.hadoop.trackers;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -21,7 +22,8 @@ public class TrackerInitializer
     {
               
         //Are we a JobTracker?
-        if(CassandraJobConf.getJobTrackerNode().equals(FBUtilities.getLocalAddress()))
+        InetAddress jobTrackerAddr = CassandraJobConf.getJobTrackerNode();
+        if(jobTrackerAddr.equals(FBUtilities.getLocalAddress()))
         {
             Thread jobTrackerThread = getJobTrackerThread();
             jobTrackerThread.start();
@@ -34,6 +36,10 @@ public class TrackerInitializer
             {
                 throw new RuntimeException("JobTracker not started",e);
             }            
+        }
+        else
+        {
+            logger.info("We are not the job tracker: "+jobTrackerAddr+" vs "+FBUtilities.getLocalAddress());
         }
               
         
