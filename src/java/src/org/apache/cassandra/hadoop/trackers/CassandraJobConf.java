@@ -1,6 +1,8 @@
 package org.apache.cassandra.hadoop.trackers;
 
 import java.net.InetAddress;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Set;
 
 import org.apache.cassandra.config.DatabaseDescriptor;
@@ -32,37 +34,50 @@ public class CassandraJobConf extends org.apache.hadoop.mapred.JobConf
         return super.get(name);
     }
 
-    //Will pick a live seed to use as a job tracker in this local dc
+    //Will pick a seed to use as a job tracker in this local dc
+    //We can't check for live seeds because if this is a ec2 cluster
+    //the seeds might not be up yet :(
     public static InetAddress getJobTrackerNode()
-    {
-        
+    {       
         //Get this nodes local DC
         String localDC = DatabaseDescriptor.getEndpointSnitch().getDatacenter(FBUtilities.getLocalAddress());
         
-        Set<InetAddress> seeds     = DatabaseDescriptor.getSeeds();
-        Set<InetAddress> liveNodes = Gossiper.instance.getLiveMembers();
+        Set<InetAddress> seeds    = DatabaseDescriptor.getSeeds();
+        
+        InetAddress[] sortedSeeds = seeds.toArray(new InetAddress[]{});
+        Arrays.sort(sortedSeeds, new Comparator<InetAddress>(){
+
+            public int compare(InetAddress a, InetAddress b)
+            {
+                byte a1[] = a.getAddress();
+                byte b1[] = b.getAddress();
+                
+                if(a1.length < b1.length)
+                    return -1;
+                
+                if(a1.length > b1.length)
+                    return 1;
+                
+                for(int i=0; i<a1.length; i++)
+                {
+                    if(a1[i] < b1[i])
+                        return -1;
+                    
+                    if(a1[i] > b1[i])
+                        return 1;                   
+                }
+                
+                return 0;
+            }         
+        });
+        
 
         //Pick a seed in the same DC as this node to be the job tracker
-        for (InetAddress seed : seeds)           
-            if (liveNodes.contains(seed) && DatabaseDescriptor.getEndpointSnitch().getDatacenter(seed).equals(localDC))               
+        for (InetAddress seed : sortedSeeds)           
+            if (DatabaseDescriptor.getEndpointSnitch().getDatacenter(seed).equals(localDC))               
                 return seed;
+              
         
-        //Sleep a bit while gossip kicks in
-        try
-        {
-            Thread.sleep(5000);
-        }
-        catch (InterruptedException e)
-        {
-            throw new RuntimeException(e);
-        }
-        
-        liveNodes = Gossiper.instance.getLiveMembers();
-
-        for (InetAddress seed : seeds)           
-            if (liveNodes.contains(seed) && DatabaseDescriptor.getEndpointSnitch().getDatacenter(seed).equals(localDC))
-                return seed;
-        
-        throw new RuntimeException("No live seeds found in this DC: "+localDC);
+        throw new RuntimeException("No seeds found in this DC: "+localDC);
     }   
 }
