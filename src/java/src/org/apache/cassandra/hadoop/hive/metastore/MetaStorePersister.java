@@ -59,6 +59,8 @@ public class MetaStorePersister
     {
         // FIXME turns out metaData is not needed anymore. Remove from sig.
         // TODO need to add ID field to column name lookup to avoid overwrites
+        if ( log.isDebugEnabled() )
+            log.debug("in save with class: {} dbname: {}", base.getClass().getName(), databaseName);
         serializer = new TSerializer();        
         BatchMutation batchMutation = new BatchMutation();
         if ( log.isDebugEnabled() )
@@ -88,7 +90,7 @@ public class MetaStorePersister
         throws CassandraHiveMetaStoreException, NotFoundException
     {
         if ( log.isDebugEnabled() )
-            log.debug("class: {} dbname: {}", base.getClass().getName(), databaseName);
+            log.debug("in load with class: {} dbname: {}", base.getClass().getName(), databaseName);
         deserializer = new TDeserializer();        
         try 
         {
@@ -142,8 +144,9 @@ public class MetaStorePersister
             resultList = new ArrayList<TBase>(cols.size());
             for (ColumnOrSuperColumn cosc : cols)
             {
-                TBase other = base.deepCopy();
+                TBase other = base.getClass().newInstance();
                 deserializer.deserialize(other, cosc.getColumn().getValue());
+                log.debug("adding result: {} from raw: {}", other, cosc);
                 resultList.add(other);
             }             
         } 
@@ -161,7 +164,7 @@ public class MetaStorePersister
         serializer = new TSerializer();        
         BatchMutation batchMutation = new BatchMutation();
         if ( log.isDebugEnabled() )
-            log.debug("class: {} dbname: {}", base.getClass().getName(), databaseName);
+            log.debug("in remove with class: {} dbname: {}", base.getClass().getName(), databaseName);
         try
         {
             // FIXME generalize timestamp
@@ -227,7 +230,7 @@ public class MetaStorePersister
         if ( prefix != null && !prefix.isEmpty() ) 
             colName.append(prefix);
         SliceRange sliceRange = new SliceRange(ByteBufferUtil.bytes(colName.toString()), 
-                ByteBufferUtil.EMPTY_BYTE_BUFFER, false, count);
+                ByteBufferUtil.bytes(colName.append("|").toString()), false, count);
         if ( log.isDebugEnabled() )
             log.debug("Constructed columnName for slice: {}", colName);
         return sliceRange;

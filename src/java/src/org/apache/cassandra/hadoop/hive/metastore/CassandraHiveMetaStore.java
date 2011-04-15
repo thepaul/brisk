@@ -11,6 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hive.metastore.RawStore;
 import org.apache.hadoop.hive.metastore.api.Database;
+import org.apache.hadoop.hive.metastore.api.FieldSchema;
 import org.apache.hadoop.hive.metastore.api.Index;
 import org.apache.hadoop.hive.metastore.api.InvalidObjectException;
 import org.apache.hadoop.hive.metastore.api.MetaException;
@@ -195,6 +196,7 @@ public class CassandraHiveMetaStore implements RawStore {
     
     public void createTable(Table table) throws InvalidObjectException, MetaException
     {                   
+        
         metaStorePersister.save(table.metaDataMap, table, table.getDbName());        
     }
 
@@ -326,6 +328,7 @@ public class CassandraHiveMetaStore implements RawStore {
     public boolean addPartition(Partition partition) throws InvalidObjectException,
             MetaException
     {
+        log.debug("in addPartition with: {}", partition);
         metaStorePersister.save(partition.metaDataMap, partition, partition.getDbName());
         return true;
     }
@@ -348,7 +351,10 @@ public class CassandraHiveMetaStore implements RawStore {
     public List<Partition> getPartitions(String databaseName, String tableName, int max)
             throws MetaException
     {
-        List results = metaStorePersister.find(new Partition(), databaseName, null, max);
+        log.debug("in getPartitions: databaseName: {} tableName: {} max: {}",
+                new Object[]{databaseName, tableName, max});
+        
+        List results = metaStorePersister.find(new Partition(), databaseName, tableName, max);
         
         return (List<Partition>)results;
     }
@@ -469,28 +475,31 @@ public class CassandraHiveMetaStore implements RawStore {
         return null;
     }
 
-    @Override
-    public Partition getPartitionWithAuth(String arg0, String arg1,
-            List<String> arg2, String arg3, List<String> arg4)
+    public Partition getPartitionWithAuth(String databaseName, String tableName,
+            List<String> partVals, String userName, List<String> groupNames)
             throws MetaException, NoSuchObjectException, InvalidObjectException
     {
-        // TODO Auto-generated method stub
-        return null;
+        log.debug("in getPartitionWithAuth: databaseName: {} tableName: {} userName: {} groupNames: {}",
+                new Object[]{databaseName, tableName, userName, groupNames});
+        return getPartition(databaseName, tableName, partVals);
     }
-
+    
+    public List<Partition> getPartitionsWithAuth(String databaseName, String tableName,
+            short maxParts, String userName, List<String> groupNames) throws MetaException,
+            NoSuchObjectException, InvalidObjectException
+    {
+        log.debug("in getPartitionsWithAuth: databaseName: {} tableName: {} maxParts: {} userName: {}",
+                new Object[]{databaseName, tableName, maxParts, userName});
+        
+        List<Partition> partitions = getPartitions(databaseName, tableName, maxParts);
+        
+        return partitions;
+    }
+    
     @Override
     public List<Partition> getPartitionsByFilter(String databaseName, String tableName,
             String filter, short maxPartitions) throws MetaException,
             NoSuchObjectException
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<Partition> getPartitionsWithAuth(String arg0, String arg1,
-            short arg2, String arg3, List<String> arg4) throws MetaException,
-            NoSuchObjectException, InvalidObjectException
     {
         // TODO Auto-generated method stub
         return null;
