@@ -362,17 +362,11 @@ public class CassandraFileSystem extends FileSystem
 
         INode inode = ((CassandraFileStatus) file).inode;
 
-        long pos = 0;
         List<Block> usedBlocks = new ArrayList<Block>();
         for (Block block : inode.getBlocks())
         {
-            if (pos >= start)
+            if (block.offset >= start && block.offset < (start + len) )
                 usedBlocks.add(block);
-
-            pos += block.length;
-
-            if ((start + len) <= pos)
-                break;
         }
 
         return store.getBlockLocation(usedBlocks);
