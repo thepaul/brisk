@@ -17,7 +17,7 @@
  */
 package org.apache.cassandra.hadoop.fs;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.io.*;
 import java.net.URI;
@@ -111,6 +111,18 @@ public class CassandraFileSystemTest extends CleanupHelper
         BlockLocation[] info = fs.getFileBlockLocations(stat, 0, stat.getLen());
         assertEquals(1, info.length);
         assertEquals(FBUtilities.getLocalAddress().getHostName(), info[0].getHosts()[0]);
+        
+       
+        
+      
+        
+        info = fs.getFileBlockLocations(stat, 1, 10);
+        assertTrue(info.length == 1);
+        
+        info = fs.getFileBlockLocations(stat, 0, 200);
+        assertTrue(info.length == 1);
+        
+        
         
         //Check dir status
         stat = fs.getFileStatus(new Path("/mytestdir"));

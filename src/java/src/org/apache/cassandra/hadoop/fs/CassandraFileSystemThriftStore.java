@@ -387,10 +387,10 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         return "Cassandra FileSystem Thrift Store";
     }
 
-    public BlockLocation[] getBlockLocation(List<Block> blocks) throws IOException
+    public BlockLocation[] getBlockLocation(List<Block> blocks, long start, long len) throws IOException
     {
         if (blocks.isEmpty())
-            return new BlockLocation[0];
+            return null;
 
         List<ByteBuffer> blockKeys = new ArrayList<ByteBuffer>(blocks.size());
 
@@ -408,8 +408,10 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
                 List<String> endpoints = blockEndpoints.get(i);
                 Block b = blocks.get(i);
                 
+                long offset = (i == 0 && b.offset > start) ? start : b.offset;
+                            
                 // TODO: Add topology info if at all possible?
-                locations[i] = new BlockLocation(null, endpoints.toArray(new String[0]), b.offset, b.length);
+                locations[i] = new BlockLocation(null, endpoints.toArray(new String[0]), offset, b.length);
             }
 
             return locations;

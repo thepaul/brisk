@@ -357,19 +357,29 @@ public class CassandraFileSystem extends FileSystem
 
         if (file.getLen() < start)
         {
-            return new BlockLocation[0];
+            return null;
         }
 
         INode inode = ((CassandraFileStatus) file).inode;
 
+        long end = start+len;
+        
         List<Block> usedBlocks = new ArrayList<Block>();
         for (Block block : inode.getBlocks())
         {
-            if (block.offset >= start && block.offset < (start + len) )
+                      
+            //See if the two windows overlap
+            if ( ((start >= block.offset && start < (block.offset + block.length)) ||
+                  (end   >= block.offset && end   < (block.offset + block.length)))
+                  ||
+                  ((block.offset >= start && block.offset < end ) ||
+                  ((block.offset+block.length) >= start && (block.offset+block.length) < end )))
+            {               
                 usedBlocks.add(block);
+            }
         }
 
-        return store.getBlockLocation(usedBlocks);
+        return store.getBlockLocation(usedBlocks, start, len);
     }
 
     /**
