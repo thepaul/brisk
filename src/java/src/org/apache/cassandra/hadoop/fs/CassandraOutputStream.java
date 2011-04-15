@@ -52,7 +52,7 @@ public class CassandraOutputStream extends OutputStream
 
     private long                     filePos             = 0;
 
-    private int                      bytesWrittenToBlock = 0;
+    private long                     bytesWrittenToBlock = 0;
 
     private byte[]                   outBuf;
 
@@ -135,7 +135,7 @@ public class CassandraOutputStream extends OutputStream
 
         if (bytesWrittenToBlock + pos >= blockSize)
         {
-            flushData((int) blockSize - bytesWrittenToBlock);
+            flushData((int)( blockSize - bytesWrittenToBlock ));
         }
         if (bytesWrittenToBlock == blockSize)
         {
