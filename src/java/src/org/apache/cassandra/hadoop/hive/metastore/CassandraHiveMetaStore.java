@@ -358,9 +358,12 @@ public class CassandraHiveMetaStore implements RawStore {
     {   
         List<Partition> partitions = getPartitions(databaseName, tableName, max);
         List<String> results = new ArrayList<String>(partitions.size());
+        if ( partitions == null )
+            return results;
         for (Partition partition : partitions)
-        {
-            results.addAll(partition.getValues());
+        {       
+            if ( partition.getValues() != null && partition.getValues().size() > 0 )
+                results.addAll(partition.getValues());
         }
         return results;
     }

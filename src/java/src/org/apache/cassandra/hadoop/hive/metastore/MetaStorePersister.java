@@ -122,14 +122,19 @@ public class MetaStorePersister
         throws CassandraHiveMetaStoreException
     {
         if ( log.isDebugEnabled() )
-            log.debug("class: {} dbname: {}", base.getClass().getName(), databaseName);
+            log.debug("in find with class: {} dbname: {} prefix: {} and count: {}", 
+                    new Object[]{base.getClass().getName(), databaseName, prefix, count});
+        if ( count < 0 ) {
+            // TODO make this a config parameter.
+            count = 100;
+        }
         deserializer = new TDeserializer();
         
         List<TBase> resultList;
         try 
         {
             SlicePredicate predicate = new SlicePredicate();
-            predicate.setSlice_range(buildEntitySlicePrefix(base, prefix, count));
+            predicate.setSlice_range(buildEntitySlicePrefix(base, prefix, count));            
             List<ColumnOrSuperColumn> cols = cassandraClientHolder.getClient().get_slice(ByteBufferUtil.bytes(databaseName), 
                     new ColumnParent(cassandraClientHolder.getColumnFamily()), 
                     predicate, 
