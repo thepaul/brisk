@@ -254,8 +254,8 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
         {
             client = createConnection(endpoint, port, framed);
             breaker.success();
-            if(logger.isDebugEnabled())
-                logger.debug("Connected to cassandra at " + endpoint + ":" + port);
+            //if(logger.isDebugEnabled())
+                logger.info("Connected to cassandra at " + endpoint + ":" + port);
         }
         catch (IOException e)
         {

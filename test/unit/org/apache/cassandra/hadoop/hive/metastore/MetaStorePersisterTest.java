@@ -114,18 +114,34 @@ public class MetaStorePersisterTest extends CleanupHelper
     public void testEntityDeletion() throws Exception 
     {
         Database database = new Database();
-        database.setName("name");
+        database.setName("dbname");
         database.setDescription("description");
         database.setLocationUri("uri");
         database.setParameters(new HashMap<String, String>());
         metaStorePersister.save(database.metaDataMap, database, database.getName());
         
+        Table table = new Table();
+        table.setDbName("dbname");
+        table.setTableName("table_one");
+        metaStorePersister.save(table.metaDataMap, table, table.getDbName());
+        
         Database foundDb = new Database();
-        metaStorePersister.load(foundDb, "name");
+        metaStorePersister.load(foundDb, "dbname");
         assertEquals(database, foundDb);
-        metaStorePersister.remove(foundDb, "name");
+        Table foundTable = new Table();
+        foundTable.setDbName(table.getDbName());
+        foundTable.setTableName(table.getTableName());
+        
+        metaStorePersister.load(foundTable, "dbname");
+        
+        assertEquals(table, foundTable);
+        
+        metaStorePersister.remove(foundTable, "dbname");
+        metaStorePersister.remove(foundDb, "dbname");
         try {
-            metaStorePersister.load(foundDb, "name");
+            metaStorePersister.load(foundTable, "dbname");
+            fail();
+            metaStorePersister.load(foundDb, "dbname");
             fail();
         } 
         catch (NotFoundException e) 

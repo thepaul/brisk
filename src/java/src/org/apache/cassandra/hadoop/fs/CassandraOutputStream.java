@@ -24,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import org.apache.cassandra.utils.FBUtilities;
+import org.apache.cassandra.utils.UUIDGen;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.permission.FsPermission;
@@ -50,7 +52,7 @@ public class CassandraOutputStream extends OutputStream
 
     private long                     filePos             = 0;
 
-    private int                      bytesWrittenToBlock = 0;
+    private long                     bytesWrittenToBlock = 0;
 
     private byte[]                   outBuf;
 
@@ -133,7 +135,7 @@ public class CassandraOutputStream extends OutputStream
 
         if (bytesWrittenToBlock + pos >= blockSize)
         {
-            flushData((int) blockSize - bytesWrittenToBlock);
+            flushData((int)( blockSize - bytesWrittenToBlock ));
         }
         if (bytesWrittenToBlock == blockSize)
         {
@@ -178,8 +180,7 @@ public class CassandraOutputStream extends OutputStream
 
     private synchronized void nextBlockOutputStream() throws IOException
     {
-
-        nextBlock = new Block(UUID.randomUUID(), filePos - bytesWrittenToBlock, bytesWrittenToBlock);
+        nextBlock = new Block(UUIDGen.makeType1UUIDFromHost(FBUtilities.getLocalAddress()), filePos - bytesWrittenToBlock, bytesWrittenToBlock);
         blocks.add(nextBlock);
         bytesWrittenToBlock = 0;
     }

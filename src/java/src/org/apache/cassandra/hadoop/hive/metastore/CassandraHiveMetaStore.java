@@ -1,32 +1,15 @@
 package org.apache.cassandra.hadoop.hive.metastore;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import org.apache.cassandra.config.KSMetaData;
-import org.apache.cassandra.db.marshal.UTF8Type;
-import org.apache.cassandra.hadoop.CassandraProxyClient;
 import org.apache.cassandra.thrift.Cassandra;
 import org.apache.cassandra.thrift.CfDef;
-import org.apache.cassandra.thrift.Column;
-import org.apache.cassandra.thrift.ColumnOrSuperColumn;
-import org.apache.cassandra.thrift.ColumnParent;
-import org.apache.cassandra.thrift.ConsistencyLevel;
 import org.apache.cassandra.thrift.InvalidRequestException;
 import org.apache.cassandra.thrift.KsDef;
-import org.apache.cassandra.thrift.Mutation;
 import org.apache.cassandra.thrift.NotFoundException;
-import org.apache.cassandra.thrift.SlicePredicate;
-import org.apache.cassandra.thrift.SliceRange;
-import org.apache.cassandra.utils.ByteBufferUtil;
+import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hive.metastore.RawStore;
-import org.apache.hadoop.hive.metastore.Warehouse;
 import org.apache.hadoop.hive.metastore.api.Database;
 import org.apache.hadoop.hive.metastore.api.FieldSchema;
 import org.apache.hadoop.hive.metastore.api.Index;
@@ -106,6 +89,28 @@ public class CassandraHiveMetaStore implements RawStore {
         } catch (Exception e) {
             throw new CassandraHiveMetaStoreException("Could not create or validate existing schema", e);
         }
+        
+        
+        //Sleep a random amount of time to stagger ks creations on many nodes
+        try
+        {
+            Thread.sleep(new Random().nextInt(5000));
+        }
+        catch (InterruptedException e1)
+        {
+          
+        }
+        
+        //check again...
+        try {
+            client.set_keyspace(cassandraClientHolder.getKeyspaceName());
+            return;
+        } catch (InvalidRequestException ire) {
+           
+        } catch (Exception e) {
+            throw new CassandraHiveMetaStoreException("Could not create or validate existing schema", e);
+        }
+        
         CfDef cf = new CfDef(cassandraClientHolder.getKeyspaceName(), 
                 cassandraClientHolder.getColumnFamily());
         cf.setComparator_type("UTF8Type");
@@ -154,7 +159,7 @@ public class CassandraHiveMetaStore implements RawStore {
         for (TBase tBase : databases)
         {
             Database db = (Database)tBase;
-            if ( databaseNamePattern != null && !databaseNamePattern.isEmpty() && db.getName().matches(databaseNamePattern) )
+            if ( StringUtils.isEmpty(databaseNamePattern) || db.getName().matches(databaseNamePattern) )
                 results.add(db.getName());            
         }
         return results;
@@ -185,12 +190,13 @@ public class CassandraHiveMetaStore implements RawStore {
 
     public List<String> getAllDatabases() throws MetaException
     {
-        return getDatabases(SELECT_ALL_REGEX);
+        return getDatabases(StringUtils.EMPTY);
     }
 
     
     public void createTable(Table table) throws InvalidObjectException, MetaException
     {                   
+        
         metaStorePersister.save(table.metaDataMap, table, table.getDbName());        
     }
 
@@ -227,7 +233,7 @@ public class CassandraHiveMetaStore implements RawStore {
         for (TBase tBase : tables)
         {
             Table table = (Table)tBase;
-            if ( table.getTableName().matches(tableNamePattern))
+            if ( StringUtils.isEmpty(tableNamePattern) || table.getTableName().matches(tableNamePattern))
                 results.add(table.getTableName());
         }
         return results;
@@ -235,7 +241,8 @@ public class CassandraHiveMetaStore implements RawStore {
 
     public List<String> getAllTables(String databaseName) throws MetaException
     {
-        return getTables(databaseName, SELECT_ALL_REGEX);
+        log.debug("in getAllTables");
+        return getTables(databaseName, StringUtils.EMPTY);
     }
     
     public void alterTable(String databaseName, String tableName, Table table)
@@ -321,6 +328,7 @@ public class CassandraHiveMetaStore implements RawStore {
     public boolean addPartition(Partition partition) throws InvalidObjectException,
             MetaException
     {
+        log.debug("in addPartition with: {}", partition);
         metaStorePersister.save(partition.metaDataMap, partition, partition.getDbName());
         return true;
     }
@@ -343,7 +351,10 @@ public class CassandraHiveMetaStore implements RawStore {
     public List<Partition> getPartitions(String databaseName, String tableName, int max)
             throws MetaException
     {
-        List results = metaStorePersister.find(new Partition(), databaseName, null, max);
+        log.debug("in getPartitions: databaseName: {} tableName: {} max: {}",
+                new Object[]{databaseName, tableName, max});
+        
+        List results = metaStorePersister.find(new Partition(), databaseName, tableName, max);
         
         return (List<Partition>)results;
     }
@@ -353,9 +364,12 @@ public class CassandraHiveMetaStore implements RawStore {
     {   
         List<Partition> partitions = getPartitions(databaseName, tableName, max);
         List<String> results = new ArrayList<String>(partitions.size());
+        if ( partitions == null )
+            return results;
         for (Partition partition : partitions)
-        {
-            results.addAll(partition.getValues());
+        {       
+            if ( partition.getValues() != null && partition.getValues().size() > 0 )
+                results.addAll(partition.getValues());
         }
         return results;
     }
@@ -461,28 +475,31 @@ public class CassandraHiveMetaStore implements RawStore {
         return null;
     }
 
-    @Override
-    public Partition getPartitionWithAuth(String arg0, String arg1,
-            List<String> arg2, String arg3, List<String> arg4)
+    public Partition getPartitionWithAuth(String databaseName, String tableName,
+            List<String> partVals, String userName, List<String> groupNames)
             throws MetaException, NoSuchObjectException, InvalidObjectException
     {
-        // TODO Auto-generated method stub
-        return null;
+        log.debug("in getPartitionWithAuth: databaseName: {} tableName: {} userName: {} groupNames: {}",
+                new Object[]{databaseName, tableName, userName, groupNames});
+        return getPartition(databaseName, tableName, partVals);
     }
-
+    
+    public List<Partition> getPartitionsWithAuth(String databaseName, String tableName,
+            short maxParts, String userName, List<String> groupNames) throws MetaException,
+            NoSuchObjectException, InvalidObjectException
+    {
+        log.debug("in getPartitionsWithAuth: databaseName: {} tableName: {} maxParts: {} userName: {}",
+                new Object[]{databaseName, tableName, maxParts, userName});
+        
+        List<Partition> partitions = getPartitions(databaseName, tableName, maxParts);
+        
+        return partitions;
+    }
+    
     @Override
     public List<Partition> getPartitionsByFilter(String databaseName, String tableName,
             String filter, short maxPartitions) throws MetaException,
             NoSuchObjectException
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<Partition> getPartitionsWithAuth(String arg0, String arg1,
-            short arg2, String arg3, List<String> arg4) throws MetaException,
-            NoSuchObjectException, InvalidObjectException
     {
         // TODO Auto-generated method stub
         return null;
@@ -638,9 +655,7 @@ public class CassandraHiveMetaStore implements RawStore {
     {
         // TODO Auto-generated method stub
 
-    }
-
-    private static final String SELECT_ALL_REGEX = "*";
+    }    
     
 
 

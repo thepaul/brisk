@@ -54,5 +54,5 @@ public interface CassandraFileSystemStore
 
     Set<Path> listDeepSubPaths(Path path) throws IOException;
 
-    BlockLocation[] getBlockLocation(List<Block> usedBlocks) throws IOException;
+    BlockLocation[] getBlockLocation(List<Block> usedBlocks, long start, long len) throws IOException;
 }
