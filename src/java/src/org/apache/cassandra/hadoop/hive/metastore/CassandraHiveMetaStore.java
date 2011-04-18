@@ -165,16 +165,30 @@ public class CassandraHiveMetaStore implements RawStore {
         return results;
     }    
     
-    public boolean alterDatabase(String databaseName, Database database)
+    public boolean alterDatabase(String oldDatabaseName, Database database)
             throws NoSuchObjectException, MetaException
     {
         try 
         {
             createDatabase(database);
+            // getAllTables            
+            // getPartitions
+            // getIndexes
+            // 
+            // ... for each:
+            // createTable
+            // addPartition
+            // addIndex
+            //
+            // ... for each
+            // dropIndex
+            // dropPartition
+            // dropTable
+            // dropDatabase(oldDatabaseName);
         } 
         catch (InvalidObjectException e) 
         {
-            throw new CassandraHiveMetaStoreException("Error attempting to alter database: " + databaseName, e);
+            throw new CassandraHiveMetaStoreException("Error attempting to alter database: " + oldDatabaseName, e);
         }        
         return true;
     }
@@ -245,13 +259,14 @@ public class CassandraHiveMetaStore implements RawStore {
         return getTables(databaseName, StringUtils.EMPTY);
     }
     
-    public void alterTable(String databaseName, String tableName, Table table)
+    public void alterTable(String databaseName, String oldTableName, Table table)
             throws InvalidObjectException, MetaException
     {
         if ( log.isDebugEnabled() ) 
-            log.debug("Altering table {} on datbase: {} Table: {}",
-                    new Object[]{tableName, databaseName, table});
+            log.debug("Altering oldTableName {} on datbase: {} new Table: {}",
+                    new Object[]{oldTableName, databaseName, table});
         createTable(table);
+        dropTable(databaseName, oldTableName);
     }   
     
     public boolean dropTable(String databaseName, String tableName) throws MetaException

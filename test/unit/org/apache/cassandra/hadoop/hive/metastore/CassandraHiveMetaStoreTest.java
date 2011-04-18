@@ -15,6 +15,7 @@ import org.apache.hadoop.hive.metastore.api.Database;
 import org.apache.hadoop.hive.metastore.api.Table;
 import org.apache.thrift.transport.TTransportException;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -100,6 +101,53 @@ public class CassandraHiveMetaStoreTest extends CleanupHelper {
         partitionNames = metaStore.listPartitionNames("db_name", "table_name", (short) -1);
         assertEquals(0, partitionNames.size());
     }
+    
+    @Test
+    public void testAlterTable() throws Exception 
+    {
+        CassandraHiveMetaStore metaStore = new CassandraHiveMetaStore();
+        metaStore.setConf(buildConfiguration());
+        
+        Table table = new Table();
+        table.setDbName("alter_table_db_name");
+        table.setTableName("orig_table_name");
+        metaStore.createTable(table);
+        
+        Table foundTable = metaStore.getTable("alter_table_db_name", "orig_table_name");
+        assertEquals(table, foundTable);
+        
+        Table altered = new Table();
+        altered.setDbName("alter_table_db_name");
+        altered.setTableName("new_table_name");
+               
+        metaStore.alterTable("alter_table_db_name", "orig_table_name", altered);
+        assertEquals(1,metaStore.getAllTables("alter_table_db_name").size());
+        
+    }
+    
+    @Test
+    @Ignore
+    public void testDatabaseTable() throws Exception 
+    {
+        CassandraHiveMetaStore metaStore = new CassandraHiveMetaStore();
+        metaStore.setConf(buildConfiguration());
+        Database database = new Database("alter_db_db_name", "My Database", "file:///tmp/", new HashMap<String, String>());
+        metaStore.createDatabase(database);
+        
+        Table table = new Table();
+        table.setDbName("alter_db_db_name");
+        table.setTableName("table_name");
+        metaStore.createTable(table);
+        
+        Table foundTable = metaStore.getTable("alter_db_db_name", "table_name");
+        assertEquals(table, foundTable);
+        Database altered = new Database("alter_db_db_name2", "My Database", "file:///tmp/", new HashMap<String, String>());
+        metaStore.alterDatabase("alter_db_db_name", altered);
+        
+        assertEquals(1,metaStore.getAllTables("alter_db_db_name2").size());
+        
+    }
+    
     
     private Configuration buildConfiguration() 
     {
