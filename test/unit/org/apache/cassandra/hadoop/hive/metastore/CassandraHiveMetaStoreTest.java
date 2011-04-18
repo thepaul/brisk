@@ -3,6 +3,7 @@ package org.apache.cassandra.hadoop.hive.metastore;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.apache.cassandra.config.ConfigurationException;
 import org.apache.cassandra.config.DatabaseDescriptor;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hive.metastore.api.Database;
+import org.apache.hadoop.hive.metastore.api.Partition;
 import org.apache.hadoop.hive.metastore.api.Table;
 import org.apache.thrift.transport.TTransportException;
 import org.junit.BeforeClass;
@@ -126,8 +128,7 @@ public class CassandraHiveMetaStoreTest extends CleanupHelper {
     }
     
     @Test
-    @Ignore
-    public void testDatabaseTable() throws Exception 
+    public void testAlterDatabaseTable() throws Exception 
     {
         CassandraHiveMetaStore metaStore = new CassandraHiveMetaStore();
         metaStore.setConf(buildConfiguration());
@@ -146,6 +147,36 @@ public class CassandraHiveMetaStoreTest extends CleanupHelper {
         
         assertEquals(1,metaStore.getAllTables("alter_db_db_name2").size());
         
+    }
+    
+    @Test
+    public void testAddParition() throws Exception 
+    {
+        CassandraHiveMetaStore metaStore = new CassandraHiveMetaStore();
+        metaStore.setConf(buildConfiguration());
+        Database database = new Database("alter_part_db", "My Database", "file:///tmp/", new HashMap<String, String>());
+        metaStore.createDatabase(database);
+        Database foundDatabase = metaStore.getDatabase("alter_part_db");
+        assertEquals(database, foundDatabase);
+        
+        Table table = new Table();
+        table.setDbName("alter_part_db");
+        table.setTableName("table_name");
+        metaStore.createTable(table);
+        
+        Partition part = new Partition();        
+        part.setDbName("alter_part_db");
+        part.setTableName("table_name");
+        List<String> partValues = new ArrayList<String>();
+        partValues.add("cassandra://localhost:9160/user/hive/warehouse/mydb.db/invites/ds=2008-08-08");
+        partValues.add("cassandra://localhost:9160/user/hive/warehouse/mydb.db/invites/ds=2008-08-15");
+        part.setValues(partValues);
+        metaStore.addPartition(part);
+
+        
+        Partition foundPartition = metaStore.getPartition("alter_part_db", "table_name", partValues);
+        assertEquals(part,foundPartition);
+
     }
     
     
