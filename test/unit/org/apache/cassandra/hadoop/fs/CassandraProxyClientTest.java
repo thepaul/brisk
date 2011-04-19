@@ -31,30 +31,32 @@ public class CassandraProxyClientTest
         }
 
     }
-    
+
     @Test
     public void testReconnect() throws Exception
     {
 
-        
+
         EmbeddedBriskErrorServer.startBrisk();
 
         Brisk.Iface client = CassandraProxyClient.newProxyConnection("localhost", DatabaseDescriptor.getRpcPort(), true, true);
         List<KsDef> ks = client.describe_keyspaces();
+
+        System.out.println("keyspace size: " + ks.size());
+        for (KsDef thisks : ks) {
+        	System.out.println("Keyspace " + thisks.name + " " + thisks.toString());
+        }
 
         assertTrue(ks.size() > 0);
 
         try
         {
             client.get(ByteBufferUtil.EMPTY_BYTE_BUFFER, new ColumnPath("test"), ConsistencyLevel.ALL);
-        }catch(TimedOutException e)
-        {
-            
-        }
-        
-        assertEquals(11, client.get_count(ByteBufferUtil.EMPTY_BYTE_BUFFER, new ColumnParent("test"), new SlicePredicate(), ConsistencyLevel.ALL));
-        
+        }catch(TimedOutException e) {
 
+        }
+
+        assertEquals(11, client.get_count(ByteBufferUtil.EMPTY_BYTE_BUFFER, new ColumnParent("test"), new SlicePredicate(), ConsistencyLevel.ALL));
     }
 
 }
