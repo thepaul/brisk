@@ -8,7 +8,7 @@ opsConfPath = ''
 
 clusterName = ''
 clusterList = ''
-clusterSize = 1
+clusterSize = False
 autoBootstrap = False
 internalIP = ''
 tokenPosition = -1
@@ -18,11 +18,19 @@ DEBUG = False
 def promptUserInfo():
     global clusterName, clusterList, clusterSize, autoBootstrap, internalIP, tokenPosition
     clusterName = raw_input("Cluster name:\n")
+    
     clusterList = raw_input("Cluster list (comma-delimited):\n")
-    clusterSize = raw_input("Current cluster size:\n")
+    clusterList = clusterList.replace(' ', '')
+    clusterList = clusterList.split(',')
+
+    while (not type(i) is int):
+        clusterSize = raw_input("Current cluster size:\n")
+
     while (not autoBootstrap == 'y') or (not autoBootstrap == 'n'):
-        autoBootstrap = raw_input("Is this node being autoBootStrapped? [y/n]\n")
+        autoBootstrap = raw_input("Is this node being autoBootStrapped? [y/n]\n").strip()
+    
     internalIP = raw_input("This node's internal IP address:\n")
+    
     while (tokenPosition < 0) or (tokenPosition >= clusterSize):
         tokenPosition = raw_input("This node's token position:\n")
 
