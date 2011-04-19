@@ -3,9 +3,9 @@
 import re
 from optparse import OptionParser
 
-confPath = ''
-hconfPath = ''
-opsConfPath = ''
+confPath = 'resources/cassandra/conf/'
+hconfPath = 'resources/hadoop/conf/'
+opsConfPath = '/etc/opscenter/'
 
 clusterName = ''
 clusterList = ''
@@ -133,22 +133,26 @@ def configureMapredSiteXML():
     print '[INFO] mapred-site.xml configured.'
     
 def configureOpsCenterConf():
-    with open(opsConfPath + 'opscenterd.conf', 'r') as f:
-        opsConf = f.read()
+    try:
+        with open(opsConfPath + 'opscenterd.conf', 'r') as f:
+            opsConf = f.read()
+            
+        opsConf = opsConf.replace('interface = 127.0.0.1', 'interface = 0.0.0.0')
+        opsConf = opsConf.replace('seed_hosts = localhost', 'seed_hosts = ' + clusterList[0])
         
-    opsConf = opsConf.replace('interface = 127.0.0.1', 'interface = 0.0.0.0')
-    opsConf = opsConf.replace('seed_hosts = localhost', 'seed_hosts = ' + clusterList[0])
-    
-    with open(opsConfPath + 'opscenterd.conf', 'w') as f:
-        f.write(opsConf)
-        
-    print '[INFO] opscenterd.conf configured.'
+        with open(opsConfPath + 'opscenterd.conf', 'w') as f:
+            f.write(opsConf)
+            
+        print '[INFO] opscenterd.conf configured.'
+    except:
+        print '[INFO] opscenterd.conf not configured.'
+
 
 
 
 if not commandLineSwitches():
     promptUserInfo()
-    
+
 configureCassandraYaml()
 configureMapredSiteXML()
 configureOpsCenterConf()
