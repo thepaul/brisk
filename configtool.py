@@ -50,12 +50,30 @@ def promptUserInfo():
 
 def commandLineSwitches():
     parser = OptionParser()
-    parser.add_option("-b", "--branch", action="store", type="string", dest="branch", help="help!")
+    parser.add_option("-n", "--clusterName", action="store", type="string", dest="clusterName", help="help!")
+    parser.add_option("-l", "--clusterList", action="store", type="string", dest="clusterList", help="help!")
+    parser.add_option("-s", "--clusterSize", action="store", type="string", dest="clusterSize", help="help!")
+    parser.add_option("-a", "--autoBootstrap", action="store", type="string", dest="autoBootstrap", help="help!")
+    parser.add_option("-i", "--internalIP", action="store", type="string", dest="internalIP", help="help!")
+    parser.add_option("-t", "--tokenPosition", action="store", type="string", dest="tokenPosition", help="help!")
 
     (options, args) = parser.parse_args()
-
-    print options
-
+    if options:
+        if options.clusterName:
+            clusterName = options.clusterName
+        if options.clusterList:
+            clusterList = options.clusterList
+        if options.clusterSize:
+            clusterSize = options.clusterSize
+        if options.autoBootstrap:
+            autoBootstrap = options.autoBootstrap
+        if options.internalIP:
+            internalIP = options.internalIP
+        if options.tokenPosition:
+            tokenPosition = options.tokenPosition
+        return True
+    else:
+        return False
 
 def configureCassandraYaml():
     with open(confPath + 'cassandra.yaml', 'r') as f:
@@ -128,5 +146,9 @@ def configureOpsCenterConf():
 
 
 
-commandLineSwitches()
-promptUserInfo()
+if not commandLineSwitches():
+    promptUserInfo()
+    
+configureCassandraYaml()
+configureMapredSiteXML()
+configureOpsCenterConf()
