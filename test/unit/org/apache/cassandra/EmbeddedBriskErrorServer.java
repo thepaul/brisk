@@ -5,13 +5,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
-
 public class EmbeddedBriskErrorServer
 {
     protected static BriskErrorDaemon daemon = null;
-    
+
     static ExecutorService executor = Executors.newSingleThreadExecutor();
-    
+
     public static void startBrisk() throws IOException
 
     {
@@ -20,7 +19,7 @@ public class EmbeddedBriskErrorServer
             public void run()
             {
                 daemon = new BriskErrorDaemon();
-               
+
                 daemon.activate();
             }
         });
@@ -33,7 +32,7 @@ public class EmbeddedBriskErrorServer
             throw new AssertionError(e);
         }
     }
-    
+
     public static void stopBrisk() throws Exception
     {
         if (daemon != null)
