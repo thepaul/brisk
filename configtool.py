@@ -30,9 +30,13 @@ def promptUserInfo():
         except:
             print "Please enter a valid number."
 
-    while not (autoBootstrap == "y" or autoBootstrap == 'n'):
+    while not (autoBootstrap == 'y' or autoBootstrap == 'n'):
         autoBootstrap = raw_input("Is this node being autoBootStrapped? [y/n]\n").strip()
-    
+    if autoBootstrap == 'y':
+        autoBootstrap = 'true'
+    else:
+        autoBootstrap = 'false'
+
     internalIP = raw_input("This node's internal IP address:\n")
     
     while (tokenPosition < 0) or (tokenPosition >= clusterSize):
@@ -49,6 +53,8 @@ def configureCassandraYaml():
     # Set auto_bootstrap to true if expanding
     if autoBootstrap:
         yaml = yaml.replace('auto_bootstrap: false', 'auto_bootstrap: true')
+    else:
+        yaml = yaml.replace('auto_bootstrap: true', 'auto_bootstrap: false')
 
     # Create the seed list
     seedsYaml = ''
