@@ -30,7 +30,7 @@ def promptUserInfo():
         except:
             print "Please enter a valid number."
 
-    while (not autoBootstrap == 'y') or (not autoBootstrap == 'n'):
+    while (not autoBootstrap == "y") or (not autoBootstrap == 'n'):
         autoBootstrap = raw_input("Is this node being autoBootStrapped? [y/n]\n").strip()
     
     internalIP = raw_input("This node's internal IP address:\n")
