@@ -49,6 +49,7 @@ def promptUserInfo():
             print "Please enter a valid number."
 
 def commandLineSwitches():
+    global clusterName, clusterList, clusterSize, autoBootstrap, internalIP, tokenPosition
     parser = OptionParser()
     parser.add_option("-n", "--clusterName", action="store", type="string", dest="clusterName", help="help!")
     parser.add_option("-l", "--clusterList", action="store", type="string", dest="clusterList", help="help!")
