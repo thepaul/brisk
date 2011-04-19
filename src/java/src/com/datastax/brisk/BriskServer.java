@@ -51,6 +51,8 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
             
             for (String hostName : hosts)
             {
+                logger.info("Block "+blockId+" lives on "+hostName);
+                
                 if (hostName.equals(callerHostName) && hostName.equals(FBUtilities.getLocalAddress().getHostName()))
                 {
                     isLocal = true;            

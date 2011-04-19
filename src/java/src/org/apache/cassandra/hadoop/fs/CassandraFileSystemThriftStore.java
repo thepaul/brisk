@@ -95,7 +95,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         if(conf instanceof CassandraJobConf)
             client = new BriskInternalServer();
         else
-            client = CassandraProxyClient.newProxyConnection(host, port, true, true);
+            client = CassandraProxyClient.newProxyConnection(host, port, true, false);
         
         KsDef ks = checkKeyspace();
 
