@@ -26,6 +26,7 @@ import java.nio.ByteBuffer;
 import java.util.*;
 
 import com.datastax.brisk.BriskInternalServer;
+import com.datastax.brisk.BriskConf;
 
 import org.apache.cassandra.hadoop.CassandraProxyClient;
 import org.apache.cassandra.hadoop.trackers.CassandraJobConf;
@@ -64,7 +65,9 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
     private static final ByteBuffer     sentinelValue    = ByteBufferUtil.bytes("x");
 
-    private ConsistencyLevel            consistencyLevel = ConsistencyLevel.QUORUM;   // default
+    private ConsistencyLevel            consistencyLevelRead;
+
+    private ConsistencyLevel            consistencyLevelWrite;
 
     private Cassandra.Iface       client;
 
@@ -95,10 +98,8 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
         if (ks == null)
             ks = createKeySpace();
-
-        // Change consistency if this using NTS
-        if (ks.getStrategy_class().contains("NetworkTopologyStrategy"))
-            consistencyLevel = ConsistencyLevel.LOCAL_QUORUM;
+        
+        initConsistencyLevels(ks);
 
         try
         {
@@ -108,10 +109,31 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         {
             throw new IOException(e);
         }
-
     }
 
-    private KsDef checkKeyspace() throws IOException
+    /**
+     * Initialize the consistency levels for reads and writes.
+     * @param ks Keyspace definition
+     */
+    private void initConsistencyLevels(KsDef ks) {
+        consistencyLevelRead = BriskConf.getConsistencyLevelRead();
+        consistencyLevelWrite = BriskConf.getConsistencyLevelWrite();
+
+        // Change consistency if this using NTS
+        if (ks.getStrategy_class().contains("NetworkTopologyStrategy"))
+        {
+            if (consistencyLevelRead.equals(ConsistencyLevel.QUORUM)) 
+            {
+                consistencyLevelRead = ConsistencyLevel.LOCAL_QUORUM;
+            }
+            if (consistencyLevelWrite.equals(ConsistencyLevel.QUORUM)) 
+            {
+                consistencyLevelWrite = ConsistencyLevel.LOCAL_QUORUM;
+            }
+        }
+    }
+
+	private KsDef checkKeyspace() throws IOException
     {
         try
         {
@@ -192,7 +214,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
         try
         {
-            blockData = client.get(blockId, blockDataPath, consistencyLevel);
+            blockData = client.get(blockId, blockDataPath, consistencyLevelRead);
         }
         catch (Exception e)
         {
@@ -216,7 +238,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
         try
         {
-            pathInfo = client.get(pathKey, inodeDataPath, consistencyLevel);
+            pathInfo = client.get(pathKey, inodeDataPath, consistencyLevelRead);
         }
         catch (NotFoundException e)
         {
@@ -239,7 +261,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         try
         {
             client.insert(blockId, blockParent, new Column(dataCol, data, System.currentTimeMillis()),
-                            consistencyLevel);
+                            consistencyLevelWrite);
         }
         catch (Exception e)
         {
@@ -279,7 +301,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
         try
         {
-            client.batch_mutate(mutationMap, consistencyLevel);
+            client.batch_mutate(mutationMap, consistencyLevelWrite);
         }
         catch (Exception e)
         {
@@ -304,7 +326,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         try
         {
             client.remove(ByteBuffer.wrap(UUIDGen.decompose(block.id)), blockPath, System.currentTimeMillis(),
-                    consistencyLevel);
+                    consistencyLevelWrite);
         }
         catch (Exception e)
         {
@@ -317,7 +339,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
     {
         try
         {
-            client.remove(getPathKey(path), inodePath, System.currentTimeMillis(), consistencyLevel);
+            client.remove(getPathKey(path), inodePath, System.currentTimeMillis(), consistencyLevelWrite);
         }
         catch (Exception e)
         {
@@ -346,7 +368,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         try
         {
             List<KeySlice> keys = client.get_indexed_slices(inodeParent, new IndexClause(indexExpressions,
-                    ByteBufferUtil.EMPTY_BYTE_BUFFER, 100000), pathPredicate, consistencyLevel);
+                    ByteBufferUtil.EMPTY_BYTE_BUFFER, 100000), pathPredicate, consistencyLevelWrite);
 
             Set<Path> matches = new HashSet<Path>(keys.size());
 
