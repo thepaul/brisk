@@ -2,26 +2,44 @@
 
 import re
 
-clusterlist = ""
+confPath = ''
+hconfPath = ''
+opsConfPath = ''
 
-def constructYaml():
+clusterName = ''
+clusterList = ''
+clusterSize = 1
+autoBootstrap = False
+internalIP = ''
+tokenPosition = -1
+
+DEBUG = False
+
+def promptUserInfo():
+    global clusterName, clusterList, clusterSize, autoBootstrap, internalIP, tokenPosition
+    clusterName = raw_input("Cluster name:\n")
+    clusterList = raw_input("Cluster list (comma-delimited):\n")
+    clusterSize = raw_input("Current cluster size:\n")
+    while (not autoBootstrap == 'y') or (not autoBootstrap == 'n'):
+        autoBootstrap = raw_input("Is this node being autoBootStrapped? [y/n]\n")
+    internalIP = raw_input("This node's internal IP address:\n")
+    while (tokenPosition < 0) or (tokenPosition >= clusterSize):
+        tokenPosition = raw_input("This node's token position:\n")
+
+def configureCassandraYaml():
     with open(confPath + 'cassandra.yaml', 'r') as f:
         yaml = f.read()
 
     # Set auto_bootstrap to true if expanding
-    if options and options.expand:
+    if autoBootstrap:
         yaml = yaml.replace('auto_bootstrap: false', 'auto_bootstrap: true')
 
     # Create the seed list
-    if len(clusterlist) > 0:
-        print "[INFO] Using a list of seeds"
-        seedsYaml = ''
-        for ip in clusterlist:
-            seedsYaml += '     - ' + ip + '\n'
+    seedsYaml = ''
+    for ip in clusterList:
+        seedsYaml += '     - ' + ip + '\n'
+    if DEBUG:
         print "[DEBUG] seedsYaml: " + seedsYaml
-    else:
-        print "[INFO] Using a single seed"
-        seedsYaml = '     - ' + clusterseed + '\n'
     
     # Set seeds
     p = re.compile('seeds:(\s*-.*)*\s*#')
@@ -29,27 +47,22 @@ def constructYaml():
     
     # Set listen_address
     p = re.compile('listen_address:.*\s*#')
-    yaml = p.sub('listen_address: ' + internalip + '\n\n#', yaml)
+    yaml = p.sub('listen_address: ' + internalIP + '\n\n#', yaml)
     
     # Set rpc_address
     yaml = yaml.replace('rpc_address: localhost', 'rpc_address: 0.0.0.0')
     
     # Set cluster_name to reservationid
-    yaml = yaml.replace("cluster_name: 'Test Cluster'", "cluster_name: '" + reservationid + "'")
+    yaml = yaml.replace("cluster_name: 'Test Cluster'", "cluster_name: '" + clusterName + "'")
     
     # Construct token for an equally split ring
-    if options and options.clustersize:
-        # Check for user error in generating tokens
-        if (launchindex < options.clustersize):
-            token = launchindex * (2**127 / int(options.clustersize))
-        else:
-            # If user error is less than 2x the cluster size add another pass around the ring by splitting the ranges in half
-            token = (launchindex % options.clustersize) * (2**127 / int(options.clustersize)) + ((2**127 / int(options.clustersize)) / 2)
+    if clusterSize:
+        token = tokenPosition * (2**127 / int(clusterSize))
         p = re.compile( 'initial_token:(\s)*#')
         yaml = p.sub( 'initial_token: ' + str(token) + "\n\n#", yaml)
     
-    # Brisk
-    if options and options.clustersize and options.vanillanodes:
+    # Brisk: Set to use different datacenters
+    if options and options.clusterSize and options.vanillanodes:
         yaml = yaml.replace('endpoint_snitch: org.apache.cassandra.locator.SimpleSnitch', 'endpoint_snitch: org.apache.cassandra.locator.PropertyFileSnitch')
     
     with open(confPath + 'cassandra.yaml', 'w') as f:
@@ -57,24 +70,30 @@ def constructYaml():
     
     print '[INFO] cassandra.yaml configured.'
     
+def configureMapredSiteXML():
     with open(hconfPath + 'mapred-site.xml', 'r') as f:
         mapredSite = f.read()
 
-    mapredSite = mapredSite.replace('<value>localhost:8012</value>', '<value>' + clusterseed + ':8012</value>')
+    mapredSite = mapredSite.replace('<value>localhost:8012</value>', '<value>' + clusterList[0] + ':8012</value>')
     
     with open(hconfPath + 'mapred-site.xml', 'w') as f:
         f.write(mapredSite)
         
     print '[INFO] mapred-site.xml configured.'
     
+def configureOpsCenterConf():
     with open(opsConfPath + 'opscenterd.conf', 'r') as f:
         opsConf = f.read()
         
     opsConf = opsConf.replace('interface = 127.0.0.1', 'interface = 0.0.0.0')
-    opsConf = opsConf.replace('seed_hosts = localhost', 'seed_hosts = ' + clusterseed)
+    opsConf = opsConf.replace('seed_hosts = localhost', 'seed_hosts = ' + clusterList[0])
     
     with open(opsConfPath + 'opscenterd.conf', 'w') as f:
         f.write(opsConf)
         
     print '[INFO] opscenterd.conf configured.'
 
+
+
+
+promptUserInfo()
