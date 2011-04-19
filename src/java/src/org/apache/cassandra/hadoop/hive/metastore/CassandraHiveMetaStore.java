@@ -293,7 +293,7 @@ public class CassandraHiveMetaStore implements RawStore {
             if ( database != null )
                 partition.setDbName(database.getName());
             partition.setTableName(table.getTableName());
-            
+            addPartition(partition);
         }
         // getIndexes
         List<Index> indexes = getIndexes(oldDatabaseName, oldTableName, -1);
@@ -302,7 +302,8 @@ public class CassandraHiveMetaStore implements RawStore {
             toRemove.add(index.deepCopy());
             if ( database != null )
                 index.setDbName(database.getName());
-            index.setOrigTableName(table.getTableName());            
+            index.setOrigTableName(table.getTableName());
+            addIndex(index);
         }                
             
         return toRemove;
@@ -448,7 +449,6 @@ public class CassandraHiveMetaStore implements RawStore {
             throw new InvalidObjectException(nse.getMessage());
         }
         addPartition(partition);
-        dropPartition(databaseName, tableName, oldPartition.getValues());
     }
 
     public boolean dropPartition(String databaseName, String tableName, List<String> partitions)

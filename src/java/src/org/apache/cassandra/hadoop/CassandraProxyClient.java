@@ -50,6 +50,7 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
     private int                 port;
     private final boolean       framed;
     private final boolean       randomizeConnections;
+    private String				lastUsedHost;
     private long                lastPoolCheck;
     private List<TokenRange>    ring;
     private Cassandra.Client    client;
@@ -106,6 +107,7 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
         this.port = port;
         this.framed = framed;
         this.randomizeConnections = randomizeConnections;
+        this.lastUsedHost = host;
         //If randomized to choose a connection, initialize the random generator.
         if (randomizeConnections) {
         	random = new Random();
@@ -206,23 +208,65 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
 
     }
 
+    /**
+     * Choose next server that is different from the last used host
+     * to try to connect. There are three choices.
+     *
+     * 1. Random to choose next server.
+     * 2. Round-robin mechanism.
+     *
+     * @param host the last server tried
+     */
+    private String getNextServer(String host) {
+    	String endpoint = host;
+
+        List<String> endpoints = ring.get(random.nextInt(ring.size())).endpoints;
+
+   	 	// pick a different node from the ring
+        while (!endpoint.equals(host))
+        {
+        	int i = lastUsedConnIndex;
+        	if (randomizeConnections)
+        		i = random.nextInt(endpoints.size());
+
+        	endpoint = endpoints.get(i);
+        	if (!randomizeConnections)
+        	{
+        		i ++;
+        		//Start from beginning if reaches to the last server in the ring.
+        		if (i == endpoints.size())
+        			i = 0;
+        	}
+        }
+
+        return endpoint;
+    }
+
+    /**
+     * Attempt to connect to the next available server.
+     */
     private void attemptReconnect()
     {
         // first try to connect to the same host as before
-        if (!randomizeConnections || ring == null || ring.size() == 0) {
-            try {
-                client = createConnection(host);
+        if (!randomizeConnections || ring == null || ring.size() == 0)
+        {
+            try
+            {
+                client = createConnection(lastUsedHost);
                 breaker.success();
                 if(logger.isDebugEnabled())
-                    logger.debug("Connected to cassandra at " + host + ":" + port);
+                    logger.debug("Connected to cassandra at " + lastUsedHost + ":" + port);
                 return;
-            } catch (IOException e) {
-                logger.warn("Connection failed to Cassandra node: " + host + ":" + port + " " + e.getMessage());
+            }
+            catch (IOException e)
+            {
+                logger.warn("Connection failed to Cassandra node: " + lastUsedHost + ":" + port + " " + e.getMessage());
             }
         }
 
     	//If the ring does't contain any server, fails the attempt.
-        if (ring == null || ring.size() == 0) {
+        if (ring == null || ring.size() == 0)
+        {
             logger.warn("No cassandra ring information found, no other nodes to connect to");
             client = null;
             return;
@@ -236,29 +280,17 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
             return;
         }
 
-        String endpoint = host;
+        String endpoint = getNextServer(lastUsedHost);
 
-        // pick a different node from the ring
-        List<String> endpoints = ring.get(random.nextInt(ring.size())).endpoints;
-        while (!endpoint.equals(host)) {
-        	int i = lastUsedConnIndex;
-        	if (randomizeConnections) {
-        		i = random.nextInt(endpoints.size());
-        	} else {
-        		i ++;
-        		//Start from beginning.
-        		if (i == endpoints.size()) {
-        			i = 0;
-        		}
-        	}
-        	endpoint = endpoints.get(i);
-        }
-
-        try {
+        try
+        {
             client = createConnection(endpoint);
+            lastUsedHost = endpoint; //Assign the last successfully connected server.
             breaker.success();
             logger.info("Connected to cassandra at " + endpoint + ":" + port);
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             logger.warn("Failed connecting to a different cassandra node in this ring: " + endpoint + ":" + port);
             /*TODO:
              * we have already tried to connect to this server the first time, we should not try this again.
@@ -288,38 +320,44 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
 
         while (result == null && tries++ < maxAttempts)
         {
-            // don't even try if client isn't connected
-            if (client == null) {
+            if (client == null)
+            {
+                // don't even try if client isn't connected
                 breaker.failure();
             }
 
-            try {
-
-                if (breaker.allow()) {
+            try
+            {
+                if (breaker.allow())
+                {
                     result = m.invoke(client, args);
 
-                    //Keep last known keyspace when set_keyspace is successfully invoked.
-                    if(m.getName().equalsIgnoreCase("set_keyspace") && args.length == 1) {
+                    if(m.getName().equalsIgnoreCase("set_keyspace") && args.length == 1)
+                    {
+                    	//Keep last known keyspace when set_keyspace is successfully invoked.
                         ringKs = (String)args[0];
                     }
 
                     breaker.success();
                     return result;
-                } else {
-
-                    while (!breaker.allow()) {
+                }
+                else
+                {
+                    while (!breaker.allow())
+                    {
                         Thread.sleep(1050); // sleep and try again
                     }
                     attemptReconnect();
 
-                    if(client == null) {
-                    	//If fails to connect to a server, decrease tries to try more times.
-                    	//TODO: If for some reasons, we are unable to connect to any of the server, it will possibly
-                    	//be a infinite loop here. Is this necessary?
+                    if(client != null)
+                    {
+                    	//If able to connect to a server, decrease tries to try more times.
                         tries--;
                     }
                 }
-            } catch (InvocationTargetException e) {
+            }
+            catch (InvocationTargetException e)
+            {
 
                 if (e.getTargetException() instanceof UnavailableException ||
                         e.getTargetException() instanceof TimedOutException ||
