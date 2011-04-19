@@ -49,7 +49,7 @@ def promptUserInfo():
             print "Please enter a valid number."
 
 def commandLineSwitches():
-    global clusterName, clusterList, clusterSize, autoBootstrap, internalIP, tokenPosition
+    global clusterName, clusterList, clusterSize, autoBootstrap, internalIP, tokenPosition, confPath, hconfPath, opsConfPath
     parser = OptionParser()
     parser.add_option("-n", "--clusterName", action="store", type="string", dest="clusterName", help="help!")
     parser.add_option("-l", "--clusterList", action="store", type="string", dest="clusterList", help="help!")
@@ -57,6 +57,11 @@ def commandLineSwitches():
     parser.add_option("-a", "--autoBootstrap", action="store", type="string", dest="autoBootstrap", help="help!")
     parser.add_option("-i", "--internalIP", action="store", type="string", dest="internalIP", help="help!")
     parser.add_option("-t", "--tokenPosition", action="store", type="string", dest="tokenPosition", help="help!")
+
+
+    parser.add_option("-c", "--confPath", action="store", type="string", dest="confPath", help="help!")
+    parser.add_option("-h", "--hconfPath", action="store", type="string", dest="hconfPath", help="help!")
+    parser.add_option("-o", "--opsConfPath", action="store", type="string", dest="opsConfPath", help="help!")
 
     (options, args) = parser.parse_args()
     if options:
@@ -72,6 +77,12 @@ def commandLineSwitches():
             internalIP = options.internalIP
         if options.tokenPosition:
             tokenPosition = options.tokenPosition
+        if options.confPath:
+            confPath = options.confPath
+        if options.hconfPath:
+            hconfPath = options.hconfPath
+        if options.opsConfPath:
+            opsConfPath = options.opsConfPath
         return True
     else:
         return False
