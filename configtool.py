@@ -125,7 +125,8 @@ def configureMapredSiteXML():
     with open(hconfPath + 'mapred-site.xml', 'r') as f:
         mapredSite = f.read()
 
-    mapredSite = mapredSite.replace('<value>localhost:8012</value>', '<value>' + clusterList[0] + ':8012</value>')
+    if len(clusterList) > 0:
+        mapredSite = mapredSite.replace('<value>localhost:8012</value>', '<value>' + clusterList[0] + ':8012</value>')
     
     with open(hconfPath + 'mapred-site.xml', 'w') as f:
         f.write(mapredSite)
@@ -137,8 +138,9 @@ def configureOpsCenterConf():
         with open(opsConfPath + 'opscenterd.conf', 'r') as f:
             opsConf = f.read()
             
-        opsConf = opsConf.replace('interface = 127.0.0.1', 'interface = 0.0.0.0')
-        opsConf = opsConf.replace('seed_hosts = localhost', 'seed_hosts = ' + clusterList[0])
+        if len(clusterList) > 0:
+            opsConf = opsConf.replace('interface = 127.0.0.1', 'interface = 0.0.0.0')
+            opsConf = opsConf.replace('seed_hosts = localhost', 'seed_hosts = ' + clusterList[0])
         
         with open(opsConfPath + 'opscenterd.conf', 'w') as f:
             f.write(opsConf)
