@@ -159,20 +159,28 @@ public class MetaStorePersister
     @SuppressWarnings("unchecked")
     public void remove(TBase base, String databaseName) 
     {
+        removeAll(Arrays.asList(base), databaseName);    
+    }
+    
+    @SuppressWarnings("unchecked")
+    public void removeAll(List<TBase> bases, String databaseName) 
+    {
         serializer = new TSerializer();        
-        BatchMutation batchMutation = new BatchMutation();
-        if ( log.isDebugEnabled() )
-            log.debug("in remove with class: {} dbname: {}", base.getClass().getName(), databaseName);
+        BatchMutation batchMutation = new BatchMutation();     
         try
-        {
-            // FIXME generalize timestamp
+        {    
             Deletion deletion = new Deletion(System.currentTimeMillis() * 1000);
             SlicePredicate predicate = new SlicePredicate();
-            predicate.addToColumn_names(ByteBufferUtil.bytes(buildEntityColumnName(base)));
+            
+            for (TBase tBase : bases)
+            {
+                if ( log.isDebugEnabled() )
+                    log.debug("in remove with class: {} dbname: {}", tBase, databaseName);
+                predicate.addToColumn_names(ByteBufferUtil.bytes(buildEntityColumnName(tBase)));            
+            }
             deletion.setPredicate(predicate);
             batchMutation.addDeletion(ByteBufferUtil.bytes(databaseName), 
-                    Arrays.asList(cassandraClientHolder.getColumnFamily()), deletion);
-
+                    Arrays.asList(cassandraClientHolder.getColumnFamily()), deletion);            
             cassandraClientHolder.getClient().batch_mutate(batchMutation.getMutationMap(),
                     cassandraClientHolder.getWriteCl());
         } 

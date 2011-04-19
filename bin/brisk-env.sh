@@ -16,12 +16,6 @@ for jar in `pwd`/`dirname $0`/../resources/hive/lib/hive-cassandra*.jar; do
     export CLASSPATH=$CLASSPATH:$jar
 done
 
-#if you have lzo libs
-export JAVA_LIBRARY_PATH=/home/ubuntu/hadoop-lzo-0.4.10/lib/native/Linux-amd64-64/
-for jar in /home/ubuntu/hadoop-lzo-0.4.10/*.jar; do
-    export CLASSPATH=$CLASSPATH:$jar
-done
-
 export HADOOP_CLASSPATH=$CLASSPATH
 
 #hadoop requires absolute home
