@@ -36,7 +36,11 @@ def promptUserInfo():
     internalIP = raw_input("This node's internal IP address:\n")
     
     while (tokenPosition < 0) or (tokenPosition >= clusterSize):
-        tokenPosition = raw_input("This node's token position:\n")
+        tokenPosition = raw_input("This node's token position (position < cluster size):\n")
+        try:
+            tokenPosition = int(tokenPosition)
+        except:
+            print "Please enter a valid number."
 
 def configureCassandraYaml():
     with open(confPath + 'cassandra.yaml', 'r') as f:
