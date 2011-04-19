@@ -34,7 +34,7 @@ public class CassandraProxyClientTest
         }
 
     }
-
+    
     /**
      * The purpose of this test is to make sure that:
      * When a TimedOutException is thrown out from invoke method, the CassandraProxyClient will try at least maxAttempts times before
@@ -62,8 +62,9 @@ public class CassandraProxyClientTest
         } catch(TimedOutException e) {
         	//This is expected.
         }
-
+        
         assertEquals(11, client.get_count(ByteBufferUtil.EMPTY_BYTE_BUFFER, new ColumnParent("test"), new SlicePredicate(), ConsistencyLevel.ALL));
+        
     }
 
 }

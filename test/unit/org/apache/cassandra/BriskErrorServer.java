@@ -235,4 +235,18 @@ public class BriskErrorServer implements Brisk.Iface
 
     }
 
+    public LocalOrRemoteBlock get_cfs_block(String arg0, ByteBuffer arg1, int arg2) throws InvalidRequestException,
+            UnavailableException, TimedOutException, NotFoundException, TException
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public void insert_cfs_block(ByteBuffer id, ByteBuffer data) throws InvalidRequestException, UnavailableException,
+            TimedOutException, TException
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

@@ -6,10 +6,11 @@ cluster_name: Test Cluster
 in_memory_compaction_limit_in_mb: 1
 commitlog_sync: batch
 commitlog_sync_batch_window_in_ms: 1.0
-partitioner: org.apache.cassandra.dht.CollatingOrderPreservingPartitioner
+partitioner: org.apache.cassandra.dht.RandomPartitioner
 rpc_timeout_in_ms: 5000
-listen_address: 127.0.0.1
+listen_address: 
 storage_port: 7010
+rpc_address: 0.0.0.0
 rpc_port: 9170
 column_index_size_in_kb: 4
 commitlog_directory: build/test/cassandra/commitlog

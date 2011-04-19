@@ -5,22 +5,27 @@
  */
 package org.apache.cassandra.thrift;
 
-import java.nio.ByteBuffer;
-import java.util.*;
-
 import org.apache.commons.lang.builder.HashCodeBuilder;
-
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.EnumMap;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.EnumSet;
+import java.util.Collections;
+import java.util.BitSet;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.apache.thrift.*;
 import org.apache.thrift.async.*;
-import org.apache.thrift.meta_data.FieldMetaData;
-import org.apache.thrift.meta_data.FieldValueMetaData;
-import org.apache.thrift.meta_data.ListMetaData;
+import org.apache.thrift.meta_data.*;
+import org.apache.thrift.transport.*;
 import org.apache.thrift.protocol.*;
-import org.apache.thrift.transport.TMemoryInputTransport;
-import org.apache.thrift.transport.TNonblockingTransport;
 
 public class Brisk {
 
@@ -32,13 +37,33 @@ public class Brisk {
      * @param keyspace
      * @param keys
      */
-    public List<List<String>> describe_keys(String keyspace, List<ByteBuffer> keys) throws TException;
+    public List<List<String>> describe_keys(String keyspace, List<ByteBuffer> keys) throws InvalidRequestException, UnavailableException, TimedOutException, TException;
+
+    /**
+     * returns a local or remote block
+     * 
+     * A remote block is the expected binary block data
+     * 
+     * A local block is the file, offset and length for the calling application to read
+     * This is a great optimization because it avoids any actual data transfer.
+     * 
+     * @param caller_host_name
+     * @param block_id
+     * @param offset
+     */
+    public LocalOrRemoteBlock get_cfs_block(String caller_host_name, ByteBuffer block_id, int offset) throws InvalidRequestException, UnavailableException, TimedOutException, NotFoundException, TException;
+
+    public void insert_cfs_block(ByteBuffer id, ByteBuffer data) throws InvalidRequestException, UnavailableException, TimedOutException, TException;
 
   }
 
   public interface AsyncIface extends org.apache.cassandra.thrift.Cassandra .AsyncIface {
 
     public void describe_keys(String keyspace, List<ByteBuffer> keys, AsyncMethodCallback<AsyncClient.describe_keys_call> resultHandler) throws TException;
+
+    public void get_cfs_block(String caller_host_name, ByteBuffer block_id, int offset, AsyncMethodCallback<AsyncClient.get_cfs_block_call> resultHandler) throws TException;
+
+    public void insert_cfs_block(ByteBuffer id, ByteBuffer data, AsyncMethodCallback<AsyncClient.insert_cfs_block_call> resultHandler) throws TException;
 
   }
 
@@ -63,7 +88,7 @@ public class Brisk {
       super(iprot, oprot);
     }
 
-    public List<List<String>> describe_keys(String keyspace, List<ByteBuffer> keys) throws TException
+    public List<List<String>> describe_keys(String keyspace, List<ByteBuffer> keys) throws InvalidRequestException, UnavailableException, TimedOutException, TException
     {
       send_describe_keys(keyspace, keys);
       return recv_describe_keys();
@@ -80,7 +105,7 @@ public class Brisk {
       oprot_.getTransport().flush();
     }
 
-    public List<List<String>> recv_describe_keys() throws TException
+    public List<List<String>> recv_describe_keys() throws InvalidRequestException, UnavailableException, TimedOutException, TException
     {
       TMessage msg = iprot_.readMessageBegin();
       if (msg.type == TMessageType.EXCEPTION) {
@@ -97,7 +122,109 @@ public class Brisk {
       if (result.isSetSuccess()) {
         return result.success;
       }
+      if (result.ire != null) {
+        throw result.ire;
+      }
+      if (result.ue != null) {
+        throw result.ue;
+      }
+      if (result.te != null) {
+        throw result.te;
+      }
       throw new TApplicationException(TApplicationException.MISSING_RESULT, "describe_keys failed: unknown result");
+    }
+
+    public LocalOrRemoteBlock get_cfs_block(String caller_host_name, ByteBuffer block_id, int offset) throws InvalidRequestException, UnavailableException, TimedOutException, NotFoundException, TException
+    {
+      send_get_cfs_block(caller_host_name, block_id, offset);
+      return recv_get_cfs_block();
+    }
+
+    public void send_get_cfs_block(String caller_host_name, ByteBuffer block_id, int offset) throws TException
+    {
+      oprot_.writeMessageBegin(new TMessage("get_cfs_block", TMessageType.CALL, ++seqid_));
+      get_cfs_block_args args = new get_cfs_block_args();
+      args.setCaller_host_name(caller_host_name);
+      args.setBlock_id(block_id);
+      args.setOffset(offset);
+      args.write(oprot_);
+      oprot_.writeMessageEnd();
+      oprot_.getTransport().flush();
+    }
+
+    public LocalOrRemoteBlock recv_get_cfs_block() throws InvalidRequestException, UnavailableException, TimedOutException, NotFoundException, TException
+    {
+      TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == TMessageType.EXCEPTION) {
+        TApplicationException x = TApplicationException.read(iprot_);
+        iprot_.readMessageEnd();
+        throw x;
+      }
+      if (msg.seqid != seqid_) {
+        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "get_cfs_block failed: out of sequence response");
+      }
+      get_cfs_block_result result = new get_cfs_block_result();
+      result.read(iprot_);
+      iprot_.readMessageEnd();
+      if (result.isSetSuccess()) {
+        return result.success;
+      }
+      if (result.ire != null) {
+        throw result.ire;
+      }
+      if (result.ue != null) {
+        throw result.ue;
+      }
+      if (result.te != null) {
+        throw result.te;
+      }
+      if (result.nfe != null) {
+        throw result.nfe;
+      }
+      throw new TApplicationException(TApplicationException.MISSING_RESULT, "get_cfs_block failed: unknown result");
+    }
+
+    public void insert_cfs_block(ByteBuffer id, ByteBuffer data) throws InvalidRequestException, UnavailableException, TimedOutException, TException
+    {
+      send_insert_cfs_block(id, data);
+      recv_insert_cfs_block();
+    }
+
+    public void send_insert_cfs_block(ByteBuffer id, ByteBuffer data) throws TException
+    {
+      oprot_.writeMessageBegin(new TMessage("insert_cfs_block", TMessageType.CALL, ++seqid_));
+      insert_cfs_block_args args = new insert_cfs_block_args();
+      args.setId(id);
+      args.setData(data);
+      args.write(oprot_);
+      oprot_.writeMessageEnd();
+      oprot_.getTransport().flush();
+    }
+
+    public void recv_insert_cfs_block() throws InvalidRequestException, UnavailableException, TimedOutException, TException
+    {
+      TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == TMessageType.EXCEPTION) {
+        TApplicationException x = TApplicationException.read(iprot_);
+        iprot_.readMessageEnd();
+        throw x;
+      }
+      if (msg.seqid != seqid_) {
+        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "insert_cfs_block failed: out of sequence response");
+      }
+      insert_cfs_block_result result = new insert_cfs_block_result();
+      result.read(iprot_);
+      iprot_.readMessageEnd();
+      if (result.ire != null) {
+        throw result.ire;
+      }
+      if (result.ue != null) {
+        throw result.ue;
+      }
+      if (result.te != null) {
+        throw result.te;
+      }
+      return;
     }
 
   }
@@ -142,13 +269,84 @@ public class Brisk {
         prot.writeMessageEnd();
       }
 
-      public List<List<String>> getResult() throws TException {
+      public List<List<String>> getResult() throws InvalidRequestException, UnavailableException, TimedOutException, TException {
         if (getState() != State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
         TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
         TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_describe_keys();
+      }
+    }
+
+    public void get_cfs_block(String caller_host_name, ByteBuffer block_id, int offset, AsyncMethodCallback<get_cfs_block_call> resultHandler) throws TException {
+      checkReady();
+      get_cfs_block_call method_call = new get_cfs_block_call(caller_host_name, block_id, offset, resultHandler, this, protocolFactory, transport);
+      manager.call(method_call);
+    }
+
+    public static class get_cfs_block_call extends TAsyncMethodCall {
+      private String caller_host_name;
+      private ByteBuffer block_id;
+      private int offset;
+      public get_cfs_block_call(String caller_host_name, ByteBuffer block_id, int offset, AsyncMethodCallback<get_cfs_block_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.caller_host_name = caller_host_name;
+        this.block_id = block_id;
+        this.offset = offset;
+      }
+
+      public void write_args(TProtocol prot) throws TException {
+        prot.writeMessageBegin(new TMessage("get_cfs_block", TMessageType.CALL, 0));
+        get_cfs_block_args args = new get_cfs_block_args();
+        args.setCaller_host_name(caller_host_name);
+        args.setBlock_id(block_id);
+        args.setOffset(offset);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public LocalOrRemoteBlock getResult() throws InvalidRequestException, UnavailableException, TimedOutException, NotFoundException, TException {
+        if (getState() != State.RESPONSE_READ) {
+          throw new IllegalStateException("Method call not finished!");
+        }
+        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
+        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_get_cfs_block();
+      }
+    }
+
+    public void insert_cfs_block(ByteBuffer id, ByteBuffer data, AsyncMethodCallback<insert_cfs_block_call> resultHandler) throws TException {
+      checkReady();
+      insert_cfs_block_call method_call = new insert_cfs_block_call(id, data, resultHandler, this, protocolFactory, transport);
+      manager.call(method_call);
+    }
+
+    public static class insert_cfs_block_call extends TAsyncMethodCall {
+      private ByteBuffer id;
+      private ByteBuffer data;
+      public insert_cfs_block_call(ByteBuffer id, ByteBuffer data, AsyncMethodCallback<insert_cfs_block_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+        super(client, protocolFactory, transport, resultHandler, false);
+        this.id = id;
+        this.data = data;
+      }
+
+      public void write_args(TProtocol prot) throws TException {
+        prot.writeMessageBegin(new TMessage("insert_cfs_block", TMessageType.CALL, 0));
+        insert_cfs_block_args args = new insert_cfs_block_args();
+        args.setId(id);
+        args.setData(data);
+        args.write(prot);
+        prot.writeMessageEnd();
+      }
+
+      public void getResult() throws InvalidRequestException, UnavailableException, TimedOutException, TException {
+        if (getState() != State.RESPONSE_READ) {
+          throw new IllegalStateException("Method call not finished!");
+        }
+        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
+        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        (new Client(prot)).recv_insert_cfs_block();
       }
     }
 
@@ -161,6 +359,8 @@ public class Brisk {
       super(iface);
       iface_ = iface;
       processMap_.put("describe_keys", new describe_keys());
+      processMap_.put("get_cfs_block", new get_cfs_block());
+      processMap_.put("insert_cfs_block", new insert_cfs_block());
     }
 
     private Iface iface_;
@@ -200,8 +400,110 @@ public class Brisk {
         }
         iprot.readMessageEnd();
         describe_keys_result result = new describe_keys_result();
-        result.success = iface_.describe_keys(args.keyspace, args.keys);
+        try {
+          result.success = iface_.describe_keys(args.keyspace, args.keys);
+        } catch (InvalidRequestException ire) {
+          result.ire = ire;
+        } catch (UnavailableException ue) {
+          result.ue = ue;
+        } catch (TimedOutException te) {
+          result.te = te;
+        } catch (Throwable th) {
+          LOGGER.error("Internal error processing describe_keys", th);
+          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing describe_keys");
+          oprot.writeMessageBegin(new TMessage("describe_keys", TMessageType.EXCEPTION, seqid));
+          x.write(oprot);
+          oprot.writeMessageEnd();
+          oprot.getTransport().flush();
+          return;
+        }
         oprot.writeMessageBegin(new TMessage("describe_keys", TMessageType.REPLY, seqid));
+        result.write(oprot);
+        oprot.writeMessageEnd();
+        oprot.getTransport().flush();
+      }
+
+    }
+
+    private class get_cfs_block implements ProcessFunction {
+      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      {
+        get_cfs_block_args args = new get_cfs_block_args();
+        try {
+          args.read(iprot);
+        } catch (TProtocolException e) {
+          iprot.readMessageEnd();
+          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new TMessage("get_cfs_block", TMessageType.EXCEPTION, seqid));
+          x.write(oprot);
+          oprot.writeMessageEnd();
+          oprot.getTransport().flush();
+          return;
+        }
+        iprot.readMessageEnd();
+        get_cfs_block_result result = new get_cfs_block_result();
+        try {
+          result.success = iface_.get_cfs_block(args.caller_host_name, args.block_id, args.offset);
+        } catch (InvalidRequestException ire) {
+          result.ire = ire;
+        } catch (UnavailableException ue) {
+          result.ue = ue;
+        } catch (TimedOutException te) {
+          result.te = te;
+        } catch (NotFoundException nfe) {
+          result.nfe = nfe;
+        } catch (Throwable th) {
+          LOGGER.error("Internal error processing get_cfs_block", th);
+          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing get_cfs_block");
+          oprot.writeMessageBegin(new TMessage("get_cfs_block", TMessageType.EXCEPTION, seqid));
+          x.write(oprot);
+          oprot.writeMessageEnd();
+          oprot.getTransport().flush();
+          return;
+        }
+        oprot.writeMessageBegin(new TMessage("get_cfs_block", TMessageType.REPLY, seqid));
+        result.write(oprot);
+        oprot.writeMessageEnd();
+        oprot.getTransport().flush();
+      }
+
+    }
+
+    private class insert_cfs_block implements ProcessFunction {
+      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      {
+        insert_cfs_block_args args = new insert_cfs_block_args();
+        try {
+          args.read(iprot);
+        } catch (TProtocolException e) {
+          iprot.readMessageEnd();
+          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new TMessage("insert_cfs_block", TMessageType.EXCEPTION, seqid));
+          x.write(oprot);
+          oprot.writeMessageEnd();
+          oprot.getTransport().flush();
+          return;
+        }
+        iprot.readMessageEnd();
+        insert_cfs_block_result result = new insert_cfs_block_result();
+        try {
+          iface_.insert_cfs_block(args.id, args.data);
+        } catch (InvalidRequestException ire) {
+          result.ire = ire;
+        } catch (UnavailableException ue) {
+          result.ue = ue;
+        } catch (TimedOutException te) {
+          result.te = te;
+        } catch (Throwable th) {
+          LOGGER.error("Internal error processing insert_cfs_block", th);
+          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing insert_cfs_block");
+          oprot.writeMessageBegin(new TMessage("insert_cfs_block", TMessageType.EXCEPTION, seqid));
+          x.write(oprot);
+          oprot.writeMessageEnd();
+          oprot.getTransport().flush();
+          return;
+        }
+        oprot.writeMessageBegin(new TMessage("insert_cfs_block", TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -642,12 +944,21 @@ public class Brisk {
     private static final TStruct STRUCT_DESC = new TStruct("describe_keys_result");
 
     private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.LIST, (short)0);
+    private static final TField IRE_FIELD_DESC = new TField("ire", TType.STRUCT, (short)1);
+    private static final TField UE_FIELD_DESC = new TField("ue", TType.STRUCT, (short)2);
+    private static final TField TE_FIELD_DESC = new TField("te", TType.STRUCT, (short)3);
 
     public List<List<String>> success;
+    public InvalidRequestException ire;
+    public UnavailableException ue;
+    public TimedOutException te;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements TFieldIdEnum {
-      SUCCESS((short)0, "success");
+      SUCCESS((short)0, "success"),
+      IRE((short)1, "ire"),
+      UE((short)2, "ue"),
+      TE((short)3, "te");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -664,6 +975,12 @@ public class Brisk {
         switch(fieldId) {
           case 0: // SUCCESS
             return SUCCESS;
+          case 1: // IRE
+            return IRE;
+          case 2: // UE
+            return UE;
+          case 3: // TE
+            return TE;
           default:
             return null;
         }
@@ -712,6 +1029,12 @@ public class Brisk {
           new ListMetaData(TType.LIST, 
               new ListMetaData(TType.LIST, 
                   new FieldValueMetaData(TType.STRING)))));
+      tmpMap.put(_Fields.IRE, new FieldMetaData("ire", TFieldRequirementType.DEFAULT, 
+          new FieldValueMetaData(TType.STRUCT)));
+      tmpMap.put(_Fields.UE, new FieldMetaData("ue", TFieldRequirementType.DEFAULT, 
+          new FieldValueMetaData(TType.STRUCT)));
+      tmpMap.put(_Fields.TE, new FieldMetaData("te", TFieldRequirementType.DEFAULT, 
+          new FieldValueMetaData(TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       FieldMetaData.addStructMetaDataMap(describe_keys_result.class, metaDataMap);
     }
@@ -720,10 +1043,16 @@ public class Brisk {
     }
 
     public describe_keys_result(
-      List<List<String>> success)
+      List<List<String>> success,
+      InvalidRequestException ire,
+      UnavailableException ue,
+      TimedOutException te)
     {
       this();
       this.success = success;
+      this.ire = ire;
+      this.ue = ue;
+      this.te = te;
     }
 
     /**
@@ -741,6 +1070,15 @@ public class Brisk {
         }
         this.success = __this__success;
       }
+      if (other.isSetIre()) {
+        this.ire = new InvalidRequestException(other.ire);
+      }
+      if (other.isSetUe()) {
+        this.ue = new UnavailableException(other.ue);
+      }
+      if (other.isSetTe()) {
+        this.te = new TimedOutException(other.te);
+      }
     }
 
     public describe_keys_result deepCopy() {
@@ -750,6 +1088,9 @@ public class Brisk {
     @Override
     public void clear() {
       this.success = null;
+      this.ire = null;
+      this.ue = null;
+      this.te = null;
     }
 
     public int getSuccessSize() {
@@ -791,6 +1132,78 @@ public class Brisk {
       }
     }
 
+    public InvalidRequestException getIre() {
+      return this.ire;
+    }
+
+    public describe_keys_result setIre(InvalidRequestException ire) {
+      this.ire = ire;
+      return this;
+    }
+
+    public void unsetIre() {
+      this.ire = null;
+    }
+
+    /** Returns true if field ire is set (has been asigned a value) and false otherwise */
+    public boolean isSetIre() {
+      return this.ire != null;
+    }
+
+    public void setIreIsSet(boolean value) {
+      if (!value) {
+        this.ire = null;
+      }
+    }
+
+    public UnavailableException getUe() {
+      return this.ue;
+    }
+
+    public describe_keys_result setUe(UnavailableException ue) {
+      this.ue = ue;
+      return this;
+    }
+
+    public void unsetUe() {
+      this.ue = null;
+    }
+
+    /** Returns true if field ue is set (has been asigned a value) and false otherwise */
+    public boolean isSetUe() {
+      return this.ue != null;
+    }
+
+    public void setUeIsSet(boolean value) {
+      if (!value) {
+        this.ue = null;
+      }
+    }
+
+    public TimedOutException getTe() {
+      return this.te;
+    }
+
+    public describe_keys_result setTe(TimedOutException te) {
+      this.te = te;
+      return this;
+    }
+
+    public void unsetTe() {
+      this.te = null;
+    }
+
+    /** Returns true if field te is set (has been asigned a value) and false otherwise */
+    public boolean isSetTe() {
+      return this.te != null;
+    }
+
+    public void setTeIsSet(boolean value) {
+      if (!value) {
+        this.te = null;
+      }
+    }
+
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
       case SUCCESS:
@@ -801,6 +1214,30 @@ public class Brisk {
         }
         break;
 
+      case IRE:
+        if (value == null) {
+          unsetIre();
+        } else {
+          setIre((InvalidRequestException)value);
+        }
+        break;
+
+      case UE:
+        if (value == null) {
+          unsetUe();
+        } else {
+          setUe((UnavailableException)value);
+        }
+        break;
+
+      case TE:
+        if (value == null) {
+          unsetTe();
+        } else {
+          setTe((TimedOutException)value);
+        }
+        break;
+
       }
     }
 
@@ -808,6 +1245,15 @@ public class Brisk {
       switch (field) {
       case SUCCESS:
         return getSuccess();
+
+      case IRE:
+        return getIre();
+
+      case UE:
+        return getUe();
+
+      case TE:
+        return getTe();
 
       }
       throw new IllegalStateException();
@@ -822,6 +1268,12 @@ public class Brisk {
       switch (field) {
       case SUCCESS:
         return isSetSuccess();
+      case IRE:
+        return isSetIre();
+      case UE:
+        return isSetUe();
+      case TE:
+        return isSetTe();
       }
       throw new IllegalStateException();
     }
@@ -848,6 +1300,33 @@ public class Brisk {
           return false;
       }
 
+      boolean this_present_ire = true && this.isSetIre();
+      boolean that_present_ire = true && that.isSetIre();
+      if (this_present_ire || that_present_ire) {
+        if (!(this_present_ire && that_present_ire))
+          return false;
+        if (!this.ire.equals(that.ire))
+          return false;
+      }
+
+      boolean this_present_ue = true && this.isSetUe();
+      boolean that_present_ue = true && that.isSetUe();
+      if (this_present_ue || that_present_ue) {
+        if (!(this_present_ue && that_present_ue))
+          return false;
+        if (!this.ue.equals(that.ue))
+          return false;
+      }
+
+      boolean this_present_te = true && this.isSetTe();
+      boolean that_present_te = true && that.isSetTe();
+      if (this_present_te || that_present_te) {
+        if (!(this_present_te && that_present_te))
+          return false;
+        if (!this.te.equals(that.te))
+          return false;
+      }
+
       return true;
     }
 
@@ -859,6 +1338,21 @@ public class Brisk {
       builder.append(present_success);
       if (present_success)
         builder.append(success);
+
+      boolean present_ire = true && (isSetIre());
+      builder.append(present_ire);
+      if (present_ire)
+        builder.append(ire);
+
+      boolean present_ue = true && (isSetUe());
+      builder.append(present_ue);
+      if (present_ue)
+        builder.append(ue);
+
+      boolean present_te = true && (isSetTe());
+      builder.append(present_te);
+      if (present_te)
+        builder.append(te);
 
       return builder.toHashCode();
     }
@@ -877,6 +1371,36 @@ public class Brisk {
       }
       if (isSetSuccess()) {
         lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetIre()).compareTo(typedOther.isSetIre());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetIre()) {
+        lastComparison = TBaseHelper.compareTo(this.ire, typedOther.ire);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetUe()).compareTo(typedOther.isSetUe());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetUe()) {
+        lastComparison = TBaseHelper.compareTo(this.ue, typedOther.ue);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetTe()).compareTo(typedOther.isSetTe());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetTe()) {
+        lastComparison = TBaseHelper.compareTo(this.te, typedOther.te);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -925,6 +1449,30 @@ public class Brisk {
               TProtocolUtil.skip(iprot, field.type);
             }
             break;
+          case 1: // IRE
+            if (field.type == TType.STRUCT) {
+              this.ire = new InvalidRequestException();
+              this.ire.read(iprot);
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 2: // UE
+            if (field.type == TType.STRUCT) {
+              this.ue = new UnavailableException();
+              this.ue.read(iprot);
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 3: // TE
+            if (field.type == TType.STRUCT) {
+              this.te = new TimedOutException();
+              this.te.read(iprot);
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
           default:
             TProtocolUtil.skip(iprot, field.type);
         }
@@ -957,6 +1505,18 @@ public class Brisk {
           oprot.writeListEnd();
         }
         oprot.writeFieldEnd();
+      } else if (this.isSetIre()) {
+        oprot.writeFieldBegin(IRE_FIELD_DESC);
+        this.ire.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetUe()) {
+        oprot.writeFieldBegin(UE_FIELD_DESC);
+        this.ue.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetTe()) {
+        oprot.writeFieldBegin(TE_FIELD_DESC);
+        this.te.write(oprot);
+        oprot.writeFieldEnd();
       }
       oprot.writeFieldStop();
       oprot.writeStructEnd();
@@ -972,6 +1532,2073 @@ public class Brisk {
         sb.append("null");
       } else {
         sb.append(this.success);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("ire:");
+      if (this.ire == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.ire);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("ue:");
+      if (this.ue == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.ue);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("te:");
+      if (this.te == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.te);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws TException {
+      // check for required fields
+    }
+
+  }
+
+  public static class get_cfs_block_args implements TBase<get_cfs_block_args, get_cfs_block_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final TStruct STRUCT_DESC = new TStruct("get_cfs_block_args");
+
+    private static final TField CALLER_HOST_NAME_FIELD_DESC = new TField("caller_host_name", TType.STRING, (short)1);
+    private static final TField BLOCK_ID_FIELD_DESC = new TField("block_id", TType.STRING, (short)2);
+    private static final TField OFFSET_FIELD_DESC = new TField("offset", TType.I32, (short)3);
+
+    public String caller_host_name;
+    public ByteBuffer block_id;
+    public int offset;
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements TFieldIdEnum {
+      CALLER_HOST_NAME((short)1, "caller_host_name"),
+      BLOCK_ID((short)2, "block_id"),
+      OFFSET((short)3, "offset");
+
+      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
+
+      static {
+        for (_Fields field : EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // CALLER_HOST_NAME
+            return CALLER_HOST_NAME;
+          case 2: // BLOCK_ID
+            return BLOCK_ID;
+          case 3: // OFFSET
+            return OFFSET;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final String _fieldName;
+
+      _Fields(short thriftId, String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+    private static final int __OFFSET_ISSET_ID = 0;
+    private BitSet __isset_bit_vector = new BitSet(1);
+
+    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    static {
+      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CALLER_HOST_NAME, new FieldMetaData("caller_host_name", TFieldRequirementType.REQUIRED, 
+          new FieldValueMetaData(TType.STRING)));
+      tmpMap.put(_Fields.BLOCK_ID, new FieldMetaData("block_id", TFieldRequirementType.REQUIRED, 
+          new FieldValueMetaData(TType.STRING)));
+      tmpMap.put(_Fields.OFFSET, new FieldMetaData("offset", TFieldRequirementType.DEFAULT, 
+          new FieldValueMetaData(TType.I32)));
+      metaDataMap = Collections.unmodifiableMap(tmpMap);
+      FieldMetaData.addStructMetaDataMap(get_cfs_block_args.class, metaDataMap);
+    }
+
+    public get_cfs_block_args() {
+      this.offset = 0;
+
+    }
+
+    public get_cfs_block_args(
+      String caller_host_name,
+      ByteBuffer block_id,
+      int offset)
+    {
+      this();
+      this.caller_host_name = caller_host_name;
+      this.block_id = block_id;
+      this.offset = offset;
+      setOffsetIsSet(true);
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public get_cfs_block_args(get_cfs_block_args other) {
+      __isset_bit_vector.clear();
+      __isset_bit_vector.or(other.__isset_bit_vector);
+      if (other.isSetCaller_host_name()) {
+        this.caller_host_name = other.caller_host_name;
+      }
+      if (other.isSetBlock_id()) {
+        this.block_id = TBaseHelper.copyBinary(other.block_id);
+;
+      }
+      this.offset = other.offset;
+    }
+
+    public get_cfs_block_args deepCopy() {
+      return new get_cfs_block_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.caller_host_name = null;
+      this.block_id = null;
+      this.offset = 0;
+
+    }
+
+    public String getCaller_host_name() {
+      return this.caller_host_name;
+    }
+
+    public get_cfs_block_args setCaller_host_name(String caller_host_name) {
+      this.caller_host_name = caller_host_name;
+      return this;
+    }
+
+    public void unsetCaller_host_name() {
+      this.caller_host_name = null;
+    }
+
+    /** Returns true if field caller_host_name is set (has been asigned a value) and false otherwise */
+    public boolean isSetCaller_host_name() {
+      return this.caller_host_name != null;
+    }
+
+    public void setCaller_host_nameIsSet(boolean value) {
+      if (!value) {
+        this.caller_host_name = null;
+      }
+    }
+
+    public byte[] getBlock_id() {
+      setBlock_id(TBaseHelper.rightSize(block_id));
+      return block_id.array();
+    }
+
+    public ByteBuffer BufferForBlock_id() {
+      return block_id;
+    }
+
+    public get_cfs_block_args setBlock_id(byte[] block_id) {
+      setBlock_id(ByteBuffer.wrap(block_id));
+      return this;
+    }
+
+    public get_cfs_block_args setBlock_id(ByteBuffer block_id) {
+      this.block_id = block_id;
+      return this;
+    }
+
+    public void unsetBlock_id() {
+      this.block_id = null;
+    }
+
+    /** Returns true if field block_id is set (has been asigned a value) and false otherwise */
+    public boolean isSetBlock_id() {
+      return this.block_id != null;
+    }
+
+    public void setBlock_idIsSet(boolean value) {
+      if (!value) {
+        this.block_id = null;
+      }
+    }
+
+    public int getOffset() {
+      return this.offset;
+    }
+
+    public get_cfs_block_args setOffset(int offset) {
+      this.offset = offset;
+      setOffsetIsSet(true);
+      return this;
+    }
+
+    public void unsetOffset() {
+      __isset_bit_vector.clear(__OFFSET_ISSET_ID);
+    }
+
+    /** Returns true if field offset is set (has been asigned a value) and false otherwise */
+    public boolean isSetOffset() {
+      return __isset_bit_vector.get(__OFFSET_ISSET_ID);
+    }
+
+    public void setOffsetIsSet(boolean value) {
+      __isset_bit_vector.set(__OFFSET_ISSET_ID, value);
+    }
+
+    public void setFieldValue(_Fields field, Object value) {
+      switch (field) {
+      case CALLER_HOST_NAME:
+        if (value == null) {
+          unsetCaller_host_name();
+        } else {
+          setCaller_host_name((String)value);
+        }
+        break;
+
+      case BLOCK_ID:
+        if (value == null) {
+          unsetBlock_id();
+        } else {
+          setBlock_id((ByteBuffer)value);
+        }
+        break;
+
+      case OFFSET:
+        if (value == null) {
+          unsetOffset();
+        } else {
+          setOffset((Integer)value);
+        }
+        break;
+
+      }
+    }
+
+    public Object getFieldValue(_Fields field) {
+      switch (field) {
+      case CALLER_HOST_NAME:
+        return getCaller_host_name();
+
+      case BLOCK_ID:
+        return getBlock_id();
+
+      case OFFSET:
+        return new Integer(getOffset());
+
+      }
+      throw new IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new IllegalArgumentException();
+      }
+
+      switch (field) {
+      case CALLER_HOST_NAME:
+        return isSetCaller_host_name();
+      case BLOCK_ID:
+        return isSetBlock_id();
+      case OFFSET:
+        return isSetOffset();
+      }
+      throw new IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof get_cfs_block_args)
+        return this.equals((get_cfs_block_args)that);
+      return false;
+    }
+
+    public boolean equals(get_cfs_block_args that) {
+      if (that == null)
+        return false;
+
+      boolean this_present_caller_host_name = true && this.isSetCaller_host_name();
+      boolean that_present_caller_host_name = true && that.isSetCaller_host_name();
+      if (this_present_caller_host_name || that_present_caller_host_name) {
+        if (!(this_present_caller_host_name && that_present_caller_host_name))
+          return false;
+        if (!this.caller_host_name.equals(that.caller_host_name))
+          return false;
+      }
+
+      boolean this_present_block_id = true && this.isSetBlock_id();
+      boolean that_present_block_id = true && that.isSetBlock_id();
+      if (this_present_block_id || that_present_block_id) {
+        if (!(this_present_block_id && that_present_block_id))
+          return false;
+        if (!this.block_id.equals(that.block_id))
+          return false;
+      }
+
+      boolean this_present_offset = true;
+      boolean that_present_offset = true;
+      if (this_present_offset || that_present_offset) {
+        if (!(this_present_offset && that_present_offset))
+          return false;
+        if (this.offset != that.offset)
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      HashCodeBuilder builder = new HashCodeBuilder();
+
+      boolean present_caller_host_name = true && (isSetCaller_host_name());
+      builder.append(present_caller_host_name);
+      if (present_caller_host_name)
+        builder.append(caller_host_name);
+
+      boolean present_block_id = true && (isSetBlock_id());
+      builder.append(present_block_id);
+      if (present_block_id)
+        builder.append(block_id);
+
+      boolean present_offset = true;
+      builder.append(present_offset);
+      if (present_offset)
+        builder.append(offset);
+
+      return builder.toHashCode();
+    }
+
+    public int compareTo(get_cfs_block_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+      get_cfs_block_args typedOther = (get_cfs_block_args)other;
+
+      lastComparison = Boolean.valueOf(isSetCaller_host_name()).compareTo(typedOther.isSetCaller_host_name());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCaller_host_name()) {
+        lastComparison = TBaseHelper.compareTo(this.caller_host_name, typedOther.caller_host_name);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetBlock_id()).compareTo(typedOther.isSetBlock_id());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetBlock_id()) {
+        lastComparison = TBaseHelper.compareTo(this.block_id, typedOther.block_id);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetOffset()).compareTo(typedOther.isSetOffset());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetOffset()) {
+        lastComparison = TBaseHelper.compareTo(this.offset, typedOther.offset);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(TProtocol iprot) throws TException {
+      TField field;
+      iprot.readStructBegin();
+      while (true)
+      {
+        field = iprot.readFieldBegin();
+        if (field.type == TType.STOP) { 
+          break;
+        }
+        switch (field.id) {
+          case 1: // CALLER_HOST_NAME
+            if (field.type == TType.STRING) {
+              this.caller_host_name = iprot.readString();
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 2: // BLOCK_ID
+            if (field.type == TType.STRING) {
+              this.block_id = iprot.readBinary();
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 3: // OFFSET
+            if (field.type == TType.I32) {
+              this.offset = iprot.readI32();
+              setOffsetIsSet(true);
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          default:
+            TProtocolUtil.skip(iprot, field.type);
+        }
+        iprot.readFieldEnd();
+      }
+      iprot.readStructEnd();
+
+      // check for required fields of primitive type, which can't be checked in the validate method
+      validate();
+    }
+
+    public void write(TProtocol oprot) throws TException {
+      validate();
+
+      oprot.writeStructBegin(STRUCT_DESC);
+      if (this.caller_host_name != null) {
+        oprot.writeFieldBegin(CALLER_HOST_NAME_FIELD_DESC);
+        oprot.writeString(this.caller_host_name);
+        oprot.writeFieldEnd();
+      }
+      if (this.block_id != null) {
+        oprot.writeFieldBegin(BLOCK_ID_FIELD_DESC);
+        oprot.writeBinary(this.block_id);
+        oprot.writeFieldEnd();
+      }
+      oprot.writeFieldBegin(OFFSET_FIELD_DESC);
+      oprot.writeI32(this.offset);
+      oprot.writeFieldEnd();
+      oprot.writeFieldStop();
+      oprot.writeStructEnd();
+    }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("get_cfs_block_args(");
+      boolean first = true;
+
+      sb.append("caller_host_name:");
+      if (this.caller_host_name == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.caller_host_name);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("block_id:");
+      if (this.block_id == null) {
+        sb.append("null");
+      } else {
+        TBaseHelper.toString(this.block_id, sb);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("offset:");
+      sb.append(this.offset);
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws TException {
+      // check for required fields
+      if (caller_host_name == null) {
+        throw new TProtocolException("Required field 'caller_host_name' was not present! Struct: " + toString());
+      }
+      if (block_id == null) {
+        throw new TProtocolException("Required field 'block_id' was not present! Struct: " + toString());
+      }
+    }
+
+  }
+
+  public static class get_cfs_block_result implements TBase<get_cfs_block_result, get_cfs_block_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final TStruct STRUCT_DESC = new TStruct("get_cfs_block_result");
+
+    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.STRUCT, (short)0);
+    private static final TField IRE_FIELD_DESC = new TField("ire", TType.STRUCT, (short)1);
+    private static final TField UE_FIELD_DESC = new TField("ue", TType.STRUCT, (short)2);
+    private static final TField TE_FIELD_DESC = new TField("te", TType.STRUCT, (short)3);
+    private static final TField NFE_FIELD_DESC = new TField("nfe", TType.STRUCT, (short)4);
+
+    public LocalOrRemoteBlock success;
+    public InvalidRequestException ire;
+    public UnavailableException ue;
+    public TimedOutException te;
+    public NotFoundException nfe;
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements TFieldIdEnum {
+      SUCCESS((short)0, "success"),
+      IRE((short)1, "ire"),
+      UE((short)2, "ue"),
+      TE((short)3, "te"),
+      NFE((short)4, "nfe");
+
+      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
+
+      static {
+        for (_Fields field : EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 0: // SUCCESS
+            return SUCCESS;
+          case 1: // IRE
+            return IRE;
+          case 2: // UE
+            return UE;
+          case 3: // TE
+            return TE;
+          case 4: // NFE
+            return NFE;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final String _fieldName;
+
+      _Fields(short thriftId, String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+
+    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    static {
+      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
+          new StructMetaData(TType.STRUCT, LocalOrRemoteBlock.class)));
+      tmpMap.put(_Fields.IRE, new FieldMetaData("ire", TFieldRequirementType.DEFAULT, 
+          new FieldValueMetaData(TType.STRUCT)));
+      tmpMap.put(_Fields.UE, new FieldMetaData("ue", TFieldRequirementType.DEFAULT, 
+          new FieldValueMetaData(TType.STRUCT)));
+      tmpMap.put(_Fields.TE, new FieldMetaData("te", TFieldRequirementType.DEFAULT, 
+          new FieldValueMetaData(TType.STRUCT)));
+      tmpMap.put(_Fields.NFE, new FieldMetaData("nfe", TFieldRequirementType.DEFAULT, 
+          new FieldValueMetaData(TType.STRUCT)));
+      metaDataMap = Collections.unmodifiableMap(tmpMap);
+      FieldMetaData.addStructMetaDataMap(get_cfs_block_result.class, metaDataMap);
+    }
+
+    public get_cfs_block_result() {
+    }
+
+    public get_cfs_block_result(
+      LocalOrRemoteBlock success,
+      InvalidRequestException ire,
+      UnavailableException ue,
+      TimedOutException te,
+      NotFoundException nfe)
+    {
+      this();
+      this.success = success;
+      this.ire = ire;
+      this.ue = ue;
+      this.te = te;
+      this.nfe = nfe;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public get_cfs_block_result(get_cfs_block_result other) {
+      if (other.isSetSuccess()) {
+        this.success = new LocalOrRemoteBlock(other.success);
+      }
+      if (other.isSetIre()) {
+        this.ire = new InvalidRequestException(other.ire);
+      }
+      if (other.isSetUe()) {
+        this.ue = new UnavailableException(other.ue);
+      }
+      if (other.isSetTe()) {
+        this.te = new TimedOutException(other.te);
+      }
+      if (other.isSetNfe()) {
+        this.nfe = new NotFoundException(other.nfe);
+      }
+    }
+
+    public get_cfs_block_result deepCopy() {
+      return new get_cfs_block_result(this);
+    }
+
+    @Override
+    public void clear() {
+      this.success = null;
+      this.ire = null;
+      this.ue = null;
+      this.te = null;
+      this.nfe = null;
+    }
+
+    public LocalOrRemoteBlock getSuccess() {
+      return this.success;
+    }
+
+    public get_cfs_block_result setSuccess(LocalOrRemoteBlock success) {
+      this.success = success;
+      return this;
+    }
+
+    public void unsetSuccess() {
+      this.success = null;
+    }
+
+    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    public boolean isSetSuccess() {
+      return this.success != null;
+    }
+
+    public void setSuccessIsSet(boolean value) {
+      if (!value) {
+        this.success = null;
+      }
+    }
+
+    public InvalidRequestException getIre() {
+      return this.ire;
+    }
+
+    public get_cfs_block_result setIre(InvalidRequestException ire) {
+      this.ire = ire;
+      return this;
+    }
+
+    public void unsetIre() {
+      this.ire = null;
+    }
+
+    /** Returns true if field ire is set (has been asigned a value) and false otherwise */
+    public boolean isSetIre() {
+      return this.ire != null;
+    }
+
+    public void setIreIsSet(boolean value) {
+      if (!value) {
+        this.ire = null;
+      }
+    }
+
+    public UnavailableException getUe() {
+      return this.ue;
+    }
+
+    public get_cfs_block_result setUe(UnavailableException ue) {
+      this.ue = ue;
+      return this;
+    }
+
+    public void unsetUe() {
+      this.ue = null;
+    }
+
+    /** Returns true if field ue is set (has been asigned a value) and false otherwise */
+    public boolean isSetUe() {
+      return this.ue != null;
+    }
+
+    public void setUeIsSet(boolean value) {
+      if (!value) {
+        this.ue = null;
+      }
+    }
+
+    public TimedOutException getTe() {
+      return this.te;
+    }
+
+    public get_cfs_block_result setTe(TimedOutException te) {
+      this.te = te;
+      return this;
+    }
+
+    public void unsetTe() {
+      this.te = null;
+    }
+
+    /** Returns true if field te is set (has been asigned a value) and false otherwise */
+    public boolean isSetTe() {
+      return this.te != null;
+    }
+
+    public void setTeIsSet(boolean value) {
+      if (!value) {
+        this.te = null;
+      }
+    }
+
+    public NotFoundException getNfe() {
+      return this.nfe;
+    }
+
+    public get_cfs_block_result setNfe(NotFoundException nfe) {
+      this.nfe = nfe;
+      return this;
+    }
+
+    public void unsetNfe() {
+      this.nfe = null;
+    }
+
+    /** Returns true if field nfe is set (has been asigned a value) and false otherwise */
+    public boolean isSetNfe() {
+      return this.nfe != null;
+    }
+
+    public void setNfeIsSet(boolean value) {
+      if (!value) {
+        this.nfe = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, Object value) {
+      switch (field) {
+      case SUCCESS:
+        if (value == null) {
+          unsetSuccess();
+        } else {
+          setSuccess((LocalOrRemoteBlock)value);
+        }
+        break;
+
+      case IRE:
+        if (value == null) {
+          unsetIre();
+        } else {
+          setIre((InvalidRequestException)value);
+        }
+        break;
+
+      case UE:
+        if (value == null) {
+          unsetUe();
+        } else {
+          setUe((UnavailableException)value);
+        }
+        break;
+
+      case TE:
+        if (value == null) {
+          unsetTe();
+        } else {
+          setTe((TimedOutException)value);
+        }
+        break;
+
+      case NFE:
+        if (value == null) {
+          unsetNfe();
+        } else {
+          setNfe((NotFoundException)value);
+        }
+        break;
+
+      }
+    }
+
+    public Object getFieldValue(_Fields field) {
+      switch (field) {
+      case SUCCESS:
+        return getSuccess();
+
+      case IRE:
+        return getIre();
+
+      case UE:
+        return getUe();
+
+      case TE:
+        return getTe();
+
+      case NFE:
+        return getNfe();
+
+      }
+      throw new IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new IllegalArgumentException();
+      }
+
+      switch (field) {
+      case SUCCESS:
+        return isSetSuccess();
+      case IRE:
+        return isSetIre();
+      case UE:
+        return isSetUe();
+      case TE:
+        return isSetTe();
+      case NFE:
+        return isSetNfe();
+      }
+      throw new IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof get_cfs_block_result)
+        return this.equals((get_cfs_block_result)that);
+      return false;
+    }
+
+    public boolean equals(get_cfs_block_result that) {
+      if (that == null)
+        return false;
+
+      boolean this_present_success = true && this.isSetSuccess();
+      boolean that_present_success = true && that.isSetSuccess();
+      if (this_present_success || that_present_success) {
+        if (!(this_present_success && that_present_success))
+          return false;
+        if (!this.success.equals(that.success))
+          return false;
+      }
+
+      boolean this_present_ire = true && this.isSetIre();
+      boolean that_present_ire = true && that.isSetIre();
+      if (this_present_ire || that_present_ire) {
+        if (!(this_present_ire && that_present_ire))
+          return false;
+        if (!this.ire.equals(that.ire))
+          return false;
+      }
+
+      boolean this_present_ue = true && this.isSetUe();
+      boolean that_present_ue = true && that.isSetUe();
+      if (this_present_ue || that_present_ue) {
+        if (!(this_present_ue && that_present_ue))
+          return false;
+        if (!this.ue.equals(that.ue))
+          return false;
+      }
+
+      boolean this_present_te = true && this.isSetTe();
+      boolean that_present_te = true && that.isSetTe();
+      if (this_present_te || that_present_te) {
+        if (!(this_present_te && that_present_te))
+          return false;
+        if (!this.te.equals(that.te))
+          return false;
+      }
+
+      boolean this_present_nfe = true && this.isSetNfe();
+      boolean that_present_nfe = true && that.isSetNfe();
+      if (this_present_nfe || that_present_nfe) {
+        if (!(this_present_nfe && that_present_nfe))
+          return false;
+        if (!this.nfe.equals(that.nfe))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      HashCodeBuilder builder = new HashCodeBuilder();
+
+      boolean present_success = true && (isSetSuccess());
+      builder.append(present_success);
+      if (present_success)
+        builder.append(success);
+
+      boolean present_ire = true && (isSetIre());
+      builder.append(present_ire);
+      if (present_ire)
+        builder.append(ire);
+
+      boolean present_ue = true && (isSetUe());
+      builder.append(present_ue);
+      if (present_ue)
+        builder.append(ue);
+
+      boolean present_te = true && (isSetTe());
+      builder.append(present_te);
+      if (present_te)
+        builder.append(te);
+
+      boolean present_nfe = true && (isSetNfe());
+      builder.append(present_nfe);
+      if (present_nfe)
+        builder.append(nfe);
+
+      return builder.toHashCode();
+    }
+
+    public int compareTo(get_cfs_block_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+      get_cfs_block_result typedOther = (get_cfs_block_result)other;
+
+      lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(typedOther.isSetSuccess());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSuccess()) {
+        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetIre()).compareTo(typedOther.isSetIre());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetIre()) {
+        lastComparison = TBaseHelper.compareTo(this.ire, typedOther.ire);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetUe()).compareTo(typedOther.isSetUe());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetUe()) {
+        lastComparison = TBaseHelper.compareTo(this.ue, typedOther.ue);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetTe()).compareTo(typedOther.isSetTe());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetTe()) {
+        lastComparison = TBaseHelper.compareTo(this.te, typedOther.te);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetNfe()).compareTo(typedOther.isSetNfe());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetNfe()) {
+        lastComparison = TBaseHelper.compareTo(this.nfe, typedOther.nfe);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(TProtocol iprot) throws TException {
+      TField field;
+      iprot.readStructBegin();
+      while (true)
+      {
+        field = iprot.readFieldBegin();
+        if (field.type == TType.STOP) { 
+          break;
+        }
+        switch (field.id) {
+          case 0: // SUCCESS
+            if (field.type == TType.STRUCT) {
+              this.success = new LocalOrRemoteBlock();
+              this.success.read(iprot);
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 1: // IRE
+            if (field.type == TType.STRUCT) {
+              this.ire = new InvalidRequestException();
+              this.ire.read(iprot);
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 2: // UE
+            if (field.type == TType.STRUCT) {
+              this.ue = new UnavailableException();
+              this.ue.read(iprot);
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 3: // TE
+            if (field.type == TType.STRUCT) {
+              this.te = new TimedOutException();
+              this.te.read(iprot);
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 4: // NFE
+            if (field.type == TType.STRUCT) {
+              this.nfe = new NotFoundException();
+              this.nfe.read(iprot);
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          default:
+            TProtocolUtil.skip(iprot, field.type);
+        }
+        iprot.readFieldEnd();
+      }
+      iprot.readStructEnd();
+
+      // check for required fields of primitive type, which can't be checked in the validate method
+      validate();
+    }
+
+    public void write(TProtocol oprot) throws TException {
+      oprot.writeStructBegin(STRUCT_DESC);
+
+      if (this.isSetSuccess()) {
+        oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+        this.success.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetIre()) {
+        oprot.writeFieldBegin(IRE_FIELD_DESC);
+        this.ire.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetUe()) {
+        oprot.writeFieldBegin(UE_FIELD_DESC);
+        this.ue.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetTe()) {
+        oprot.writeFieldBegin(TE_FIELD_DESC);
+        this.te.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetNfe()) {
+        oprot.writeFieldBegin(NFE_FIELD_DESC);
+        this.nfe.write(oprot);
+        oprot.writeFieldEnd();
+      }
+      oprot.writeFieldStop();
+      oprot.writeStructEnd();
+    }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("get_cfs_block_result(");
+      boolean first = true;
+
+      sb.append("success:");
+      if (this.success == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.success);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("ire:");
+      if (this.ire == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.ire);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("ue:");
+      if (this.ue == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.ue);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("te:");
+      if (this.te == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.te);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("nfe:");
+      if (this.nfe == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.nfe);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws TException {
+      // check for required fields
+    }
+
+  }
+
+  public static class insert_cfs_block_args implements TBase<insert_cfs_block_args, insert_cfs_block_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final TStruct STRUCT_DESC = new TStruct("insert_cfs_block_args");
+
+    private static final TField ID_FIELD_DESC = new TField("id", TType.STRING, (short)1);
+    private static final TField DATA_FIELD_DESC = new TField("data", TType.STRING, (short)2);
+
+    public ByteBuffer id;
+    public ByteBuffer data;
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements TFieldIdEnum {
+      ID((short)1, "id"),
+      DATA((short)2, "data");
+
+      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
+
+      static {
+        for (_Fields field : EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // ID
+            return ID;
+          case 2: // DATA
+            return DATA;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final String _fieldName;
+
+      _Fields(short thriftId, String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+
+    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    static {
+      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.ID, new FieldMetaData("id", TFieldRequirementType.REQUIRED, 
+          new FieldValueMetaData(TType.STRING)));
+      tmpMap.put(_Fields.DATA, new FieldMetaData("data", TFieldRequirementType.REQUIRED, 
+          new FieldValueMetaData(TType.STRING)));
+      metaDataMap = Collections.unmodifiableMap(tmpMap);
+      FieldMetaData.addStructMetaDataMap(insert_cfs_block_args.class, metaDataMap);
+    }
+
+    public insert_cfs_block_args() {
+    }
+
+    public insert_cfs_block_args(
+      ByteBuffer id,
+      ByteBuffer data)
+    {
+      this();
+      this.id = id;
+      this.data = data;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public insert_cfs_block_args(insert_cfs_block_args other) {
+      if (other.isSetId()) {
+        this.id = TBaseHelper.copyBinary(other.id);
+;
+      }
+      if (other.isSetData()) {
+        this.data = TBaseHelper.copyBinary(other.data);
+;
+      }
+    }
+
+    public insert_cfs_block_args deepCopy() {
+      return new insert_cfs_block_args(this);
+    }
+
+    @Override
+    public void clear() {
+      this.id = null;
+      this.data = null;
+    }
+
+    public byte[] getId() {
+      setId(TBaseHelper.rightSize(id));
+      return id.array();
+    }
+
+    public ByteBuffer BufferForId() {
+      return id;
+    }
+
+    public insert_cfs_block_args setId(byte[] id) {
+      setId(ByteBuffer.wrap(id));
+      return this;
+    }
+
+    public insert_cfs_block_args setId(ByteBuffer id) {
+      this.id = id;
+      return this;
+    }
+
+    public void unsetId() {
+      this.id = null;
+    }
+
+    /** Returns true if field id is set (has been asigned a value) and false otherwise */
+    public boolean isSetId() {
+      return this.id != null;
+    }
+
+    public void setIdIsSet(boolean value) {
+      if (!value) {
+        this.id = null;
+      }
+    }
+
+    public byte[] getData() {
+      setData(TBaseHelper.rightSize(data));
+      return data.array();
+    }
+
+    public ByteBuffer BufferForData() {
+      return data;
+    }
+
+    public insert_cfs_block_args setData(byte[] data) {
+      setData(ByteBuffer.wrap(data));
+      return this;
+    }
+
+    public insert_cfs_block_args setData(ByteBuffer data) {
+      this.data = data;
+      return this;
+    }
+
+    public void unsetData() {
+      this.data = null;
+    }
+
+    /** Returns true if field data is set (has been asigned a value) and false otherwise */
+    public boolean isSetData() {
+      return this.data != null;
+    }
+
+    public void setDataIsSet(boolean value) {
+      if (!value) {
+        this.data = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, Object value) {
+      switch (field) {
+      case ID:
+        if (value == null) {
+          unsetId();
+        } else {
+          setId((ByteBuffer)value);
+        }
+        break;
+
+      case DATA:
+        if (value == null) {
+          unsetData();
+        } else {
+          setData((ByteBuffer)value);
+        }
+        break;
+
+      }
+    }
+
+    public Object getFieldValue(_Fields field) {
+      switch (field) {
+      case ID:
+        return getId();
+
+      case DATA:
+        return getData();
+
+      }
+      throw new IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new IllegalArgumentException();
+      }
+
+      switch (field) {
+      case ID:
+        return isSetId();
+      case DATA:
+        return isSetData();
+      }
+      throw new IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof insert_cfs_block_args)
+        return this.equals((insert_cfs_block_args)that);
+      return false;
+    }
+
+    public boolean equals(insert_cfs_block_args that) {
+      if (that == null)
+        return false;
+
+      boolean this_present_id = true && this.isSetId();
+      boolean that_present_id = true && that.isSetId();
+      if (this_present_id || that_present_id) {
+        if (!(this_present_id && that_present_id))
+          return false;
+        if (!this.id.equals(that.id))
+          return false;
+      }
+
+      boolean this_present_data = true && this.isSetData();
+      boolean that_present_data = true && that.isSetData();
+      if (this_present_data || that_present_data) {
+        if (!(this_present_data && that_present_data))
+          return false;
+        if (!this.data.equals(that.data))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      HashCodeBuilder builder = new HashCodeBuilder();
+
+      boolean present_id = true && (isSetId());
+      builder.append(present_id);
+      if (present_id)
+        builder.append(id);
+
+      boolean present_data = true && (isSetData());
+      builder.append(present_data);
+      if (present_data)
+        builder.append(data);
+
+      return builder.toHashCode();
+    }
+
+    public int compareTo(insert_cfs_block_args other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+      insert_cfs_block_args typedOther = (insert_cfs_block_args)other;
+
+      lastComparison = Boolean.valueOf(isSetId()).compareTo(typedOther.isSetId());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetId()) {
+        lastComparison = TBaseHelper.compareTo(this.id, typedOther.id);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetData()).compareTo(typedOther.isSetData());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetData()) {
+        lastComparison = TBaseHelper.compareTo(this.data, typedOther.data);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(TProtocol iprot) throws TException {
+      TField field;
+      iprot.readStructBegin();
+      while (true)
+      {
+        field = iprot.readFieldBegin();
+        if (field.type == TType.STOP) { 
+          break;
+        }
+        switch (field.id) {
+          case 1: // ID
+            if (field.type == TType.STRING) {
+              this.id = iprot.readBinary();
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 2: // DATA
+            if (field.type == TType.STRING) {
+              this.data = iprot.readBinary();
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          default:
+            TProtocolUtil.skip(iprot, field.type);
+        }
+        iprot.readFieldEnd();
+      }
+      iprot.readStructEnd();
+
+      // check for required fields of primitive type, which can't be checked in the validate method
+      validate();
+    }
+
+    public void write(TProtocol oprot) throws TException {
+      validate();
+
+      oprot.writeStructBegin(STRUCT_DESC);
+      if (this.id != null) {
+        oprot.writeFieldBegin(ID_FIELD_DESC);
+        oprot.writeBinary(this.id);
+        oprot.writeFieldEnd();
+      }
+      if (this.data != null) {
+        oprot.writeFieldBegin(DATA_FIELD_DESC);
+        oprot.writeBinary(this.data);
+        oprot.writeFieldEnd();
+      }
+      oprot.writeFieldStop();
+      oprot.writeStructEnd();
+    }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("insert_cfs_block_args(");
+      boolean first = true;
+
+      sb.append("id:");
+      if (this.id == null) {
+        sb.append("null");
+      } else {
+        TBaseHelper.toString(this.id, sb);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("data:");
+      if (this.data == null) {
+        sb.append("null");
+      } else {
+        TBaseHelper.toString(this.data, sb);
+      }
+      first = false;
+      sb.append(")");
+      return sb.toString();
+    }
+
+    public void validate() throws TException {
+      // check for required fields
+      if (id == null) {
+        throw new TProtocolException("Required field 'id' was not present! Struct: " + toString());
+      }
+      if (data == null) {
+        throw new TProtocolException("Required field 'data' was not present! Struct: " + toString());
+      }
+    }
+
+  }
+
+  public static class insert_cfs_block_result implements TBase<insert_cfs_block_result, insert_cfs_block_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final TStruct STRUCT_DESC = new TStruct("insert_cfs_block_result");
+
+    private static final TField IRE_FIELD_DESC = new TField("ire", TType.STRUCT, (short)1);
+    private static final TField UE_FIELD_DESC = new TField("ue", TType.STRUCT, (short)2);
+    private static final TField TE_FIELD_DESC = new TField("te", TType.STRUCT, (short)3);
+
+    public InvalidRequestException ire;
+    public UnavailableException ue;
+    public TimedOutException te;
+
+    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
+    public enum _Fields implements TFieldIdEnum {
+      IRE((short)1, "ire"),
+      UE((short)2, "ue"),
+      TE((short)3, "te");
+
+      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
+
+      static {
+        for (_Fields field : EnumSet.allOf(_Fields.class)) {
+          byName.put(field.getFieldName(), field);
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, or null if its not found.
+       */
+      public static _Fields findByThriftId(int fieldId) {
+        switch(fieldId) {
+          case 1: // IRE
+            return IRE;
+          case 2: // UE
+            return UE;
+          case 3: // TE
+            return TE;
+          default:
+            return null;
+        }
+      }
+
+      /**
+       * Find the _Fields constant that matches fieldId, throwing an exception
+       * if it is not found.
+       */
+      public static _Fields findByThriftIdOrThrow(int fieldId) {
+        _Fields fields = findByThriftId(fieldId);
+        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        return fields;
+      }
+
+      /**
+       * Find the _Fields constant that matches name, or null if its not found.
+       */
+      public static _Fields findByName(String name) {
+        return byName.get(name);
+      }
+
+      private final short _thriftId;
+      private final String _fieldName;
+
+      _Fields(short thriftId, String fieldName) {
+        _thriftId = thriftId;
+        _fieldName = fieldName;
+      }
+
+      public short getThriftFieldId() {
+        return _thriftId;
+      }
+
+      public String getFieldName() {
+        return _fieldName;
+      }
+    }
+
+    // isset id assignments
+
+    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    static {
+      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.IRE, new FieldMetaData("ire", TFieldRequirementType.DEFAULT, 
+          new FieldValueMetaData(TType.STRUCT)));
+      tmpMap.put(_Fields.UE, new FieldMetaData("ue", TFieldRequirementType.DEFAULT, 
+          new FieldValueMetaData(TType.STRUCT)));
+      tmpMap.put(_Fields.TE, new FieldMetaData("te", TFieldRequirementType.DEFAULT, 
+          new FieldValueMetaData(TType.STRUCT)));
+      metaDataMap = Collections.unmodifiableMap(tmpMap);
+      FieldMetaData.addStructMetaDataMap(insert_cfs_block_result.class, metaDataMap);
+    }
+
+    public insert_cfs_block_result() {
+    }
+
+    public insert_cfs_block_result(
+      InvalidRequestException ire,
+      UnavailableException ue,
+      TimedOutException te)
+    {
+      this();
+      this.ire = ire;
+      this.ue = ue;
+      this.te = te;
+    }
+
+    /**
+     * Performs a deep copy on <i>other</i>.
+     */
+    public insert_cfs_block_result(insert_cfs_block_result other) {
+      if (other.isSetIre()) {
+        this.ire = new InvalidRequestException(other.ire);
+      }
+      if (other.isSetUe()) {
+        this.ue = new UnavailableException(other.ue);
+      }
+      if (other.isSetTe()) {
+        this.te = new TimedOutException(other.te);
+      }
+    }
+
+    public insert_cfs_block_result deepCopy() {
+      return new insert_cfs_block_result(this);
+    }
+
+    @Override
+    public void clear() {
+      this.ire = null;
+      this.ue = null;
+      this.te = null;
+    }
+
+    public InvalidRequestException getIre() {
+      return this.ire;
+    }
+
+    public insert_cfs_block_result setIre(InvalidRequestException ire) {
+      this.ire = ire;
+      return this;
+    }
+
+    public void unsetIre() {
+      this.ire = null;
+    }
+
+    /** Returns true if field ire is set (has been asigned a value) and false otherwise */
+    public boolean isSetIre() {
+      return this.ire != null;
+    }
+
+    public void setIreIsSet(boolean value) {
+      if (!value) {
+        this.ire = null;
+      }
+    }
+
+    public UnavailableException getUe() {
+      return this.ue;
+    }
+
+    public insert_cfs_block_result setUe(UnavailableException ue) {
+      this.ue = ue;
+      return this;
+    }
+
+    public void unsetUe() {
+      this.ue = null;
+    }
+
+    /** Returns true if field ue is set (has been asigned a value) and false otherwise */
+    public boolean isSetUe() {
+      return this.ue != null;
+    }
+
+    public void setUeIsSet(boolean value) {
+      if (!value) {
+        this.ue = null;
+      }
+    }
+
+    public TimedOutException getTe() {
+      return this.te;
+    }
+
+    public insert_cfs_block_result setTe(TimedOutException te) {
+      this.te = te;
+      return this;
+    }
+
+    public void unsetTe() {
+      this.te = null;
+    }
+
+    /** Returns true if field te is set (has been asigned a value) and false otherwise */
+    public boolean isSetTe() {
+      return this.te != null;
+    }
+
+    public void setTeIsSet(boolean value) {
+      if (!value) {
+        this.te = null;
+      }
+    }
+
+    public void setFieldValue(_Fields field, Object value) {
+      switch (field) {
+      case IRE:
+        if (value == null) {
+          unsetIre();
+        } else {
+          setIre((InvalidRequestException)value);
+        }
+        break;
+
+      case UE:
+        if (value == null) {
+          unsetUe();
+        } else {
+          setUe((UnavailableException)value);
+        }
+        break;
+
+      case TE:
+        if (value == null) {
+          unsetTe();
+        } else {
+          setTe((TimedOutException)value);
+        }
+        break;
+
+      }
+    }
+
+    public Object getFieldValue(_Fields field) {
+      switch (field) {
+      case IRE:
+        return getIre();
+
+      case UE:
+        return getUe();
+
+      case TE:
+        return getTe();
+
+      }
+      throw new IllegalStateException();
+    }
+
+    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    public boolean isSet(_Fields field) {
+      if (field == null) {
+        throw new IllegalArgumentException();
+      }
+
+      switch (field) {
+      case IRE:
+        return isSetIre();
+      case UE:
+        return isSetUe();
+      case TE:
+        return isSetTe();
+      }
+      throw new IllegalStateException();
+    }
+
+    @Override
+    public boolean equals(Object that) {
+      if (that == null)
+        return false;
+      if (that instanceof insert_cfs_block_result)
+        return this.equals((insert_cfs_block_result)that);
+      return false;
+    }
+
+    public boolean equals(insert_cfs_block_result that) {
+      if (that == null)
+        return false;
+
+      boolean this_present_ire = true && this.isSetIre();
+      boolean that_present_ire = true && that.isSetIre();
+      if (this_present_ire || that_present_ire) {
+        if (!(this_present_ire && that_present_ire))
+          return false;
+        if (!this.ire.equals(that.ire))
+          return false;
+      }
+
+      boolean this_present_ue = true && this.isSetUe();
+      boolean that_present_ue = true && that.isSetUe();
+      if (this_present_ue || that_present_ue) {
+        if (!(this_present_ue && that_present_ue))
+          return false;
+        if (!this.ue.equals(that.ue))
+          return false;
+      }
+
+      boolean this_present_te = true && this.isSetTe();
+      boolean that_present_te = true && that.isSetTe();
+      if (this_present_te || that_present_te) {
+        if (!(this_present_te && that_present_te))
+          return false;
+        if (!this.te.equals(that.te))
+          return false;
+      }
+
+      return true;
+    }
+
+    @Override
+    public int hashCode() {
+      HashCodeBuilder builder = new HashCodeBuilder();
+
+      boolean present_ire = true && (isSetIre());
+      builder.append(present_ire);
+      if (present_ire)
+        builder.append(ire);
+
+      boolean present_ue = true && (isSetUe());
+      builder.append(present_ue);
+      if (present_ue)
+        builder.append(ue);
+
+      boolean present_te = true && (isSetTe());
+      builder.append(present_te);
+      if (present_te)
+        builder.append(te);
+
+      return builder.toHashCode();
+    }
+
+    public int compareTo(insert_cfs_block_result other) {
+      if (!getClass().equals(other.getClass())) {
+        return getClass().getName().compareTo(other.getClass().getName());
+      }
+
+      int lastComparison = 0;
+      insert_cfs_block_result typedOther = (insert_cfs_block_result)other;
+
+      lastComparison = Boolean.valueOf(isSetIre()).compareTo(typedOther.isSetIre());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetIre()) {
+        lastComparison = TBaseHelper.compareTo(this.ire, typedOther.ire);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetUe()).compareTo(typedOther.isSetUe());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetUe()) {
+        lastComparison = TBaseHelper.compareTo(this.ue, typedOther.ue);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetTe()).compareTo(typedOther.isSetTe());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetTe()) {
+        lastComparison = TBaseHelper.compareTo(this.te, typedOther.te);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      return 0;
+    }
+
+    public _Fields fieldForId(int fieldId) {
+      return _Fields.findByThriftId(fieldId);
+    }
+
+    public void read(TProtocol iprot) throws TException {
+      TField field;
+      iprot.readStructBegin();
+      while (true)
+      {
+        field = iprot.readFieldBegin();
+        if (field.type == TType.STOP) { 
+          break;
+        }
+        switch (field.id) {
+          case 1: // IRE
+            if (field.type == TType.STRUCT) {
+              this.ire = new InvalidRequestException();
+              this.ire.read(iprot);
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 2: // UE
+            if (field.type == TType.STRUCT) {
+              this.ue = new UnavailableException();
+              this.ue.read(iprot);
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 3: // TE
+            if (field.type == TType.STRUCT) {
+              this.te = new TimedOutException();
+              this.te.read(iprot);
+            } else { 
+              TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          default:
+            TProtocolUtil.skip(iprot, field.type);
+        }
+        iprot.readFieldEnd();
+      }
+      iprot.readStructEnd();
+
+      // check for required fields of primitive type, which can't be checked in the validate method
+      validate();
+    }
+
+    public void write(TProtocol oprot) throws TException {
+      oprot.writeStructBegin(STRUCT_DESC);
+
+      if (this.isSetIre()) {
+        oprot.writeFieldBegin(IRE_FIELD_DESC);
+        this.ire.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetUe()) {
+        oprot.writeFieldBegin(UE_FIELD_DESC);
+        this.ue.write(oprot);
+        oprot.writeFieldEnd();
+      } else if (this.isSetTe()) {
+        oprot.writeFieldBegin(TE_FIELD_DESC);
+        this.te.write(oprot);
+        oprot.writeFieldEnd();
+      }
+      oprot.writeFieldStop();
+      oprot.writeStructEnd();
+    }
+
+    @Override
+    public String toString() {
+      StringBuilder sb = new StringBuilder("insert_cfs_block_result(");
+      boolean first = true;
+
+      sb.append("ire:");
+      if (this.ire == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.ire);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("ue:");
+      if (this.ue == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.ue);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("te:");
+      if (this.te == null) {
+        sb.append("null");
+      } else {
+        sb.append(this.te);
       }
       first = false;
       sb.append(")");

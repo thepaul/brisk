@@ -17,12 +17,15 @@
  */
 package org.apache.cassandra.hadoop.fs;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.*;
 import java.net.URI;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
+import java.util.concurrent.Future;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -31,6 +34,7 @@ import org.apache.cassandra.CleanupHelper;
 import org.apache.cassandra.EmbeddedServer;
 import org.apache.cassandra.config.ConfigurationException;
 import org.apache.cassandra.config.DatabaseDescriptor;
+import org.apache.cassandra.db.Table;
 import org.apache.cassandra.utils.FBUtilities;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.BlockLocation;
@@ -40,8 +44,6 @@ import org.apache.thrift.transport.TTransportException;
 
 public class CassandraFileSystemTest extends CleanupHelper
 {
-    private static EmbeddedServer brisk;
-
     /**
      * Set embedded cassandra up and spawn it in a new thread.
      *
@@ -52,13 +54,24 @@ public class CassandraFileSystemTest extends CleanupHelper
     @BeforeClass
     public static void setup() throws TTransportException, IOException, InterruptedException, ConfigurationException
     {
-        brisk = new EmbeddedServer();
-        brisk.startBrisk();                
+        
+        EmbeddedServer.startBrisk();                
     }
 
     
     @Test
-    public void testFileSystem() throws Exception
+    public void testFileSystemWithoutFlush() throws Exception
+    {
+        testFileSystem(false);
+    }
+    
+    @Test
+    public void testFileSystemWithFlush() throws Exception
+    {
+        testFileSystem(true);
+    }
+    
+    private void testFileSystem(boolean flush) throws Exception
     {
         
         CassandraFileSystem fs = new CassandraFileSystem();
@@ -90,6 +103,15 @@ public class CassandraFileSystemTest extends CleanupHelper
        
         //Write file
         fs.copyFromLocalFile(new Path("file://"+tmp.getAbsolutePath()), new Path("/mytestdir/testfile"));
+        
+        if(flush)
+        {
+            List<Future<?>> cb = Table.open("cfs").flush();
+            
+            for(Future c : cb)
+                c.get();
+            
+        }
         
         Set<Path> allPaths = fs.store.listDeepSubPaths(new Path("/mytestdir"));
 

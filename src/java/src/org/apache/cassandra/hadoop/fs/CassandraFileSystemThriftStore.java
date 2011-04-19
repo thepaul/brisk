@@ -17,12 +17,12 @@
  */
 package org.apache.cassandra.hadoop.fs;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.URI;
 import java.nio.ByteBuffer;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
 import java.util.*;
 
 import javax.management.RuntimeErrorException;
@@ -32,6 +32,7 @@ import com.datastax.brisk.BriskConf;
 
 import org.apache.cassandra.hadoop.CassandraProxyClient;
 import org.apache.cassandra.hadoop.trackers.CassandraJobConf;
+import org.apache.cassandra.io.util.FileUtils;
 import org.apache.cassandra.thrift.*;
 import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.cassandra.utils.FBUtilities;
@@ -100,7 +101,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
         if (ks == null)
             ks = createKeySpace();
-        
+
         initConsistencyLevels(ks, conf);
 
         try
@@ -128,7 +129,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
             if (consistencyLevelRead.equals(ConsistencyLevel.QUORUM)) 
             {
                 consistencyLevelRead = ConsistencyLevel.LOCAL_QUORUM;
-            }
+    }
             if (consistencyLevelWrite.equals(ConsistencyLevel.QUORUM)) 
             {
                 consistencyLevelWrite = ConsistencyLevel.LOCAL_QUORUM;
@@ -136,7 +137,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         }
     }
 
-	private KsDef checkKeyspace() throws IOException
+    private KsDef checkKeyspace() throws IOException
     {
         try
         {
@@ -211,29 +212,70 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
     public InputStream retrieveBlock(Block block, long byteRangeStart) throws IOException
     {
-        ByteBuffer blockId = getBlockKey(block.id);
-
-        ColumnOrSuperColumn blockData = null;
+        ByteBuffer blockId = getBlockKey(block.id);       
+        
+        LocalOrRemoteBlock blockData = null;
 
         try
         {
-            blockData = client.get(blockId, blockDataPath, consistencyLevelRead);
+            blockData = ((Brisk.Iface)client).get_cfs_block(InetAddress.getLocalHost().getHostName(), blockId, (int)byteRangeStart);
         }
         catch (Exception e)
         {
             throw new IOException(e);
         }
 
-        if (blockData == null || blockData.column == null)
+        if (blockData == null)
             throw new IOException("Missing block: " + block.id);
 
-        InputStream is = ByteBufferUtil.inputStream(blockData.column.value);
-
-        is.skip(byteRangeStart);
-
+        InputStream is = null;
+        if(blockData.remote_block != null)
+           is = ByteBufferUtil.inputStream(blockData.remote_block);
+        else
+           is = readLocalBlock(blockData.getLocal_block());
+        
         return is;
     }
 
+    private InputStream readLocalBlock(LocalBlock blockInfo)
+    {
+        
+        if(blockInfo.file == null)
+            throw new RuntimeException("Local file name is not defined");
+        
+        
+        if(blockInfo.length == 0)
+            return  ByteBufferUtil.inputStream(ByteBufferUtil.EMPTY_BYTE_BUFFER);
+        
+        RandomAccessFile raf = null;
+        try
+        {
+             raf = new RandomAccessFile(blockInfo.file,"r");
+             
+             logger.info("Mmapping "+blockInfo.length+" bytes");
+             
+             MappedByteBuffer bb = raf.getChannel().map(FileChannel.MapMode.READ_ONLY, blockInfo.offset, blockInfo.length);
+
+            
+             
+             return new ByteBufferUtil().inputStream(bb);
+             
+        }
+        catch (FileNotFoundException e)
+        {
+           throw new RuntimeException("Local file does not exist: "+blockInfo.file);
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(String.format("Unable to mmap block %s[%ld,%ld]",blockInfo.file, blockInfo.length, blockInfo.offset),e);
+        }
+        finally
+        {
+            FileUtils.closeQuietly(raf);
+        }
+        
+    }
+    
     public INode retrieveINode(Path path) throws IOException
     {
         ByteBuffer pathKey = getPathKey(path);
@@ -441,10 +483,10 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
             return locations;
         }
-        catch (TException e)
+        catch (Exception e)
         {
             throw new IOException(e);
         }
-
+         
     }
 }
