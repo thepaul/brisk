@@ -60,7 +60,7 @@ def commandLineSwitches():
 
 
     parser.add_option("-c", "--confPath", action="store", type="string", dest="confPath", help="help!")
-    parser.add_option("-h", "--hconfPath", action="store", type="string", dest="hconfPath", help="help!")
+    parser.add_option("-p", "--hconfPath", action="store", type="string", dest="hconfPath", help="help!")
     parser.add_option("-o", "--opsConfPath", action="store", type="string", dest="opsConfPath", help="help!")
 
     (options, args) = parser.parse_args()
