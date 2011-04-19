@@ -28,6 +28,7 @@ import org.apache.hadoop.hive.metastore.model.MGlobalPrivilege;
 import org.apache.hadoop.hive.metastore.model.MPartitionColumnPrivilege;
 import org.apache.hadoop.hive.metastore.model.MPartitionPrivilege;
 import org.apache.hadoop.hive.metastore.model.MRoleMap;
+import org.apache.hadoop.hive.metastore.model.MStorageDescriptor;
 import org.apache.hadoop.hive.metastore.model.MTableColumnPrivilege;
 import org.apache.hadoop.hive.metastore.model.MTablePrivilege;
 import org.apache.thrift.TBase;
@@ -165,17 +166,40 @@ public class CassandraHiveMetaStore implements RawStore {
         return results;
     }    
     
-    public boolean alterDatabase(String databaseName, Database database)
+    public boolean alterDatabase(String oldDatabaseName, Database database)
             throws NoSuchObjectException, MetaException
     {
         try 
         {
-            createDatabase(database);
+            createDatabase(database);            
         } 
         catch (InvalidObjectException e) 
         {
-            throw new CassandraHiveMetaStoreException("Error attempting to alter database: " + databaseName, e);
+            throw new CassandraHiveMetaStoreException("Error attempting to alter database: " + oldDatabaseName, e);
         }        
+        List<String> tables = getAllTables(oldDatabaseName);
+        List<TBase> removeable = new ArrayList<TBase>();
+        for (String table : tables)
+        {
+            Table t = getTable(oldDatabaseName, table);         
+            try 
+            {
+                Table nTable = t.deepCopy();
+                nTable.setDbName(database.getName());
+                
+                removeable.addAll(updateTableComponents(oldDatabaseName, database, t.getTableName(), t));
+                createTable(nTable);
+                
+                
+            }
+            catch (Exception e) 
+            {
+                throw new MetaException("Problem in database rename");                                
+            }
+            removeable.add(t);
+        }
+        metaStorePersister.removeAll(removeable, oldDatabaseName);
+        
         return true;
     }
     
@@ -245,14 +269,44 @@ public class CassandraHiveMetaStore implements RawStore {
         return getTables(databaseName, StringUtils.EMPTY);
     }
     
-    public void alterTable(String databaseName, String tableName, Table table)
-            throws InvalidObjectException, MetaException
+    public void alterTable(String databaseName, String oldTableName, Table table)
+        throws InvalidObjectException, MetaException
     {
         if ( log.isDebugEnabled() ) 
-            log.debug("Altering table {} on datbase: {} Table: {}",
-                    new Object[]{tableName, databaseName, table});
-        createTable(table);
+            log.debug("Altering oldTableName {} on datbase: {} new Table: {}",
+                    new Object[]{oldTableName, databaseName, table});
+        
+        updateTableComponents(databaseName, null, oldTableName, table);
+        dropTable(databaseName, oldTableName);
     }   
+    
+    private List<TBase> updateTableComponents(String oldDatabaseName, Database database, String oldTableName, Table table)
+        throws InvalidObjectException, MetaException
+    {
+        
+        createTable(table);
+        List<Partition> parts = getPartitions(oldDatabaseName, oldTableName, -1);
+        List<TBase> toRemove = new ArrayList<TBase>();        
+        for (Partition partition : parts)
+        {
+            toRemove.add(partition.deepCopy());
+            if ( database != null )
+                partition.setDbName(database.getName());
+            partition.setTableName(table.getTableName());
+            
+        }
+        // getIndexes
+        List<Index> indexes = getIndexes(oldDatabaseName, oldTableName, -1);
+        for (Index index : indexes)
+        {
+            toRemove.add(index.deepCopy());
+            if ( database != null )
+                index.setDbName(database.getName());
+            index.setOrigTableName(table.getTableName());            
+        }                
+            
+        return toRemove;
+    }
     
     public boolean dropTable(String databaseName, String tableName) throws MetaException
     {
@@ -305,13 +359,14 @@ public class CassandraHiveMetaStore implements RawStore {
     }
     
     public void alterIndex(String databaseName, String originalTableName, 
-            String indexName, Index index)
+            String originalIndexName, Index index)
             throws InvalidObjectException, MetaException
     {
         if ( log.isDebugEnabled() )
             log.debug("Altering index {} on database: {} and table: {} Index: {}", 
-                    new Object[]{ indexName, databaseName, originalTableName, index});
+                    new Object[]{ originalIndexName, databaseName, originalTableName, index});
         addIndex(index);
+        dropIndex(databaseName, originalTableName, originalIndexName);
     }
     
     public boolean dropIndex(String databaseName, String originalTableName, String indexName)
@@ -383,7 +438,17 @@ public class CassandraHiveMetaStore implements RawStore {
         if ( log.isDebugEnabled() ) 
             log.debug("Altering partiion for table {} on database: {} Partition: {}",
                     new Object[]{tableName, databaseName, partition});
+        Partition oldPartition;
+        try 
+        {
+            oldPartition = getPartition(databaseName, tableName, partition.getValues());            
+        } 
+        catch (NoSuchObjectException nse) 
+        {
+            throw new InvalidObjectException(nse.getMessage());
+        }
         addPartition(partition);
+        dropPartition(databaseName, tableName, oldPartition.getValues());
     }
 
     public boolean dropPartition(String databaseName, String tableName, List<String> partitions)
