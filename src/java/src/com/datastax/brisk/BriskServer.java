@@ -44,7 +44,7 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
         if (DatabaseDescriptor.getDiskAccessMode() == DiskAccessMode.mmap)
         {
             
-            logger.info("Checking for local block: "+blockId);
+            logger.info("Checking for local block: "+blockId+" from "+callerHostName+" on "+FBUtilities.getLocalAddress().getHostName() );
             
             List<String> hosts = getKeyLocations(blockId);
             boolean isLocal = false;
@@ -53,13 +53,16 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
             {
                 if (hostName.equals(callerHostName) && hostName.equals(FBUtilities.getLocalAddress().getHostName()))
                 {
-                    isLocal = true;                
+                    isLocal = true;            
+                    
                     break;
                 }
             }
             
             if(isLocal)
             {
+                logger.info("Local block should be on this node "+blockId);
+                
                 LocalBlock localBlock = getLocalBlock(blockId, offset);               
                 
                 if(localBlock != null)
@@ -206,7 +209,7 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
 
                 int bytesReadFromStart = mappedLength - file.available();
 
-                assert offset <= file.available() : String.format("%d > %d", offset, file.available());
+                assert offset <= file.available() : String.format("%d > %d %d", offset, file.available(), blockLength);
 
                 long dataOffset = position + bytesReadFromStart;
                 
