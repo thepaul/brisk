@@ -4,10 +4,11 @@
 <!-- Put site-specific property overrides in this file. -->
 
 <configuration>
-
+<!--  Review this property. It has no effect.
 <property>
-  <name>dfs.block.size</name>
+  <name>fs.local.block.size</name>
   <value>1048576</value>
 </property>
+-->
 
 </configuration>
