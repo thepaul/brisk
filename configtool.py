@@ -24,7 +24,8 @@ def promptUserInfo():
     clusterList = clusterList.split(',')
 
     while (not type(clusterSize) is int):
-        clusterSize = raw_input("Current cluster size:\n").strip()
+        clusterSize = raw_input("Current cluster size:\n")
+        clusterSize = int(clusterSize)
 
     while (not autoBootstrap == 'y') or (not autoBootstrap == 'n'):
         autoBootstrap = raw_input("Is this node being autoBootStrapped? [y/n]\n").strip()
