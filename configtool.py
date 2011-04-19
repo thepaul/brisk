@@ -23,7 +23,7 @@ def promptUserInfo():
     clusterList = clusterList.replace(' ', '')
     clusterList = clusterList.split(',')
 
-    while (not type(i) is int):
+    while (not type(clusterSize) is int):
         clusterSize = raw_input("Current cluster size:\n")
 
     while (not autoBootstrap == 'y') or (not autoBootstrap == 'n'):
