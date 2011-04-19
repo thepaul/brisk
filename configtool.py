@@ -22,6 +22,7 @@ def promptUserInfo():
     clusterList = raw_input("Cluster list (comma-delimited):\n")
     clusterList = clusterList.replace(' ', '')
     clusterList = clusterList.split(',')
+    clusterList.sort()
 
     while (not type(clusterSize) is int):
         clusterSize = raw_input("Current cluster size:\n")
@@ -45,6 +46,15 @@ def promptUserInfo():
             tokenPosition = int(tokenPosition)
         except:
             print "Please enter a valid number."
+
+def commandLineSwitches():
+    parser = OptionParser()
+    parser.add_option("-b", "--branch", action="store", type="string", dest="branch", help="help!")
+
+    (options, args) = parser.parse_args()
+
+    print options
+
 
 def configureCassandraYaml():
     with open(confPath + 'cassandra.yaml', 'r') as f:
@@ -75,7 +85,8 @@ def configureCassandraYaml():
     yaml = yaml.replace('rpc_address: localhost', 'rpc_address: 0.0.0.0')
     
     # Set cluster_name to reservationid
-    yaml = yaml.replace("cluster_name: 'Test Cluster'", "cluster_name: '" + clusterName + "'")
+    p = re.compile('cluster_name: .*\s*#')
+    yaml = yaml.replace("cluster_name: '" + clusterName + "'\n\n#", yaml)
     
     # Construct token for an equally split ring
     if clusterSize:
@@ -84,8 +95,7 @@ def configureCassandraYaml():
         yaml = p.sub( 'initial_token: ' + str(token) + "\n\n#", yaml)
     
     # Brisk: Set to use different datacenters
-    if options and options.clusterSize and options.vanillanodes:
-        yaml = yaml.replace('endpoint_snitch: org.apache.cassandra.locator.SimpleSnitch', 'endpoint_snitch: org.apache.cassandra.locator.PropertyFileSnitch')
+    # yaml = yaml.replace('endpoint_snitch: org.apache.cassandra.locator.SimpleSnitch', 'endpoint_snitch: org.apache.cassandra.locator.PropertyFileSnitch')
     
     with open(confPath + 'cassandra.yaml', 'w') as f:
         f.write(yaml)
@@ -117,5 +127,5 @@ def configureOpsCenterConf():
 
 
 
-
+commandLineSwitches()
 promptUserInfo()
