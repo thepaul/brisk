@@ -12,6 +12,7 @@ import java.util.concurrent.TimeoutException;
 import org.apache.cassandra.config.DatabaseDescriptor;
 import org.apache.cassandra.config.Config.DiskAccessMode;
 import org.apache.cassandra.db.*;
+import org.apache.cassandra.db.filter.QueryPath;
 import org.apache.cassandra.dht.Token;
 import org.apache.cassandra.io.sstable.Component;
 import org.apache.cassandra.io.sstable.IndexHelper;
@@ -33,9 +34,11 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
     static final Logger     logger         = Logger.getLogger(BriskServer.class);
 
     static final String     cfsKeyspace    = "cfs";
+    static final String     cfsInodeFamily = "inode";
     static final String     cfsBlockFamily = "blocks";
     static final ByteBuffer dataCol        = ByteBufferUtil.bytes("data");
     static final ColumnParent blockDataPath= new ColumnParent(cfsBlockFamily);
+    static final QueryPath    inodeQueryPath =  new QueryPath(cfsInodeFamily, null, dataCol);
 
     public LocalOrRemoteBlock get_cfs_block(String callerHostName, ByteBuffer blockId, int offset) throws TException, TimedOutException, UnavailableException, InvalidRequestException, NotFoundException
     {
@@ -81,12 +84,6 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
         //Fallback to storageProxy
         return getRemoteBlock(blockId, offset);
         
-    }
-
-    public void insert_cfs_block(ByteBuffer id, ByteBuffer data) throws TException
-    {
-        // TODO Auto-generated method stub
-
     }
 
     public List<List<String>> describe_keys(String keyspace, List<ByteBuffer> keys) throws TException

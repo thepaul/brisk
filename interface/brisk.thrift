@@ -62,7 +62,4 @@ service Brisk extends cassandra.Cassandra
    LocalOrRemoteBlock get_cfs_block(1:required string caller_host_name, 2:required binary block_id, 3:i32 offset=0)
     throws (1:InvalidRequestException ire, 2:UnavailableException ue, 3:TimedOutException te, 4:NotFoundException nfe),
 
-   
-   void insert_cfs_block(1:required binary id, 2:required binary data) 
-    throws (1:InvalidRequestException ire, 2:UnavailableException ue, 3:TimedOutException te)
 }

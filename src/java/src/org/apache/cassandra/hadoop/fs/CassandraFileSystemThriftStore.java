@@ -218,7 +218,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
         try
         {
-            blockData = ((Brisk.Iface)client).get_cfs_block(InetAddress.getLocalHost().getHostName(), blockId, (int)byteRangeStart);
+            blockData = ((Brisk.Iface)client).get_cfs_block(FBUtilities.getLocalAddress().getHostName(), blockId, (int)byteRangeStart);
         }
         catch (Exception e)
         {
