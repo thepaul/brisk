@@ -68,9 +68,6 @@ def commandLineSwitches():
             clusterName = options.clusterName
         if options.seedList:
             seedList = options.seedList
-            seedList = seedList.replace(' ', '')
-            seedList = seedList.split(',')
-            seedList.sort()
         if options.clusterSize:
             clusterSize = options.clusterSize
         if options.autoBootstrap:
@@ -116,10 +113,9 @@ def configureCassandraYaml():
     yaml = yaml.replace('rpc_address: localhost', 'rpc_address: 0.0.0.0')
     
     # Set cluster_name to reservationid
-    p = re.compile('cluster_name:.*')
-    yaml = yaml.replace('cluster_name: \n\n#', yaml)
+    p = re.compile('cluster_name: .*\s*#')
+    yaml = p.sub("cluster_name: '" + clusterName + "'\n\n#", yaml)
 
-    print clusterName
     print yaml
     
     # Construct token for an equally split ring
