@@ -398,6 +398,24 @@
         <arg line="-o ${interface.thrift.dir}" />
         <arg line="brisk.thrift" />
       </exec>
+      <exec executable="thrift" dir="${basedir}/interface" failonerror="true">
+        <arg line="--gen java:hashcode" />
+	<arg line="-I ${basedir}/interface" />
+        <arg line="-o ${interface.thrift.dir}" />
+        <arg line="jobtracker.thrift" />
+      </exec>
+      <exec executable="thrift" dir="${basedir}/interface" failonerror="true">
+        <arg line="--gen java:hashcode" />
+	<arg line="-I ${basedir}/interface" />
+        <arg line="-o ${interface.thrift.dir}" />
+        <arg line="hdfs.thrift" />
+      </exec>
+      <exec executable="thrift" dir="${basedir}/interface" failonerror="true">
+        <arg line="--gen java:hashcode" />
+	<arg line="-I ${basedir}/interface" />
+        <arg line="-o ${interface.thrift.dir}" />
+        <arg line="common.thrift" />
+      </exec>
     </target>
     <target name="gen-thrift-py" description="Generate Thrift Python artifacts">
       <echo>Generating Thrift Python code from ${basedir}/interface/brisk.thrift ....</echo>
