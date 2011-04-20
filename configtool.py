@@ -12,7 +12,7 @@ seedList = ''
 clusterSize = False
 autoBootstrap = False
 internalIP = ''
-tokenPosition = -1
+tokenPosition = False
 
 DEBUG = True
 
@@ -41,7 +41,7 @@ def promptUserInfo():
 
     internalIP = raw_input("This node's internal IP address:\n")
     
-    while (tokenPosition < 0) or (tokenPosition >= clusterSize):
+    while not tokenPosition and (tokenPosition < 0) and (tokenPosition >= clusterSize):
         tokenPosition = raw_input("This node's token position (position < cluster size):\n")
         try:
             tokenPosition = int(tokenPosition)
