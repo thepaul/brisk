@@ -68,40 +68,37 @@ def commandLineSwitches():
 
     (options, args) = parser.parse_args()
     switchesUsed = False
-    if options:
-        if options.clusterName:
-            clusterName = options.clusterName
-            switchesUsed = True
-        if options.seedList:
-            seedList = options.seedList
-            seedList = seedList.replace(' ', '')
-            seedList = seedList.split(',')
-            seedList.sort()
-            switchesUsed = True
-        if options.clusterSize:
-            clusterSize = options.clusterSize
-            switchesUsed = True
-        if options.autoBootstrap:
-            autoBootstrap = options.autoBootstrap
-            switchesUsed = True
-        if options.internalIP:
-            internalIP = options.internalIP
-            switchesUsed = True
-        if not options.tokenPosition == None:
-            tokenPosition = options.tokenPosition
-            if not tokenPosition < clusterSize:
-                print "ERROR: Tokens must start at 0 and be less than clusterSize."
-                sys.exit()
-            switchesUsed = True
-        if options.confPath:
-            confPath = options.confPath
-            switchesUsed = True
-        if options.hconfPath:
-            hconfPath = options.hconfPath
-            switchesUsed = True
-        return True
-    else:
-        return False
+    if options.clusterName:
+        clusterName = options.clusterName
+        switchesUsed = True
+    if options.seedList:
+        seedList = options.seedList
+        seedList = seedList.replace(' ', '')
+        seedList = seedList.split(',')
+        seedList.sort()
+        switchesUsed = True
+    if options.clusterSize:
+        clusterSize = options.clusterSize
+        switchesUsed = True
+    if options.autoBootstrap:
+        autoBootstrap = options.autoBootstrap
+        switchesUsed = True
+    if options.internalIP:
+        internalIP = options.internalIP
+        switchesUsed = True
+    if not options.tokenPosition == None:
+        tokenPosition = options.tokenPosition
+        if not tokenPosition < clusterSize:
+            print "ERROR: Tokens must start at 0 and be less than clusterSize."
+            sys.exit()
+        switchesUsed = True
+    if options.confPath:
+        confPath = options.confPath
+        switchesUsed = True
+    if options.hconfPath:
+        hconfPath = options.hconfPath
+        switchesUsed = True
+    return switchesUsed
 
 def configureCassandraYaml():
     with open(confPath + 'cassandra.yaml', 'r') as f:
