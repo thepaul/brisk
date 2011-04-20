@@ -113,7 +113,7 @@ def configureCassandraYaml():
     else:
         yaml = yaml.replace('auto_bootstrap: true', 'auto_bootstrap: false')
     
-    if len(seedList) > 0;
+    if seedList:
         # Create the seed list
         seedsYaml = ''
         for ip in seedList:
