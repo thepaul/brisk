@@ -117,7 +117,7 @@ def configureCassandraYaml():
     
     # Set cluster_name to reservationid
     p = re.compile('cluster_name:.*\s*#')
-    yaml = yaml.replace("cluster_name: \n\n#", yaml)
+    yaml = yaml.replace('cluster_name: \n\n#', yaml)
 
     print clusterName
     print yaml
