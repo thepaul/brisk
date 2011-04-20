@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import re
+import re, sys
 from optparse import OptionParser
 
 confPath = 'resources/cassandra/conf/'
@@ -79,7 +79,9 @@ def commandLineSwitches():
             internalIP = options.internalIP
         if not options.tokenPosition == None:
             tokenPosition = options.tokenPosition
-            print tokenPosition
+            if not tokenPosition < clusterSize:
+                print "ERROR: Tokens must start at 0 and be less than clusterSize."
+                sys.exit()
         if options.confPath:
             confPath = options.confPath
         if options.hconfPath:
