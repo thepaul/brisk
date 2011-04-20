@@ -17,7 +17,9 @@ import org.slf4j.LoggerFactory;
  */
 public class BriskConf {
 
-    private static Logger logger = LoggerFactory.getLogger(BriskConf.class);
+    private static final Logger logger = LoggerFactory.getLogger(BriskConf.class);
+    
+    private static final String BRISK_CONF_DEFAULT_LOCATION = "resources/brisk/conf/brisk.cfg";
 
     private static Properties properties;
 
@@ -30,12 +32,14 @@ public class BriskConf {
         properties = new Properties();
         
         String briskConfFileLocation = System.getProperty("brisk.conf");
-
-        if (briskConfFileLocation == null) {
-            logger.info("Loading brisk conf file from it's default location:" + "");
-            briskConfFileLocation = "resources/brisk/conf/brisk.cfg";
-        }
         
+        if (briskConfFileLocation == null) 
+        {
+            briskConfFileLocation = BRISK_CONF_DEFAULT_LOCATION;
+        }
+
+        logger.info("Loading brisk config file from:" + briskConfFileLocation);
+
         loadProperties(briskConfFileLocation);
     }
 

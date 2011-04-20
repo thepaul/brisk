@@ -24,9 +24,6 @@ public class BriskDaemon extends org.apache.cassandra.service.AbstractCassandraD
     
     protected void setup() throws IOException
     {
-        // Init configuration.
-        BriskConf.initialize();
-
         super.setup();
             
         //Start hadoop trackers...
