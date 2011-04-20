@@ -68,10 +68,9 @@ public class MetaStorePersister
         {
             batchMutation.addInsertion(ByteBufferUtil.bytes(databaseName), 
                     Arrays.asList(cassandraClientHolder.getColumnFamily()), 
-                    new Column(
-                    ByteBufferUtil.bytes(buildEntityColumnName(base)),
-                    ByteBuffer.wrap(serializer.serialize(base)), System
-                            .currentTimeMillis() * 1000));
+                    new Column()
+            .setName(ByteBufferUtil.bytes(buildEntityColumnName(base)))
+            .setValue(ByteBuffer.wrap(serializer.serialize(base))));
                        
             cassandraClientHolder.getClient().batch_mutate(batchMutation.getMutationMap(),
                     cassandraClientHolder.getWriteCl());
@@ -169,7 +168,7 @@ public class MetaStorePersister
         BatchMutation batchMutation = new BatchMutation();     
         try
         {    
-            Deletion deletion = new Deletion(System.currentTimeMillis() * 1000);
+            Deletion deletion = new Deletion().setTimestamp(System.currentTimeMillis() * 1000);
             SlicePredicate predicate = new SlicePredicate();
             
             for (TBase tBase : bases)
