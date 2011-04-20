@@ -14,7 +14,7 @@ autoBootstrap = False
 internalIP = ''
 tokenPosition = -1
 
-DEBUG = True
+DEBUG = False
 
 # Interactively prompts for information to setup the cluster
 def promptUserInfo():
@@ -65,6 +65,7 @@ def commandLineSwitches():
 
     parser.add_option("-c", "--confPath", action="store", type="string", dest="confPath", help="Set cassandra/conf/ path.")
     parser.add_option("-p", "--hconfPath", action="store", type="string", dest="hconfPath", help="Set hadoop/conf/ path.")
+    parser.add_option("-d", "--debug", action="store_true", dest="debug")
 
     (options, args) = parser.parse_args()
     switchesUsed = False
@@ -98,6 +99,8 @@ def commandLineSwitches():
     if options.hconfPath:
         hconfPath = options.hconfPath
         switchesUsed = True
+    if options.debug:
+        DEBUG = True
     return switchesUsed
 
 def configureCassandraYaml():
