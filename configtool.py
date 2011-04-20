@@ -165,7 +165,7 @@ def configureMapredSiteXML():
         mapredSite = f.read()
     
     # Set job tracker address
-    if len(seedList) > 0:
+    if seedList:
         p = re.compile('<name>mapred.job.tracker</name>\s*.*</value>')
         mapredSite = p.sub('<name>mapred.job.tracker</name>\n  <value>' + seedList[0] + ':8012</value>', mapredSite)
     
@@ -180,7 +180,7 @@ def configureOpsCenterConf():
             opsConf = f.read()
         
         # Set OpsCenter to listen on all addresses and point to a single seed.
-        if len(seedList) > 0:
+        if seedList:
             opsConf = opsConf.replace('interface = 127.0.0.1', 'interface = 0.0.0.0')
             p = re.compile('seed_hosts:.*')
             opsConf = p.sub('seed_hosts = ' + seedList[0], opsConf)
