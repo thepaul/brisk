@@ -77,7 +77,7 @@ def commandLineSwitches():
             autoBootstrap = options.autoBootstrap
         if options.internalIP:
             internalIP = options.internalIP
-        if options.tokenPosition:
+        if not options.tokenPosition == None:
             tokenPosition = options.tokenPosition
             print tokenPosition
         if options.confPath:
