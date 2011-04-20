@@ -67,6 +67,9 @@ def commandLineSwitches():
         if options.clusterName:
             clusterName = options.clusterName
         if options.seedList:
+            seedList = seedList.replace(' ', '')
+            seedList = seedList.split(',')
+            seedList.sort()
             seedList = options.seedList
         if options.clusterSize:
             clusterSize = options.clusterSize
