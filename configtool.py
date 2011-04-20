@@ -8,7 +8,7 @@ hconfPath = 'resources/hadoop/conf/'
 opsConfPath = '/etc/opscenter/'
 
 clusterName = ''
-clusterList = ''
+seedList = ''
 clusterSize = False
 autoBootstrap = False
 internalIP = ''
@@ -17,13 +17,13 @@ tokenPosition = -1
 DEBUG = False
 
 def promptUserInfo():
-    global clusterName, clusterList, clusterSize, autoBootstrap, internalIP, tokenPosition
+    global clusterName, seedList, clusterSize, autoBootstrap, internalIP, tokenPosition
     clusterName = raw_input("Cluster name:\n")
     
-    clusterList = raw_input("Cluster list (comma-delimited):\n")
-    clusterList = clusterList.replace(' ', '')
-    clusterList = clusterList.split(',')
-    clusterList.sort()
+    seedList = raw_input("Seed list (comma-delimited):\n")
+    seedList = seedList.replace(' ', '')
+    seedList = seedList.split(',')
+    seedList.sort()
 
     while (not type(clusterSize) is int):
         clusterSize = raw_input("Current cluster size:\n")
@@ -49,26 +49,25 @@ def promptUserInfo():
             print "Please enter a valid number."
 
 def commandLineSwitches():
-    global clusterName, clusterList, clusterSize, autoBootstrap, internalIP, tokenPosition, confPath, hconfPath, opsConfPath
+    global clusterName, seedList, clusterSize, autoBootstrap, internalIP, tokenPosition, confPath, hconfPath, opsConfPath
     parser = OptionParser()
-    parser.add_option("-n", "--clusterName", action="store", type="string", dest="clusterName", help="help!")
-    parser.add_option("-l", "--clusterList", action="store", type="string", dest="clusterList", help="help!")
-    parser.add_option("-s", "--clusterSize", action="store", type="string", dest="clusterSize", help="help!")
-    parser.add_option("-a", "--autoBootstrap", action="store", type="string", dest="autoBootstrap", help="help!")
-    parser.add_option("-i", "--internalIP", action="store", type="string", dest="internalIP", help="help!")
-    parser.add_option("-t", "--tokenPosition", action="store", type="string", dest="tokenPosition", help="help!")
+    parser.add_option("-n", "--clusterName", action="store", type="string", dest="clusterName", help="Set the cluster name.")
+    parser.add_option("-l", "--seedList", action="store", type="string", dest="seedList", help="Provide a comma-delimited list of seeds.")
+    parser.add_option("-s", "--clusterSize", action="store", type="integer", dest="clusterSize", help="Provide the size of the cluster for equal partitioning.")
+    parser.add_option("-a", "--autoBootstrap", action="store_true", dest="autoBootstrap", help="Set autobootstrap to true. (Defaults to false.)")
+    parser.add_option("-i", "--internalIP", action="store", type="string", dest="internalIP", help="Set this nodes internal ip address.")
+    parser.add_option("-t", "--tokenPosition", action="store", type="string", dest="tokenPosition", help="Set this node's token position.")
 
 
-    parser.add_option("-c", "--confPath", action="store", type="string", dest="confPath", help="help!")
-    parser.add_option("-p", "--hconfPath", action="store", type="string", dest="hconfPath", help="help!")
-    parser.add_option("-o", "--opsConfPath", action="store", type="string", dest="opsConfPath", help="help!")
+    parser.add_option("-c", "--confPath", action="store", type="string", dest="confPath", help="Set cassandra/conf/ path.")
+    parser.add_option("-p", "--hconfPath", action="store", type="string", dest="hconfPath", help="Set hadoop/conf/ path.")
 
     (options, args) = parser.parse_args()
     if options:
         if options.clusterName:
             clusterName = options.clusterName
-        if options.clusterList:
-            clusterList = options.clusterList
+        if options.seedList:
+            seedList = options.seedList
         if options.clusterSize:
             clusterSize = options.clusterSize
         if options.autoBootstrap:
@@ -99,7 +98,7 @@ def configureCassandraYaml():
 
     # Create the seed list
     seedsYaml = ''
-    for ip in clusterList:
+    for ip in seedList:
         seedsYaml += '     - ' + ip + '\n'
     if DEBUG:
         print "[DEBUG] seedsYaml: " + seedsYaml
@@ -120,7 +119,7 @@ def configureCassandraYaml():
     yaml = yaml.replace("cluster_name: '" + clusterName + "'\n\n#", yaml)
     
     # Construct token for an equally split ring
-    if clusterSize:
+    if clusterSize and tokenPosition:
         token = tokenPosition * (2**127 / int(clusterSize))
         p = re.compile( 'initial_token:(\s)*#')
         yaml = p.sub( 'initial_token: ' + str(token) + "\n\n#", yaml)
@@ -137,8 +136,8 @@ def configureMapredSiteXML():
     with open(hconfPath + 'mapred-site.xml', 'r') as f:
         mapredSite = f.read()
 
-    if len(clusterList) > 0:
-        mapredSite = mapredSite.replace('<value>localhost:8012</value>', '<value>' + clusterList[0] + ':8012</value>')
+    if len(seedList) > 0:
+        mapredSite = mapredSite.replace('<value>localhost:8012</value>', '<value>' + seedList[0] + ':8012</value>')
     
     with open(hconfPath + 'mapred-site.xml', 'w') as f:
         f.write(mapredSite)
@@ -150,9 +149,9 @@ def configureOpsCenterConf():
         with open(opsConfPath + 'opscenterd.conf', 'r') as f:
             opsConf = f.read()
             
-        if len(clusterList) > 0:
+        if len(seedList) > 0:
             opsConf = opsConf.replace('interface = 127.0.0.1', 'interface = 0.0.0.0')
-            opsConf = opsConf.replace('seed_hosts = localhost', 'seed_hosts = ' + clusterList[0])
+            opsConf = opsConf.replace('seed_hosts = localhost', 'seed_hosts = ' + seedList[0])
         
         with open(opsConfPath + 'opscenterd.conf', 'w') as f:
             f.write(opsConf)
