@@ -56,7 +56,7 @@ def commandLineSwitches():
     parser.add_option("-s", "--clusterSize", action="store", type="int", dest="clusterSize", help="Provide the size of the cluster for equal partitioning.")
     parser.add_option("-a", "--autoBootstrap", action="store_true", dest="autoBootstrap", help="Set autobootstrap to true. (Defaults to false.)")
     parser.add_option("-i", "--internalIP", action="store", type="string", dest="internalIP", help="Set this nodes internal ip address.")
-    parser.add_option("-t", "--tokenPosition", action="store", type="int", dest="tokenPosition", help="Set this node's token position.")
+    parser.add_option("-t", "--tokenPosition", action="store", type="int", dest="tokenPosition", help="Set this node's token position starting at 0.")
 
 
     parser.add_option("-c", "--confPath", action="store", type="string", dest="confPath", help="Set cassandra/conf/ path.")
