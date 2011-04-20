@@ -67,6 +67,7 @@ def commandLineSwitches():
     parser.add_option("-p", "--hconfPath", action="store", type="string", dest="hconfPath", help="Set hadoop/conf/ path.")
 
     (options, args) = parser.parse_args()
+    print options
     if options:
         if options.clusterName:
             clusterName = options.clusterName
