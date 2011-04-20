@@ -7,11 +7,11 @@ confPath = 'resources/cassandra/conf/'
 hconfPath = 'resources/hadoop/conf/'
 opsConfPath = '/etc/opscenter/'
 
-clusterName = ''
-seedList = ''
+clusterName = None
+seedList = None
 clusterSize = False
 autoBootstrap = False
-internalIP = ''
+internalIP = None
 tokenPosition = -1
 
 DEBUG = False
@@ -112,32 +112,32 @@ def configureCassandraYaml():
         yaml = yaml.replace('auto_bootstrap: false', 'auto_bootstrap: true')
     else:
         yaml = yaml.replace('auto_bootstrap: true', 'auto_bootstrap: false')
-
-    # Create the seed list
-    seedsYaml = ''
-    for ip in seedList:
-        seedsYaml += '     - ' + ip + '\n'
-    if DEBUG:
-        print "[DEBUG] seedsYaml: \n" + seedsYaml
     
-    # Set seeds
-    p = re.compile('seeds:(\s*-.*)*\s*#')
-    yaml = p.sub('seeds:\n' + seedsYaml + '\n\n#', yaml)
+    if len(seedList) > 0;
+        # Create the seed list
+        seedsYaml = ''
+        for ip in seedList:
+            seedsYaml += '     - ' + ip + '\n'
+        if DEBUG:
+            print "[DEBUG] seedsYaml: \n" + seedsYaml
+        
+        # Set seeds
+        p = re.compile('seeds:(\s*-.*)*\s*#')
+        yaml = p.sub('seeds:\n' + seedsYaml + '\n\n#', yaml)
     
-    # Set listen_address
-    p = re.compile('listen_address:.*')
-    yaml = p.sub('listen_address: ' + internalIP, yaml)
-    if DEBUG:
-        print "[DEBUG] listen_address: " + internalIP
+    if internalIP:
+        # Set listen_address
+        p = re.compile('listen_address:.*')
+        yaml = p.sub('listen_address: ' + internalIP, yaml)
+        if DEBUG:
+            print "[DEBUG] listen_address: " + internalIP
     
-    # Set rpc_address
-    yaml = yaml.replace('rpc_address: localhost', 'rpc_address: 0.0.0.0')
-    
-    # Set cluster_name to reservationid
-    p = re.compile('cluster_name:.*')
-    yaml = p.sub("cluster_name: '" + clusterName + "'", yaml)
-    if DEBUG:
-        print "[DEBUG] clusterName: " + clusterName
+    if clusterName:
+        # Set cluster_name
+        p = re.compile('cluster_name:.*')
+        yaml = p.sub("cluster_name: '" + clusterName + "'", yaml)
+        if DEBUG:
+            print "[DEBUG] clusterName: " + clusterName
     
     # Construct token for an equally split ring
     if clusterSize and not (tokenPosition < 0):
@@ -148,6 +148,9 @@ def configureCassandraYaml():
             print "[DEBUG] clusterSize: " + str(clusterSize)
             print "[DEBUG] tokenPosition: " + str(tokenPosition)
             print "[DEBUG] token: " + str(token)
+    
+    # Allow Thrift to listen on all interfaces
+    yaml = yaml.replace('rpc_address: localhost', 'rpc_address: 0.0.0.0')
     
     # Brisk: Set to use different datacenters
     # yaml = yaml.replace('endpoint_snitch: org.apache.cassandra.locator.SimpleSnitch', 'endpoint_snitch: org.apache.cassandra.locator.PropertyFileSnitch')
