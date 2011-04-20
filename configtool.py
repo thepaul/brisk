@@ -127,10 +127,6 @@ def configureCassandraYaml():
         print "[DEBUG] clusterName: " + clusterName
     
     # Construct token for an equally split ring
-    print clusterSize
-    print tokenPosition
-    print (tokenPosition < 0)
-    print not (tokenPosition < 0)
     if clusterSize and not (tokenPosition < 0):
         token = tokenPosition * (2**127 / clusterSize)
         p = re.compile( 'initial_token:.*')
