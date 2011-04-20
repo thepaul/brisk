@@ -111,6 +111,8 @@ def configureCassandraYaml():
     # Set listen_address
     p = re.compile('listen_address:.*\s*#')
     yaml = p.sub('listen_address: ' + internalIP + '\n\n#', yaml)
+    if DEBUG:
+        print "[DEBUG] listen_address: " + internalIP
     
     # Set rpc_address
     yaml = yaml.replace('rpc_address: localhost', 'rpc_address: 0.0.0.0')
@@ -118,13 +120,18 @@ def configureCassandraYaml():
     # Set cluster_name to reservationid
     p = re.compile('cluster_name: .*\s*#')
     yaml = p.sub("cluster_name: '" + clusterName + "'\n\n#", yaml)
+    if DEBUG:
+        print "[DEBUG] clusterName: " + clusterName
     
     # Construct token for an equally split ring
     if clusterSize and tokenPosition:
-        token = tokenPosition * (2**127 / int(clusterSize))
-        print token
+        token = tokenPosition * (2**127 / clusterSize)
         p = re.compile( 'initial_token:(\s)*#')
         yaml = p.sub( 'initial_token: ' + str(token) + "\n\n#", yaml)
+        if DEBUG:
+            print "[DEBUG] clusterSize: " + clusterSize
+            print "[DEBUG] tokenPosition: " + tokenPosition
+            print "[DEBUG] token: " + token
     
     # Brisk: Set to use different datacenters
     # yaml = yaml.replace('endpoint_snitch: org.apache.cassandra.locator.SimpleSnitch', 'endpoint_snitch: org.apache.cassandra.locator.PropertyFileSnitch')
