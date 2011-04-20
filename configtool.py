@@ -115,6 +115,8 @@ def configureCassandraYaml():
     # Set cluster_name to reservationid
     p = re.compile('cluster_name: .*\s*#')
     yaml = yaml.replace("cluster_name: '" + clusterName + "'\n\n#", yaml)
+
+    print yaml
     
     # Construct token for an equally split ring
     if clusterSize and tokenPosition:
