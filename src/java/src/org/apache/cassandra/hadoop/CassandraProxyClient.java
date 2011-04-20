@@ -35,7 +35,8 @@ import org.apache.thrift.transport.*;
  * disconnect, unavailable, timeout errors gracefully.
  *
  * On disconnect, if it cannot reconnect to the same host then it will use a
- * different host from the ring, which it periodically checks for updates to.
+ * different host from the ring. After a successful connecting, the ring will be
+ * refreshed.
  *
  * This incorporates the CircuitBreaker pattern so not to overwhelm the network
  * with reconnect attempts.
@@ -46,20 +47,66 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
 
     private static final Logger logger  = Logger.getLogger(CassandraProxyClient.class);
 
+    /**
+     * The initial host to create the proxy client.
+     */
     private String              host;
     private int                 port;
     private final boolean       framed;
+    /**
+     * If true, randomly choose a server to connect after failure.
+     * Otherwise, use round-robin mechanism.
+     */
     private final boolean       randomizeConnections;
+    /**
+     * The last successfully connected server.
+     */
     private String				lastUsedHost;
+    /**
+     * Last time the ring was checked.
+     */
     private long                lastPoolCheck;
+    /**
+     * A list holds all servers from the ring.
+     */
     private List<TokenRange>    ring;
+
+    /**
+     * Cassandra thrift client.
+     */
     private Cassandra.Client    client;
+
+    /**
+     * The key space to get the ring information from.
+     */
     private String              ringKs;
     private CircuitBreaker      breaker = new CircuitBreaker(1, 1);
+
+    /**
+     * Random generator for randomized connection.
+     */
     private Random random;
+
+    /**
+     * Last server tried in round-robin mechanism.
+     */
     private int lastUsedConnIndex;
+
+    /**
+     * Maximum number of attempts when connection is lost.
+     */
     private final int maxAttempts = 10;
 
+    /**
+     * Construct a proxy connection.
+     *
+     * @param host cassandra host
+     * @param port cassandra port
+     * @param framed framed connection
+     * @param randomizeConnections true if randomly choosing a server when connection fails; false to use round-robin mechanism
+     * @return a Brisk Client Interface
+     * @throws IOException
+     */
     public static Brisk.Iface newProxyConnection(String host, int port, boolean framed, boolean randomizeConnections)
             throws IOException
     {
@@ -68,6 +115,13 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
                         randomizeConnections));
     }
 
+    /**
+     * Create connection to a given host.
+     *
+     * @param host cassandra host
+     * @return cassandra thrift client
+     * @throws IOException error
+     */
     private Cassandra.Client createConnection(String host) throws IOException
     {
         TSocket socket = new TSocket(host, port);
@@ -121,23 +175,34 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
         initialize();
     }
 
+    /**
+     * Initialize the cassandra connection.
+     *
+     * @throws IOException
+     */
     private void initialize() throws IOException
     {
         int attempt = 0;
-        while (client == null && attempt++ < maxAttempts)
+        while (attempt++ < maxAttempts)
         {
             attemptReconnect();
-            try
-            {
-                Thread.sleep(1050);
-            } catch (InterruptedException e) {
-                throw new IOException(e);
-            } // sleep and try again
+            if (client != null) {
+            	break;
+            } else {
+            	// sleep and try again
+	            try
+	            {
+	                Thread.sleep(1050);
+	            } catch (InterruptedException e) {
+	                throw new IOException(e);
+	            }
+            }
         }
 
         if(client == null)
-            throw new IOException("Error connecting to node");
+            throw new IOException("Error connecting to node " + lastUsedHost);
 
+    	//Find the first keyspace that's not system and assign it to the lastly used keyspace.
         try
         {
             List<KsDef> allKs = client.describe_keyspaces();
@@ -148,10 +213,9 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
 
             for(KsDef ks : allKs)
             {
-            	//Find the first keyspace that's not system and assign it to the lastly used keyspace.
                 if(!ks.name.equalsIgnoreCase("system")) {
                     ringKs = ks.name;
-                    //break;
+                    break;
                 }
             }
         } catch (Exception e) {
@@ -161,12 +225,17 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
         checkRing();
     }
 
+    /**
+     * Create a temporary keyspace. This will only be called when there is no keyspace except system defined on (new cluster).
+     * However we need a keyspace to call describe_ring to get all servers from the ring.
+     *
+     * @return the temporary keyspace
+     * @throws InvalidRequestException error
+     * @throws TException error
+     * @throws InterruptedException error
+     */
     private KsDef createTmpKs() throws InvalidRequestException, TException, InterruptedException
     {
-    	//TODO: Is this necessary? This is to create a proxy_client_ks keyspace with replication factor only 1
-    	//This proxy_client_ks will be used as the ringKs, and it will be used in checkRing() method to return
-    	//the servers in the ring. In the junit test, this keyspace is created, however, describe_keyspaces doesn't
-    	//return it.
         KsDef tmpKs = new KsDef("proxy_client_ks", "org.apache.cassandra.locator.SimpleStrategy", 1, Arrays
                 .asList(new CfDef[] {}));
 
@@ -175,14 +244,13 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
         return tmpKs;
     }
 
-    private synchronized void checkRing() throws IOException
+    /**
+     * Refresh the server in the ring.
+     *
+     * @throws IOException
+     */
+    private void checkRing() throws IOException
     {
-    	//TODO: This method is called only under two circumstances:
-    	//1. During initialization.
-    	//2. in invoke method, when ring has not been initailized.
-    	//When a server is not reachable, it might make sense to refresh the ring to remove the servers that are offline
-    	//and add new servers to the ring.
-    	//Or this should be checked periodically to refresh the ring.
         if (client == null) {
             breaker.failure();
             return;
@@ -195,6 +263,9 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
                 if (breaker.allow()) {
                     ring = client.describe_ring(ringKs);
                     lastPoolCheck = now;
+                    //Reset the round robin to 0
+                    if (!randomizeConnections)
+                    	lastUsedConnIndex = 0;
 
                     breaker.success();
                 }
@@ -287,22 +358,12 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
             client = createConnection(endpoint);
             lastUsedHost = endpoint; //Assign the last successfully connected server.
             breaker.success();
+            checkRing(); //Refresh the servers in the ring.
             logger.info("Connected to cassandra at " + endpoint + ":" + port);
         }
         catch (IOException e)
         {
             logger.warn("Failed connecting to a different cassandra node in this ring: " + endpoint + ":" + port);
-            /*TODO:
-             * we have already tried to connect to this server the first time, we should not try this again.
-            try
-            {
-                client = createConnection(host);
-                breaker.success();
-                if(logger.isDebugEnabled())
-                    logger.debug("Connected to cassandra at " + host + ":" + port);
-            } catch (IOException e2) {
-                logger.warn("Connection failed to Cassandra node: " + host + ":" + port);
-            }*/
 
             client = null;
         }

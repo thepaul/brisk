@@ -15,6 +15,9 @@ import org.apache.cassandra.utils.ByteBufferUtil;
 
 public class CassandraProxyClientTest
 {
+	/**
+	 * When a cassandra server is not up, we expect that an IOException is thrown out from the method.
+	 */
     @Test
     public void testNodeDown()
     {
@@ -32,28 +35,32 @@ public class CassandraProxyClientTest
 
     }
 
+    /**
+     * The purpose of this test is to make sure that:
+     * When a TimedOutException is thrown out from invoke method, the CassandraProxyClient will try at least maxAttempts times before
+     * throwing the exception to the client.
+     *
+     * A counter from the ThriftServer in BriskErrorDaemon tracks how many times the method has been called.
+     *
+     * @throws Exception
+     */
     @Test
     public void testReconnect() throws Exception
     {
-
 
         EmbeddedBriskErrorServer.startBrisk();
 
         Brisk.Iface client = CassandraProxyClient.newProxyConnection("localhost", DatabaseDescriptor.getRpcPort(), true, true);
         List<KsDef> ks = client.describe_keyspaces();
 
-        System.out.println("keyspace size: " + ks.size());
-        for (KsDef thisks : ks) {
-        	System.out.println("Keyspace " + thisks.name + " " + thisks.toString());
-        }
-
         assertTrue(ks.size() > 0);
 
         try
         {
             client.get(ByteBufferUtil.EMPTY_BYTE_BUFFER, new ColumnPath("test"), ConsistencyLevel.ALL);
-        }catch(TimedOutException e) {
-
+            fail("Expect a TimedoutException");
+        } catch(TimedOutException e) {
+        	//This is expected.
         }
 
         assertEquals(11, client.get_count(ByteBufferUtil.EMPTY_BYTE_BUFFER, new ColumnParent("test"), new SlicePredicate(), ConsistencyLevel.ALL));
