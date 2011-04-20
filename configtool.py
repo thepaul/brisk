@@ -112,8 +112,8 @@ def configureCassandraYaml():
     yaml = p.sub('seeds:\n' + seedsYaml + '\n\n#', yaml)
     
     # Set listen_address
-    p = re.compile('listen_address:.*\s*#')
-    yaml = p.sub('listen_address: ' + internalIP + '\n\n#', yaml)
+    p = re.compile('listen_address:.*')
+    yaml = p.sub('listen_address: ' + internalIP, yaml)
     if DEBUG:
         print "[DEBUG] listen_address: " + internalIP
     
@@ -121,8 +121,8 @@ def configureCassandraYaml():
     yaml = yaml.replace('rpc_address: localhost', 'rpc_address: 0.0.0.0')
     
     # Set cluster_name to reservationid
-    p = re.compile('cluster_name: .*\s*#')
-    yaml = p.sub("cluster_name: '" + clusterName + "'\n\n#", yaml)
+    p = re.compile('cluster_name:.*')
+    yaml = p.sub("cluster_name: '" + clusterName + "'", yaml)
     if DEBUG:
         print "[DEBUG] clusterName: " + clusterName
     
@@ -133,8 +133,8 @@ def configureCassandraYaml():
     print not (tokenPosition < 0)
     if clusterSize and not (tokenPosition < 0):
         token = tokenPosition * (2**127 / clusterSize)
-        p = re.compile( 'initial_token:(\s)*#')
-        yaml = p.sub( 'initial_token: ' + str(token) + "\n\n#", yaml)
+        p = re.compile( 'initial_token:.*')
+        yaml = p.sub( 'initial_token: ' + str(token), yaml)
         if DEBUG:
             print "[DEBUG] clusterSize: " + str(clusterSize)
             print "[DEBUG] tokenPosition: " + str(tokenPosition)
@@ -168,7 +168,8 @@ def configureOpsCenterConf():
             
         if len(seedList) > 0:
             opsConf = opsConf.replace('interface = 127.0.0.1', 'interface = 0.0.0.0')
-            opsConf = opsConf.replace('seed_hosts = localhost', 'seed_hosts = ' + seedList[0])
+            p = re.compile('seed_hosts:.*')
+            opsConf = p.sub('seed_hosts = ' + seedList[0], opsConf)
         
         with open(opsConfPath + 'opscenterd.conf', 'w') as f:
             f.write(opsConf)
