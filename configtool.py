@@ -103,12 +103,13 @@ def commandLineSwitches():
         DEBUG = True
     return switchesUsed
 
+
 def configureCassandraYaml():
     with open(confPath + 'cassandra.yaml', 'r') as f:
         yaml = f.read()
 
-    # Set auto_bootstrap to true if expanding
     if autoBootstrap:
+        # Set auto_bootstrap to true if expanding
         yaml = yaml.replace('auto_bootstrap: false', 'auto_bootstrap: true')
     else:
         yaml = yaml.replace('auto_bootstrap: true', 'auto_bootstrap: false')
@@ -139,8 +140,8 @@ def configureCassandraYaml():
         if DEBUG:
             print "[DEBUG] clusterName: " + clusterName
     
-    # Construct token for an equally split ring
     if clusterSize and not (tokenPosition < 0):
+        # Construct token for an equally split ring
         token = tokenPosition * (2**127 / clusterSize)
         p = re.compile( 'initial_token:.*')
         yaml = p.sub( 'initial_token: ' + str(token), yaml)
@@ -164,8 +165,8 @@ def configureMapredSiteXML():
     with open(hconfPath + 'mapred-site.xml', 'r') as f:
         mapredSite = f.read()
     
-    # Set job tracker address
     if seedList:
+        # Set job tracker address
         p = re.compile('<name>mapred.job.tracker</name>\s*.*</value>')
         mapredSite = p.sub('<name>mapred.job.tracker</name>\n  <value>' + seedList[0] + ':8012</value>', mapredSite)
     
@@ -179,9 +180,11 @@ def configureOpsCenterConf():
         with open(opsConfPath + 'opscenterd.conf', 'r') as f:
             opsConf = f.read()
         
-        # Set OpsCenter to listen on all addresses and point to a single seed.
         if seedList:
+            # Set OpsCenter to listen to all addresses
             opsConf = opsConf.replace('interface = 127.0.0.1', 'interface = 0.0.0.0')
+
+            # Set Opscenter to point to a single seed.
             p = re.compile('seed_hosts:.*')
             opsConf = p.sub('seed_hosts = ' + seedList[0], opsConf)
         
