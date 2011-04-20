@@ -25,6 +25,8 @@ import java.net.URI;
 import java.nio.ByteBuffer;
 import java.util.*;
 
+import javax.management.RuntimeErrorException;
+
 import com.datastax.brisk.BriskInternalServer;
 import com.datastax.brisk.BriskConf;
 
@@ -99,7 +101,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         if (ks == null)
             ks = createKeySpace();
         
-        initConsistencyLevels(ks);
+        initConsistencyLevels(ks, conf);
 
         try
         {
@@ -115,9 +117,10 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
      * Initialize the consistency levels for reads and writes.
      * @param ks Keyspace definition
      */
-    private void initConsistencyLevels(KsDef ks) {
-        consistencyLevelRead = BriskConf.getConsistencyLevelRead();
-        consistencyLevelWrite = BriskConf.getConsistencyLevelWrite();
+    private void initConsistencyLevels(KsDef ks, Configuration conf) {
+
+        consistencyLevelRead = ConsistencyLevel.valueOf(conf.get("brisk.consistencylevel.read", "QUORUM"));
+        consistencyLevelWrite = ConsistencyLevel.valueOf(conf.get("brisk.consistencylevel.write", "QUORUM"));
 
         // Change consistency if this using NTS
         if (ks.getStrategy_class().contains("NetworkTopologyStrategy"))

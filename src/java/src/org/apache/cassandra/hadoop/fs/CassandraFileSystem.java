@@ -49,9 +49,7 @@ public class CassandraFileSystem extends FileSystem
 
     public void initialize(URI uri, Configuration conf) throws IOException
     {
-        // Init configuration.
-        BriskConf.initialize();
-    
+
         super.initialize(uri, conf);
 
         setConf(conf);

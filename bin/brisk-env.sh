@@ -1,7 +1,6 @@
 #!/bin/sh
 
 export CASSANDRA_HOME=`pwd`/`dirname $0`/../resources/cassandra
-export BRISK_CONF_FILE=`pwd`/`dirname $0`/../resources/brisk/conf/brisk.cfg
 
 . $CASSANDRA_HOME/bin/cassandra.in.sh
  
