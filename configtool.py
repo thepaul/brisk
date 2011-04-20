@@ -153,7 +153,8 @@ def configureMapredSiteXML():
         mapredSite = f.read()
 
     if len(seedList) > 0:
-        mapredSite = mapredSite.replace('<value>localhost:8012</value>', '<value>' + seedList[0] + ':8012</value>')
+        p = re.compile('<name>mapred.job.tracker</name>\s*.*</value>')
+        mapredSite = p.sub('<name>mapred.job.tracker</name>\n  <value>' + seedList[0] + ':8012</value>', mapredSite)
     
     with open(hconfPath + 'mapred-site.xml', 'w') as f:
         f.write(mapredSite)
