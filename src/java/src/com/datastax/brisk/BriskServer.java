@@ -209,19 +209,19 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
                 long ts = file.readLong();
                 int blockLength = file.readInt();
 
-                int bytesReadFromStart = mappedLength - file.available();
+                int bytesReadFromStart = mappedLength - (int)file.bytesRemaining();
 
-                logger.info("BlockLength = "+blockLength+" Availible "+file.available());
+                logger.info("BlockLength = "+blockLength+" Availible "+file.bytesRemaining());
                 
-                assert offset <= file.available() : String.format("%d > %d %d", offset, file.available(), blockLength);
+                assert offset <= blockLength : String.format("%d > %d", offset,  blockLength);
 
                 long dataOffset = position + bytesReadFromStart;
                 
-                if(file.available() == 0 || blockLength == 0)
+                if(file.bytesRemaining() == 0 || blockLength == 0)
                     return null;
                 
 
-                return new LocalBlock(file.getPath(), dataOffset + offset, file.available() - offset);
+                return new LocalBlock(file.getPath(), dataOffset + offset, blockLength - offset);
 
             }
             catch (IOException e)
