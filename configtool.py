@@ -109,7 +109,7 @@ def commandLineSwitches():
 def reset():
     global clusterName, seedList, clusterSize, autoBootstrap, internalIP, tokenPosition
     clusterName = 'Test Cluster'
-    seedList = '127.0.0.1'
+    seedList = ['127.0.0.1']
     clusterSize = False
     autoBootstrap = False
     internalIP = 'localhost'
