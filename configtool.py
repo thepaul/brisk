@@ -61,12 +61,11 @@ def commandLineSwitches():
     parser.add_option("-a", "--autoBootstrap", action="store_true", dest="autoBootstrap", help="Set autobootstrap to true. (Defaults to false.)")
     parser.add_option("-i", "--internalIP", action="store", type="string", dest="internalIP", help="Set this nodes internal ip address.")
     parser.add_option("-t", "--tokenPosition", action="store", type="int", dest="tokenPosition", help="Set this node's token position starting at 0.")
-    parser.add_option("-r", "--reset", action="store_true", dest="reset", help="Restore default settings.")
-
 
     parser.add_option("-c", "--confPath", action="store", type="string", dest="confPath", help="Set cassandra/conf/ path.")
     parser.add_option("-p", "--hconfPath", action="store", type="string", dest="hconfPath", help="Set hadoop/conf/ path.")
     parser.add_option("-d", "--debug", action="store_true", dest="debug", help="Show select configurations.")
+    parser.add_option("-r", "--reset", action="store_true", dest="reset", help="Restore default settings.")
 
     (options, args) = parser.parse_args()
     switchesUsed = False
@@ -102,9 +101,12 @@ def commandLineSwitches():
         switchesUsed = True
     if options.debug:
         DEBUG = True
+    if options.reset:
+        reset()
     return switchesUsed
 
 def reset():
+    global clusterName, seedList, clusterSize, autoBootstrap, internalIP, tokenPosition
     clusterName = 'Test Cluster'
     seedList = '127.0.0.1'
     clusterSize = False
