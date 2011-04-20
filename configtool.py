@@ -19,7 +19,7 @@ DEBUG = True
 # Interactively prompts for information to setup the cluster
 def promptUserInfo():
     global clusterName, seedList, clusterSize, autoBootstrap, internalIP, tokenPosition
-    print "A programmatic interface is also available. Run ./config -h to see all the options."
+    print "A programmatic interface is also available. Run ./config -h to see all the options.\n"
 
     clusterName = raw_input("Cluster name:\n")
     
