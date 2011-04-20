@@ -124,7 +124,7 @@ def configureCassandraYaml():
         print "[DEBUG] clusterName: " + clusterName
     
     # Construct token for an equally split ring
-    if clusterSize and not tokenPosition == False:
+    if clusterSize and not tokenPosition === False:
         token = tokenPosition * (2**127 / clusterSize)
         p = re.compile( 'initial_token:(\s)*#')
         yaml = p.sub( 'initial_token: ' + str(token) + "\n\n#", yaml)
