@@ -70,7 +70,8 @@ public class MetaStorePersister
                     Arrays.asList(cassandraClientHolder.getColumnFamily()), 
                     new Column()
             .setName(ByteBufferUtil.bytes(buildEntityColumnName(base)))
-            .setValue(ByteBuffer.wrap(serializer.serialize(base))));
+            .setValue(ByteBuffer.wrap(serializer.serialize(base)))
+            .setTimestamp(System.currentTimeMillis()));
                        
             cassandraClientHolder.getClient().batch_mutate(batchMutation.getMutationMap(),
                     cassandraClientHolder.getWriteCl());

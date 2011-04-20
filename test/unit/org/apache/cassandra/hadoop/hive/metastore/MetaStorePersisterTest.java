@@ -1,18 +1,17 @@
 package org.apache.cassandra.hadoop.hive.metastore;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
+
+import org.junit.*;
 
 import org.apache.cassandra.CleanupHelper;
 import org.apache.cassandra.EmbeddedServer;
 import org.apache.cassandra.config.ConfigurationException;
 import org.apache.cassandra.config.DatabaseDescriptor;
-import org.apache.cassandra.hadoop.CassandraProxyClient;
-import org.apache.cassandra.thrift.Cassandra;
 import org.apache.cassandra.thrift.CfDef;
 import org.apache.cassandra.thrift.KsDef;
 import org.apache.cassandra.thrift.NotFoundException;
@@ -20,10 +19,6 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hive.metastore.api.Database;
 import org.apache.hadoop.hive.metastore.api.Table;
 import org.apache.thrift.transport.TTransportException;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 public class MetaStorePersisterTest extends CleanupHelper
 {
@@ -44,7 +39,10 @@ public class MetaStorePersisterTest extends CleanupHelper
         clientHolder = new CassandraClientHolder(conf);        
         
         CfDef cf = new CfDef(clientHolder.getKeyspaceName(), clientHolder.getColumnFamily());
-        KsDef ks = new KsDef(clientHolder.getKeyspaceName(), "org.apache.cassandra.locator.SimpleStrategy", 1, Arrays.asList(cf));
+        
+        Map<String,String> stratOpts = new HashMap<String,String>();
+        stratOpts.put("replication_factor", "1");
+        KsDef ks = new KsDef(clientHolder.getKeyspaceName(), "org.apache.cassandra.locator.SimpleStrategy", Arrays.asList(cf)).setStrategy_options(stratOpts);
         
         clientHolder.getClient().system_add_keyspace(ks);        
         
