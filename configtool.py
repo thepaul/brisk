@@ -61,6 +61,7 @@ def commandLineSwitches():
     parser.add_option("-a", "--autoBootstrap", action="store_true", dest="autoBootstrap", help="Set autobootstrap to true. (Defaults to false.)")
     parser.add_option("-i", "--internalIP", action="store", type="string", dest="internalIP", help="Set this nodes internal ip address.")
     parser.add_option("-t", "--tokenPosition", action="store", type="int", dest="tokenPosition", help="Set this node's token position starting at 0.")
+    parser.add_option("-r", "--reset", action="store_true", dest="reset", help="Restore default settings.")
 
 
     parser.add_option("-c", "--confPath", action="store", type="string", dest="confPath", help="Set cassandra/conf/ path.")
@@ -103,6 +104,14 @@ def commandLineSwitches():
         DEBUG = True
     return switchesUsed
 
+def reset():
+    clusterName = 'Test Cluster'
+    seedList = '127.0.0.1'
+    clusterSize = False
+    autoBootstrap = False
+    internalIP = 'localhost'
+    tokenPosition = -2
+
 
 def configureCassandraYaml():
     with open(confPath + 'cassandra.yaml', 'r') as f:
@@ -143,8 +152,8 @@ def configureCassandraYaml():
     if clusterSize and not (tokenPosition < 0):
         # Construct token for an equally split ring
         token = tokenPosition * (2**127 / clusterSize)
-        p = re.compile( 'initial_token:.*')
-        yaml = p.sub( 'initial_token: ' + str(token), yaml)
+        p = re.compile('initial_token:.*')
+        yaml = p.sub('initial_token: ' + str(token), yaml)
         if DEBUG:
             print "[DEBUG] clusterSize: " + str(clusterSize)
             print "[DEBUG] tokenPosition: " + str(tokenPosition)
@@ -152,6 +161,16 @@ def configureCassandraYaml():
     
     # Allow Thrift to listen on all interfaces
     yaml = yaml.replace('rpc_address: localhost', 'rpc_address: 0.0.0.0')
+    
+
+    if tokenPosition == -2:
+        # Reset() was called, so clear the token
+        p = re.compile('initial_token:.*')
+        yaml = p.sub('initial_token: ', yaml)
+        
+        # Reset to default rpc_address
+        yaml = yaml.replace('rpc_address: 0.0.0.0', 'rpc_address: localhost')
+        print "[INFO] Default settings have been restored."
     
     # Brisk: Set to use different datacenters
     # yaml = yaml.replace('endpoint_snitch: org.apache.cassandra.locator.SimpleSnitch', 'endpoint_snitch: org.apache.cassandra.locator.PropertyFileSnitch')
