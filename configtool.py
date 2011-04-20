@@ -14,7 +14,7 @@ autoBootstrap = False
 internalIP = ''
 tokenPosition = -1
 
-DEBUG = False
+DEBUG = True
 
 def promptUserInfo():
     global clusterName, seedList, clusterSize, autoBootstrap, internalIP, tokenPosition
