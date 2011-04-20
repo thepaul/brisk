@@ -16,8 +16,11 @@ tokenPosition = -1
 
 DEBUG = True
 
+# Interactively prompts for information to setup the cluster
 def promptUserInfo():
     global clusterName, seedList, clusterSize, autoBootstrap, internalIP, tokenPosition
+    print "A programmatic interface is also available. Run ./config -h to see all the options."
+
     clusterName = raw_input("Cluster name:\n")
     
     seedList = raw_input("Seed list (comma-delimited):\n")
@@ -48,6 +51,7 @@ def promptUserInfo():
         except:
             print "Please enter a valid number."
 
+# Reads the command line switches when running the program.
 def commandLineSwitches():
     global clusterName, seedList, clusterSize, autoBootstrap, internalIP, tokenPosition, confPath, hconfPath, opsConfPath
     parser = OptionParser()
@@ -147,7 +151,8 @@ def configureCassandraYaml():
 def configureMapredSiteXML():
     with open(hconfPath + 'mapred-site.xml', 'r') as f:
         mapredSite = f.read()
-
+    
+    # Set job tracker address
     if len(seedList) > 0:
         p = re.compile('<name>mapred.job.tracker</name>\s*.*</value>')
         mapredSite = p.sub('<name>mapred.job.tracker</name>\n  <value>' + seedList[0] + ':8012</value>', mapredSite)
@@ -161,7 +166,8 @@ def configureOpsCenterConf():
     try:
         with open(opsConfPath + 'opscenterd.conf', 'r') as f:
             opsConf = f.read()
-            
+        
+        # Set OpsCenter to listen on all addresses and point to a single seed.
         if len(seedList) > 0:
             opsConf = opsConf.replace('interface = 127.0.0.1', 'interface = 0.0.0.0')
             p = re.compile('seed_hosts:.*')
