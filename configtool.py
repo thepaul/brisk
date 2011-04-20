@@ -79,6 +79,7 @@ def commandLineSwitches():
             internalIP = options.internalIP
         if options.tokenPosition:
             tokenPosition = options.tokenPosition
+            print tokenPosition
         if options.confPath:
             confPath = options.confPath
         if options.hconfPath:
