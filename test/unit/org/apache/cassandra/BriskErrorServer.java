@@ -30,7 +30,7 @@ public class BriskErrorServer implements Brisk.Iface
             return new ClientState();
         }
     };
-    
+
     public List<List<String>> describe_keys(String keyspace, List<ByteBuffer> keys) throws TException
     {
         // TODO Auto-generated method stub
@@ -41,7 +41,7 @@ public class BriskErrorServer implements Brisk.Iface
             throws InvalidRequestException, UnavailableException, TimedOutException, TException
     {
         // TODO Auto-generated method stub
-        
+
     }
 
     public String describe_cluster_name() throws TException
@@ -78,7 +78,7 @@ public class BriskErrorServer implements Brisk.Iface
             {
             }
         }
-        return ksset;      
+        return ksset;
     }
 
     public String describe_partitioner() throws TException
@@ -116,6 +116,9 @@ public class BriskErrorServer implements Brisk.Iface
         return null;
     }
 
+    /**
+     * This method tracks down how many times this method has been called.
+     */
     public ColumnOrSuperColumn get(ByteBuffer arg0, ColumnPath arg1, ConsistencyLevel arg2)
             throws InvalidRequestException, NotFoundException, UnavailableException, TimedOutException, TException
     {
@@ -125,7 +128,7 @@ public class BriskErrorServer implements Brisk.Iface
 
     public int get_count(ByteBuffer arg0, ColumnParent arg1, SlicePredicate arg2, ConsistencyLevel arg3)
             throws InvalidRequestException, UnavailableException, TimedOutException, TException
-    {      
+    {
         return counter.incrementAndGet();
     }
 
@@ -154,13 +157,13 @@ public class BriskErrorServer implements Brisk.Iface
             throws InvalidRequestException, UnavailableException, TimedOutException, TException
     {
         // TODO Auto-generated method stub
-        
+
     }
 
     public void login(AuthenticationRequest arg0) throws AuthenticationException, AuthorizationException, TException
     {
         // TODO Auto-generated method stub
-        
+
     }
 
     public Map<ByteBuffer, Integer> multiget_count(List<ByteBuffer> arg0, ColumnParent arg1, SlicePredicate arg2,
@@ -182,13 +185,13 @@ public class BriskErrorServer implements Brisk.Iface
             throws InvalidRequestException, UnavailableException, TimedOutException, TException
     {
         // TODO Auto-generated method stub
-        
+
     }
 
     public void set_keyspace(String arg0) throws InvalidRequestException, TException
     {
         // TODO Auto-generated method stub
-        
+
     }
 
     public String system_add_column_family(CfDef arg0) throws InvalidRequestException, TException
@@ -229,7 +232,7 @@ public class BriskErrorServer implements Brisk.Iface
     public void truncate(String arg0) throws InvalidRequestException, UnavailableException, TException
     {
         // TODO Auto-generated method stub
-        
+
     }
 
 }
