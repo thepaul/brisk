@@ -274,10 +274,18 @@ public class CassandraHiveMetaStore implements RawStore {
     {
         if ( log.isDebugEnabled() ) 
             log.debug("Altering oldTableName {} on datbase: {} new Table: {}",
-                    new Object[]{oldTableName, databaseName, table});
+                    new Object[]{oldTableName, databaseName, table.getTableName()});        
         
-        updateTableComponents(databaseName, null, oldTableName, table);
-        dropTable(databaseName, oldTableName);
+        if ( oldTableName.equals(table.getTableName()) )
+        {
+            createTable(table);
+        }
+        else
+        {
+            updateTableComponents(databaseName, null, oldTableName, table);
+            dropTable(databaseName, oldTableName);
+        }
+         
     }   
     
     private List<TBase> updateTableComponents(String oldDatabaseName, Database database, String oldTableName, Table table)
