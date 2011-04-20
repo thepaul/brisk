@@ -102,7 +102,7 @@ def configureCassandraYaml():
     for ip in seedList:
         seedsYaml += '     - ' + ip + '\n'
     if DEBUG:
-        print "[DEBUG] seedsYaml: " + seedsYaml
+        print "[DEBUG] seedsYaml: \n" + seedsYaml
     
     # Set seeds
     p = re.compile('seeds:(\s*-.*)*\s*#')
