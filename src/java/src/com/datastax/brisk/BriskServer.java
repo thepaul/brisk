@@ -128,8 +128,8 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
         Collection<SSTableReader> sstables = blockStore.getSSTables();
 
         for (SSTableReader sstable : sstables)
-        {
-
+        { 
+            
             long position = sstable.getPosition(decoratedKey, Operator.EQ);
 
             if (position == -1)
@@ -211,6 +211,8 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
 
                 int bytesReadFromStart = mappedLength - file.available();
 
+                logger.info("BlockLength = "+blockLength+" Availible "+file.available());
+                
                 assert offset <= file.available() : String.format("%d > %d %d", offset, file.available(), blockLength);
 
                 long dataOffset = position + bytesReadFromStart;

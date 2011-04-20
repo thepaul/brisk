@@ -267,7 +267,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         }
         catch (IOException e)
         {
-            throw new RuntimeException(String.format("Unable to mmap block %s[%ld,%ld]",blockInfo.file, blockInfo.length, blockInfo.offset),e);
+            throw new RuntimeException(String.format("Unable to mmap block %s[%d,%d]",blockInfo.file, blockInfo.length, blockInfo.offset),e);
         }
         finally
         {
