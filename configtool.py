@@ -80,8 +80,6 @@ def commandLineSwitches():
             confPath = options.confPath
         if options.hconfPath:
             hconfPath = options.hconfPath
-        if options.opsConfPath:
-            opsConfPath = options.opsConfPath
         return True
     else:
         return False
