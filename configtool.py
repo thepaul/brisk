@@ -65,7 +65,7 @@ def commandLineSwitches():
 
     parser.add_option("-c", "--confPath", action="store", type="string", dest="confPath", help="Set cassandra/conf/ path.")
     parser.add_option("-p", "--hconfPath", action="store", type="string", dest="hconfPath", help="Set hadoop/conf/ path.")
-    parser.add_option("-d", "--debug", action="store_true", dest="debug")
+    parser.add_option("-d", "--debug", action="store_true", dest="debug", help="Show select configurations.")
 
     (options, args) = parser.parse_args()
     switchesUsed = False
