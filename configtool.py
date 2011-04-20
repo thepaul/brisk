@@ -113,7 +113,7 @@ def configureCassandraYaml():
     yaml = yaml.replace('rpc_address: localhost', 'rpc_address: 0.0.0.0')
     
     # Set cluster_name to reservationid
-    p = re.compile('cluster_name: .*\s*#')
+    p = re.compile('cluster_name:.*\s*#')
     yaml = yaml.replace("cluster_name: '" + clusterName + "'\n\n#", yaml)
 
     print clusterName
