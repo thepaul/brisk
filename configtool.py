@@ -129,9 +129,9 @@ def configureCassandraYaml():
         p = re.compile( 'initial_token:(\s)*#')
         yaml = p.sub( 'initial_token: ' + str(token) + "\n\n#", yaml)
         if DEBUG:
-            print "[DEBUG] clusterSize: " + clusterSize
-            print "[DEBUG] tokenPosition: " + tokenPosition
-            print "[DEBUG] token: " + token
+            print "[DEBUG] clusterSize: " + str(clusterSize)
+            print "[DEBUG] tokenPosition: " + str(tokenPosition)
+            print "[DEBUG] token: " + str(token)
     
     # Brisk: Set to use different datacenters
     # yaml = yaml.replace('endpoint_snitch: org.apache.cassandra.locator.SimpleSnitch', 'endpoint_snitch: org.apache.cassandra.locator.PropertyFileSnitch')
