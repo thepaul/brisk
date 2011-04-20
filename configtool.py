@@ -12,7 +12,7 @@ seedList = ''
 clusterSize = False
 autoBootstrap = False
 internalIP = ''
-tokenPosition = False
+tokenPosition = -1
 
 DEBUG = True
 
@@ -41,7 +41,7 @@ def promptUserInfo():
 
     internalIP = raw_input("This node's internal IP address:\n")
     
-    while not tokenPosition and (tokenPosition < 0) and (tokenPosition >= clusterSize):
+    while (tokenPosition < 0) and (tokenPosition >= clusterSize):
         tokenPosition = raw_input("This node's token position (position < cluster size):\n")
         try:
             tokenPosition = int(tokenPosition)
@@ -124,7 +124,7 @@ def configureCassandraYaml():
         print "[DEBUG] clusterName: " + clusterName
     
     # Construct token for an equally split ring
-    if clusterSize and not tokenPosition === False:
+    if clusterSize and tokenPosition > 0:
         token = tokenPosition * (2**127 / clusterSize)
         p = re.compile( 'initial_token:(\s)*#')
         yaml = p.sub( 'initial_token: ' + str(token) + "\n\n#", yaml)
