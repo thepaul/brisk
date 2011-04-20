@@ -116,6 +116,7 @@ def configureCassandraYaml():
     p = re.compile('cluster_name: .*\s*#')
     yaml = yaml.replace("cluster_name: '" + clusterName + "'\n\n#", yaml)
 
+    print clusterName
     print yaml
     
     # Construct token for an equally split ring
