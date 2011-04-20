@@ -53,7 +53,7 @@ def commandLineSwitches():
     parser = OptionParser()
     parser.add_option("-n", "--clusterName", action="store", type="string", dest="clusterName", help="Set the cluster name.")
     parser.add_option("-l", "--seedList", action="store", type="string", dest="seedList", help="Provide a comma-delimited list of seeds.")
-    parser.add_option("-s", "--clusterSize", action="store", type="integer", dest="clusterSize", help="Provide the size of the cluster for equal partitioning.")
+    parser.add_option("-s", "--clusterSize", action="store", type="int", dest="clusterSize", help="Provide the size of the cluster for equal partitioning.")
     parser.add_option("-a", "--autoBootstrap", action="store_true", dest="autoBootstrap", help="Set autobootstrap to true. (Defaults to false.)")
     parser.add_option("-i", "--internalIP", action="store", type="string", dest="internalIP", help="Set this nodes internal ip address.")
     parser.add_option("-t", "--tokenPosition", action="store", type="string", dest="tokenPosition", help="Set this node's token position.")
