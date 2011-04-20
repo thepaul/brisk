@@ -103,6 +103,7 @@ def commandLineSwitches():
         DEBUG = True
     if options.reset:
         reset()
+        switchesUsed = True
     return switchesUsed
 
 def reset():
