@@ -305,8 +305,12 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
         try
         {
-            client.insert(blockId, blockParent, new Column(dataCol, data, System.currentTimeMillis()),
-                            consistencyLevelWrite);
+            client.insert(blockId, blockParent, 
+                    new Column()
+            .setName(dataCol)
+            .setValue(data)
+            .setTimestamp(System.currentTimeMillis()),
+            consistencyLevelWrite);
         }
         catch (Exception e)
         {
@@ -333,16 +337,25 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         long ts = System.currentTimeMillis();
 
         // file name
-        mutations.add(new Mutation().setColumn_or_supercolumn(new ColumnOrSuperColumn().setColumn(new Column(pathCol,
-                ByteBufferUtil.bytes(path.toUri().getPath()), ts))));
+        mutations.add(new Mutation().setColumn_or_supercolumn(new ColumnOrSuperColumn().setColumn(
+                new Column()
+                .setName(pathCol)
+                .setValue(ByteBufferUtil.bytes(path.toUri().getPath()))
+                .setTimestamp(ts))));
 
         // sentinal
-        mutations.add(new Mutation().setColumn_or_supercolumn(new ColumnOrSuperColumn().setColumn(new Column(sentCol,
-                sentinelValue, ts))));
+        mutations.add(new Mutation().setColumn_or_supercolumn(new ColumnOrSuperColumn().setColumn(
+                new Column()
+                .setName(sentCol)
+                .setValue(sentinelValue)
+                .setTimestamp(ts))));
 
         // serialized inode
-        mutations.add(new Mutation().setColumn_or_supercolumn(new ColumnOrSuperColumn().setColumn(new Column(dataCol,
-                data, ts))));
+        mutations.add(new Mutation().setColumn_or_supercolumn(new ColumnOrSuperColumn().setColumn(
+                new Column()
+                .setName(dataCol)
+                .setValue(data)
+                .setTimestamp(ts))));
 
         try
         {

@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.cassandra.config.KSMetaData;
 import org.apache.cassandra.thrift.*;
 import org.apache.cassandra.utils.CircuitBreaker;
 import org.apache.log4j.Logger;
@@ -234,10 +235,11 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
      * @throws TException error
      * @throws InterruptedException error
      */
-    private KsDef createTmpKs() throws InvalidRequestException, TException, InterruptedException
+    private KsDef createTmpKs() throws InvalidRequestException, TException, InterruptedException, SchemaDisagreementException
     {
-        KsDef tmpKs = new KsDef("proxy_client_ks", "org.apache.cassandra.locator.SimpleStrategy", 1, Arrays
+        KsDef tmpKs = new KsDef("proxy_client_ks", "org.apache.cassandra.locator.SimpleStrategy", Arrays
                 .asList(new CfDef[] {}));
+        tmpKs.setStrategy_options(KSMetaData.optsWithRF(1));
 
         client.system_add_keyspace(tmpKs);
 
