@@ -35,7 +35,7 @@ import org.apache.cassandra.utils.FBUtilities;
  */
 public class BriskSimpleSnitch extends SimpleSnitch
 {
-    protected static Logger logger = LoggerFactory.getLogger(Ec2Snitch.class);
+    protected static Logger logger = LoggerFactory.getLogger(BriskSimpleSnitch.class);
     static final String BRISK_DC = "BriskHadoopAnalyticsDatacenter";
     protected IEndpointSnitch subsnitch = new SimpleSnitch();
     protected String myDC;
