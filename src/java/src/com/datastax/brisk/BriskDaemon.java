@@ -109,22 +109,20 @@ public class BriskDaemon extends org.apache.cassandra.service.AbstractCassandraD
                 outTransportFactory = new TTransportFactory();
             }
 
-            // ThreadPool Server
             TThreadPoolServer.Args args = new TThreadPoolServer.Args(tServerSocket)
-                                          .minWorkerThreads(DatabaseDescriptor.getRpcMinThreads())
-                                          .maxWorkerThreads(DatabaseDescriptor.getRpcMaxThreads())
-                                          .inputTransportFactory(inTransportFactory)
-                                          .outputTransportFactory(outTransportFactory)
-                                          .inputProtocolFactory(tProtocolFactory)
-                                          .outputProtocolFactory(tProtocolFactory)
-                                          .processor(processor);
+            .minWorkerThreads(DatabaseDescriptor.getRpcMinThreads())
+            .maxWorkerThreads(DatabaseDescriptor.getRpcMaxThreads())
+            .inputTransportFactory(inTransportFactory)
+            .outputTransportFactory(outTransportFactory)
+            .inputProtocolFactory(tProtocolFactory)
+            .outputProtocolFactory(tProtocolFactory)
+            .processor(processor);
 
             ExecutorService executorService = new CleaningThreadPool(briskServer.clientState,
                     args.minWorkerThreads,
                     args.maxWorkerThreads);
             serverEngine = new CustomTThreadPoolServer(args, executorService);
         }
-
     
    
 

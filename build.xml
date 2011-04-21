@@ -162,6 +162,7 @@
       <artifact:remoteRepository id="java.net2" url="${artifact.remoteRepository.java.net2}"/>
       <artifact:remoteRepository id="apache"    url="${artifact.remoteRepository.apache}"/>
       <artifact:remoteRepository id="datastax"  url="${artifact.remoteRepository.datastax}"/>
+      <artifact:remoteRepository id="datastax-deps"  url="${artifact.remoteRepository.datastax-deps}"/>
       <artifact:remoteRepository id="datastax-cassandra"  url="${artifact.remoteRepository.datastax-cassandra}"/>
       <artifact:remoteRepository id="datanucleus"  url="${artifact.remoteRepository.datanucleus}"/>
       <!-- for distributed tests -->
@@ -208,6 +209,7 @@
 	<dependency groupId="org.apache.cassandra" artifactId="apache-cassandra-thrift" version="${cassandra-thrift.build.version}"/>
 	<dependency groupId="org.apache.cassandra" artifactId="apache-cassandra-cql" version="${cassandra-cql.build.version}"/>
         <remoteRepository refid="datastax"/>    
+	<remoteRepository refid="datastax-deps"/>    
         <remoteRepository refid="datastax-cassandra"/>    
 	<remoteRepository refid="central"/>
 	<remoteRepository refid="apache"/>
