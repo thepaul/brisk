@@ -33,13 +33,6 @@ JVM_SEARCH_DIRS="/usr/lib/jvm/java-6-sun"
 # Read configuration variable file if it is present
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
 
-if [ "$HADOOP_ENABLED" = "0" ]; then
-    echo "$DESC starting with Hadoop disabled (edit /etc/default/brisk to enable)"
-else
-    EXTRA_FLAGS="$EXTRA_FLAGS -t"
-    echo "$DESC starting with Hadoop enabled (edit /etc/default/brisk to disable)"
-fi
-
 
 if [ -z "$JVM_OPTS" ]; then
     echo "Initialization failed; \$JVM_OPTS not set!" >&2
@@ -105,7 +98,7 @@ classpath()
 # process is not running but the pidfile exists (to match the exit codes for
 # the "status" command; see LSB core spec 3.1, section 20.2)
 #
-CMD_PATT="BriskDaemon"
+CMD_PATT="-user.cassandra.+brisk"
 is_running()
 {
     if [ -f $PIDFILE ]; then
@@ -128,6 +121,13 @@ do_start()
     is_running && return 1
 
     ulimit -l unlimited
+
+    if [ "$HADOOP_ENABLED" = "0" ]; then
+        echo "$DESC starting with Hadoop disabled (edit /etc/default/brisk to enable)"
+    else
+        EXTRA_FLAGS="$EXTRA_FLAGS -t"
+        echo "$DESC starting with Hadoop enabled (edit /etc/default/brisk to disable)"
+    fi
 
     cassandra_home=`getent passwd cassandra | awk -F ':' '{ print $6; }'`
     cd /    # jsvc doesn't chdir() for us
