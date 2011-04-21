@@ -137,7 +137,7 @@ do_start()
         -home $JAVA_HOME \
         -pidfile $PIDFILE \
         -errfile "&1" \
-        -outfile /var/log/$NAME/output.log \
+        -outfile /var/log/cassandra/output.log \
         -cp `classpath` \
         -Dlog4j.configuration=log4j-server.properties \
         -XX:HeapDumpPath="$cassandra_home/java_`date +%s`.hprof" \
