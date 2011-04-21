@@ -196,6 +196,7 @@
 
 	
 	<remoteRepository refid="datastax"/>
+	<remoteRepository refid="datastax-cassandra"/>      	
 	<remoteRepository refid="central"/>
 	<remoteRepository refid="apache"/>
 	<remoteRepository refid="java.net2"/>
