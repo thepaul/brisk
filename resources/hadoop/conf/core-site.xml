@@ -20,4 +20,14 @@
   <value>1048576</value>
 </property>
 
+ <property>
+  <name>brisk.consistencylevel.read</name>
+  <value>ONE</value>
+</property>
+
+ <property>
+  <name>brisk.consistencylevel.write</name>
+  <value>QUORUM</value>
+</property>
+
 </configuration>

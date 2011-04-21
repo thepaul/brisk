@@ -1,0 +1,57 @@
+#!/usr/bin/make -f
+
+ANT = /usr/bin/ant
+VERSION = $(shell dpkg-parsechangelog | sed -ne 's/^Version: \(.*\)/\1/p')
+
+test:
+	dh_testdir
+	$(ANT) test
+
+clean:
+	dh_testdir
+	dh_testroot
+	$(ANT) realclean
+	rm -f build-stamp build.properties
+	rm -rf bin/java
+	dh_clean
+
+build: build-stamp
+build-stamp:
+	dh_testdir
+	printf "version=%s" $(VERSION) > build.properties
+
+	$(ANT) jar
+
+	touch build-stamp
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_installdirs
+	dh_install
+
+	dh_install build/brisk-$(VERSION).jar \
+		usr/share/brisk
+	dh_link usr/share/brisk/brisk-$(VERSION).jar \
+		usr/share/brisk/brisk.jar
+
+
+# Build architecture-independent files here.
+binary-indep: build install
+	dh_testdir
+	dh_testroot
+	dh_installchangelogs
+	dh_installinit
+	dh_compress
+	dh_fixperms
+	dh_installdeb
+	dh_gencontrol
+	dh_md5sums
+	dh_builddeb
+
+# Build architecture-dependent files here.
+binary-arch: build install
+# We have nothing to do by default.
+
+binary: binary-indep binary-arch
+.PHONY: build clean binary-indep binary-arch binary install

@@ -1,0 +1,14 @@
+resources/cassandra/conf/log4j-server.properties etc/brisk/cassandra
+resources/cassandra/conf/cassandra.yaml etc/brisk/cassandra
+resources/cassandra/conf/cassandra-env.sh etc/brisk/cassandra
+debian/cassandra.in.sh usr/share/cassandra
+debian/cassandra.conf etc/security/limits.d
+resources/cassandra/lib/* usr/share/brisk/cassandra
+resources/cassandra/bin/cassandra usr/bin
+resources/cassandra/bin/cassandra-cli usr/bin
+resources/cassandra/bin/nodetool usr/bin
+resources/cassandra/bin/clustertool usr/bin
+resources/cassandra/bin/json2sstable usr/bin
+resources/cassandra/bin/sstable2json usr/bin
+resources/cassandra/bin/sstablekeys usr/bin
+resources/cassandra/bin/schematool usr/bin

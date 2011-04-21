@@ -2,6 +2,7 @@ package org.apache.cassandra.hadoop.hive.metastore;
 
 import java.util.*;
 
+import org.apache.cassandra.config.KSMetaData;
 import org.apache.cassandra.thrift.Cassandra;
 import org.apache.cassandra.thrift.CfDef;
 import org.apache.cassandra.thrift.InvalidRequestException;
@@ -49,7 +50,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author zznate
  */
-public class CassandraHiveMetaStore implements RawStore {        
+public class CassandraHiveMetaStore implements RawStore {       
     
     private static final Logger log = LoggerFactory.getLogger(CassandraHiveMetaStore.class);
     private Configuration configuration;
@@ -116,9 +117,9 @@ public class CassandraHiveMetaStore implements RawStore {
                 cassandraClientHolder.getColumnFamily());
         cf.setComparator_type("UTF8Type");
         KsDef ks = new KsDef(cassandraClientHolder.getKeyspaceName(), 
-                "org.apache.cassandra.locator.SimpleStrategy", 
-                conf.getInt(CassandraClientHolder.CONF_PARAM_REPLICATION_FACTOR, 1), 
+                "org.apache.cassandra.locator.SimpleStrategy",  
                 Arrays.asList(cf));
+        ks.setStrategy_options(KSMetaData.optsWithRF(conf.getInt(CassandraClientHolder.CONF_PARAM_REPLICATION_FACTOR, 1)));
         try {
             client.system_add_keyspace(ks);
         } catch (Exception e) {
@@ -274,10 +275,18 @@ public class CassandraHiveMetaStore implements RawStore {
     {
         if ( log.isDebugEnabled() ) 
             log.debug("Altering oldTableName {} on datbase: {} new Table: {}",
-                    new Object[]{oldTableName, databaseName, table});
+                    new Object[]{oldTableName, databaseName, table.getTableName()});        
         
-        updateTableComponents(databaseName, null, oldTableName, table);
-        dropTable(databaseName, oldTableName);
+        if ( oldTableName.equals(table.getTableName()) )
+        {
+            createTable(table);
+        }
+        else
+        {
+            updateTableComponents(databaseName, null, oldTableName, table);
+            dropTable(databaseName, oldTableName);
+        }
+         
     }   
     
     private List<TBase> updateTableComponents(String oldDatabaseName, Database database, String oldTableName, Table table)

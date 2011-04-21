@@ -59,7 +59,7 @@ public class BriskErrorServer implements Brisk.Iface
         List<CfDef> cfDefs = new ArrayList<CfDef>();
         for (CFMetaData cfm : ksm.cfMetaData().values())
             cfDefs.add(CFMetaData.convertToThrift(cfm));
-        KsDef ksdef = new KsDef(ksm.name, ksm.strategyClass.getName(), ksm.replicationFactor, cfDefs);
+        KsDef ksdef = new KsDef(ksm.name, ksm.strategyClass.getName(), cfDefs);
         ksdef.setStrategy_options(ksm.strategyOptions);
         return ksdef;
     }
@@ -233,6 +233,34 @@ public class BriskErrorServer implements Brisk.Iface
     {
         // TODO Auto-generated method stub
 
+    }
+
+    public void add(ByteBuffer arg0, ColumnParent arg1, CounterColumn arg2, ConsistencyLevel arg3)
+            throws InvalidRequestException, UnavailableException, TimedOutException, TException
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public CqlResult execute_cql_query(ByteBuffer arg0, Compression arg1) throws InvalidRequestException,
+            UnavailableException, TimedOutException, SchemaDisagreementException, TException
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public void remove_counter(ByteBuffer arg0, ColumnPath arg1, ConsistencyLevel arg2) throws InvalidRequestException,
+            UnavailableException, TimedOutException, TException
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
+    public LocalOrRemoteBlock get_cfs_block(String callerHostName, ByteBuffer blockId, int offset)
+            throws InvalidRequestException, UnavailableException, TimedOutException, NotFoundException, TException
+    {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

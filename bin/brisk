@@ -1,11 +1,23 @@
 #!/bin/sh
 
+if [ "x$BRISK_ENV" = "x" ]; then
+    for include in /etc/brisk/brisk-env.sh \
+                   ~/.brisk-env.sh \
+                   `dirname $0`/brisk-env.sh; do
+        if [ -r $include ]; then
+            . $include
+            break
+        fi
+    done
+elif [ -r $BRISK_ENV ]; then
+    . $BRISK_ENV
+fi
+
 BIN=`dirname $0`
-. "$BIN/brisk-env.sh"
 
 if [ "x$1" = "xcassandra" ]; then
     shift
-    $CASSANDRA_HOME/bin/cassandra $* -Djava.library.path=$JAVA_LIBRARY_PATH -Dbrisk.conf=$BRISK_CONF_FILE
+    $CASSANDRA_HOME/bin/cassandra $* -Djava.library.path=$JAVA_LIBRARY_PATH 
     exit $?
 fi
 

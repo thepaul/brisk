@@ -30,6 +30,8 @@ import org.apache.hadoop.fs.permission.FsPermission;
 import org.apache.hadoop.util.Progressable;
 import org.apache.log4j.Logger;
 
+import com.datastax.brisk.BriskConf;
+
 public class CassandraFileSystem extends FileSystem
 {
     private static final Logger           logger = Logger.getLogger(CassandraFileSystem.class);
@@ -47,6 +49,7 @@ public class CassandraFileSystem extends FileSystem
 
     public void initialize(URI uri, Configuration conf) throws IOException
     {
+
         super.initialize(uri, conf);
 
         setConf(conf);
@@ -54,7 +57,6 @@ public class CassandraFileSystem extends FileSystem
         this.workingDir = new Path("/user", System.getProperty("user.name")).makeQualified(this);
 
         store.initialize(this.uri, conf);
-
     }
 
     @Override

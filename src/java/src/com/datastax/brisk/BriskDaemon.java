@@ -11,9 +11,9 @@ import org.slf4j.LoggerFactory;
 import org.apache.cassandra.config.DatabaseDescriptor;
 import org.apache.cassandra.hadoop.trackers.TrackerInitializer;
 import org.apache.cassandra.thrift.*;
-import org.apache.thrift.TProcessorFactory;
 import org.apache.thrift.protocol.TProtocolFactory;
 import org.apache.thrift.server.TServer;
+import org.apache.thrift.server.TThreadPoolServer;
 import org.apache.thrift.transport.*;
 
 public class BriskDaemon extends org.apache.cassandra.service.AbstractCassandraDaemon
@@ -24,9 +24,6 @@ public class BriskDaemon extends org.apache.cassandra.service.AbstractCassandraD
     
     protected void setup() throws IOException
     {
-        // Init configuration.
-        BriskConf.initialize();
-
         super.setup();
             
         //Start hadoop trackers...
@@ -112,23 +109,22 @@ public class BriskDaemon extends org.apache.cassandra.service.AbstractCassandraD
                 outTransportFactory = new TTransportFactory();
             }
 
-            // ThreadPool Server
-            CustomTThreadPoolServer.Options options = new CustomTThreadPoolServer.Options();
-            options.minWorkerThreads = DatabaseDescriptor.getRpcMinThreads();
-            options.maxWorkerThreads = DatabaseDescriptor.getRpcMaxThreads();
+            TThreadPoolServer.Args args = new TThreadPoolServer.Args(tServerSocket)
+            .minWorkerThreads(DatabaseDescriptor.getRpcMinThreads())
+            .maxWorkerThreads(DatabaseDescriptor.getRpcMaxThreads())
+            .inputTransportFactory(inTransportFactory)
+            .outputTransportFactory(outTransportFactory)
+            .inputProtocolFactory(tProtocolFactory)
+            .outputProtocolFactory(tProtocolFactory)
+            .processor(processor);
 
             ExecutorService executorService = new CleaningThreadPool(briskServer.clientState,
-                    options.minWorkerThreads,
-                    options.maxWorkerThreads);
-            serverEngine = new CustomTThreadPoolServer(new TProcessorFactory(processor),
-                    tServerSocket,
-                    inTransportFactory,
-                    outTransportFactory,
-                    tProtocolFactory,
-                    tProtocolFactory,
-                    options,
-                    executorService);
+                    args.minWorkerThreads,
+                    args.maxWorkerThreads);
+            serverEngine = new CustomTThreadPoolServer(args, executorService);
         }
+    
+   
 
         public void run()
         {
