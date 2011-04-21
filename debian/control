@@ -42,7 +42,7 @@ Description: realtime analytics and distributed database (cassandra libraries)
 
 Package: brisk-hive
 Architecture: all
-Depends: sun-java6-jre (>= 6.24-1~squeeze1), brisk-base (=${Source-Version}), brisk-libhive (=${Source-Version})
+Depends: sun-java6-jre (>= 6.24-1~squeeze1), brisk (=${Source-Version}), brisk-libhive (=${Source-Version})
 Description: realtime analytics and distributed database (hive)
  Brisk is a realtime analytics system marrying the distributed database
  Cassandra and the mapreduce system Hadoop together.
@@ -65,7 +65,7 @@ Description: realtime analytics and distributed database (cassandra libraries)
 
 Package: brisk-full
 Architecture: all
-Depends: brisk-base (=${Source-Version}), brisk-hive (=${Source-Version})
+Depends: brisk (=${Source-Version}), brisk-hive (=${Source-Version})
 Description: realtime analytics and distributed database (cassandra libraries)
  Brisk is a realtime analytics system marrying the distributed database
  Cassandra and the mapreduce system Hadoop together.
