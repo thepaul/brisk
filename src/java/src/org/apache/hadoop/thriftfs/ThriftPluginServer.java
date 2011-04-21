@@ -29,10 +29,13 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.security.UserGroupInformation;
 import org.apache.thrift.TProcessorFactory;
 import org.apache.thrift.protocol.TBinaryProtocol;
+import org.apache.thrift.transport.TFramedTransport;
 import org.apache.thrift.transport.TServerSocket;
 import org.apache.thrift.transport.TServerTransport;
 import org.apache.thrift.transport.TTransportException;
 import org.apache.thrift.transport.TTransportFactory;
+
+import org.apache.cassandra.config.DatabaseDescriptor;
 
 /**
  * Thrift HDFS plug-in base class.
@@ -66,7 +69,8 @@ public class ThriftPluginServer implements Configurable, Runnable {
     port = address.getPort();
     this.address = address;
 
-    if (UserGroupInformation.isSecurityEnabled()) {
+    //FIXME: we don't support auth
+    /**if (UserGroupInformation.isSecurityEnabled()) {
       try {
         authBridge = new HadoopThriftAuthBridge.Server(
           UserGroupInformation.getLoginUser());
@@ -78,9 +82,10 @@ public class ThriftPluginServer implements Configurable, Runnable {
         processorFactory);
       transportFactory = authBridge.createTransportFactory();
     } else {
-      this.processorFactory = processorFactory;
-      transportFactory = new TTransportFactory();
-    }
+    **/
+    int tFramedTransportSize = DatabaseDescriptor.getThriftFramedTransportSize();
+    this.processorFactory = processorFactory;
+    transportFactory  = new TFramedTransport.Factory(tFramedTransportSize);
   }
 
   /**
