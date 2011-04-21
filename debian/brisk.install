@@ -1,0 +1,2 @@
+bin/brisk usr/bin
+debian/brisk-env.sh etc/brisk

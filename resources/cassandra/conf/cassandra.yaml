@@ -92,6 +92,18 @@ commitlog_sync: periodic
 # milliseconds.
 commitlog_sync_period_in_ms: 10000
 
+# any class that implements the SeedProvider interface and has a constructor that takes a Map<String, String> of
+# parameters will do.
+seed_provider:
+    # Addresses of hosts that are deemed contact points. 
+    # Cassandra nodes use this list of hosts to find each other and learn
+    # the topology of the ring.  You must change this if you are running
+    # multiple nodes!
+    - class_name: org.apache.cassandra.locator.SimpleSeedProvider
+      parameters:
+          # seeds is actually a comma-delimited list of addresses.
+          - seeds: "127.0.0.1"
+
 # emergency pressure valve: each time heap usage after a full (CMS)
 # garbage collection is above this fraction of the max, Cassandra will
 # flush the largest memtables.  
@@ -117,13 +129,6 @@ flush_largest_memtables_at: 0.75
 reduce_cache_sizes_at: 0.85
 reduce_cache_capacity_to: 0.6
 
-# Addresses of hosts that are deemed contact points.
-# Cassandra nodes use this list of hosts to find each other and learn
-# the topology of the ring.  You must change this if you are running
-# multiple nodes!
-seeds:
-    - 127.0.0.1
-
 # For workloads with more data than can fit in memory, Cassandra's
 # bottleneck will be reads that need to fetch data from
 # disk. "concurrent_reads" should be set to (16 * number_of_drives) in
@@ -136,12 +141,24 @@ seeds:
 concurrent_reads: 32
 concurrent_writes: 32
 
+# Total memory to use for memtables.  Cassandra will flush the largest
+# memtable when this much memory is used.  Prefer using this to
+# the older, per-ColumnFamily memtable flush thresholds.
+# If omitted, Cassandra will set it to 1/3 of the heap.
+# If set to 0, only the old flush thresholds are used.
+# memtable_total_space_in_mb: 2048
+
 # This sets the amount of memtable flush writer threads.  These will
 # be blocked by disk io, and each one will hold a memtable in memory
 # while blocked. If you have a large heap and many data directories,
 # you can increase this value for better flush performance.
 # By default this will be set to the amount of data directories defined.
 #memtable_flush_writers: 1
+
+# the number of full memtables to allow pending flush, that is,
+# waiting for a writer thread.  At a minimum, this should be set to
+# the maximum number of secondary indexes created on a single CF.
+memtable_flush_queue_size: 4
 
 # Buffer size to use when performing contiguous column slices. 
 # Increase this to the size of the column slices you typically perform
@@ -196,11 +213,11 @@ rpc_keepalive: true
 # Frame size for thrift (maximum field length).
 # 0 disables TFramedTransport in favor of TSocket. This option
 # is deprecated; we strongly recommend using Framed mode.
-thrift_framed_transport_size_in_mb: 65
+thrift_framed_transport_size_in_mb: 15
 
 # The max length of a thrift message, including all fields and
 # internal thrift overhead.
-thrift_max_message_length_in_mb: 65
+thrift_max_message_length_in_mb: 16
 
 # Set to true to have Cassandra create a hard link to each sstable
 # flushed or streamed locally in a backups/ subdirectory of the
@@ -232,13 +249,25 @@ column_index_size_in_kb: 64
 # will be logged specifying the row key.
 in_memory_compaction_limit_in_mb: 64
 
+# Enables multiple compactions to execute at once. This is highly recommended
+# for preserving read performance in a mixed read/write workload as this
+# avoids sstables from accumulating during long running compactions.
+compaction_multithreading: true
+
+# Throttles compaction to the given total throughput across the entire
+# system. The faster you insert data, the faster you need to compact in
+# order to keep the sstable count down, but in general, setting this to
+# 16 to 32 times the rate you are inserting data is more than sufficient.
+# Setting this to 0 disables throttling.
+compaction_throughput_mb_per_sec: 16
+
 # Track cached row keys during compaction, and re-cache their new
 # positions in the compacted sstable.  Disable if you use really large
 # key caches.
 compaction_preheat_key_cache: true
 
 # Time to wait for a reply from other nodes before failing the command 
-rpc_timeout_in_ms: 30000
+rpc_timeout_in_ms: 10000
 
 # phi value that must be reached for a host to be marked down.
 # most users should never need to adjust this.
@@ -324,3 +353,20 @@ request_scheduler: org.apache.cassandra.scheduler.NoScheduler
 #  is for a given SSTable. The larger the sampling, the more effective
 #  the index is at the cost of space.
 index_interval: 128
+
+# Enable or disable inter-node encryption
+# Default settings are TLS v1, RSA 1024-bit keys (it is imperative that
+# users generate their own keys) TLS_RSA_WITH_AES_128_CBC_SHA as the cipher
+# suite for authentication, key exchange and encryption of the actual data transfers.
+# NOTE: No custom encryption options are enabled at the moment
+# The available internode options are : all, none
+#
+# The passwords used in these options must match the passwords used when generating
+# the keystore and truststore.  For instructions on generating these files, see:
+# http://download.oracle.com/javase/6/docs/technotes/guides/security/jsse/JSSERefGuide.html#CreateKeystore
+encryption_options:
+    internode_encryption: none
+    keystore: conf/.keystore
+    keystore_password: cassandra
+    truststore: conf/.truststore
+    truststore_password: cassandra

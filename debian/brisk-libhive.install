@@ -1,0 +1,3 @@
+resources/hive/lib/* usr/lib/brisk/hive
+resources/hive/conf/* etc/brisk/hive
+resources/hive/bin/hive usr/bin

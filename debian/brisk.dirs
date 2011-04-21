@@ -1,0 +1,5 @@
+usr/sbin
+usr/bin
+etc/brisk
+var/lib/cassandra
+var/log/cassandra
