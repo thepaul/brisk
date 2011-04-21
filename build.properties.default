@@ -9,6 +9,7 @@ artifact.remoteRepository.datanucleus: http://www.datanucleus.org/downloads/mave
 artifact.remoteRepository.datastax-cassandra:    http://mvn.riptano.com/content/repositories/snapshots
 artifact.remoteRepository.datastax-deps:    http://mvn.riptano.com/content/repositories/public
 
+hadoop-core.build.version:		       0.20.203.1-SNAPSHOT
 hadoop.build.version:		       0.20.203.1-LATEST
 hive.build.version:		       0.7.0.1-LATEST
 cassandra.build.version:	       0.8.0-beta1-SNAPSHOT
