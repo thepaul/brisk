@@ -8,6 +8,45 @@
 	<meta name="generator" content="TextMate http://macromates.com/">
 	<meta name="author" content="Jake Luciani">
 	<!-- Date: 2011-03-22 -->
+    <style>
+        body {
+            font-family: Tahoma,Arial,sans-serif;
+            font-size: 13px;
+        }
+
+        .portfolio .cell {
+            display: inline-block;
+            padding: 5px;
+        }
+
+        .thead .cell {
+            background: #66a30a;
+            font-weight: bold;
+            padding: 8px 5px;
+        }
+
+        .odd .cell {
+            background: #CCC;
+        }
+
+        .portfolio .name {
+            width: 200px;
+        }
+
+        .portfolio .price {
+            width: 100px;
+        }
+
+        .portfolio .constituents {
+            width: 50px;
+            text-align: right;
+        }
+
+        .thead .constituents {
+            text-align: left;
+        }
+
+    </style>
 	<script type="text/javascript" src="jquery.min.js"></script>
 	<script src="thrift.js"                  type="text/javascript" charset="utf-8"></script>
   	<script src="portfolio_types.js" type="text/javascript" charset="utf-8"></script>
@@ -22,12 +61,12 @@
 		if(portfolios != null)
 		{
 			for(i=0; i<portfolios.length; i++)
-			   document.write(
-				'<div class="portfolio">'+
-				   '<div class="name">'+portfolios[i].name+'</div>'+
-				   '<div class="price">'+portfolios[i].price+'</div>'+
-				   '<div class="constituents">'+portfolios[i].constituents.length+'</div>'+
-				'</div>');
+			   document.getElementById('content').innerHTML += 
+				'<div class="portfolio'+(i%2 ? ' odd' : '')+'">'+
+				   '<div class="cell name">'+portfolios[i].name+'</div>'+
+				   '<div class="cell price">$'+portfolios[i].price.toFixed(2)+'</div>'+
+				   '<div class="cell constituents">'+portfolios[i].constituents.length+'&nbsp;&nbsp;</div>'+
+				'</div>';
 				
 		}
 	 });
@@ -36,6 +75,14 @@
 <script>
 </script>
 <body>
-
+<img src="logo.png" width="200" />
+<h1>Portfolio Manager Demo</h1>
+<div id="content">
+    <div class="portfolio thead">
+        <div class="cell name">Portfolio</div
+        ><div class="cell price">Price</div
+        ><div class="cell constituents">Stocks</div>
+    </div>
+</div>
 </body>
 </html>
