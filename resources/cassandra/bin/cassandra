@@ -150,7 +150,11 @@ while true; do
             exit 0
         ;;
         -t)
-            properties="$properties -Dhadoop-trackers=true -Dhadoop.log.dir=build/test/logs"
+	    if [ -z $HADOOP_LOG_DIR ]; then
+		echo "HADOOP_LOG_DIR not set; defaulting to $HADOOP_HOME/logs"
+		export HADOOP_LOG_DIR=$HADOOP_HOME/logs
+	    fi
+            properties="$properties -Dhadoop-trackers=true -Dhadoop.log.dir=$HADOOP_LOG_DIR"
             hadoop_trackers="true"
             shift
         ;;
@@ -169,8 +173,8 @@ while true; do
     esac
 done
 
-if [ "x$hadoop_trackers" != "x" ]; then
-    if [ "x$HADOOP_HOME" == "x" ]; then
+if [ -n $hadoop_trackers ]; then
+    if [ -z $HADOOP_HOME ]; then
         echo "Please set HADOOP_HOME" >&2
         exit 1
     fi 
@@ -178,11 +182,6 @@ if [ "x$hadoop_trackers" != "x" ]; then
     #needed for webapps
     CLASSPATH=$CLASSPATH:$HADOOP_HOME
     CLASSPATH=$CLASSPATH:$HADOOP_HOME/conf
-    
-    if [ "x$HADOOP_LOG_DIR" == "x" ]; then
-        echo "HADOOP_LOG_DIR not set; defaulting to $HADOOP_HOME/logs"
-        export HADOOP_LOG_DIR=$HADOOP_HOME/logs
-    fi
     
     for jar in $HADOOP_HOME/*.jar $HADOOP_HOME/lib/*.jar $HADOOP_HOME/lib/jsp-2.1/*.jar; do
         CLASSPATH=$CLASSPATH:$jar
