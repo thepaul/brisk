@@ -78,8 +78,8 @@ return
 }
 
 PortfolioMgr_get_portfolios_args = function(args){
-this.start_token = ''
-this.limit = 0
+this.start_token = null
+this.limit = null
 if( args != null ){if (null != args.start_token)
 this.start_token = args.start_token
 if (null != args.limit)
@@ -139,7 +139,7 @@ return
 }
 
 PortfolioMgr_get_portfolios_result = function(args){
-this.success = []
+this.success = null
 if( args != null ){if (null != args.success)
 this.success = args.success
 }}

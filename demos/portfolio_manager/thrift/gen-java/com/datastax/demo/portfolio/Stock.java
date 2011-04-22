@@ -5,26 +5,33 @@
  */
 package com.datastax.demo.portfolio;
 
-import java.util.*;
-
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.EnumMap;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.EnumSet;
+import java.util.Collections;
+import java.util.BitSet;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.apache.thrift.*;
-import org.apache.thrift.meta_data.FieldMetaData;
-import org.apache.thrift.meta_data.FieldValueMetaData;
-import org.apache.thrift.protocol.*;
+public class Stock implements org.apache.thrift.TBase<Stock, Stock._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Stock");
 
-public class Stock implements TBase<Stock, Stock._Fields>, java.io.Serializable, Cloneable {
-  private static final TStruct STRUCT_DESC = new TStruct("Stock");
-
-  private static final TField TICKER_FIELD_DESC = new TField("ticker", TType.STRING, (short)1);
-  private static final TField PRICE_FIELD_DESC = new TField("price", TType.DOUBLE, (short)2);
+  private static final org.apache.thrift.protocol.TField TICKER_FIELD_DESC = new org.apache.thrift.protocol.TField("ticker", org.apache.thrift.protocol.TType.STRING, (short)1);
+  private static final org.apache.thrift.protocol.TField PRICE_FIELD_DESC = new org.apache.thrift.protocol.TField("price", org.apache.thrift.protocol.TType.DOUBLE, (short)2);
 
   public String ticker;
   public double price;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements TFieldIdEnum {
+  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     TICKER((short)1, "ticker"),
     PRICE((short)2, "price");
 
@@ -88,15 +95,15 @@ public class Stock implements TBase<Stock, Stock._Fields>, java.io.Serializable,
   private static final int __PRICE_ISSET_ID = 0;
   private BitSet __isset_bit_vector = new BitSet(1);
 
-  public static final Map<_Fields, FieldMetaData> metaDataMap;
+  public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.TICKER, new FieldMetaData("ticker", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.STRING)));
-    tmpMap.put(_Fields.PRICE, new FieldMetaData("price", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.DOUBLE)));
+    Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.TICKER, new org.apache.thrift.meta_data.FieldMetaData("ticker", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.PRICE, new org.apache.thrift.meta_data.FieldMetaData("price", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    FieldMetaData.addStructMetaDataMap(Stock.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Stock.class, metaDataMap);
   }
 
   public Stock() {
@@ -148,7 +155,7 @@ public class Stock implements TBase<Stock, Stock._Fields>, java.io.Serializable,
     this.ticker = null;
   }
 
-  /** Returns true if field ticker is set (has been asigned a value) and false otherwise */
+  /** Returns true if field ticker is set (has been assigned a value) and false otherwise */
   public boolean isSetTicker() {
     return this.ticker != null;
   }
@@ -173,7 +180,7 @@ public class Stock implements TBase<Stock, Stock._Fields>, java.io.Serializable,
     __isset_bit_vector.clear(__PRICE_ISSET_ID);
   }
 
-  /** Returns true if field price is set (has been asigned a value) and false otherwise */
+  /** Returns true if field price is set (has been assigned a value) and false otherwise */
   public boolean isSetPrice() {
     return __isset_bit_vector.get(__PRICE_ISSET_ID);
   }
@@ -215,7 +222,7 @@ public class Stock implements TBase<Stock, Stock._Fields>, java.io.Serializable,
     throw new IllegalStateException();
   }
 
-  /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
     if (field == null) {
       throw new IllegalArgumentException();
@@ -294,7 +301,7 @@ public class Stock implements TBase<Stock, Stock._Fields>, java.io.Serializable,
       return lastComparison;
     }
     if (isSetTicker()) {
-      lastComparison = TBaseHelper.compareTo(this.ticker, typedOther.ticker);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ticker, typedOther.ticker);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -304,7 +311,7 @@ public class Stock implements TBase<Stock, Stock._Fields>, java.io.Serializable,
       return lastComparison;
     }
     if (isSetPrice()) {
-      lastComparison = TBaseHelper.compareTo(this.price, typedOther.price);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.price, typedOther.price);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -316,33 +323,33 @@ public class Stock implements TBase<Stock, Stock._Fields>, java.io.Serializable,
     return _Fields.findByThriftId(fieldId);
   }
 
-  public void read(TProtocol iprot) throws TException {
-    TField field;
+  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+    org.apache.thrift.protocol.TField field;
     iprot.readStructBegin();
     while (true)
     {
       field = iprot.readFieldBegin();
-      if (field.type == TType.STOP) { 
+      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
         break;
       }
       switch (field.id) {
         case 1: // TICKER
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.ticker = iprot.readString();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 2: // PRICE
-          if (field.type == TType.DOUBLE) {
+          if (field.type == org.apache.thrift.protocol.TType.DOUBLE) {
             this.price = iprot.readDouble();
             setPriceIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         default:
-          TProtocolUtil.skip(iprot, field.type);
+          org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
       }
       iprot.readFieldEnd();
     }
@@ -352,7 +359,7 @@ public class Stock implements TBase<Stock, Stock._Fields>, java.io.Serializable,
     validate();
   }
 
-  public void write(TProtocol oprot) throws TException {
+  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
@@ -388,7 +395,7 @@ public class Stock implements TBase<Stock, Stock._Fields>, java.io.Serializable,
     return sb.toString();
   }
 
-  public void validate() throws TException {
+  public void validate() throws org.apache.thrift.TException {
     // check for required fields
   }
 

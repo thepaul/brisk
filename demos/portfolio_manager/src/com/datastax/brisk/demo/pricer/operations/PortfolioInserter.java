@@ -45,7 +45,7 @@ public class PortfolioInserter extends Operation
         
         for (int i = 0; i < stocks.length; i++)
         {
-            columns.add(new Column(ByteBufferUtil.bytes(stocks[i]), ByteBufferUtil.EMPTY_BYTE_BUFFER, System.currentTimeMillis()));
+            columns.add(new Column().setName(ByteBufferUtil.bytes(stocks[i])).setValue(ByteBufferUtil.EMPTY_BYTE_BUFFER).setTimestamp(System.currentTimeMillis()));
         }
        
         String rawKey = String.valueOf(index);

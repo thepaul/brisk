@@ -4,8 +4,8 @@
 // DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 //
 Stock = function(args){
-this.ticker = ''
-this.price = 0.0
+this.ticker = null
+this.price = null
 if( args != null ){if (null != args.ticker)
 this.ticker = args.ticker
 if (null != args.price)
@@ -65,9 +65,9 @@ return
 }
 
 Portfolio = function(args){
-this.name = ''
-this.constituents = []
-this.price = 0.0
+this.name = null
+this.constituents = null
+this.price = null
 if( args != null ){if (null != args.name)
 this.name = args.name
 if (null != args.constituents)
@@ -166,8 +166,8 @@ return
 }
 
 LeaderBoard = function(args){
-this.low_var = []
-this.high_var = []
+this.low_var = null
+this.high_var = null
 if( args != null ){if (null != args.low_var)
 this.low_var = args.low_var
 if (null != args.high_var)

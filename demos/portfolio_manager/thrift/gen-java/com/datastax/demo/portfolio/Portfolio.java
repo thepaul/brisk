@@ -5,27 +5,35 @@
  */
 package com.datastax.demo.portfolio;
 
-import java.util.*;
-
 import org.apache.commons.lang.builder.HashCodeBuilder;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.EnumMap;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.EnumSet;
+import java.util.Collections;
+import java.util.BitSet;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.apache.thrift.*;
-import org.apache.thrift.meta_data.*;
-import org.apache.thrift.protocol.*;
+public class Portfolio implements org.apache.thrift.TBase<Portfolio, Portfolio._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Portfolio");
 
-public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.Serializable, Cloneable {
-  private static final TStruct STRUCT_DESC = new TStruct("Portfolio");
-
-  private static final TField NAME_FIELD_DESC = new TField("name", TType.STRING, (short)1);
-  private static final TField CONSTITUENTS_FIELD_DESC = new TField("constituents", TType.LIST, (short)2);
-  private static final TField PRICE_FIELD_DESC = new TField("price", TType.DOUBLE, (short)3);
+  private static final org.apache.thrift.protocol.TField NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("name", org.apache.thrift.protocol.TType.STRING, (short)1);
+  private static final org.apache.thrift.protocol.TField CONSTITUENTS_FIELD_DESC = new org.apache.thrift.protocol.TField("constituents", org.apache.thrift.protocol.TType.LIST, (short)2);
+  private static final org.apache.thrift.protocol.TField PRICE_FIELD_DESC = new org.apache.thrift.protocol.TField("price", org.apache.thrift.protocol.TType.DOUBLE, (short)3);
 
   public String name;
   public List<Stock> constituents;
   public double price;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements TFieldIdEnum {
+  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     NAME((short)1, "name"),
     CONSTITUENTS((short)2, "constituents"),
     PRICE((short)3, "price");
@@ -92,18 +100,18 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
   private static final int __PRICE_ISSET_ID = 0;
   private BitSet __isset_bit_vector = new BitSet(1);
 
-  public static final Map<_Fields, FieldMetaData> metaDataMap;
+  public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.NAME, new FieldMetaData("name", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.STRING)));
-    tmpMap.put(_Fields.CONSTITUENTS, new FieldMetaData("constituents", TFieldRequirementType.DEFAULT, 
-        new ListMetaData(TType.LIST, 
-            new StructMetaData(TType.STRUCT, Stock.class))));
-    tmpMap.put(_Fields.PRICE, new FieldMetaData("price", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.DOUBLE)));
+    Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.NAME, new org.apache.thrift.meta_data.FieldMetaData("name", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.CONSTITUENTS, new org.apache.thrift.meta_data.FieldMetaData("constituents", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+            new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Stock.class))));
+    tmpMap.put(_Fields.PRICE, new org.apache.thrift.meta_data.FieldMetaData("price", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    FieldMetaData.addStructMetaDataMap(Portfolio.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Portfolio.class, metaDataMap);
   }
 
   public Portfolio() {
@@ -165,7 +173,7 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
     this.name = null;
   }
 
-  /** Returns true if field name is set (has been asigned a value) and false otherwise */
+  /** Returns true if field name is set (has been assigned a value) and false otherwise */
   public boolean isSetName() {
     return this.name != null;
   }
@@ -204,7 +212,7 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
     this.constituents = null;
   }
 
-  /** Returns true if field constituents is set (has been asigned a value) and false otherwise */
+  /** Returns true if field constituents is set (has been assigned a value) and false otherwise */
   public boolean isSetConstituents() {
     return this.constituents != null;
   }
@@ -229,7 +237,7 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
     __isset_bit_vector.clear(__PRICE_ISSET_ID);
   }
 
-  /** Returns true if field price is set (has been asigned a value) and false otherwise */
+  /** Returns true if field price is set (has been assigned a value) and false otherwise */
   public boolean isSetPrice() {
     return __isset_bit_vector.get(__PRICE_ISSET_ID);
   }
@@ -282,7 +290,7 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
     throw new IllegalStateException();
   }
 
-  /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
     if (field == null) {
       throw new IllegalArgumentException();
@@ -377,7 +385,7 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
       return lastComparison;
     }
     if (isSetName()) {
-      lastComparison = TBaseHelper.compareTo(this.name, typedOther.name);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.name, typedOther.name);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -387,7 +395,7 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
       return lastComparison;
     }
     if (isSetConstituents()) {
-      lastComparison = TBaseHelper.compareTo(this.constituents, typedOther.constituents);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.constituents, typedOther.constituents);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -397,7 +405,7 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
       return lastComparison;
     }
     if (isSetPrice()) {
-      lastComparison = TBaseHelper.compareTo(this.price, typedOther.price);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.price, typedOther.price);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -409,27 +417,27 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
     return _Fields.findByThriftId(fieldId);
   }
 
-  public void read(TProtocol iprot) throws TException {
-    TField field;
+  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+    org.apache.thrift.protocol.TField field;
     iprot.readStructBegin();
     while (true)
     {
       field = iprot.readFieldBegin();
-      if (field.type == TType.STOP) { 
+      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
         break;
       }
       switch (field.id) {
         case 1: // NAME
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.name = iprot.readString();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 2: // CONSTITUENTS
-          if (field.type == TType.LIST) {
+          if (field.type == org.apache.thrift.protocol.TType.LIST) {
             {
-              TList _list0 = iprot.readListBegin();
+              org.apache.thrift.protocol.TList _list0 = iprot.readListBegin();
               this.constituents = new ArrayList<Stock>(_list0.size);
               for (int _i1 = 0; _i1 < _list0.size; ++_i1)
               {
@@ -441,19 +449,19 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
               iprot.readListEnd();
             }
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 3: // PRICE
-          if (field.type == TType.DOUBLE) {
+          if (field.type == org.apache.thrift.protocol.TType.DOUBLE) {
             this.price = iprot.readDouble();
             setPriceIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         default:
-          TProtocolUtil.skip(iprot, field.type);
+          org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
       }
       iprot.readFieldEnd();
     }
@@ -463,7 +471,7 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
     validate();
   }
 
-  public void write(TProtocol oprot) throws TException {
+  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
@@ -475,7 +483,7 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
     if (this.constituents != null) {
       oprot.writeFieldBegin(CONSTITUENTS_FIELD_DESC);
       {
-        oprot.writeListBegin(new TList(TType.STRUCT, this.constituents.size()));
+        oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, this.constituents.size()));
         for (Stock _iter3 : this.constituents)
         {
           _iter3.write(oprot);
@@ -519,7 +527,7 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
     return sb.toString();
   }
 
-  public void validate() throws TException {
+  public void validate() throws org.apache.thrift.TException {
     // check for required fields
   }
 

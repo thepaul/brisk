@@ -46,7 +46,7 @@ public class PriceInserter extends Operation
 
         List<Column> columns = new ArrayList<Column>();
         
-        columns.add(new Column(ByteBufferUtil.bytes("price"), ByteBufferUtil.bytes(String.valueOf((double)(Pricer.randomizer.nextDouble()*1000))), System.currentTimeMillis()));
+        columns.add(new Column().setName(ByteBufferUtil.bytes("price")).setValue(ByteBufferUtil.bytes(String.valueOf((double)(Pricer.randomizer.nextDouble()*1000)))).setTimestamp(System.currentTimeMillis()));
     
         
         Map<ByteBuffer, Map<String, List<Mutation>>> record = new HashMap<ByteBuffer, Map<String, List<Mutation>>>();
