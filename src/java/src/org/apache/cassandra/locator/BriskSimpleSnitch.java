@@ -64,11 +64,12 @@ public class BriskSimpleSnitch extends AbstractEndpointSnitch
         //needed for unit tests
         EndpointState es = Gossiper.instance.getEndpointStateForEndpoint(endpoint);
         
-        
+        assert es != null : "Endpoint "+es+" has no gossip state";
 
-        String DC = (es == null ? myDC : es.getApplicationState(ApplicationState.DC).value);
+        String DC = es.getApplicationState(ApplicationState.DC).value;
       
-        logger.info("DC for endpoint "+endpoint+" is "+DC);
+        if(logger.isDebugEnabled())
+            logger.debug("DC for endpoint "+endpoint+" is "+DC);
         
         return DC;
     }
