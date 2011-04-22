@@ -95,38 +95,6 @@ public class SchemaLoader
                 jdbcCFMD(ks1, "JdbcLong", LongType.instance), jdbcCFMD(ks1, "JdbcBytes", bytes), jdbcCFMD(ks1,
                         "JdbcAscii", AsciiType.instance)));
 
-        // Keyspace 2
-        schema.add(new KSMetaData(ks2, simple, opts_rf1,
-
-                // Column Families
-                standardCFMD(ks2, "Standard1"), standardCFMD(ks2, "Standard3"), superCFMD(ks2, "Super3", bytes),
-                superCFMD(ks2, "Super4", TimeUUIDType.instance), indexCFMD(ks2, "Indexed1", true)));
-
-        // Keyspace 3
-        schema.add(new KSMetaData(ks3, simple, opts_rf5,
-
-        // Column Families
-                standardCFMD(ks3, "Standard1"), indexCFMD(ks3, "Indexed1", true)));
-
-        // Keyspace 4
-        schema.add(new KSMetaData(ks4, simple, opts_rf3,
-
-                // Column Families
-                standardCFMD(ks4, "Standard1"), standardCFMD(ks4, "Standard3"), superCFMD(ks4, "Super3", bytes),
-                superCFMD(ks4, "Super4", TimeUUIDType.instance), new CFMetaData(ks4, "Super5", su,
-                        TimeUUIDType.instance, bytes).keyCacheSize(0)));
-
-        // Keyspace 5
-        schema.add(new KSMetaData(ks5, simple, opts_rf2, standardCFMD(ks5, "Standard1"), standardCFMD(ks5, "Counter1")
-                .defaultValidator(CounterColumnType.instance)));
-
-        // KeyCacheSpace
-        schema.add(new KSMetaData(ks_kcs, simple, opts_rf1, standardCFMD(ks_kcs, "Standard1").keyCacheSize(0.5),
-                standardCFMD(ks_kcs, "Standard2").keyCacheSize(1.0)));
-
-        // RowCacheSpace
-        schema.add(new KSMetaData(ks_rcs, simple, opts_rf1, standardCFMD(ks_rcs, "CFWithoutCache"), standardCFMD(
-                ks_rcs, "CachedCF").rowCacheSize(100)));
 
         return schema;
     }
