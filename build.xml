@@ -233,10 +233,8 @@
 	<dependency groupId="org.apache.hive" artifactId="hive-metastore" version="${hive.build.version}"/>
 	<dependency groupId="org.apache.hive" artifactId="hive-cassandra-handler" version="${hive.build.version}"/>
 
-	<dependency groupId="org.apache.hive" artifactId="hive-deps" version="${hive.build.version}" classifier="derby"/>
-	<dependency groupId="org.apache.hive" artifactId="hive-deps" version="${hive.build.version}" classifier="thrift-fb303"/>
+	<dependency groupId="org.apache.hive" artifactId="hive-deps" version="${hive.build.version}" classifier="derby"/>	
 	<dependency groupId="org.apache.hive" artifactId="hive-deps" version="${hive.build.version}" classifier="json"/>
-	<dependency groupId="org.apache.hive" artifactId="hive-deps" version="${hive.build.version}" classifier="thrift"/>
 
 	<dependency groupId="org.antlr" artifactId="antlr" version="3.0.1"/>
 	<dependency groupId="commons-collections" artifactId="commons-collections" version="3.2.1"/>
