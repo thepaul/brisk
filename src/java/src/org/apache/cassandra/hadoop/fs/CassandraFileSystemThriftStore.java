@@ -27,6 +27,7 @@ import java.util.*;
 
 import com.datastax.brisk.BriskInternalServer;
 
+import org.apache.cassandra.config.KSMetaData;
 import org.apache.cassandra.hadoop.CassandraProxyClient;
 import org.apache.cassandra.hadoop.trackers.CassandraJobConf;
 import org.apache.cassandra.io.util.FileUtils;
@@ -199,12 +200,14 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
             cfs.add(cf);
             
             Map<String,String> stratOpts = new HashMap<String,String>();
+            // FIXME Strategy and RF need to come from configuration options
             stratOpts.put(BriskSimpleSnitch.BRISK_DC, System.getProperty("cfs.replication","1"));
             stratOpts.put(BriskSimpleSnitch.DEFAULT_DC, "0");
+            stratOpts.putAll(KSMetaData.optsWithRF(1));
 
             cfsKs = new KsDef()
                 .setName(keySpace)
-                .setStrategy_class("org.apache.cassandra.locator.NetworkTopologyStrategy")
+                .setStrategy_class("org.apache.cassandra.locator.SimpleStrategy")
                 .setStrategy_options(stratOpts)
                 .setCf_defs(cfs);
 
