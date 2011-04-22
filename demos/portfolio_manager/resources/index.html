@@ -12,40 +12,67 @@
         body {
             font-family: Tahoma,Arial,sans-serif;
             font-size: 13px;
+            padding: 20px;
         }
 
-        .portfolio .cell {
-            display: inline-block;
-            padding: 5px;
+        .header {
+            border-bottom: 1px solid #1d3548;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            width: 826px;
         }
 
-        .thead .cell {
-            background: #66a30a;
-            font-weight: bold;
-            padding: 8px 5px;
+        .header h1 {
+            margin: 10px 0 0 0;
         }
 
-        .odd .cell {
-            background: #CCC;
+        .header img {
+            margin: -10px 0 0 0;
+        }
+
+        #content {
+            width: 860px;
+        }
+
+        .portfolio {
+            float: left;
+            border: 1px solid #333;
+            width: 260px;
+            height: 220px;
+            margin: 0 20px 20px 0;
+            padding: 1px;
         }
 
         .portfolio .name {
-            width: 200px;
+            float: left;
+            line-height: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            background: #CCC;
+            border-bottom: 1px solid #AAA;
+            padding-left: 6px;
+            width: 174px;
         }
 
         .portfolio .price {
-            width: 100px;
+            color: #487008;
+            font-weight: bold;
+            font-size: 14px;
+            float: right;
+            line-height: 30px;
+            background: #CCC;
+            border-bottom: 1px solid #AAA;
+            text-align: right;
+            padding-right: 6px;
+            width: 74px;
         }
 
         .portfolio .constituents {
-            width: 50px;
-            text-align: right;
+            font-style: italic;
+            margin: 6px 0 0 6px;
         }
 
-        .thead .constituents {
-            text-align: left;
-        }
-
+        .clearfix { clear:both; }
     </style>
 	<script type="text/javascript" src="jquery.min.js"></script>
 	<script src="thrift.js"                  type="text/javascript" charset="utf-8"></script>
@@ -62,10 +89,12 @@
 		{
 			for(i=0; i<portfolios.length; i++)
 			   document.getElementById('content').innerHTML += 
-				'<div class="portfolio'+(i%2 ? ' odd' : '')+'">'+
+				'<div class="portfolio">'+
 				   '<div class="cell name">'+portfolios[i].name+'</div>'+
 				   '<div class="cell price">$'+portfolios[i].price.toFixed(2)+'</div>'+
-				   '<div class="cell constituents">'+portfolios[i].constituents.length+'&nbsp;&nbsp;</div>'+
+                   '<div class="clearfix"></div>' +
+				   '<div class="cell constituents">'+portfolios[i].constituents.length+' asset(s)</div>'+
+                   '<div class="chart">Chart goes here</div>'+
 				'</div>';
 				
 		}
@@ -75,14 +104,10 @@
 <script>
 </script>
 <body>
-<img src="logo.png" width="200" />
+<div class="header">
+<img src="logo.png" width="200" align="right" />
 <h1>Portfolio Manager Demo</h1>
-<div id="content">
-    <div class="portfolio thead">
-        <div class="cell name">Portfolio</div
-        ><div class="cell price">Price</div
-        ><div class="cell constituents">Stocks</div>
-    </div>
 </div>
+<div id="content"></div>
 </body>
 </html>
