@@ -25,14 +25,13 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.*;
 
-import javax.management.RuntimeErrorException;
-
 import com.datastax.brisk.BriskInternalServer;
-import com.datastax.brisk.BriskConf;
 
 import org.apache.cassandra.hadoop.CassandraProxyClient;
 import org.apache.cassandra.hadoop.trackers.CassandraJobConf;
 import org.apache.cassandra.io.util.FileUtils;
+import org.apache.cassandra.locator.BriskSimpleSnitch;
+import org.apache.cassandra.locator.SimpleSnitch;
 import org.apache.cassandra.thrift.*;
 import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.cassandra.utils.FBUtilities;
@@ -45,58 +44,58 @@ import org.apache.thrift.TException;
 
 public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 {
-    private final static Logger logger = Logger.getLogger(CassandraFileSystemThriftStore.class);     
-    
-    private static final String         keySpace         = "cfs";
-    private static final String         inodeCf          = "inode";
-    private static final String         blockCf          = "blocks";
+    private final static Logger         logger        = Logger.getLogger(CassandraFileSystemThriftStore.class);
 
-    private static final ByteBuffer     dataCol          = ByteBufferUtil.bytes("data");
-    private static final ByteBuffer     pathCol          = ByteBufferUtil.bytes("path");
-    private static final ByteBuffer     sentCol          = ByteBufferUtil.bytes("sentinel");
+    private static final String         keySpace      = "cfs";
+    private static final String         inodeCf       = "inode";
+    private static final String         blockCf       = "blocks";
 
-    private static final ColumnPath     blockPath        = new ColumnPath(blockCf);
-    private static final ColumnParent   blockParent      = new ColumnParent(blockCf);
+    private static final ByteBuffer     dataCol       = ByteBufferUtil.bytes("data");
+    private static final ByteBuffer     pathCol       = ByteBufferUtil.bytes("path");
+    private static final ByteBuffer     sentCol       = ByteBufferUtil.bytes("sentinel");
 
-    private static final ColumnPath     inodePath        = new ColumnPath(inodeCf);
-    private static final ColumnParent   inodeParent      = new ColumnParent(inodeCf);
+    private static final ColumnPath     blockPath     = new ColumnPath(blockCf);
+    private static final ColumnParent   blockParent   = new ColumnParent(blockCf);
 
-    private static final ColumnPath     inodeDataPath    = new ColumnPath(inodeCf).setColumn(dataCol);
-    private static final ColumnPath     blockDataPath    = new ColumnPath(blockCf).setColumn(dataCol);
+    private static final ColumnPath     inodePath     = new ColumnPath(inodeCf);
+    private static final ColumnParent   inodeParent   = new ColumnParent(inodeCf);
 
-    private static final SlicePredicate pathPredicate    = new SlicePredicate().setColumn_names(Arrays.asList(pathCol));
+    private static final ColumnPath     inodeDataPath = new ColumnPath(inodeCf).setColumn(dataCol);
+    private static final ColumnPath     blockDataPath = new ColumnPath(blockCf).setColumn(dataCol);
 
-    private static final ByteBuffer     sentinelValue    = ByteBufferUtil.bytes("x");
+    private static final SlicePredicate pathPredicate = new SlicePredicate().setColumn_names(Arrays.asList(pathCol));
+
+    private static final ByteBuffer     sentinelValue = ByteBufferUtil.bytes("x");
 
     private ConsistencyLevel            consistencyLevelRead;
 
     private ConsistencyLevel            consistencyLevelWrite;
 
-    private Cassandra.Iface       client;
+    private Cassandra.Iface             client;
 
     public CassandraFileSystemThriftStore()
     {
-        
+
     }
 
     public void initialize(URI uri, Configuration conf) throws IOException
     {
 
         String host = uri.getHost();
-        int    port = uri.getPort();
-        
-        if(host == null || host.isEmpty() || host.equals("null"))
+        int port = uri.getPort();
+
+        if (host == null || host.isEmpty() || host.equals("null"))
             host = InetAddress.getLocalHost().getHostName();
-            
-        if(port == -1)
-            port = 9160; //default
-        
-        //We could be running inside of cassandra...
-        if(conf instanceof CassandraJobConf)
+
+        if (port == -1)
+            port = 9160; // default
+
+        // We could be running inside of cassandra...
+        if (conf instanceof CassandraJobConf)
             client = new BriskInternalServer();
         else
             client = CassandraProxyClient.newProxyConnection(host, port, true, false);
-        
+
         KsDef ks = checkKeyspace();
 
         if (ks == null)
@@ -116,9 +115,12 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
     /**
      * Initialize the consistency levels for reads and writes.
-     * @param ks Keyspace definition
+     * 
+     * @param ks
+     *            Keyspace definition
      */
-    private void initConsistencyLevels(KsDef ks, Configuration conf) {
+    private void initConsistencyLevels(KsDef ks, Configuration conf)
+    {
 
         consistencyLevelRead = ConsistencyLevel.valueOf(conf.get("brisk.consistencylevel.read", "QUORUM"));
         consistencyLevelWrite = ConsistencyLevel.valueOf(conf.get("brisk.consistencylevel.write", "QUORUM"));
@@ -126,11 +128,11 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         // Change consistency if this using NTS
         if (ks.getStrategy_class().contains("NetworkTopologyStrategy"))
         {
-            if (consistencyLevelRead.equals(ConsistencyLevel.QUORUM)) 
+            if (consistencyLevelRead.equals(ConsistencyLevel.QUORUM))
             {
                 consistencyLevelRead = ConsistencyLevel.LOCAL_QUORUM;
-    }
-            if (consistencyLevelWrite.equals(ConsistencyLevel.QUORUM)) 
+            }
+            if (consistencyLevelWrite.equals(ConsistencyLevel.QUORUM))
             {
                 consistencyLevelWrite = ConsistencyLevel.LOCAL_QUORUM;
             }
@@ -195,9 +197,16 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
             cf.setKeyspace(keySpace);
 
             cfs.add(cf);
+            
+            Map<String,String> stratOpts = new HashMap<String,String>();
+            stratOpts.put(BriskSimpleSnitch.BRISK_DC, System.getProperty("cfs.replication","1"));
+            stratOpts.put(BriskSimpleSnitch.DEFAULT_DC, "0");
 
-            cfsKs = new KsDef().setName(keySpace).setReplication_factor(1).setStrategy_class(
-                    "org.apache.cassandra.locator.SimpleStrategy").setCf_defs(cfs);
+            cfsKs = new KsDef()
+                .setName(keySpace)
+                .setStrategy_class("org.apache.cassandra.locator.NetworkTopologyStrategy")
+                .setStrategy_options(stratOpts)
+                .setCf_defs(cfs);
 
             client.system_add_keyspace(cfsKs);
 
@@ -212,13 +221,14 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
     public InputStream retrieveBlock(Block block, long byteRangeStart) throws IOException
     {
-        ByteBuffer blockId = getBlockKey(block.id);       
-        
+        ByteBuffer blockId = getBlockKey(block.id);
+
         LocalOrRemoteBlock blockData = null;
 
         try
         {
-            blockData = ((Brisk.Iface)client).get_cfs_block(FBUtilities.getLocalAddress().getHostName(), blockId, (int)byteRangeStart);
+            blockData = ((Brisk.Iface) client).get_cfs_block(FBUtilities.getLocalAddress().getHostName(), blockId,
+                    (int) byteRangeStart);
         }
         catch (Exception e)
         {
@@ -229,53 +239,52 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
             throw new IOException("Missing block: " + block.id);
 
         InputStream is = null;
-        if(blockData.remote_block != null)
-           is = ByteBufferUtil.inputStream(blockData.remote_block);
+        if (blockData.remote_block != null)
+            is = ByteBufferUtil.inputStream(blockData.remote_block);
         else
-           is = readLocalBlock(blockData.getLocal_block());
-        
+            is = readLocalBlock(blockData.getLocal_block());
+
         return is;
     }
 
     private InputStream readLocalBlock(LocalBlock blockInfo)
     {
-        
-        if(blockInfo.file == null)
+
+        if (blockInfo.file == null)
             throw new RuntimeException("Local file name is not defined");
-        
-        
-        if(blockInfo.length == 0)
-            return  ByteBufferUtil.inputStream(ByteBufferUtil.EMPTY_BYTE_BUFFER);
-        
+
+        if (blockInfo.length == 0)
+            return ByteBufferUtil.inputStream(ByteBufferUtil.EMPTY_BYTE_BUFFER);
+
         RandomAccessFile raf = null;
         try
         {
-             raf = new RandomAccessFile(blockInfo.file,"r");
-             
-             logger.info("Mmapping "+blockInfo.length+" bytes");
-             
-             MappedByteBuffer bb = raf.getChannel().map(FileChannel.MapMode.READ_ONLY, blockInfo.offset, blockInfo.length);
+            raf = new RandomAccessFile(blockInfo.file, "r");
 
-            
-             
-             return new ByteBufferUtil().inputStream(bb);
-             
+            logger.info("Mmapping " + blockInfo.length + " bytes");
+
+            MappedByteBuffer bb = raf.getChannel().map(FileChannel.MapMode.READ_ONLY, blockInfo.offset,
+                    blockInfo.length);
+
+            return new ByteBufferUtil().inputStream(bb);
+
         }
         catch (FileNotFoundException e)
         {
-           throw new RuntimeException("Local file does not exist: "+blockInfo.file);
+            throw new RuntimeException("Local file does not exist: " + blockInfo.file);
         }
         catch (IOException e)
         {
-            throw new RuntimeException(String.format("Unable to mmap block %s[%d,%d]",blockInfo.file, blockInfo.length, blockInfo.offset),e);
+            throw new RuntimeException(String.format("Unable to mmap block %s[%d,%d]", blockInfo.file,
+                    blockInfo.length, blockInfo.offset), e);
         }
         finally
         {
             FileUtils.closeQuietly(raf);
         }
-        
+
     }
-    
+
     public INode retrieveINode(Path path) throws IOException
     {
         ByteBuffer pathKey = getPathKey(path);
@@ -305,12 +314,8 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
         try
         {
-            client.insert(blockId, blockParent, 
-                    new Column()
-            .setName(dataCol)
-            .setValue(data)
-            .setTimestamp(System.currentTimeMillis()),
-            consistencyLevelWrite);
+            client.insert(blockId, blockParent, new Column().setName(dataCol).setValue(data).setTimestamp(
+                    System.currentTimeMillis()), consistencyLevelWrite);
         }
         catch (Exception e)
         {
@@ -320,8 +325,8 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
     public void storeINode(Path path, INode inode) throws IOException
     {
-        logger.info("Writing inode to: "+path);
-                
+        logger.info("Writing inode to: " + path);
+
         ByteBuffer pathKey = getPathKey(path);
 
         ByteBuffer data = inode.serialize();
@@ -337,25 +342,16 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         long ts = System.currentTimeMillis();
 
         // file name
-        mutations.add(new Mutation().setColumn_or_supercolumn(new ColumnOrSuperColumn().setColumn(
-                new Column()
-                .setName(pathCol)
-                .setValue(ByteBufferUtil.bytes(path.toUri().getPath()))
-                .setTimestamp(ts))));
+        mutations.add(new Mutation().setColumn_or_supercolumn(new ColumnOrSuperColumn().setColumn(new Column().setName(
+                pathCol).setValue(ByteBufferUtil.bytes(path.toUri().getPath())).setTimestamp(ts))));
 
         // sentinal
-        mutations.add(new Mutation().setColumn_or_supercolumn(new ColumnOrSuperColumn().setColumn(
-                new Column()
-                .setName(sentCol)
-                .setValue(sentinelValue)
-                .setTimestamp(ts))));
+        mutations.add(new Mutation().setColumn_or_supercolumn(new ColumnOrSuperColumn().setColumn(new Column().setName(
+                sentCol).setValue(sentinelValue).setTimestamp(ts))));
 
         // serialized inode
-        mutations.add(new Mutation().setColumn_or_supercolumn(new ColumnOrSuperColumn().setColumn(
-                new Column()
-                .setName(dataCol)
-                .setValue(data)
-                .setTimestamp(ts))));
+        mutations.add(new Mutation().setColumn_or_supercolumn(new ColumnOrSuperColumn().setColumn(new Column().setName(
+                dataCol).setValue(data).setTimestamp(ts))));
 
         try
         {
@@ -453,7 +449,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
         for (Path p : allPaths)
         {
-            if (p.depth() == (path.depth() + 1) )
+            if (p.depth() == (path.depth() + 1))
             {
                 prunedPath.add(p);
             }
@@ -481,15 +477,15 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
         try
         {
-            List<List<String>> blockEndpoints = ((Brisk.Iface)client).describe_keys(keySpace, blockKeys);
+            List<List<String>> blockEndpoints = ((Brisk.Iface) client).describe_keys(keySpace, blockKeys);
 
             for (int i = 0; i < blockEndpoints.size(); i++)
             {
                 List<String> endpoints = blockEndpoints.get(i);
                 Block b = blocks.get(i);
-                
+
                 long offset = (i == 0 && b.offset > start) ? start : b.offset;
-                            
+
                 // TODO: Add topology info if at all possible?
                 locations[i] = new BlockLocation(null, endpoints.toArray(new String[0]), offset, b.length);
             }
@@ -500,6 +496,6 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         {
             throw new IOException(e);
         }
-         
+
     }
 }

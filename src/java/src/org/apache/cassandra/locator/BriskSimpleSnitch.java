@@ -20,6 +20,9 @@ package org.apache.cassandra.locator;
 
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,11 +36,11 @@ import org.apache.cassandra.utils.FBUtilities;
 /**
  * A snitch that detects if Hadoop trackers are active and put this machine in a separate analytics DC
  */
-public class BriskSimpleSnitch extends SimpleSnitch
+public class BriskSimpleSnitch extends AbstractEndpointSnitch
 {
     protected static Logger logger = LoggerFactory.getLogger(BriskSimpleSnitch.class);
-    static final String BRISK_DC = "BriskHadoopAnalyticsDatacenter";
-    protected IEndpointSnitch subsnitch = new SimpleSnitch();
+    public static final String BRISK_DC = "BriskHadoopAnalyticsReplicaGroup";
+    public static final String DEFAULT_DC = "CassandraLiveReplicaGroup";
     protected String myDC;
 
     public BriskSimpleSnitch() throws IOException, ConfigurationException
@@ -45,15 +48,15 @@ public class BriskSimpleSnitch extends SimpleSnitch
         if(System.getProperty("hadoop-trackers", "false").equalsIgnoreCase("true"))
         {
             myDC = BRISK_DC;
-            logger.info("Detected Hadoop trackers are enabled, setting my DC to " + BRISK_DC);
+            logger.info("Detected Hadoop trackers are enabled, setting my DC to " + myDC);
         }
         else
         {
-            myDC = subsnitch.getDatacenter(FBUtilities.getLocalAddress());
+            myDC = DEFAULT_DC;
             logger.info("Hadoop trackers not running, setting my DC to " + myDC);
         }
     }
-
+    
     public String getDatacenter(InetAddress endpoint)
     {
         return Gossiper.instance.getEndpointStateForEndpoint(endpoint).getApplicationState(ApplicationState.DC).value;
@@ -64,5 +67,20 @@ public class BriskSimpleSnitch extends SimpleSnitch
     {
         // Share DC info via gossip.
         Gossiper.instance.addLocalApplicationState(ApplicationState.DC, StorageService.instance.valueFactory.datacenter(myDC));
+    }
+
+    public List<InetAddress> getSortedListByProximity(InetAddress address, Collection<InetAddress> addresses)
+    {
+        return new ArrayList<InetAddress>(addresses);
+    }
+
+    public void sortByProximity(InetAddress arg0, List<InetAddress> arg1)
+    {      
+        
+    }
+
+    public String getRack(InetAddress arg0)
+    {
+        return "rack1";
     }
 }
