@@ -29,9 +29,10 @@ import org.slf4j.LoggerFactory;
 
 import org.apache.cassandra.config.ConfigurationException;
 import org.apache.cassandra.gms.ApplicationState;
+import org.apache.cassandra.gms.EndpointState;
 import org.apache.cassandra.gms.Gossiper;
+import org.apache.cassandra.hadoop.trackers.TrackerInitializer;
 import org.apache.cassandra.service.StorageService;
-import org.apache.cassandra.utils.FBUtilities;
 
 /**
  * A snitch that detects if Hadoop trackers are active and put this machine in a separate analytics DC
@@ -41,11 +42,12 @@ public class BriskSimpleSnitch extends AbstractEndpointSnitch
     protected static Logger logger = LoggerFactory.getLogger(BriskSimpleSnitch.class);
     public static final String BRISK_DC = "BriskHadoopAnalyticsReplicaGroup";
     public static final String DEFAULT_DC = "CassandraLiveReplicaGroup";
+    
     protected String myDC;
 
     public BriskSimpleSnitch() throws IOException, ConfigurationException
     {
-        if(System.getProperty("hadoop-trackers", "false").equalsIgnoreCase("true"))
+        if(TrackerInitializer.isTrackerNode)
         {
             myDC = BRISK_DC;
             logger.info("Detected Hadoop trackers are enabled, setting my DC to " + myDC);
@@ -59,7 +61,16 @@ public class BriskSimpleSnitch extends AbstractEndpointSnitch
     
     public String getDatacenter(InetAddress endpoint)
     {
-        return Gossiper.instance.getEndpointStateForEndpoint(endpoint).getApplicationState(ApplicationState.DC).value;
+        //needed for unit tests
+        EndpointState es = Gossiper.instance.getEndpointStateForEndpoint(endpoint);
+        
+        
+
+        String DC = (es == null ? myDC : es.getApplicationState(ApplicationState.DC).value);
+      
+        logger.info("DC for endpoint "+endpoint+" is "+DC);
+        
+        return DC;
     }
 
     @Override

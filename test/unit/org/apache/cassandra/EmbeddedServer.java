@@ -25,6 +25,9 @@ import java.util.concurrent.TimeUnit;
 
 import com.datastax.brisk.BriskDaemon;
 
+import org.apache.cassandra.hadoop.trackers.TrackerInitializer;
+import org.apache.cassandra.locator.BriskSimpleSnitch;
+
 
 public class EmbeddedServer 
 {
@@ -33,8 +36,7 @@ public class EmbeddedServer
     static ExecutorService executor = Executors.newSingleThreadExecutor();
     
     public static void startBrisk() throws IOException
-
-    {
+    {   
         executor.execute(new Runnable()
         {
             public void run()

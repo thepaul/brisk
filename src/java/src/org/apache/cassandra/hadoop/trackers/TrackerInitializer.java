@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.cassandra.utils.FBUtilities;
 import org.apache.hadoop.mapred.JobTracker;
@@ -17,6 +18,8 @@ public class TrackerInitializer
 {
     private static Logger logger = Logger.getLogger(TrackerInitializer.class);
     private static final CountDownLatch jobTrackerStarted = new CountDownLatch(1);
+    public static final String  trackersProperty = "hadoop-trackers";
+    public static final boolean isTrackerNode = System.getProperty(trackersProperty, "false").equalsIgnoreCase("true");
     
     public static void init() 
     {
