@@ -48,7 +48,7 @@ public class EmbeddedServer
         });
         try
         {
-            TimeUnit.SECONDS.sleep(3);
+            TimeUnit.SECONDS.sleep(10);
         }
         catch (InterruptedException e)
         {
