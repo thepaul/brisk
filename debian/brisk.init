@@ -27,6 +27,9 @@ JVM_SEARCH_DIRS="/usr/lib/jvm/java-6-sun"
 [ -e /usr/share/brisk/brisk.jar ] || exit 0
 [ -e /etc/brisk/brisk-env.sh ] || exit 0
 
+# Read Brisk environment file.
+. /etc/brisk/brisk-env.sh
+
 # Read Cassandra environment file.
 . /etc/brisk/cassandra/cassandra-env.sh
 
