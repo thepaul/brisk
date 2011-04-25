@@ -55,7 +55,7 @@ public class ThriftPluginServer implements Configurable, Runnable {
 
   static final Log LOG = LogFactory.getLog(ThriftPluginServer.class);
 
-  static final int SOCKET_READ_TIMEOUT = 5000; // 5sec
+  static final int SOCKET_READ_TIMEOUT = 0; // 0 sec, aka no timeout
 
   static {
     Configuration.addDefaultResource("thriftfs-default.xml");
