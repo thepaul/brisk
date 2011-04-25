@@ -211,6 +211,7 @@
 	<dependency groupId="org.apache.cassandra" artifactId="apache-cassandra" version="${cassandra.build.version}"/>
 	<dependency groupId="org.apache.cassandra" artifactId="apache-cassandra-thrift" version="${cassandra-thrift.build.version}"/>
 	<dependency groupId="org.apache.cassandra" artifactId="apache-cassandra-cql" version="${cassandra-cql.build.version}"/>
+	<dependency groupId="joda-time" artifactId="joda-time" version="1.6.2"/>
         <remoteRepository refid="datastax"/>    
 	<remoteRepository refid="datastax-deps"/>    
         <remoteRepository refid="datastax-cassandra"/>    

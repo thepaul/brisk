@@ -373,6 +373,8 @@ public class Session
         // column family with super columns
         CfDef stockCfDef = new CfDef("PortfolioDemo", "Stocks").setGc_grace_seconds(60);
         
+        CfDef histCfDef = new CfDef("PortfolioDemo", "StockHist").setGc_grace_seconds(60);
+        
         keyspace.setName("PortfolioDemo");
         keyspace.setStrategy_class(replicationStrategy);
         keyspace.setReplication_factor(replicationFactor);
@@ -383,7 +385,7 @@ public class Session
             keyspace.setStrategy_options(replicationStrategyOptions);
         }
 
-        keyspace.setCf_defs(new ArrayList<CfDef>(Arrays.asList(portfolioCfDef, stockCfDef)));
+        keyspace.setCf_defs(new ArrayList<CfDef>(Arrays.asList(portfolioCfDef, stockCfDef, histCfDef)));
 
         Cassandra.Client client = getClient(false);
 

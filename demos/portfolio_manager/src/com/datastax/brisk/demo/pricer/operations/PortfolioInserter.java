@@ -17,7 +17,6 @@
  */
 package com.datastax.brisk.demo.pricer.operations;
 
-import org.apache.cassandra.db.ColumnFamilyType;
 import org.apache.cassandra.thrift.*;
 import org.apache.cassandra.utils.ByteBufferUtil;
 
