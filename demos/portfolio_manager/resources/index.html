@@ -8,6 +8,72 @@
 	<meta name="generator" content="TextMate http://macromates.com/">
 	<meta name="author" content="Jake Luciani">
 	<!-- Date: 2011-03-22 -->
+    <style>
+        body {
+            font-family: Tahoma,Arial,sans-serif;
+            font-size: 13px;
+            padding: 20px;
+        }
+
+        .header {
+            border-bottom: 1px solid #1d3548;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            width: 826px;
+        }
+
+        .header h1 {
+            margin: 10px 0 0 0;
+        }
+
+        .header img {
+            margin: -10px 0 0 0;
+        }
+
+        #content {
+            width: 860px;
+        }
+
+        .portfolio {
+            float: left;
+            border: 1px solid #333;
+            width: 260px;
+            height: 220px;
+            margin: 0 20px 20px 0;
+            padding: 1px;
+        }
+
+        .portfolio .name {
+            float: left;
+            line-height: 30px;
+            font-size: 16px;
+            font-weight: bold;
+            background: #CCC;
+            border-bottom: 1px solid #AAA;
+            padding-left: 6px;
+            width: 174px;
+        }
+
+        .portfolio .price {
+            color: #487008;
+            font-weight: bold;
+            font-size: 14px;
+            float: right;
+            line-height: 30px;
+            background: #CCC;
+            border-bottom: 1px solid #AAA;
+            text-align: right;
+            padding-right: 6px;
+            width: 74px;
+        }
+
+        .portfolio .constituents {
+            font-style: italic;
+            margin: 6px 0 0 6px;
+        }
+
+        .clearfix { clear:both; }
+    </style>
 	<script type="text/javascript" src="jquery.min.js"></script>
 	<script src="thrift.js"                  type="text/javascript" charset="utf-8"></script>
   	<script src="portfolio_types.js" type="text/javascript" charset="utf-8"></script>
@@ -22,12 +88,14 @@
 		if(portfolios != null)
 		{
 			for(i=0; i<portfolios.length; i++)
-			   document.write(
+			   document.getElementById('content').innerHTML += 
 				'<div class="portfolio">'+
-				   '<div class="name">'+portfolios[i].name+'</div>'+
-				   '<div class="price">'+portfolios[i].price+'</div>'+
-				   '<div class="constituents">'+portfolios[i].constituents.length+'</div>'+
-				'</div>');
+				   '<div class="cell name">'+portfolios[i].name+'</div>'+
+				   '<div class="cell price">$'+portfolios[i].price.toFixed(2)+'</div>'+
+                   '<div class="clearfix"></div>' +
+				   '<div class="cell constituents">'+portfolios[i].constituents.length+' asset(s)</div>'+
+                   '<div class="chart">Chart goes here</div>'+
+				'</div>';
 				
 		}
 	 });
@@ -36,6 +104,10 @@
 <script>
 </script>
 <body>
-
+<div class="header">
+<img src="logo.png" width="200" align="right" />
+<h1>Portfolio Manager Demo</h1>
+</div>
+<div id="content"></div>
 </body>
 </html>

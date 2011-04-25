@@ -17,13 +17,13 @@ BIN=`dirname $0`
 
 if [ "x$1" = "xcassandra" ]; then
     shift
-    $CASSANDRA_HOME/bin/cassandra $* -Djava.library.path=$JAVA_LIBRARY_PATH 
+    $CASSANDRA_BIN/cassandra $* -Djava.library.path=$JAVA_LIBRARY_PATH 
     exit $?
 fi
 
 if [ "x$1" = "xhadoop" ]; then
     shift
-    $HADOOP_HOME/bin/hadoop $*
+    $HADOOP_BIN/hadoop $*
     exit $?
 fi
 
@@ -40,7 +40,7 @@ if [ "x$1" = "xhive" ]; then
     export CLASSPATH=`echo $CLASSPATH | sed -E "s/antlr|slf4j/dne/g"`
     export HADOOP_CLASSPATH=$CLASSPATH
     
-    $HIVE_HOME/bin/hive $*
+    $HIVE_BIN/hive $*
     exit $?
 fi
 

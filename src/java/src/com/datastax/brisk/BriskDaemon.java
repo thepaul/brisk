@@ -23,12 +23,16 @@ public class BriskDaemon extends org.apache.cassandra.service.AbstractCassandraD
     private ThriftServer server;
     
     protected void setup() throws IOException
-    {
+    {     
         super.setup();
-            
+     
         //Start hadoop trackers...
-        if(System.getProperty("hadoop-trackers", "false").equalsIgnoreCase("true"))
+        if(TrackerInitializer.isTrackerNode)
+        {
+            logger.info("Starting up Hadoop trackers");
             TrackerInitializer.init();
+        }
+        
     }
 
     protected void startServer()

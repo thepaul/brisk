@@ -1,6 +1,7 @@
 #!/bin/sh
 
-export CASSANDRA_HOME=/usr
+export CASSANDRA_HOME=/usr/share/brisk/cassandra
+export CASSANDRA_BIN=/usr/bin
 
 if [ "x$CASSANDRA_INCLUDE" = "x" ]; then
     for include in /usr/share/cassandra/cassandra.in.sh \
@@ -18,18 +19,20 @@ elif [ -r $CASSANDRA_INCLUDE ]; then
 fi
 
  
-for jar in `find /usr/share/brisk`; do
+for jar in `find /usr/share/brisk/*/lib`; do
     export CLASSPATH=$CLASSPATH:$jar
 done
 
 export HADOOP_CLASSPATH=$CLASSPATH
 
 #hadoop requires absolute home
-export HADOOP_HOME=/usr
+export HADOOP_HOME=/usr/share/brisk/hadoop
+export HADOOP_BIN=/usr/bin
 #export HADOOP_LOG_DIR=
 
 #export PIG_HOME=
 export PIG_CLASSPATH=$HADOOP_HOME/conf:$CLASSPATH
 
-export HIVE_HOME=/usr
+export HIVE_HOME=/usr/share/brisk/hive
+export HIVE_BIN=/usr/bin
 
