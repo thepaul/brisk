@@ -18,6 +18,7 @@ import org.apache.cassandra.thrift.SlicePredicate;
 import org.apache.cassandra.thrift.SliceRange;
 import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hive.metastore.api.Database;
 import org.apache.hadoop.hive.metastore.api.Index;
 import org.apache.hadoop.hive.metastore.api.Partition;
 import org.apache.hadoop.hive.metastore.api.PrincipalPrivilegeSet;
@@ -169,7 +170,7 @@ public class MetaStorePersister
         BatchMutation batchMutation = new BatchMutation();     
         try
         {    
-            Deletion deletion = new Deletion().setTimestamp(System.currentTimeMillis() * 1000);
+            Deletion deletion = new Deletion().setTimestamp(System.currentTimeMillis());
             SlicePredicate predicate = new SlicePredicate();
             
             for (TBase tBase : bases)
@@ -194,7 +195,10 @@ public class MetaStorePersister
     private String buildEntityColumnName(TBase base) {
         StringBuilder colName = new StringBuilder(96);
         colName.append(base.getClass().getName()).append("::");
-        if ( base instanceof Table ) 
+        if ( base instanceof Database )
+        {
+            colName.append(((Database)base).getName());
+        } else if ( base instanceof Table ) 
         {
             colName.append(((Table)base).getTableName());
         } else if ( base instanceof Index ) 

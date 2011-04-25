@@ -13,6 +13,7 @@ import org.apache.cassandra.config.ConfigurationException;
 import org.apache.cassandra.config.DatabaseDescriptor;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hive.metastore.api.Database;
+import org.apache.hadoop.hive.metastore.api.NoSuchObjectException;
 import org.apache.hadoop.hive.metastore.api.Partition;
 import org.apache.hadoop.hive.metastore.api.Table;
 import org.apache.thrift.transport.TTransportException;
@@ -177,6 +178,40 @@ public class CassandraHiveMetaStoreTest extends CleanupHelper {
         Partition foundPartition = metaStore.getPartition("alter_part_db", "table_name", partValues);
         assertEquals(part,foundPartition);
 
+    }
+    
+    @Test
+    public void testCreateMultipleDatabases() throws Exception 
+    {
+        CassandraHiveMetaStore metaStore = new CassandraHiveMetaStore();
+        metaStore.setConf(buildConfiguration());
+        Database database = new Database("db_1", "My Database", "file:///tmp/", new HashMap<String, String>());
+        metaStore.createDatabase(database);
+        database.setName("db_2");
+        metaStore.createDatabase(database);
+        assertTrue(metaStore.getAllDatabases().size() > 1);
+    }
+    
+    @Test
+    public void testAddDropReAddDatabase() throws Exception 
+    {
+        CassandraHiveMetaStore metaStore = new CassandraHiveMetaStore();
+        metaStore.setConf(buildConfiguration());
+        Database database = new Database("add_drop_readd_db", "My Database", "file:///tmp/", new HashMap<String, String>());
+        metaStore.createDatabase(database);
+        Database foundDatabase = metaStore.getDatabase("add_drop_readd_db");
+        assertEquals(database, foundDatabase);
+        metaStore.dropDatabase("add_drop_readd_db");
+        try {
+            foundDatabase = metaStore.getDatabase("add_drop_readd_db");
+            fail();
+        } catch (NoSuchObjectException nsoe) {
+            foundDatabase = null;
+        }
+        metaStore.createDatabase(database);
+        foundDatabase = metaStore.getDatabase("add_drop_readd_db");
+        assertEquals(database, foundDatabase);
+        
     }
     
     

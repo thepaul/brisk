@@ -115,6 +115,7 @@ public class CassandraHiveMetaStore implements RawStore {
         
         CfDef cf = new CfDef(cassandraClientHolder.getKeyspaceName(), 
                 cassandraClientHolder.getColumnFamily());
+        cf.setKey_validation_class("UTF8Type");
         cf.setComparator_type("UTF8Type");
         KsDef ks = new KsDef(cassandraClientHolder.getKeyspaceName(), 
                 "org.apache.cassandra.locator.SimpleStrategy",  
@@ -141,6 +142,7 @@ public class CassandraHiveMetaStore implements RawStore {
     {
         log.debug("in getDatabase with database name: {}", databaseName);
         Database db = new Database();
+        db.setName(databaseName);
         try 
         {
             metaStorePersister.load(db, databaseName);
@@ -210,6 +212,7 @@ public class CassandraHiveMetaStore implements RawStore {
         Database database = new Database();
         database.setName(databaseName);
         metaStorePersister.remove(database, databaseName);
+        metaStorePersister.remove(database, CassandraClientHolder.DATABASES_ROW_KEY);
         return true;
     }
 
