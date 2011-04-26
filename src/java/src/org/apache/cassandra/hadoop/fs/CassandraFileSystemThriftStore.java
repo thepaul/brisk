@@ -312,6 +312,10 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         ByteBuffer blockId = getBlockKey(block.id);
 
         ByteBuffer data = ByteBuffer.wrap(os.toByteArray());
+        
+        if (logger.isDebugEnabled()) {
+        	logger.debug("Storing " + block);
+        }
 
         try
         {
@@ -327,6 +331,10 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
     public void storeINode(Path path, INode inode) throws IOException
     {
         logger.info("Writing inode to: " + path);
+        
+        if (logger.isDebugEnabled() && inode.getBlocks() != null) {
+        	printBlocksDebug(inode.getBlocks());
+        }
 
         ByteBuffer pathKey = getPathKey(path);
 
@@ -361,6 +369,16 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         catch (Exception e)
         {
             throw new IOException(e);
+        }
+    }
+    
+    /**
+     * Print this List by invoking its objects' toString(); using the logger in debug mode.
+     * @param blocks list of blocks to be printed
+     */
+    private void printBlocksDebug(Block[] blocks) {
+        for (Block block : blocks) {
+            logger.debug(block);
         }
     }
 
