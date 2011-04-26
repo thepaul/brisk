@@ -1,2 +1,2 @@
 bin/brisk usr/bin
-debian/brisk-env.sh etc/brisk
+packaging-common/brisk-env.sh etc/brisk
