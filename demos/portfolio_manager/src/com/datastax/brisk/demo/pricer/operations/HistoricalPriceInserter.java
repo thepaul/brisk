@@ -30,7 +30,7 @@ public class HistoricalPriceInserter extends Operation
         Map<ByteBuffer, Map<String, List<Mutation>>> record = new HashMap<ByteBuffer, Map<String, List<Mutation>>>(tickers.length);
 
         LocalDate histDate = today.minusDays(index);
-        ByteBuffer histDateBuf = ByteBufferUtil.bytes(histDate.toString("YYYYMMDD"));
+        ByteBuffer histDateBuf = ByteBufferUtil.bytes(histDate.toString("yyyy-MM-dd"));
         
         for(String stock : tickers)
         {

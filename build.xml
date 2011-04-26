@@ -161,9 +161,15 @@
       <artifact:remoteRepository id="central"   url="${artifact.remoteRepository.central}"/>
       <artifact:remoteRepository id="java.net2" url="${artifact.remoteRepository.java.net2}"/>
       <artifact:remoteRepository id="apache"    url="${artifact.remoteRepository.apache}"/>
-      <artifact:remoteRepository id="datastax"  url="${artifact.remoteRepository.datastax}"/>
-      <artifact:remoteRepository id="datastax-deps"  url="${artifact.remoteRepository.datastax-deps}"/>
-      <artifact:remoteRepository id="datastax-cassandra"  url="${artifact.remoteRepository.datastax-cassandra}"/>
+      <artifact:remoteRepository id="datastax"  url="${artifact.remoteRepository.datastax}">
+      	<releases updatePolicy="always"/>
+      </artifact:remoteRepository>
+      <artifact:remoteRepository id="datastax-deps"  url="${artifact.remoteRepository.datastax-deps}">
+      	<releases updatePolicy="always"/>
+      </artifact:remoteRepository>
+      <artifact:remoteRepository id="datastax-cassandra"  url="${artifact.remoteRepository.datastax-cassandra}">
+      	<releases updatePolicy="always"/>
+      </artifact:remoteRepository>
       <artifact:remoteRepository id="datanucleus"  url="${artifact.remoteRepository.datanucleus}"/>
       <!-- for distributed tests -->
       <artifact:remoteRepository id="jclouds"   url="${artifact.remoteRepository.jclouds}"/>

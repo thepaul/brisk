@@ -67,13 +67,22 @@ return
 Portfolio = function(args){
 this.name = null
 this.constituents = null
+this.basis = null
 this.price = null
+this.largest_10day_loss = null
+this.largest_10day_loss_date = null
 if( args != null ){if (null != args.name)
 this.name = args.name
 if (null != args.constituents)
 this.constituents = args.constituents
+if (null != args.basis)
+this.basis = args.basis
 if (null != args.price)
 this.price = args.price
+if (null != args.largest_10day_loss)
+this.largest_10day_loss = args.largest_10day_loss
+if (null != args.largest_10day_loss_date)
+this.largest_10day_loss_date = args.largest_10day_loss_date
 }}
 Portfolio.prototype = {}
 Portfolio.prototype.read = function(input){ 
@@ -119,7 +128,28 @@ this.name = rtmp.value
   break
   case 3:  if (ftype == Thrift.Type.DOUBLE) {
     var rtmp = input.readDouble()
+this.basis = rtmp.value
+  } else {
+    input.skip(ftype)
+  }
+  break
+  case 4:  if (ftype == Thrift.Type.DOUBLE) {
+    var rtmp = input.readDouble()
 this.price = rtmp.value
+  } else {
+    input.skip(ftype)
+  }
+  break
+  case 5:  if (ftype == Thrift.Type.DOUBLE) {
+    var rtmp = input.readDouble()
+this.largest_10day_loss = rtmp.value
+  } else {
+    input.skip(ftype)
+  }
+  break
+  case 6:  if (ftype == Thrift.Type.STRING) {
+    var rtmp = input.readString()
+this.largest_10day_loss_date = rtmp.value
   } else {
     input.skip(ftype)
   }
@@ -155,120 +185,24 @@ output.writeFieldBegin('constituents', Thrift.Type.LIST, 2)
 }
 output.writeFieldEnd()
 }
+if (null != this.basis) {
+output.writeFieldBegin('basis', Thrift.Type.DOUBLE, 3)
+output.writeDouble(this.basis)
+output.writeFieldEnd()
+}
 if (null != this.price) {
-output.writeFieldBegin('price', Thrift.Type.DOUBLE, 3)
+output.writeFieldBegin('price', Thrift.Type.DOUBLE, 4)
 output.writeDouble(this.price)
 output.writeFieldEnd()
 }
-output.writeFieldStop()
-output.writeStructEnd()
-return
-}
-
-LeaderBoard = function(args){
-this.low_var = null
-this.high_var = null
-if( args != null ){if (null != args.low_var)
-this.low_var = args.low_var
-if (null != args.high_var)
-this.high_var = args.high_var
-}}
-LeaderBoard.prototype = {}
-LeaderBoard.prototype.read = function(input){ 
-var ret = input.readStructBegin()
-while (1) 
-{
-var ret = input.readFieldBegin()
-var fname = ret.fname
-var ftype = ret.ftype
-var fid   = ret.fid
-if (ftype == Thrift.Type.STOP) 
-break
-switch(fid)
-{
-case 1:if (ftype == Thrift.Type.LIST) {
-  {
-    var _size7 = 0
-    var rtmp3
-    this.low_var = []
-    var _etype10 = 0
-    rtmp3 = input.readListBegin()
-    _etype10 = rtmp3.etype
-    _size7 = rtmp3.size
-    for (var _i11 = 0; _i11 < _size7; ++_i11)
-    {
-      var elem12 = null
-      elem12 = new Portfolio()
-      elem12.read(input)
-      this.low_var.push(elem12)
-    }
-    input.readListEnd()
-  }
-} else {
-  input.skip(ftype)
-}
-break
-case 2:if (ftype == Thrift.Type.LIST) {
-  {
-    var _size13 = 0
-    var rtmp3
-    this.high_var = []
-    var _etype16 = 0
-    rtmp3 = input.readListBegin()
-    _etype16 = rtmp3.etype
-    _size13 = rtmp3.size
-    for (var _i17 = 0; _i17 < _size13; ++_i17)
-    {
-      var elem18 = null
-      elem18 = new Portfolio()
-      elem18.read(input)
-      this.high_var.push(elem18)
-    }
-    input.readListEnd()
-  }
-} else {
-  input.skip(ftype)
-}
-break
-default:
-  input.skip(ftype)
-}
-input.readFieldEnd()
-}
-input.readStructEnd()
-return
-}
-
-LeaderBoard.prototype.write = function(output){ 
-output.writeStructBegin('LeaderBoard')
-if (null != this.low_var) {
-output.writeFieldBegin('low_var', Thrift.Type.LIST, 1)
-{
-output.writeListBegin(Thrift.Type.STRUCT, this.low_var.length)
-{
-  for(var iter19 in this.low_var)
-  {
-    iter19=this.low_var[iter19]
-    iter19.write(output)
-  }
-}
-output.writeListEnd()
-}
+if (null != this.largest_10day_loss) {
+output.writeFieldBegin('largest_10day_loss', Thrift.Type.DOUBLE, 5)
+output.writeDouble(this.largest_10day_loss)
 output.writeFieldEnd()
 }
-if (null != this.high_var) {
-output.writeFieldBegin('high_var', Thrift.Type.LIST, 2)
-{
-output.writeListBegin(Thrift.Type.STRUCT, this.high_var.length)
-{
-  for(var iter20 in this.high_var)
-  {
-    iter20=this.high_var[iter20]
-    iter20.write(output)
-  }
-}
-output.writeListEnd()
-}
+if (null != this.largest_10day_loss_date) {
+output.writeFieldBegin('largest_10day_loss_date', Thrift.Type.STRING, 6)
+output.writeString(this.largest_10day_loss_date)
 output.writeFieldEnd()
 }
 output.writeFieldStop()
