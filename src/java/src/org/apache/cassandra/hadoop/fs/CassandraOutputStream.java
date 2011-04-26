@@ -180,7 +180,8 @@ public class CassandraOutputStream extends OutputStream
 
     private synchronized void nextBlockOutputStream() throws IOException
     {
-        nextBlock = new Block(UUIDGen.makeType1UUIDFromHost(FBUtilities.getLocalAddress()), filePos - bytesWrittenToBlock, bytesWrittenToBlock);
+        nextBlock = new Block(UUIDGen.makeType1UUIDFromHost(FBUtilities.getLocalAddress()), 
+        		filePos - bytesWrittenToBlock - pos, bytesWrittenToBlock);
         blocks.add(nextBlock);
         bytesWrittenToBlock = 0;
     }

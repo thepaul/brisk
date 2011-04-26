@@ -24,6 +24,7 @@ import java.util.concurrent.SynchronousQueue;
 
 import org.apache.commons.cli.Option;
 
+import com.datastax.brisk.demo.pricer.operations.HistoricalPriceInserter;
 import com.datastax.brisk.demo.pricer.operations.PortfolioInserter;
 import com.datastax.brisk.demo.pricer.operations.PriceInserter;
 import com.datastax.brisk.demo.pricer.util.Operation;
@@ -34,7 +35,7 @@ public final class Pricer
 {
     public static enum Operations
     {
-        INSERT_PRICES, UPDATE_PORTFOLIOS
+        INSERT_HISTORICAL_PRICES, INSERT_PRICES, UPDATE_PORTFOLIOS
     }
 
     public static Session session;
@@ -146,6 +147,9 @@ public final class Pricer
                 
             case UPDATE_PORTFOLIOS:
                 return new PortfolioInserter(index);
+                
+            case INSERT_HISTORICAL_PRICES:
+                return new HistoricalPriceInserter(index);
         
         }
 
@@ -157,7 +161,7 @@ public final class Pricer
      */
     public static void printHelpMessage()
     {
-        System.out.println("Usage: ./bin/stress [options]\n\nOptions:");
+        System.out.println("Usage: ./bin/pricer [options]\n\nOptions:");
 
         for(Object o : Session.availableOptions.getOptions())
         {

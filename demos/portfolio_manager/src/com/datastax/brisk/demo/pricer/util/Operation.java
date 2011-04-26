@@ -82,7 +82,7 @@ public abstract class Operation
     
     protected String[] generatePortfolio(int limit)
     {
-        String[] portfolio = new String[Pricer.randomizer.nextInt(limit)];
+        String[] portfolio = new String[Pricer.randomizer.nextInt(limit)+1];
         
         for(int i=0; i<portfolio.length; i++)
         {

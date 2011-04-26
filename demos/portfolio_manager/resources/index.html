@@ -5,9 +5,6 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 	<title>DataStax Portfolio Manager Demo</title>
-	<meta name="generator" content="TextMate http://macromates.com/">
-	<meta name="author" content="Jake Luciani">
-	<!-- Date: 2011-03-22 -->
     <style>
         body {
             font-family: Tahoma,Arial,sans-serif;
@@ -75,27 +72,38 @@
         .clearfix { clear:both; }
     </style>
 	<script type="text/javascript" src="jquery.min.js"></script>
-	<script src="thrift.js"                  type="text/javascript" charset="utf-8"></script>
+	<script src="thrift.js" type="text/javascript" charset="utf-8"></script>
   	<script src="portfolio_types.js" type="text/javascript" charset="utf-8"></script>
-  	<script src="PortfolioMgr.js"       type="text/javascript" charset="utf-8"></script>
+  	<script src="PortfolioMgr.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" charset="utf-8">
 	  $(document).ready(function(){
 	    var transport = new Thrift.Transport("service")
 	    var protocol  = new Thrift.Protocol(transport)
 	    var client    = new PortfolioMgrClient(protocol)
 	
-	    portfolios = client.get_portfolios("",10);
-		if(portfolios != null)
+	    portfolios = client.get_portfolios("",9);
+		if(portfolios != undefined)
 		{
 			for(i=0; i<portfolios.length; i++)
-			   document.getElementById('content').innerHTML += 
-				'<div class="portfolio">'+
-				   '<div class="cell name">'+portfolios[i].name+'</div>'+
-				   '<div class="cell price">$'+portfolios[i].price.toFixed(2)+'</div>'+
+			{
+			   
+			   var phtml = '<div class="portfolio">'+
+                   '<div class="cell name">Portfolio #'+portfolios[i].name+'</div>'+
+                   '<div class="cell price">$'+portfolios[i].price.toFixed(2)+'</div>'+
                    '<div class="clearfix"></div>' +
-				   '<div class="cell constituents">'+portfolios[i].constituents.length+' asset(s)</div>'+
-                   '<div class="chart">Chart goes here</div>'+
-				'</div>';
+                   '<div class="cell constituents">'+portfolios[i].constituents.length+' asset(s)</div>'+
+                   '<div class="chart">Chart goes here</div>';
+                   
+               if(portfolios[i].largest_10day_loss != 0.0)
+                  phtml += '<div class="loss">Largest Historical 10day Loss: '+portfolios[i].largest_10day_loss.toFixed(2)+'('+portfolios[i].largest_10day_loss_date+')</div>';
+			   
+			   phtml += '</div>';
+			   
+			   document.getElementById('content').innerHTML += phtml;
+				
+                   
+              }
+				
 				
 		}
 	 });
@@ -109,5 +117,7 @@
 <h1>Portfolio Manager Demo</h1>
 </div>
 <div id="content"></div>
+<br/>
+<br/>
 </body>
 </html>
