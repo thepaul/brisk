@@ -8,6 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -17,6 +18,7 @@ import org.apache.cassandra.config.ConfigurationException;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.BlockLocation;
 import org.apache.hadoop.fs.Path;
+import org.apache.log4j.Logger;
 import org.apache.thrift.transport.TTransportException;
 import org.junit.Assert;
 import org.junit.Before;
@@ -29,6 +31,9 @@ import org.junit.Test;
  */
 public class CassandraOutputStreamTest extends CleanupHelper
 {
+	
+	private final static Logger         logger        = Logger.getLogger(CassandraOutputStreamTest.class);
+	
     /**
      * Set embedded cassandra up and spawn it in a new thread.
      *
@@ -58,7 +63,7 @@ public class CassandraOutputStreamTest extends CleanupHelper
 	 */
 	@Test
 	public void testWriteAndGetPosition() throws Exception {
-		int blockSize = 1024;
+		int blockSize = 256;
 		int bufferSize = 512;
 		
 		// Null object here are not needed or irrelevant for this test case. 
@@ -68,11 +73,11 @@ public class CassandraOutputStreamTest extends CleanupHelper
 		
 		Assert.assertEquals(0, out.getPos());
 		
-		for (int i = 0; i < blockSize; i++) {
+		for (int i = 0; i < 1024; i++) {
 			out.write(i);
 		}
 		
-		Assert.assertEquals(blockSize, out.getPos());
+		Assert.assertEquals(1024, out.getPos());
 		
 		// Internally the OutputStream should swith blocks during the next write.
 		// Write 50 more bytes.
@@ -84,8 +89,12 @@ public class CassandraOutputStreamTest extends CleanupHelper
 		Assert.assertEquals(1074, out.getPos());
 		
 		// Validate the expectations.
-		Assert.assertEquals(1, storeMock.storeBlockCount);
-		Assert.assertEquals(1, storeMock.storeINodeCount);
+		Assert.assertEquals(4, storeMock.storeBlockCount);
+		Assert.assertEquals(4, storeMock.storeINodeCount);
+		
+		for (Block block : storeMock.blocksStored) {
+			logger.info(block);
+		}
 	}
 	
 	/**
@@ -142,6 +151,8 @@ public class CassandraOutputStreamTest extends CleanupHelper
 
 		public int storeBlockCount = 0;
 		public int storeINodeCount = 0;
+		public List<Block> blocksStored = new ArrayList<Block>();
+		public List<INode> inodesStored = new ArrayList<INode>();
 
 		@Override
 		public void initialize(URI uri, Configuration conf) throws IOException {}
@@ -154,11 +165,13 @@ public class CassandraOutputStreamTest extends CleanupHelper
 		@Override
 		public void storeINode(Path path, INode inode) throws IOException {
 			storeINodeCount++;
+			inodesStored.add(inode);
 		}
 
 		@Override
 		public void storeBlock(Block block, ByteArrayOutputStream file) throws IOException {
 			storeBlockCount++;
+			blocksStored.add(block);
 		}
 
 		@Override
