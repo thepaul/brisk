@@ -40,11 +40,13 @@ public interface CassandraFileSystemStore
 
     void storeINode(Path path, INode inode) throws IOException;
 
-    void storeBlock(Block block, ByteArrayOutputStream file) throws IOException;
+    void storeSubBlock(SubBlock subBlock, ByteArrayOutputStream file) throws IOException;
 
     INode retrieveINode(Path path) throws IOException;
 
     InputStream retrieveBlock(Block block, long byteRangeStart) throws IOException;
+    
+    InputStream retrieveSubBlock(SubBlock subBlock, long byteRangeStart) throws IOException;
 
     void deleteINode(Path path) throws IOException;
 

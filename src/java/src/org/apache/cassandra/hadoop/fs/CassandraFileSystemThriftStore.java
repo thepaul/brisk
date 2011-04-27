@@ -49,20 +49,20 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
     private static final String         keySpace      = "cfs";
     private static final String         inodeCf       = "inode";
-    private static final String         blockCf       = "blocks";
+    private static final String         sblockCf       = "sblocks";
 
     private static final ByteBuffer     dataCol       = ByteBufferUtil.bytes("data");
     private static final ByteBuffer     pathCol       = ByteBufferUtil.bytes("path");
     private static final ByteBuffer     sentCol       = ByteBufferUtil.bytes("sentinel");
 
-    private static final ColumnPath     blockPath     = new ColumnPath(blockCf);
-    private static final ColumnParent   blockParent   = new ColumnParent(blockCf);
+    private static final ColumnPath     sblockPath     = new ColumnPath(sblockCf);
+    private static final ColumnParent   sblockParent   = new ColumnParent(sblockCf);
 
     private static final ColumnPath     inodePath     = new ColumnPath(inodeCf);
     private static final ColumnParent   inodeParent   = new ColumnParent(inodeCf);
 
     private static final ColumnPath     inodeDataPath = new ColumnPath(inodeCf).setColumn(dataCol);
-    private static final ColumnPath     blockDataPath = new ColumnPath(blockCf).setColumn(dataCol);
+    private static final ColumnPath     sblockDataPath = new ColumnPath(sblockCf).setColumn(dataCol);
 
     private static final SlicePredicate pathPredicate = new SlicePredicate().setColumn_names(Arrays.asList(pathCol));
 
@@ -190,7 +190,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
             cfs.add(cf);
 
             cf = new CfDef();
-            cf.setName(blockCf);
+            cf.setName(sblockCf);
             cf.setComparator_type("BytesType");
             cf.setKey_cache_size(0);
             cf.setRow_cache_size(0);
@@ -222,13 +222,18 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
     public InputStream retrieveBlock(Block block, long byteRangeStart) throws IOException
     {
-        ByteBuffer blockId = getBlockKey(block.id);
+    	return new CassandraSubBlockInputStream(this, block, byteRangeStart);
+    }
+    
+    public InputStream retrieveSubBlock(SubBlock subBlock, long byteRangeStart) throws IOException
+    {
+        ByteBuffer subBlockId = getBlockKey(subBlock.id);
 
         LocalOrRemoteBlock blockData = null;
 
         try
         {
-            blockData = ((Brisk.Iface) client).get_cfs_block(FBUtilities.getLocalAddress().getHostName(), blockId,
+            blockData = ((Brisk.Iface) client).get_cfs_block(FBUtilities.getLocalAddress().getHostName(), subBlockId,
                     (int) byteRangeStart);
         }
         catch (Exception e)
@@ -237,7 +242,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         }
 
         if (blockData == null)
-            throw new IOException("Missing block: " + block.id);
+            throw new IOException("Missing block: " + subBlock.id);
 
         InputStream is = null;
         if (blockData.remote_block != null)
@@ -307,7 +312,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         return INode.deserialize(ByteBufferUtil.inputStream(pathInfo.column.value), pathInfo.column.getTimestamp());
     }
 
-    public void storeBlock(Block block, ByteArrayOutputStream os) throws IOException
+    public void storeSubBlock(SubBlock block, ByteArrayOutputStream os) throws IOException
     {
         ByteBuffer blockId = getBlockKey(block.id);
 
@@ -319,7 +324,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
         try
         {
-            client.insert(blockId, blockParent, new Column().setName(dataCol).setValue(data).setTimestamp(
+            client.insert(blockId, sblockParent, new Column().setName(dataCol).setValue(data).setTimestamp(
                     System.currentTimeMillis()), consistencyLevelWrite);
         }
         catch (Exception e)
@@ -398,7 +403,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
         try
         {
-            client.remove(ByteBuffer.wrap(UUIDGen.decompose(block.id)), blockPath, System.currentTimeMillis(),
+            client.remove(ByteBuffer.wrap(UUIDGen.decompose(block.id)), sblockPath, System.currentTimeMillis(),
                     consistencyLevelWrite);
         }
         catch (Exception e)

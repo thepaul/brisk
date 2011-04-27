@@ -35,7 +35,8 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
 
     static final String     cfsKeyspace    = "cfs";
     static final String     cfsInodeFamily = "inode";
-    static final String     cfsBlockFamily = "blocks";
+    static final String     cfsBlockFamily = "sblocks";
+    
     static final ByteBuffer dataCol        = ByteBufferUtil.bytes("data");
     static final ColumnParent blockDataPath= new ColumnParent(cfsBlockFamily);
     static final QueryPath    inodeQueryPath =  new QueryPath(cfsInodeFamily, null, dataCol);

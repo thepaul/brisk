@@ -23,9 +23,11 @@ package org.apache.cassandra;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
+import java.security.MessageDigest;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -152,4 +154,18 @@ public class Util
         for (int i=0; i<endpointTokens.size(); ++i)
             assertTrue(ss.getTokenMetadata().isMember(hosts.get(i)));
     }
+    
+	public static byte[] digestInputStream(MessageDigest md5, InputStream input) throws IOException {
+		md5.reset();
+
+		byte[] buffer = new byte[1024];
+        long count = 0;
+        int n = 0;
+        while (-1 != (n = input.read(buffer))) {
+        	md5.update(buffer, 0, n);
+            count += n;
+        }
+
+        return md5.digest();
+	}
 }

@@ -21,35 +21,30 @@ import java.util.UUID;
 
 import org.apache.log4j.Logger;
 
-public class Block
+/**
+ * Smaller component of a @link {@link Block}.
+ * 
+ * @author patricioe (Patricio Echague - patricioe@gmail.com)
+ *
+ */
+public class SubBlock
 {
-    private static Logger logger = Logger.getLogger(Block.class);
+    private static Logger logger = Logger.getLogger(SubBlock.class);
     
     public final UUID id;
     public final long length;
     public final long offset;
-    public final SubBlock[] subBlocks;
     
-    public Block(UUID id, long offset, long length, SubBlock[] subBlocks)
+    public SubBlock(UUID id, long offset, long length)
     {
         this.id     = id;
         this.offset = offset;
-        this.length = length;
-        this.subBlocks = subBlocks;
+        this.length = length;        
     }
     
     @Override
     public String toString() {
-      StringBuilder sb = new StringBuilder("Block[" + id + ", " + offset + ", "+ length + "\n");
-
-      if (subBlocks != null) 
-      {
-           for (SubBlock sblock : subBlocks) {
-               sb.append("    " + sblock.toString());
-           }
-      }
-
-      return sb.toString();
+      return "SubBlock[" + id + ", " + offset + ", "+ length+"]";
     }
 
 }

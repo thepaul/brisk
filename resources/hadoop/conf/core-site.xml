@@ -18,6 +18,13 @@
  <property>
   <name>fs.local.block.size</name>
   <value>1048576</value>
+  <!-- value>67108864</value -->
+</property>
+
+<!-- 256 KB SubBlock Size -->
+ <property>
+  <name>fs.local.subblock.size</name>
+  <value>262144</value>
 </property>
 
  <property>

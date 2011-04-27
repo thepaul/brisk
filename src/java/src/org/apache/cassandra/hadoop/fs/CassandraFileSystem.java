@@ -41,6 +41,8 @@ public class CassandraFileSystem extends FileSystem
     public final CassandraFileSystemStore store;
 
     private Path                          workingDir;
+    
+    private long                          subBlockSize;
 
     public CassandraFileSystem()
     {
@@ -57,6 +59,7 @@ public class CassandraFileSystem extends FileSystem
         this.workingDir = new Path("/user", System.getProperty("user.name")).makeQualified(this);
 
         store.initialize(this.uri, conf);
+        subBlockSize = conf.getLong("fs.local.subblock.size", 256L * 1024L);
     }
 
     @Override
@@ -213,7 +216,7 @@ public class CassandraFileSystem extends FileSystem
             }
         }
         return new FSDataOutputStream(new CassandraOutputStream(getConf(), store, makeAbsolute(file), permission,
-                blockSize, progress, bufferSize), statistics);
+                blockSize, subBlockSize, progress, bufferSize), statistics);
     }
 
     @Override
