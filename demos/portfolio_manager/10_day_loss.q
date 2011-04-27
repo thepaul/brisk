@@ -33,12 +33,11 @@ from Portfolios a JOIN 10dayreturns b ON
 group by row_key, rdate;
 
 
---Next find worst returns
+--Next find worst returns and save them back to cassandra
 DROP TABLE IF EXISTS HistLoss;
 create external table HistLoss(row_key string, worst_date string, loss string)
 STORED BY 'org.apache.hadoop.hive.cassandra.CassandraStorageHandler'
 WITH SERDEPROPERTIES ("cassandra.ks.name" = "PortfolioDemo");
-
 
 INSERT OVERWRITE TABLE HistLoss
 select a.portfolio, rdate, cast(minp as string)
