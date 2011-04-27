@@ -863,14 +863,14 @@ public class PortfolioMgr {
           case 0: // SUCCESS
             if (field.type == org.apache.thrift.protocol.TType.LIST) {
               {
-                org.apache.thrift.protocol.TList _list4 = iprot.readListBegin();
-                this.success = new ArrayList<Portfolio>(_list4.size);
-                for (int _i5 = 0; _i5 < _list4.size; ++_i5)
+                org.apache.thrift.protocol.TList _list8 = iprot.readListBegin();
+                this.success = new ArrayList<Portfolio>(_list8.size);
+                for (int _i9 = 0; _i9 < _list8.size; ++_i9)
                 {
-                  Portfolio _elem6;
-                  _elem6 = new Portfolio();
-                  _elem6.read(iprot);
-                  this.success.add(_elem6);
+                  Portfolio _elem10;
+                  _elem10 = new Portfolio();
+                  _elem10.read(iprot);
+                  this.success.add(_elem10);
                 }
                 iprot.readListEnd();
               }
@@ -896,9 +896,9 @@ public class PortfolioMgr {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
         {
           oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, this.success.size()));
-          for (Portfolio _iter7 : this.success)
+          for (Portfolio _iter11 : this.success)
           {
-            _iter7.write(oprot);
+            _iter11.write(oprot);
           }
           oprot.writeListEnd();
         }

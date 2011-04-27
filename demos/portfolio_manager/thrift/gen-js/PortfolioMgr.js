@@ -81,19 +81,19 @@ switch(fid)
 {
 case 0:if (ftype == Thrift.Type.LIST) {
 {
-  var _size7 = 0
+  var _size14 = 0
   var rtmp3
   this.success = []
-  var _etype10 = 0
+  var _etype17 = 0
   rtmp3 = input.readListBegin()
-  _etype10 = rtmp3.etype
-  _size7 = rtmp3.size
-  for (var _i11 = 0; _i11 < _size7; ++_i11)
+  _etype17 = rtmp3.etype
+  _size14 = rtmp3.size
+  for (var _i18 = 0; _i18 < _size14; ++_i18)
   {
-    var elem12 = null
-    elem12 = new Portfolio()
-    elem12.read(input)
-    this.success.push(elem12)
+    var elem19 = null
+    elem19 = new Portfolio()
+    elem19.read(input)
+    this.success.push(elem19)
   }
   input.readListEnd()
 }
@@ -117,10 +117,10 @@ output.writeFieldBegin('success', Thrift.Type.LIST, 0)
 {
 output.writeListBegin(Thrift.Type.STRUCT, this.success.length)
 {
-for(var iter13 in this.success)
+for(var iter20 in this.success)
 {
-  iter13=this.success[iter13]
-  iter13.write(output)
+  iter20=this.success[iter20]
+  iter20.write(output)
 }
 }
 output.writeListEnd()

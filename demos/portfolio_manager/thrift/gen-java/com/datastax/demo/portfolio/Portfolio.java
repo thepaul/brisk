@@ -30,13 +30,15 @@ public class Portfolio implements org.apache.thrift.TBase<Portfolio, Portfolio._
   private static final org.apache.thrift.protocol.TField PRICE_FIELD_DESC = new org.apache.thrift.protocol.TField("price", org.apache.thrift.protocol.TType.DOUBLE, (short)4);
   private static final org.apache.thrift.protocol.TField LARGEST_10DAY_LOSS_FIELD_DESC = new org.apache.thrift.protocol.TField("largest_10day_loss", org.apache.thrift.protocol.TType.DOUBLE, (short)5);
   private static final org.apache.thrift.protocol.TField LARGEST_10DAY_LOSS_DATE_FIELD_DESC = new org.apache.thrift.protocol.TField("largest_10day_loss_date", org.apache.thrift.protocol.TType.STRING, (short)6);
+  private static final org.apache.thrift.protocol.TField HIST_PRICES_FIELD_DESC = new org.apache.thrift.protocol.TField("hist_prices", org.apache.thrift.protocol.TType.LIST, (short)7);
 
   public String name;
-  public List<Stock> constituents;
+  public List<Position> constituents;
   public double basis;
   public double price;
   public double largest_10day_loss;
   public String largest_10day_loss_date;
+  public List<Double> hist_prices;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
   public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -45,7 +47,8 @@ public class Portfolio implements org.apache.thrift.TBase<Portfolio, Portfolio._
     BASIS((short)3, "basis"),
     PRICE((short)4, "price"),
     LARGEST_10DAY_LOSS((short)5, "largest_10day_loss"),
-    LARGEST_10DAY_LOSS_DATE((short)6, "largest_10day_loss_date");
+    LARGEST_10DAY_LOSS_DATE((short)6, "largest_10day_loss_date"),
+    HIST_PRICES((short)7, "hist_prices");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -72,6 +75,8 @@ public class Portfolio implements org.apache.thrift.TBase<Portfolio, Portfolio._
           return LARGEST_10DAY_LOSS;
         case 6: // LARGEST_10DAY_LOSS_DATE
           return LARGEST_10DAY_LOSS_DATE;
+        case 7: // HIST_PRICES
+          return HIST_PRICES;
         default:
           return null;
       }
@@ -124,7 +129,7 @@ public class Portfolio implements org.apache.thrift.TBase<Portfolio, Portfolio._
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     tmpMap.put(_Fields.CONSTITUENTS, new org.apache.thrift.meta_data.FieldMetaData("constituents", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
-            new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Stock.class))));
+            new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Position.class))));
     tmpMap.put(_Fields.BASIS, new org.apache.thrift.meta_data.FieldMetaData("basis", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
     tmpMap.put(_Fields.PRICE, new org.apache.thrift.meta_data.FieldMetaData("price", org.apache.thrift.TFieldRequirementType.DEFAULT, 
@@ -133,6 +138,9 @@ public class Portfolio implements org.apache.thrift.TBase<Portfolio, Portfolio._
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
     tmpMap.put(_Fields.LARGEST_10DAY_LOSS_DATE, new org.apache.thrift.meta_data.FieldMetaData("largest_10day_loss_date", org.apache.thrift.TFieldRequirementType.DEFAULT, 
         new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.HIST_PRICES, new org.apache.thrift.meta_data.FieldMetaData("hist_prices", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+            new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE))));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
     org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Portfolio.class, metaDataMap);
   }
@@ -142,11 +150,12 @@ public class Portfolio implements org.apache.thrift.TBase<Portfolio, Portfolio._
 
   public Portfolio(
     String name,
-    List<Stock> constituents,
+    List<Position> constituents,
     double basis,
     double price,
     double largest_10day_loss,
-    String largest_10day_loss_date)
+    String largest_10day_loss_date,
+    List<Double> hist_prices)
   {
     this();
     this.name = name;
@@ -158,6 +167,7 @@ public class Portfolio implements org.apache.thrift.TBase<Portfolio, Portfolio._
     this.largest_10day_loss = largest_10day_loss;
     setLargest_10day_lossIsSet(true);
     this.largest_10day_loss_date = largest_10day_loss_date;
+    this.hist_prices = hist_prices;
   }
 
   /**
@@ -170,9 +180,9 @@ public class Portfolio implements org.apache.thrift.TBase<Portfolio, Portfolio._
       this.name = other.name;
     }
     if (other.isSetConstituents()) {
-      List<Stock> __this__constituents = new ArrayList<Stock>();
-      for (Stock other_element : other.constituents) {
-        __this__constituents.add(new Stock(other_element));
+      List<Position> __this__constituents = new ArrayList<Position>();
+      for (Position other_element : other.constituents) {
+        __this__constituents.add(new Position(other_element));
       }
       this.constituents = __this__constituents;
     }
@@ -181,6 +191,13 @@ public class Portfolio implements org.apache.thrift.TBase<Portfolio, Portfolio._
     this.largest_10day_loss = other.largest_10day_loss;
     if (other.isSetLargest_10day_loss_date()) {
       this.largest_10day_loss_date = other.largest_10day_loss_date;
+    }
+    if (other.isSetHist_prices()) {
+      List<Double> __this__hist_prices = new ArrayList<Double>();
+      for (Double other_element : other.hist_prices) {
+        __this__hist_prices.add(other_element);
+      }
+      this.hist_prices = __this__hist_prices;
     }
   }
 
@@ -199,6 +216,7 @@ public class Portfolio implements org.apache.thrift.TBase<Portfolio, Portfolio._
     setLargest_10day_lossIsSet(false);
     this.largest_10day_loss = 0.0;
     this.largest_10day_loss_date = null;
+    this.hist_prices = null;
   }
 
   public String getName() {
@@ -229,22 +247,22 @@ public class Portfolio implements org.apache.thrift.TBase<Portfolio, Portfolio._
     return (this.constituents == null) ? 0 : this.constituents.size();
   }
 
-  public java.util.Iterator<Stock> getConstituentsIterator() {
+  public java.util.Iterator<Position> getConstituentsIterator() {
     return (this.constituents == null) ? null : this.constituents.iterator();
   }
 
-  public void addToConstituents(Stock elem) {
+  public void addToConstituents(Position elem) {
     if (this.constituents == null) {
-      this.constituents = new ArrayList<Stock>();
+      this.constituents = new ArrayList<Position>();
     }
     this.constituents.add(elem);
   }
 
-  public List<Stock> getConstituents() {
+  public List<Position> getConstituents() {
     return this.constituents;
   }
 
-  public Portfolio setConstituents(List<Stock> constituents) {
+  public Portfolio setConstituents(List<Position> constituents) {
     this.constituents = constituents;
     return this;
   }
@@ -357,6 +375,45 @@ public class Portfolio implements org.apache.thrift.TBase<Portfolio, Portfolio._
     }
   }
 
+  public int getHist_pricesSize() {
+    return (this.hist_prices == null) ? 0 : this.hist_prices.size();
+  }
+
+  public java.util.Iterator<Double> getHist_pricesIterator() {
+    return (this.hist_prices == null) ? null : this.hist_prices.iterator();
+  }
+
+  public void addToHist_prices(double elem) {
+    if (this.hist_prices == null) {
+      this.hist_prices = new ArrayList<Double>();
+    }
+    this.hist_prices.add(elem);
+  }
+
+  public List<Double> getHist_prices() {
+    return this.hist_prices;
+  }
+
+  public Portfolio setHist_prices(List<Double> hist_prices) {
+    this.hist_prices = hist_prices;
+    return this;
+  }
+
+  public void unsetHist_prices() {
+    this.hist_prices = null;
+  }
+
+  /** Returns true if field hist_prices is set (has been assigned a value) and false otherwise */
+  public boolean isSetHist_prices() {
+    return this.hist_prices != null;
+  }
+
+  public void setHist_pricesIsSet(boolean value) {
+    if (!value) {
+      this.hist_prices = null;
+    }
+  }
+
   public void setFieldValue(_Fields field, Object value) {
     switch (field) {
     case NAME:
@@ -371,7 +428,7 @@ public class Portfolio implements org.apache.thrift.TBase<Portfolio, Portfolio._
       if (value == null) {
         unsetConstituents();
       } else {
-        setConstituents((List<Stock>)value);
+        setConstituents((List<Position>)value);
       }
       break;
 
@@ -407,6 +464,14 @@ public class Portfolio implements org.apache.thrift.TBase<Portfolio, Portfolio._
       }
       break;
 
+    case HIST_PRICES:
+      if (value == null) {
+        unsetHist_prices();
+      } else {
+        setHist_prices((List<Double>)value);
+      }
+      break;
+
     }
   }
 
@@ -429,6 +494,9 @@ public class Portfolio implements org.apache.thrift.TBase<Portfolio, Portfolio._
 
     case LARGEST_10DAY_LOSS_DATE:
       return getLargest_10day_loss_date();
+
+    case HIST_PRICES:
+      return getHist_prices();
 
     }
     throw new IllegalStateException();
@@ -453,6 +521,8 @@ public class Portfolio implements org.apache.thrift.TBase<Portfolio, Portfolio._
       return isSetLargest_10day_loss();
     case LARGEST_10DAY_LOSS_DATE:
       return isSetLargest_10day_loss_date();
+    case HIST_PRICES:
+      return isSetHist_prices();
     }
     throw new IllegalStateException();
   }
@@ -524,6 +594,15 @@ public class Portfolio implements org.apache.thrift.TBase<Portfolio, Portfolio._
         return false;
     }
 
+    boolean this_present_hist_prices = true && this.isSetHist_prices();
+    boolean that_present_hist_prices = true && that.isSetHist_prices();
+    if (this_present_hist_prices || that_present_hist_prices) {
+      if (!(this_present_hist_prices && that_present_hist_prices))
+        return false;
+      if (!this.hist_prices.equals(that.hist_prices))
+        return false;
+    }
+
     return true;
   }
 
@@ -560,6 +639,11 @@ public class Portfolio implements org.apache.thrift.TBase<Portfolio, Portfolio._
     builder.append(present_largest_10day_loss_date);
     if (present_largest_10day_loss_date)
       builder.append(largest_10day_loss_date);
+
+    boolean present_hist_prices = true && (isSetHist_prices());
+    builder.append(present_hist_prices);
+    if (present_hist_prices)
+      builder.append(hist_prices);
 
     return builder.toHashCode();
   }
@@ -632,6 +716,16 @@ public class Portfolio implements org.apache.thrift.TBase<Portfolio, Portfolio._
         return lastComparison;
       }
     }
+    lastComparison = Boolean.valueOf(isSetHist_prices()).compareTo(typedOther.isSetHist_prices());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetHist_prices()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.hist_prices, typedOther.hist_prices);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
     return 0;
   }
 
@@ -660,11 +754,11 @@ public class Portfolio implements org.apache.thrift.TBase<Portfolio, Portfolio._
           if (field.type == org.apache.thrift.protocol.TType.LIST) {
             {
               org.apache.thrift.protocol.TList _list0 = iprot.readListBegin();
-              this.constituents = new ArrayList<Stock>(_list0.size);
+              this.constituents = new ArrayList<Position>(_list0.size);
               for (int _i1 = 0; _i1 < _list0.size; ++_i1)
               {
-                Stock _elem2;
-                _elem2 = new Stock();
+                Position _elem2;
+                _elem2 = new Position();
                 _elem2.read(iprot);
                 this.constituents.add(_elem2);
               }
@@ -705,6 +799,23 @@ public class Portfolio implements org.apache.thrift.TBase<Portfolio, Portfolio._
             org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
+        case 7: // HIST_PRICES
+          if (field.type == org.apache.thrift.protocol.TType.LIST) {
+            {
+              org.apache.thrift.protocol.TList _list3 = iprot.readListBegin();
+              this.hist_prices = new ArrayList<Double>(_list3.size);
+              for (int _i4 = 0; _i4 < _list3.size; ++_i4)
+              {
+                double _elem5;
+                _elem5 = iprot.readDouble();
+                this.hist_prices.add(_elem5);
+              }
+              iprot.readListEnd();
+            }
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
         default:
           org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
       }
@@ -729,9 +840,9 @@ public class Portfolio implements org.apache.thrift.TBase<Portfolio, Portfolio._
       oprot.writeFieldBegin(CONSTITUENTS_FIELD_DESC);
       {
         oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, this.constituents.size()));
-        for (Stock _iter3 : this.constituents)
+        for (Position _iter6 : this.constituents)
         {
-          _iter3.write(oprot);
+          _iter6.write(oprot);
         }
         oprot.writeListEnd();
       }
@@ -749,6 +860,18 @@ public class Portfolio implements org.apache.thrift.TBase<Portfolio, Portfolio._
     if (this.largest_10day_loss_date != null) {
       oprot.writeFieldBegin(LARGEST_10DAY_LOSS_DATE_FIELD_DESC);
       oprot.writeString(this.largest_10day_loss_date);
+      oprot.writeFieldEnd();
+    }
+    if (this.hist_prices != null) {
+      oprot.writeFieldBegin(HIST_PRICES_FIELD_DESC);
+      {
+        oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.DOUBLE, this.hist_prices.size()));
+        for (double _iter7 : this.hist_prices)
+        {
+          oprot.writeDouble(_iter7);
+        }
+        oprot.writeListEnd();
+      }
       oprot.writeFieldEnd();
     }
     oprot.writeFieldStop();
@@ -793,6 +916,14 @@ public class Portfolio implements org.apache.thrift.TBase<Portfolio, Portfolio._
       sb.append("null");
     } else {
       sb.append(this.largest_10day_loss_date);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("hist_prices:");
+    if (this.hist_prices == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.hist_prices);
     }
     first = false;
     sb.append(")");

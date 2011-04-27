@@ -81,21 +81,68 @@
 	    var protocol  = new Thrift.Protocol(transport)
 	    var client    = new PortfolioMgrClient(protocol)
 	
-	    portfolios = client.get_portfolios("",9);
+	    var portfolios = client.get_portfolios("",9);
 		if(portfolios != undefined)
 		{
 			for(i=0; i<portfolios.length; i++)
 			{
 			   
+			   var change = portfolios[i].price > portfolios[i].basis ? (portfolios[i].basis/portfolios[i].price) : -1*(portfolios[i].price/portfolios[i].basis);			 
+			   change *= 100;
+			   			   
 			   var phtml = '<div class="portfolio">'+
                    '<div class="cell name">Portfolio #'+portfolios[i].name+'</div>'+
-                   '<div class="cell price">$'+portfolios[i].price.toFixed(2)+'</div>'+
-                   '<div class="clearfix"></div>' +
-                   '<div class="cell constituents">'+portfolios[i].constituents.length+' asset(s)</div>'+
-                   '<div class="chart">Chart goes here</div>';
-                   
+                   '<div class="cell price">$'+portfolios[i].price.toFixed(2)+' ('+change.toFixed(0)+'%)</div>'+
+                   '<div class="clearfix"></div>';
+            
+            
+            //Line chart  
+               var lhtml = '';
+               var minp = 10000000000;
+               for(j=0; j< portfolios[i].hist_prices.length; j++)
+               {
+               
+                if(j > 0)
+                  lhtml += ",";
+                
+                if(portfolios[i].hist_prices[j] < minp)
+                {
+                    minp = portfolios[i].hist_prices[j];
+                }               
+                  
+                lhtml += (portfolios[i].hist_prices[j].toFixed(0)/minp)*3;                 
+               }
+               
+                phtml += '<div class="chart"><img src="https://chart.googleapis.com/chart?cht=ls&chs=80x20&chd=t:'+lhtml+'"/></div>';
+              
+             
+             //Pie chart                   
+              var chartvals = "";
+              var chartkeys = "";
+              
+              for(j=0; j<portfolios[i].constituents.length; j++)   
+              {  
+              
+                if(j > 0)
+                {
+                    chartvals += ",";
+                    chartkeys += "|";
+                }
+              
+                chartvals += portfolios[i].constituents[j].shares;
+                chartkeys += portfolios[i].constituents[j].ticker;                           
+              }
+               
+               phtml += '<div class="chart"><img src="https://chart.googleapis.com/chart?cht=p3&chs=250x100&chd=t:'+chartvals+'&chl='+chartkeys+'"/></div>';
+                 
+                 
+               
+               //Show loss info    
                if(portfolios[i].largest_10day_loss != 0.0)
                   phtml += '<div class="loss">Largest Historical 10day Loss: '+portfolios[i].largest_10day_loss.toFixed(2)+'('+portfolios[i].largest_10day_loss_date+')</div>';
+			   else
+			      phtml += '<div class="loss">Largest Historical 10day Loss: ?</div>';
+			     
 			   
 			   phtml += '</div>';
 			   

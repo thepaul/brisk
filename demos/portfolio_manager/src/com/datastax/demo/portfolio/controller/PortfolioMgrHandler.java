@@ -4,9 +4,10 @@ import java.nio.ByteBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.util.*;
 
-import com.datastax.demo.portfolio.LeaderBoard;
+import org.apache.commons.collections.BufferUtils;
+
 import com.datastax.demo.portfolio.Portfolio;
-import com.datastax.demo.portfolio.Stock;
+import com.datastax.demo.portfolio.Position;
 
 import org.apache.cassandra.hadoop.CassandraProxyClient;
 import org.apache.cassandra.thrift.*;
@@ -25,6 +26,13 @@ public class PortfolioMgrHandler implements com.datastax.demo.portfolio.Portfoli
     private static final SlicePredicate         lcols   = new SlicePredicate();
     private static final ByteBuffer             lossCol = ByteBufferUtil.bytes("loss");
     private static final ByteBuffer             lossDateCol = ByteBufferUtil.bytes("worst_date");
+    
+    
+    private static final ColumnParent           hcp      = new ColumnParent("StockHist");
+    private static final SliceRange             hrange   = new SliceRange(ByteBufferUtil.EMPTY_BYTE_BUFFER,
+            ByteBufferUtil.EMPTY_BYTE_BUFFER, true, 20);
+    private static final SlicePredicate         hsp      = new SlicePredicate().setSlice_range(hrange);
+
     
     static
     {
@@ -49,11 +57,13 @@ public class PortfolioMgrHandler implements com.datastax.demo.portfolio.Portfoli
                 Portfolio p = new Portfolio();
                 p.setName(new String(ks.getKey()));
 
+                Map<ByteBuffer, Long> tickerLookup = new HashMap<ByteBuffer, Long>();
                 List<ByteBuffer> tickers = new ArrayList<ByteBuffer>();
 
                 for (ColumnOrSuperColumn cosc : ks.getColumns())
                 {
                     tickers.add(cosc.getColumn().name);
+                    tickerLookup.put(cosc.getColumn().name, ByteBufferUtil.toLong(cosc.getColumn().value));
                 }
 
                 Map<ByteBuffer, List<ColumnOrSuperColumn>> prices = getClient().multiget_slice(tickers, scp, sp,
@@ -67,12 +77,12 @@ public class PortfolioMgrHandler implements com.datastax.demo.portfolio.Portfoli
                 for (Map.Entry<ByteBuffer, List<ColumnOrSuperColumn>> entry : prices.entrySet())
                 {
                     if (!entry.getValue().isEmpty())
-                    {
+                    {                                              
                         Double price = Double.valueOf(ByteBufferUtil.string(entry.getValue().get(0).column.value));
-                        Stock s = new Stock(ByteBufferUtil.string(entry.getKey()), price);
+                        Position s = new Position(ByteBufferUtil.string(entry.getKey()), price, tickerLookup.get(entry.getKey()));
                         p.addToConstituents(s);
-                        total += price;
-                        basis += r.nextDouble() * 100;
+                        total += price * tickerLookup.get(entry.getKey());
+                        basis += r.nextDouble() * 100 * tickerLookup.get(entry.getKey());
                     }
                 }
 
@@ -83,6 +93,7 @@ public class PortfolioMgrHandler implements com.datastax.demo.portfolio.Portfoli
             }
 
             addLossInformation(portfolios);
+            addHistInformation(portfolios);
             
             return portfolios;
         }
@@ -181,4 +192,77 @@ public class PortfolioMgrHandler implements com.datastax.demo.portfolio.Portfoli
         
     }
 
+    
+    private void addHistInformation(List<Portfolio> portfolios)
+    {
+        
+        
+        for(Portfolio p : portfolios)
+        {
+            ByteBuffer name = ByteBufferUtil.bytes(p.name);
+            List<ByteBuffer> tickers = new ArrayList<ByteBuffer>();
+
+            
+            for( Position position : p.constituents)
+            {
+                tickers.add(ByteBufferUtil.bytes(position.ticker));
+            }
+        
+            try
+            {
+                Map<ByteBuffer,List<ColumnOrSuperColumn>> result =  getClient().multiget_slice(tickers, hcp, hsp, ConsistencyLevel.ONE);
+        
+                Map<String, Double> histPrices = new LinkedHashMap<String,Double>();
+           
+                for(Map.Entry<ByteBuffer, List<ColumnOrSuperColumn>> entry : result.entrySet())
+                {
+                                  
+                    for(ColumnOrSuperColumn col : entry.getValue())
+                    {
+                        Double price = histPrices.get(ByteBufferUtil.string(col.column.name));
+                   
+                        if(price == null)                      
+                            price = 0.0;
+                        
+                   
+                        price =+ Double.valueOf(ByteBufferUtil.string(col.column.value));                   
+                    
+                        histPrices.put(ByteBufferUtil.string(col.column.name), price);                                       
+
+                    }
+               
+                }
+                
+                p.setHist_prices(Arrays.asList(histPrices.values().toArray(new Double[]{})));              
+            
+                      
+            }
+            catch (InvalidRequestException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            catch (UnavailableException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            catch (TimedOutException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            catch (TException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            catch (CharacterCodingException e)
+            {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }      
+    }
+    
 }

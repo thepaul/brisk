@@ -3,16 +3,19 @@
 //
 // DO NOT EDIT UNLESS YOU ARE SURE THAT YOU KNOW WHAT YOU ARE DOING
 //
-Stock = function(args){
+Position = function(args){
 this.ticker = null
 this.price = null
+this.shares = null
 if( args != null ){if (null != args.ticker)
 this.ticker = args.ticker
 if (null != args.price)
 this.price = args.price
+if (null != args.shares)
+this.shares = args.shares
 }}
-Stock.prototype = {}
-Stock.prototype.read = function(input){ 
+Position.prototype = {}
+Position.prototype.read = function(input){ 
 var ret = input.readStructBegin()
 while (1) 
 {
@@ -38,6 +41,13 @@ this.price = rtmp.value
       input.skip(ftype)
     }
     break
+    case 3:    if (ftype == Thrift.Type.I64) {
+      var rtmp = input.readI64()
+this.shares = rtmp.value
+    } else {
+      input.skip(ftype)
+    }
+    break
     default:
       input.skip(ftype)
   }
@@ -47,8 +57,8 @@ input.readStructEnd()
 return
 }
 
-Stock.prototype.write = function(output){ 
-output.writeStructBegin('Stock')
+Position.prototype.write = function(output){ 
+output.writeStructBegin('Position')
 if (null != this.ticker) {
   output.writeFieldBegin('ticker', Thrift.Type.STRING, 1)
   output.writeString(this.ticker)
@@ -57,6 +67,11 @@ if (null != this.ticker) {
 if (null != this.price) {
   output.writeFieldBegin('price', Thrift.Type.DOUBLE, 2)
   output.writeDouble(this.price)
+  output.writeFieldEnd()
+}
+if (null != this.shares) {
+  output.writeFieldBegin('shares', Thrift.Type.I64, 3)
+  output.writeI64(this.shares)
   output.writeFieldEnd()
 }
 output.writeFieldStop()
@@ -71,6 +86,7 @@ this.basis = null
 this.price = null
 this.largest_10day_loss = null
 this.largest_10day_loss_date = null
+this.hist_prices = null
 if( args != null ){if (null != args.name)
 this.name = args.name
 if (null != args.constituents)
@@ -83,6 +99,8 @@ if (null != args.largest_10day_loss)
 this.largest_10day_loss = args.largest_10day_loss
 if (null != args.largest_10day_loss_date)
 this.largest_10day_loss_date = args.largest_10day_loss_date
+if (null != args.hist_prices)
+this.hist_prices = args.hist_prices
 }}
 Portfolio.prototype = {}
 Portfolio.prototype.read = function(input){ 
@@ -116,7 +134,7 @@ this.name = rtmp.value
       for (var _i4 = 0; _i4 < _size0; ++_i4)
       {
         var elem5 = null
-        elem5 = new Stock()
+        elem5 = new Position()
         elem5.read(input)
         this.constituents.push(elem5)
       }
@@ -154,6 +172,28 @@ this.largest_10day_loss_date = rtmp.value
     input.skip(ftype)
   }
   break
+  case 7:  if (ftype == Thrift.Type.LIST) {
+    {
+      var _size6 = 0
+      var rtmp3
+      this.hist_prices = []
+      var _etype9 = 0
+      rtmp3 = input.readListBegin()
+      _etype9 = rtmp3.etype
+      _size6 = rtmp3.size
+      for (var _i10 = 0; _i10 < _size6; ++_i10)
+      {
+        var elem11 = null
+        var rtmp = input.readDouble()
+elem11 = rtmp.value
+        this.hist_prices.push(elem11)
+      }
+      input.readListEnd()
+    }
+  } else {
+    input.skip(ftype)
+  }
+  break
   default:
     input.skip(ftype)
 }
@@ -175,10 +215,10 @@ output.writeFieldBegin('constituents', Thrift.Type.LIST, 2)
 {
   output.writeListBegin(Thrift.Type.STRUCT, this.constituents.length)
   {
-    for(var iter6 in this.constituents)
+    for(var iter12 in this.constituents)
     {
-      iter6=this.constituents[iter6]
-      iter6.write(output)
+      iter12=this.constituents[iter12]
+      iter12.write(output)
     }
   }
   output.writeListEnd()
@@ -203,6 +243,21 @@ output.writeFieldEnd()
 if (null != this.largest_10day_loss_date) {
 output.writeFieldBegin('largest_10day_loss_date', Thrift.Type.STRING, 6)
 output.writeString(this.largest_10day_loss_date)
+output.writeFieldEnd()
+}
+if (null != this.hist_prices) {
+output.writeFieldBegin('hist_prices', Thrift.Type.LIST, 7)
+{
+  output.writeListBegin(Thrift.Type.DOUBLE, this.hist_prices.length)
+  {
+    for(var iter13 in this.hist_prices)
+    {
+      iter13=this.hist_prices[iter13]
+      output.writeDouble(iter13)
+    }
+  }
+  output.writeListEnd()
+}
 output.writeFieldEnd()
 }
 output.writeFieldStop()

@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.datastax.brisk.demo.pricer.Pricer;
 import com.datastax.brisk.demo.pricer.util.Operation;
 
 public class PortfolioInserter extends Operation
@@ -44,7 +45,7 @@ public class PortfolioInserter extends Operation
         
         for (int i = 0; i < stocks.length; i++)
         {
-            columns.add(new Column().setName(ByteBufferUtil.bytes(stocks[i])).setValue(ByteBufferUtil.EMPTY_BYTE_BUFFER).setTimestamp(System.currentTimeMillis()));
+            columns.add(new Column().setName(ByteBufferUtil.bytes(stocks[i])).setValue(ByteBufferUtil.bytes((long)Pricer.randomizer.nextInt(50))).setTimestamp(System.currentTimeMillis()));
         }
        
         String rawKey = String.valueOf(index);

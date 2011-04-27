@@ -1,15 +1,13 @@
 --Access the data in cassandra
-CREATE DATABASE PortfolioDemo;
+DROP TABLE IF EXISTS Portfolios;
+create external table Portfolios(row_key string, column_name string, value string) 
+STORED BY 'org.apache.hadoop.hive.cassandra.CassandraStorageHandler'
+WITH SERDEPROPERTIES ("cassandra.ks.name" = "PortfolioDemo");
 
-DROP TABLE IF EXISTS PortfolioDemo.Portfolios;
-create external table PortfolioDemo.Portfolios(row_key string, column_name string, value string) 
-STORED BY 'org.apache.hadoop.hive.cassandra.CassandraStorageHandler';
-
-DROP TABLE IF EXISTS PortfolioDemo.StockHist;
-create external table PortfolioDemo.StockHist(row_key string, column_name string, value string) 
-STORED BY 'org.apache.hadoop.hive.cassandra.CassandraStorageHandler';
-
-use PortfolioDemo;
+DROP TABLE IF EXISTS StockHist;
+create external table StockHist(row_key string, column_name string, value string) 
+STORED BY 'org.apache.hadoop.hive.cassandra.CassandraStorageHandler'
+WITH SERDEPROPERTIES ("cassandra.ks.name" = "PortfolioDemo");
 
 --first calculate returns
 DROP TABLE IF EXISTS 10dayreturns;
@@ -37,8 +35,9 @@ group by row_key, rdate;
 
 --Next find worst returns
 DROP TABLE IF EXISTS HistLoss;
-create external table PortfolioDemo.HistLoss(row_key string, worst_date string, loss string)
-STORED BY 'org.apache.hadoop.hive.cassandra.CassandraStorageHandler';
+create external table HistLoss(row_key string, worst_date string, loss string)
+STORED BY 'org.apache.hadoop.hive.cassandra.CassandraStorageHandler'
+WITH SERDEPROPERTIES ("cassandra.ks.name" = "PortfolioDemo");
 
 
 INSERT OVERWRITE TABLE HistLoss
