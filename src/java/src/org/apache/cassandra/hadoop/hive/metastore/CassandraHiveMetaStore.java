@@ -288,7 +288,8 @@ public class CassandraHiveMetaStore implements RawStore {
         {
             List<TBase> removeable = updateTableComponents(databaseName, null, oldTableName, table);
             dropTable(databaseName, oldTableName);
-            metaStorePersister.removeAll(removeable, databaseName);
+            if ( removeable != null && !removeable.isEmpty() )
+                metaStorePersister.removeAll(removeable, databaseName);
         }
          
     }   
