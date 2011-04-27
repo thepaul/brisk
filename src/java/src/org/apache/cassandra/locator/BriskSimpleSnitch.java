@@ -33,6 +33,7 @@ import org.apache.cassandra.gms.EndpointState;
 import org.apache.cassandra.gms.Gossiper;
 import org.apache.cassandra.hadoop.trackers.TrackerInitializer;
 import org.apache.cassandra.service.StorageService;
+import org.apache.cassandra.utils.FBUtilities;
 
 /**
  * A snitch that detects if Hadoop trackers are active and put this machine in a separate analytics DC
@@ -61,10 +62,12 @@ public class BriskSimpleSnitch extends AbstractEndpointSnitch
     
     public String getDatacenter(InetAddress endpoint)
     {
-        //needed for unit tests
         EndpointState es = Gossiper.instance.getEndpointStateForEndpoint(endpoint);
         
-        assert es != null : "Endpoint "+es+" has no gossip state";
+        if(endpoint.equals(FBUtilities.getLocalAddress()))
+            return myDC;
+        
+        assert es != null : "Endpoint "+endpoint+" has no gossip state";
 
         String DC = es.getApplicationState(ApplicationState.DC).value;
       
