@@ -377,8 +377,11 @@ public class Session
         
         keyspace.setName("PortfolioDemo");
         keyspace.setStrategy_class(replicationStrategy);
-        keyspace.setReplication_factor(replicationFactor);
         
+        if(replicationStrategy.equalsIgnoreCase("org.apache.cassandra.locator.SimpleStrategy"))
+        {
+            keyspace.setReplication_factor(replicationFactor);
+        }
 
         if (!replicationStrategyOptions.isEmpty())
         {
