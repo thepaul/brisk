@@ -14,9 +14,23 @@
 
         .header {
             border-bottom: 1px solid #1d3548;
-            margin-bottom: 30px;
             padding-bottom: 10px;
-            width: 826px;
+            margin: 0 auto 20px auto;
+            width: 860px;
+            position: relative;
+            left: -10px;
+        }
+
+        #nav {
+            font-size: 14px;
+            margin: 0 auto 14px auto;
+            text-align: right;
+            padding: 0 30px 0 0;
+            width: 830px;
+        }
+
+        #nav a {
+            margin: 0 5px;
         }
 
         .header h1 {
@@ -28,6 +42,7 @@
         }
 
         #content {
+            margin: 0 auto;
             width: 860px;
         }
 
@@ -35,12 +50,13 @@
             float: left;
             border: 1px solid #333;
             width: 260px;
-            height: 220px;
+            height: 240px;
             margin: 0 20px 20px 0;
             padding: 1px;
         }
 
         .portfolio .name {
+            color: #333;
             float: left;
             line-height: 30px;
             font-size: 16px;
@@ -48,11 +64,10 @@
             background: #CCC;
             border-bottom: 1px solid #AAA;
             padding-left: 6px;
-            width: 174px;
+            width: 123px;
         }
 
         .portfolio .price {
-            color: #487008;
             font-weight: bold;
             font-size: 14px;
             float: right;
@@ -61,12 +76,43 @@
             border-bottom: 1px solid #AAA;
             text-align: right;
             padding-right: 6px;
-            width: 74px;
+            width: 125px;
+        }
+
+        .portfolio .price .money {
+        }
+
+        .portfolio .price .change-pos {
+            color: #487008;
+        }
+
+        .portfolio .price .change-neg {
+            color: #a00000;
         }
 
         .portfolio .constituents {
             font-style: italic;
             margin: 6px 0 0 6px;
+        }
+
+        .portfolio .chart { 
+            margin: 10px 0 0 0;
+            text-align: center;
+        }
+
+        .portfolio .loss {
+            font-size: 16px;
+            font-weight: bold;
+            margin: 18px 0 0 0;
+            text-align: center;
+        }
+
+        .portfolio .loss label {
+            color: #333;
+            display: block;
+            font-size: 12px;
+            font-weight: normal;
+            margin: 0 0 6px 0;
         }
 
         .clearfix { clear:both; }
@@ -76,6 +122,13 @@
   	<script src="portfolio_types.js" type="text/javascript" charset="utf-8"></script>
   	<script src="PortfolioMgr.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" charset="utf-8">
+        function prev() {
+            alert('goprev');
+        }
+        function next() {
+            alert('gonext');
+        }
+        
 	  $(document).ready(function(){
 	    var transport = new Thrift.Transport("service")
 	    var protocol  = new Thrift.Protocol(transport)
@@ -92,7 +145,10 @@
 			   			   
 			   var phtml = '<div class="portfolio">'+
                    '<div class="cell name">Portfolio #'+portfolios[i].name+'</div>'+
-                   '<div class="cell price">$'+portfolios[i].price.toFixed(2)+' ('+change.toFixed(0)+'%)</div>'+
+                   '<div class="cell price">' +
+                        '<span class="money">$'+portfolios[i].price.toFixed(2)+'</span> ('+
+                        '<span class="change-'+(change >= 0 ? 'pos' : 'neg')+'">'+
+                        (change > 0 ? '+' : '')+change.toFixed(0)+'%</span>)</div>'+
                    '<div class="clearfix"></div>';
             
             
@@ -113,7 +169,7 @@
                 lhtml += (portfolios[i].hist_prices[j].toFixed(0)/minp)*3;                 
                }
                
-                phtml += '<div class="chart"><img src="https://chart.googleapis.com/chart?cht=ls&chs=80x20&chd=t:'+lhtml+'"/></div>';
+                phtml += '<div class="chart linechart"><img src="https://chart.googleapis.com/chart?cht=ls&chs=80x20&chd=t:'+lhtml+'"/></div>';
               
              
              //Pie chart                   
@@ -139,9 +195,9 @@
                
                //Show loss info    
                if(portfolios[i].largest_10day_loss != 0.0)
-                  phtml += '<div class="loss">Largest Historical 10day Loss: '+portfolios[i].largest_10day_loss.toFixed(2)+'('+portfolios[i].largest_10day_loss_date+')</div>';
+                  phtml += '<div class="loss"><label>Largest Historical 10day Loss:</label>'+portfolios[i].largest_10day_loss.toFixed(2)+'('+portfolios[i].largest_10day_loss_date+')</div>';
 			   else
-			      phtml += '<div class="loss">Largest Historical 10day Loss: ?</div>';
+			      phtml += '<div class="loss"><label>Largest Historical 10day Loss:</label>?</div>';
 			     
 			   
 			   phtml += '</div>';
@@ -163,6 +219,8 @@
 <img src="logo.png" width="200" align="right" />
 <h1>Portfolio Manager Demo</h1>
 </div>
+<div id="nav"><a href="javascript:void(0);" onclick="prev();">&lsaquo; Previous</a> | <a
+href="javascript:void(0);" onclick="next();">Next &rsaquo;</a></div>
 <div id="content"></div>
 <br/>
 <br/>
