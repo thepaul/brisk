@@ -286,8 +286,9 @@ public class CassandraHiveMetaStore implements RawStore {
         }
         else
         {
-            updateTableComponents(databaseName, null, oldTableName, table);
+            List<TBase> removeable = updateTableComponents(databaseName, null, oldTableName, table);
             dropTable(databaseName, oldTableName);
+            metaStorePersister.removeAll(removeable, databaseName);
         }
          
     }   
@@ -305,6 +306,11 @@ public class CassandraHiveMetaStore implements RawStore {
             if ( database != null )
                 partition.setDbName(database.getName());
             partition.setTableName(table.getTableName());
+            String loc = partition.getSd().getLocation();
+            if ( loc.contains(oldTableName))
+            {                                
+                partition.getSd().setLocation(loc.replace(oldTableName, table.getTableName()));
+            }
             addPartition(partition);
         }
         // getIndexes
@@ -425,7 +431,7 @@ public class CassandraHiveMetaStore implements RawStore {
                 new Object[]{databaseName, tableName, max});
         
         List results = metaStorePersister.find(new Partition(), databaseName, tableName, max);
-        
+        log.debug("Found partitions: {}", results);
         return (List<Partition>)results;
     }
     
@@ -465,11 +471,14 @@ public class CassandraHiveMetaStore implements RawStore {
 
     public boolean dropPartition(String databaseName, String tableName, List<String> partitions)
             throws MetaException
-    {
+    {   
+        // TODO regigger this to build 1 partition internally for each of partitions?
         Partition partition = new Partition();
         partition.setDbName(databaseName);
         partition.setTableName(tableName);
         partition.setValues(partitions);
+        if ( log.isDebugEnabled() )
+            log.debug("Dropping partition: ", partition);
         metaStorePersister.remove(partition, databaseName);
         return true;
     }       
