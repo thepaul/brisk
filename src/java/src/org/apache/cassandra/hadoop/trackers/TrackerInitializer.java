@@ -23,7 +23,18 @@ public class TrackerInitializer
     
     public static void init() 
     {
-              
+             
+        //Wait for gossip                
+        try
+        {                    
+            logger.info("Waiting for gossip to start");
+            Thread.sleep(5000);
+        }
+        catch (InterruptedException e)
+        {
+           throw new RuntimeException(e);
+        }
+        
         //Are we a JobTracker?
         InetAddress jobTrackerAddr = CassandraJobConf.getJobTrackerNode();
         if(jobTrackerAddr.equals(FBUtilities.getLocalAddress()))
@@ -57,18 +68,7 @@ public class TrackerInitializer
             public void run()
             {
                 JobTracker jobTracker = null; 
-                               
-                //Wait for gossip                
-                try
-                {                    
-                    logger.info("Waiting for gossip to start");
-                    Thread.sleep(5000);
-                }
-                catch (InterruptedException e)
-                {
-                   throw new RuntimeException(e);
-                }
-                
+                                              
                 while(true)
                 {
                     try
