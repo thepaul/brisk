@@ -63,7 +63,7 @@
     </condition>
     <property name="version" value="${base.version}-SNAPSHOT"/>
     <property name="version.properties.dir"
-              value="${build.classes}/org/apache/cassandra/config/" />
+        value="${build.classes}/com/datastax/brisk/" />
     <property name="final.name" value="${ant.project.name}-${version}"/>
     <property name="maven-ant-tasks.version" value="2.1.1" />
     <property name="maven-ant-tasks.url"
@@ -448,6 +448,14 @@
       </exec>
     </target>
 
+    <!-- create properties file with Brisk version -->
+    <target name="createVersionPropFile">
+      <taskdef name="propertyfile" classname="org.apache.tools.ant.taskdefs.optional.PropertyFile"/>
+      <propertyfile file="${version.properties.dir}/version.properties">
+        <entry key="BriskVersion" value="${version}"/>
+      </propertyfile>
+    </target>
+
     <!--
         The build target builds all the .class files
     -->
@@ -473,6 +481,7 @@
         <taskdef name="paranamer" classname="com.thoughtworks.paranamer.ant.ParanamerGeneratorTask">
           <classpath refid="cassandra.classpath" />
         </taskdef>
+        <antcall target="createVersionPropFile"/>
     </target>
 
 
