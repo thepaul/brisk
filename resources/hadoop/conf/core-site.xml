@@ -14,11 +14,12 @@
     <value>org.apache.cassandra.hadoop.fs.CassandraFileSystem</value>
  </property>
 
- <!-- 1 MB default -->
+ <!-- 1 MB default 
  <property>
   <name>fs.local.block.size</name>
   <value>1048576</value>
 </property>
+-->
 
  <property>
   <name>brisk.consistencylevel.read</name>
