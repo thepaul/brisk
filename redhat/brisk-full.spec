@@ -22,7 +22,7 @@ BuildRequires: ant-nodeps
 
 Requires:      brisk-libcassandra
 Requires:      brisk-libhadoop
-Requires:      brisk-hive
+Requires:      brisk-libhive
 
 BuildArch:      noarch
 
