@@ -302,7 +302,7 @@
     </target>
 
   <!-- Generate Eclipse project description files -->
-  <target name="generate-eclipse-files" depends="build">
+  <target name="eclipse-files" depends="build">
     <echo file=".project"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
   <name>brisk</name>
@@ -332,25 +332,30 @@
   <classpathentry kind="src" path="src/gen-java"/>
   <classpathentry kind="src" path="interface/thrift/gen-java"/>  
   <classpathentry kind="src" path="test/unit"/>
+  <classpathentry kind="src" path="demos/portfolio_manager/src"/>  
+  <classpathentry kind="src" path="demos/portfolio_manager/thrift/gen-java"/>  
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-  <classpathentry kind="output" path="build/classes/main"/>		
+  <classpathentry kind="output" path="build/classes/main"/>
   <classpathentry kind="lib" path="test/conf"/>
 ]]>
 	</echo>	  
   	<path id="eclipse-project-libs-path">
  	 <fileset dir="${hadoop.dir}">
- 	    <include name="**/*.jar" />
-    </fileset>  		
+	   <include name="**/*.jar" />
+	 </fileset>  		
   	 <fileset dir="${hadoop.dir.lib}">
-  	    <include name="**/*.jar" />
-     </fileset>
+	   <include name="**/*.jar" />
+	 </fileset>
   	 <fileset dir="${cassandra.dir.lib}">
-  	    <include name="**/*.jar" />
-     </fileset>
+	   <include name="**/*.jar" />
+	 </fileset>
   	 <fileset dir="${hive.dir.lib}">
-  	    <include name="**/*.jar" />
-     </fileset>
+	   <include name="**/*.jar" />
+	 </fileset>
  	 <fileset dir="build/lib/jars">
+  	    <include name="**/*.jar" />
+  	 </fileset>
+ 	 <fileset dir="build">
   	    <include name="**/*.jar" />
   	 </fileset>
   	</path>
