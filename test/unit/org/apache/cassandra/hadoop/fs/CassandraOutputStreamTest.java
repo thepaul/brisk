@@ -116,6 +116,22 @@ public class CassandraOutputStreamTest extends CleanupHelper
 	}
 	
 	/**
+	 * 1 Block
+	 * 1 SubBlock
+	 */
+	@Test
+	public void testWrite4() throws Exception {
+		int blockSize = 6;
+		int subblockSize = 6;
+		int bufferSize = 10;
+		int totalBytesToWrite = 6;
+		int storedSubBlockesExpectation = 1; 
+		
+		testWriteWith(blockSize, subblockSize, bufferSize, totalBytesToWrite, storedSubBlockesExpectation);
+		testWriteBufferWith(blockSize, subblockSize, bufferSize, totalBytesToWrite, storedSubBlockesExpectation);
+	}
+	
+	/**
 	 * Test CassandraOutputStream.write(int);
 	 */
 	private void testWriteWith(int blockSize, int subblockSize, int bufferSize,

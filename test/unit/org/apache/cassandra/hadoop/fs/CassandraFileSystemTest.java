@@ -91,7 +91,8 @@ public class CassandraFileSystemTest extends CleanupHelper
         Writer writer = new FileWriter(tmp);
 
         char buf[] = new char[1024];
-        Arrays.fill(buf,'x');
+
+        fillArray(buf);
 
         for(int i=0; i<1024; i++)
             writer.write(buf);
@@ -159,6 +160,13 @@ public class CassandraFileSystemTest extends CleanupHelper
         // Verify the digests
         assertDigest(tmp, out);
     }
+
+
+	private void fillArray(char[] buf) {
+		for (int j = 0; j < buf.length; j++) {
+			buf[j] = (char) j;
+		}
+	}
 
 
 	private void assertDigest(File srcFile, File outFile) throws Exception {

@@ -30,6 +30,7 @@ public class CassandraSubBlockInputStream extends InputStream {
 		this.store = store;
 		this.block = block;
 		this.byteRangeStart = byteRangeStart;
+		pos = byteRangeStart;
 	}
 
 	/* (non-Javadoc)
@@ -58,11 +59,36 @@ public class CassandraSubBlockInputStream extends InputStream {
         return result;
 	}
 	
+    @Override
+    public synchronized int read(byte buf[], int off, int len) throws IOException
+    {
+        if (closed)
+        {
+            throw new IOException("Stream closed");
+        }
+        if (pos < block.length)
+        {
+            if (pos > subBlockEnd)
+            {
+            	subBlockSeekTo(pos);
+            }
+            int realLen = Math.min(len, (int) (subBlockEnd - pos + 1));
+            int result = blockStream.read(buf, off, realLen);
+            if (result >= 0)
+            {
+                pos += result;
+            }
+            return result;
+        }
+        return -1;
+    }
+	
     private synchronized void subBlockSeekTo(long target) throws IOException
     {
-    	if (this.blockStream != null) {
-    		this.blockStream.close();
-    	}
+        if (this.blockStream != null) {
+            //this.blockStream.close();
+        }
+
         //
         // Compute desired block
         //
