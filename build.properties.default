@@ -13,4 +13,4 @@ hadoop.build.version:		       0.20.203.1-SNAPSHOT
 hive.build.version:		       0.7.0-SNAPSHOT
 cassandra.build.version:	       0.8.0-beta1-SNAPSHOT
 cassandra-thrift.build.version:	       0.8.0-beta1-SNAPSHOT
-cassandra-cql.build.version:	       1.0.0
+cassandra-cql.build.version:	       0.8.0-beta1-SNAPSHOT
