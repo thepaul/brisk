@@ -6,16 +6,16 @@
 <configuration>
 
 <property><name>mapred.reduce.tasks.speculative.execution</name><value>false</value></property>
-<property><name>mapred.tasktracker.map.tasks.maximum</name><value>5</value></property>
+<property><name>mapred.tasktracker.map.tasks.maximum</name><value>2</value></property>
 <property><name>mapred.map.tasks.speculative.execution</name><value>true</value></property>
 <property><name>mapred.job.reuse.jvm.num.tasks</name><value>20</value></property>
 <property><name>io.sort.factor</name><value>40</value></property>
-<property><name>mapred.reduce.tasks</name><value>31</value></property>
+<property><name>mapred.reduce.tasks</name><value>1</value></property>
 <property><name>tasktracker.http.threads</name><value>40</value></property>
 <property><name>mapred.reduce.parallel.copies</name><value>20</value></property>
 <property><name>mapred.job.tracker.handler.count</name><value>20</value></property>
 <property><name>mapred.reduce.tasksperslot</name><value>1.75</value></property>
-<property><name>mapred.tasktracker.reduce.tasks.maximum</name><value>2</value></property>
+<property><name>mapred.tasktracker.reduce.tasks.maximum</name><value>3</value></property>
 <property><name>mapred.compress.map.output</name><value>true</value></property>
 <!--<property><name>mapred.map.output.compression.codec</name><value>com.hadoop.compression.lzo.LzoCodec</value></property>-->
 <property><name>mapred.output.compression.codec</name><value>org.apache.hadoop.io.compress.GzipCodec</value></property>
@@ -24,7 +24,11 @@
 
 <property>
   <name>mapred.child.java.opts</name>
-  <value>-Xmx1024M</value>
+  
+    <value>-Xmx1024M</value>
+    <!--  Uncomment this line and comment out the one aboce to run in debug mode.
+    <value>-Xmx1024M -Xdebug -Xrunjdwp:transport=dt_socket,address=1044,server=y,suspend=y</value>
+    --> 
 </property>
 
 <property>
