@@ -161,13 +161,10 @@
       <artifact:remoteRepository id="central"   url="${artifact.remoteRepository.central}"/>
       <artifact:remoteRepository id="java.net2" url="${artifact.remoteRepository.java.net2}"/>
       <artifact:remoteRepository id="apache"    url="${artifact.remoteRepository.apache}"/>
-      <artifact:remoteRepository id="datastax"  url="${artifact.remoteRepository.datastax}">
+      <artifact:remoteRepository id="datastax-snapshot"  url="${artifact.remoteRepository.datastax-snapshot}">
       	<releases updatePolicy="always"/>
       </artifact:remoteRepository>
       <artifact:remoteRepository id="datastax-deps"  url="${artifact.remoteRepository.datastax-deps}">
-      	<releases updatePolicy="always"/>
-      </artifact:remoteRepository>
-      <artifact:remoteRepository id="datastax-cassandra"  url="${artifact.remoteRepository.datastax-cassandra}">
       	<releases updatePolicy="always"/>
       </artifact:remoteRepository>
       <artifact:remoteRepository id="datanucleus"  url="${artifact.remoteRepository.datanucleus}"/>
@@ -203,8 +200,7 @@
 	<dependency groupId="org.apache.hadoop" artifactId="hadoop-test" version="${hadoop.build.version}"/>
 	<dependency groupId="org.slf4j" artifactId="slf4j-log4j12" version="1.6.1"/>		
 
-	<remoteRepository refid="datastax"/>
-	<remoteRepository refid="datastax-cassandra"/>      	
+	<remoteRepository refid="datastax-snapshot"/>      	
 	<remoteRepository refid="central"/>
 	<remoteRepository refid="apache"/>
 	<remoteRepository refid="java.net2"/>
@@ -218,9 +214,8 @@
 	<dependency groupId="org.apache.cassandra" artifactId="apache-cassandra-thrift" version="${cassandra-thrift.build.version}"/>
 	<dependency groupId="org.apache.cassandra" artifactId="apache-cassandra-cql" version="${cassandra-cql.build.version}"/>
 	<dependency groupId="joda-time" artifactId="joda-time" version="1.6.2"/>
-        <remoteRepository refid="datastax"/>    
 	<remoteRepository refid="datastax-deps"/>    
-        <remoteRepository refid="datastax-cassandra"/>    
+        <remoteRepository refid="datastax-snapshot"/>    
 	<remoteRepository refid="central"/>
 	<remoteRepository refid="apache"/>
 	<remoteRepository refid="java.net2"/>
@@ -248,7 +243,7 @@
 	<dependency groupId="commons-collections" artifactId="commons-collections" version="3.2.1"/>
 	<dependency groupId="commons-codec" artifactId="commons-codec" version="1.3"/>
 
-	<remoteRepository refid="datastax"/>
+	<remoteRepository refid="datastax-snapshot"/>
 	<remoteRepository refid="datanucleus"/>
 	<remoteRepository refid="central"/>
 	<remoteRepository refid="apache"/>
