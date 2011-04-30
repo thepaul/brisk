@@ -21,31 +21,25 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.apache.thrift.*;
-import org.apache.thrift.async.*;
-import org.apache.thrift.meta_data.*;
-import org.apache.thrift.transport.*;
-import org.apache.thrift.protocol.*;
-
 /**
  * TaskTracker status; contains details of individual tasks
  */
-public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, ThriftTaskTrackerStatus._Fields>, java.io.Serializable, Cloneable {
-  private static final TStruct STRUCT_DESC = new TStruct("ThriftTaskTrackerStatus");
+public class ThriftTaskTrackerStatus implements org.apache.thrift.TBase<ThriftTaskTrackerStatus, ThriftTaskTrackerStatus._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("ThriftTaskTrackerStatus");
 
-  private static final TField TRACKER_NAME_FIELD_DESC = new TField("trackerName", TType.STRING, (short)1);
-  private static final TField HOST_FIELD_DESC = new TField("host", TType.STRING, (short)2);
-  private static final TField HTTP_PORT_FIELD_DESC = new TField("httpPort", TType.I32, (short)3);
-  private static final TField FAILURE_COUNT_FIELD_DESC = new TField("failureCount", TType.I32, (short)4);
-  private static final TField TASK_REPORTS_FIELD_DESC = new TField("taskReports", TType.LIST, (short)5);
-  private static final TField LAST_SEEN_FIELD_DESC = new TField("lastSeen", TType.I64, (short)6);
-  private static final TField MAX_MAP_TASKS_FIELD_DESC = new TField("maxMapTasks", TType.I32, (short)7);
-  private static final TField MAX_REDUCE_TASKS_FIELD_DESC = new TField("maxReduceTasks", TType.I32, (short)8);
-  private static final TField TOTAL_VIRTUAL_MEMORY_FIELD_DESC = new TField("totalVirtualMemory", TType.I64, (short)9);
-  private static final TField TOTAL_PHYSICAL_MEMORY_FIELD_DESC = new TField("totalPhysicalMemory", TType.I64, (short)11);
-  private static final TField AVAILABLE_SPACE_FIELD_DESC = new TField("availableSpace", TType.I64, (short)13);
-  private static final TField MAP_COUNT_FIELD_DESC = new TField("mapCount", TType.I32, (short)14);
-  private static final TField REDUCE_COUNT_FIELD_DESC = new TField("reduceCount", TType.I32, (short)15);
+  private static final org.apache.thrift.protocol.TField TRACKER_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("trackerName", org.apache.thrift.protocol.TType.STRING, (short)1);
+  private static final org.apache.thrift.protocol.TField HOST_FIELD_DESC = new org.apache.thrift.protocol.TField("host", org.apache.thrift.protocol.TType.STRING, (short)2);
+  private static final org.apache.thrift.protocol.TField HTTP_PORT_FIELD_DESC = new org.apache.thrift.protocol.TField("httpPort", org.apache.thrift.protocol.TType.I32, (short)3);
+  private static final org.apache.thrift.protocol.TField FAILURE_COUNT_FIELD_DESC = new org.apache.thrift.protocol.TField("failureCount", org.apache.thrift.protocol.TType.I32, (short)4);
+  private static final org.apache.thrift.protocol.TField TASK_REPORTS_FIELD_DESC = new org.apache.thrift.protocol.TField("taskReports", org.apache.thrift.protocol.TType.LIST, (short)5);
+  private static final org.apache.thrift.protocol.TField LAST_SEEN_FIELD_DESC = new org.apache.thrift.protocol.TField("lastSeen", org.apache.thrift.protocol.TType.I64, (short)6);
+  private static final org.apache.thrift.protocol.TField MAX_MAP_TASKS_FIELD_DESC = new org.apache.thrift.protocol.TField("maxMapTasks", org.apache.thrift.protocol.TType.I32, (short)7);
+  private static final org.apache.thrift.protocol.TField MAX_REDUCE_TASKS_FIELD_DESC = new org.apache.thrift.protocol.TField("maxReduceTasks", org.apache.thrift.protocol.TType.I32, (short)8);
+  private static final org.apache.thrift.protocol.TField TOTAL_VIRTUAL_MEMORY_FIELD_DESC = new org.apache.thrift.protocol.TField("totalVirtualMemory", org.apache.thrift.protocol.TType.I64, (short)9);
+  private static final org.apache.thrift.protocol.TField TOTAL_PHYSICAL_MEMORY_FIELD_DESC = new org.apache.thrift.protocol.TField("totalPhysicalMemory", org.apache.thrift.protocol.TType.I64, (short)11);
+  private static final org.apache.thrift.protocol.TField AVAILABLE_SPACE_FIELD_DESC = new org.apache.thrift.protocol.TField("availableSpace", org.apache.thrift.protocol.TType.I64, (short)13);
+  private static final org.apache.thrift.protocol.TField MAP_COUNT_FIELD_DESC = new org.apache.thrift.protocol.TField("mapCount", org.apache.thrift.protocol.TType.I32, (short)14);
+  private static final org.apache.thrift.protocol.TField REDUCE_COUNT_FIELD_DESC = new org.apache.thrift.protocol.TField("reduceCount", org.apache.thrift.protocol.TType.I32, (short)15);
 
   public String trackerName;
   public String host;
@@ -77,7 +71,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
   public int reduceCount;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements TFieldIdEnum {
+  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     TRACKER_NAME((short)1, "trackerName"),
     HOST((short)2, "host"),
     HTTP_PORT((short)3, "httpPort"),
@@ -198,38 +192,38 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
   private static final int __REDUCECOUNT_ISSET_ID = 9;
   private BitSet __isset_bit_vector = new BitSet(10);
 
-  public static final Map<_Fields, FieldMetaData> metaDataMap;
+  public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.TRACKER_NAME, new FieldMetaData("trackerName", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.STRING)));
-    tmpMap.put(_Fields.HOST, new FieldMetaData("host", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.STRING)));
-    tmpMap.put(_Fields.HTTP_PORT, new FieldMetaData("httpPort", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I32)));
-    tmpMap.put(_Fields.FAILURE_COUNT, new FieldMetaData("failureCount", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I32)));
-    tmpMap.put(_Fields.TASK_REPORTS, new FieldMetaData("taskReports", TFieldRequirementType.DEFAULT, 
-        new ListMetaData(TType.LIST, 
-            new StructMetaData(TType.STRUCT, ThriftTaskStatus.class))));
-    tmpMap.put(_Fields.LAST_SEEN, new FieldMetaData("lastSeen", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I64)));
-    tmpMap.put(_Fields.MAX_MAP_TASKS, new FieldMetaData("maxMapTasks", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I32)));
-    tmpMap.put(_Fields.MAX_REDUCE_TASKS, new FieldMetaData("maxReduceTasks", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I32)));
-    tmpMap.put(_Fields.TOTAL_VIRTUAL_MEMORY, new FieldMetaData("totalVirtualMemory", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I64)));
-    tmpMap.put(_Fields.TOTAL_PHYSICAL_MEMORY, new FieldMetaData("totalPhysicalMemory", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I64)));
-    tmpMap.put(_Fields.AVAILABLE_SPACE, new FieldMetaData("availableSpace", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I64)));
-    tmpMap.put(_Fields.MAP_COUNT, new FieldMetaData("mapCount", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I32)));
-    tmpMap.put(_Fields.REDUCE_COUNT, new FieldMetaData("reduceCount", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I32)));
+    Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.TRACKER_NAME, new org.apache.thrift.meta_data.FieldMetaData("trackerName", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.HOST, new org.apache.thrift.meta_data.FieldMetaData("host", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.HTTP_PORT, new org.apache.thrift.meta_data.FieldMetaData("httpPort", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+    tmpMap.put(_Fields.FAILURE_COUNT, new org.apache.thrift.meta_data.FieldMetaData("failureCount", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+    tmpMap.put(_Fields.TASK_REPORTS, new org.apache.thrift.meta_data.FieldMetaData("taskReports", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+            new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftTaskStatus.class))));
+    tmpMap.put(_Fields.LAST_SEEN, new org.apache.thrift.meta_data.FieldMetaData("lastSeen", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.MAX_MAP_TASKS, new org.apache.thrift.meta_data.FieldMetaData("maxMapTasks", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+    tmpMap.put(_Fields.MAX_REDUCE_TASKS, new org.apache.thrift.meta_data.FieldMetaData("maxReduceTasks", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+    tmpMap.put(_Fields.TOTAL_VIRTUAL_MEMORY, new org.apache.thrift.meta_data.FieldMetaData("totalVirtualMemory", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.TOTAL_PHYSICAL_MEMORY, new org.apache.thrift.meta_data.FieldMetaData("totalPhysicalMemory", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.AVAILABLE_SPACE, new org.apache.thrift.meta_data.FieldMetaData("availableSpace", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.MAP_COUNT, new org.apache.thrift.meta_data.FieldMetaData("mapCount", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+    tmpMap.put(_Fields.REDUCE_COUNT, new org.apache.thrift.meta_data.FieldMetaData("reduceCount", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    FieldMetaData.addStructMetaDataMap(ThriftTaskTrackerStatus.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ThriftTaskTrackerStatus.class, metaDataMap);
   }
 
   public ThriftTaskTrackerStatus() {
@@ -351,7 +345,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
     this.trackerName = null;
   }
 
-  /** Returns true if field trackerName is set (has been asigned a value) and false otherwise */
+  /** Returns true if field trackerName is set (has been assigned a value) and false otherwise */
   public boolean isSetTrackerName() {
     return this.trackerName != null;
   }
@@ -375,7 +369,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
     this.host = null;
   }
 
-  /** Returns true if field host is set (has been asigned a value) and false otherwise */
+  /** Returns true if field host is set (has been assigned a value) and false otherwise */
   public boolean isSetHost() {
     return this.host != null;
   }
@@ -400,7 +394,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
     __isset_bit_vector.clear(__HTTPPORT_ISSET_ID);
   }
 
-  /** Returns true if field httpPort is set (has been asigned a value) and false otherwise */
+  /** Returns true if field httpPort is set (has been assigned a value) and false otherwise */
   public boolean isSetHttpPort() {
     return __isset_bit_vector.get(__HTTPPORT_ISSET_ID);
   }
@@ -423,7 +417,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
     __isset_bit_vector.clear(__FAILURECOUNT_ISSET_ID);
   }
 
-  /** Returns true if field failureCount is set (has been asigned a value) and false otherwise */
+  /** Returns true if field failureCount is set (has been assigned a value) and false otherwise */
   public boolean isSetFailureCount() {
     return __isset_bit_vector.get(__FAILURECOUNT_ISSET_ID);
   }
@@ -466,7 +460,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
     this.taskReports = null;
   }
 
-  /** Returns true if field taskReports is set (has been asigned a value) and false otherwise */
+  /** Returns true if field taskReports is set (has been assigned a value) and false otherwise */
   public boolean isSetTaskReports() {
     return this.taskReports != null;
   }
@@ -497,7 +491,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
     __isset_bit_vector.clear(__LASTSEEN_ISSET_ID);
   }
 
-  /** Returns true if field lastSeen is set (has been asigned a value) and false otherwise */
+  /** Returns true if field lastSeen is set (has been assigned a value) and false otherwise */
   public boolean isSetLastSeen() {
     return __isset_bit_vector.get(__LASTSEEN_ISSET_ID);
   }
@@ -526,7 +520,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
     __isset_bit_vector.clear(__MAXMAPTASKS_ISSET_ID);
   }
 
-  /** Returns true if field maxMapTasks is set (has been asigned a value) and false otherwise */
+  /** Returns true if field maxMapTasks is set (has been assigned a value) and false otherwise */
   public boolean isSetMaxMapTasks() {
     return __isset_bit_vector.get(__MAXMAPTASKS_ISSET_ID);
   }
@@ -549,7 +543,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
     __isset_bit_vector.clear(__MAXREDUCETASKS_ISSET_ID);
   }
 
-  /** Returns true if field maxReduceTasks is set (has been asigned a value) and false otherwise */
+  /** Returns true if field maxReduceTasks is set (has been assigned a value) and false otherwise */
   public boolean isSetMaxReduceTasks() {
     return __isset_bit_vector.get(__MAXREDUCETASKS_ISSET_ID);
   }
@@ -578,7 +572,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
     __isset_bit_vector.clear(__TOTALVIRTUALMEMORY_ISSET_ID);
   }
 
-  /** Returns true if field totalVirtualMemory is set (has been asigned a value) and false otherwise */
+  /** Returns true if field totalVirtualMemory is set (has been assigned a value) and false otherwise */
   public boolean isSetTotalVirtualMemory() {
     return __isset_bit_vector.get(__TOTALVIRTUALMEMORY_ISSET_ID);
   }
@@ -601,7 +595,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
     __isset_bit_vector.clear(__TOTALPHYSICALMEMORY_ISSET_ID);
   }
 
-  /** Returns true if field totalPhysicalMemory is set (has been asigned a value) and false otherwise */
+  /** Returns true if field totalPhysicalMemory is set (has been assigned a value) and false otherwise */
   public boolean isSetTotalPhysicalMemory() {
     return __isset_bit_vector.get(__TOTALPHYSICALMEMORY_ISSET_ID);
   }
@@ -624,7 +618,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
     __isset_bit_vector.clear(__AVAILABLESPACE_ISSET_ID);
   }
 
-  /** Returns true if field availableSpace is set (has been asigned a value) and false otherwise */
+  /** Returns true if field availableSpace is set (has been assigned a value) and false otherwise */
   public boolean isSetAvailableSpace() {
     return __isset_bit_vector.get(__AVAILABLESPACE_ISSET_ID);
   }
@@ -653,7 +647,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
     __isset_bit_vector.clear(__MAPCOUNT_ISSET_ID);
   }
 
-  /** Returns true if field mapCount is set (has been asigned a value) and false otherwise */
+  /** Returns true if field mapCount is set (has been assigned a value) and false otherwise */
   public boolean isSetMapCount() {
     return __isset_bit_vector.get(__MAPCOUNT_ISSET_ID);
   }
@@ -676,7 +670,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
     __isset_bit_vector.clear(__REDUCECOUNT_ISSET_ID);
   }
 
-  /** Returns true if field reduceCount is set (has been asigned a value) and false otherwise */
+  /** Returns true if field reduceCount is set (has been assigned a value) and false otherwise */
   public boolean isSetReduceCount() {
     return __isset_bit_vector.get(__REDUCECOUNT_ISSET_ID);
   }
@@ -839,7 +833,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
     throw new IllegalStateException();
   }
 
-  /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
     if (field == null) {
       throw new IllegalArgumentException();
@@ -1094,7 +1088,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
       return lastComparison;
     }
     if (isSetTrackerName()) {
-      lastComparison = TBaseHelper.compareTo(this.trackerName, typedOther.trackerName);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.trackerName, typedOther.trackerName);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1104,7 +1098,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
       return lastComparison;
     }
     if (isSetHost()) {
-      lastComparison = TBaseHelper.compareTo(this.host, typedOther.host);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.host, typedOther.host);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1114,7 +1108,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
       return lastComparison;
     }
     if (isSetHttpPort()) {
-      lastComparison = TBaseHelper.compareTo(this.httpPort, typedOther.httpPort);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.httpPort, typedOther.httpPort);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1124,7 +1118,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
       return lastComparison;
     }
     if (isSetFailureCount()) {
-      lastComparison = TBaseHelper.compareTo(this.failureCount, typedOther.failureCount);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.failureCount, typedOther.failureCount);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1134,7 +1128,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
       return lastComparison;
     }
     if (isSetTaskReports()) {
-      lastComparison = TBaseHelper.compareTo(this.taskReports, typedOther.taskReports);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.taskReports, typedOther.taskReports);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1144,7 +1138,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
       return lastComparison;
     }
     if (isSetLastSeen()) {
-      lastComparison = TBaseHelper.compareTo(this.lastSeen, typedOther.lastSeen);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.lastSeen, typedOther.lastSeen);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1154,7 +1148,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
       return lastComparison;
     }
     if (isSetMaxMapTasks()) {
-      lastComparison = TBaseHelper.compareTo(this.maxMapTasks, typedOther.maxMapTasks);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.maxMapTasks, typedOther.maxMapTasks);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1164,7 +1158,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
       return lastComparison;
     }
     if (isSetMaxReduceTasks()) {
-      lastComparison = TBaseHelper.compareTo(this.maxReduceTasks, typedOther.maxReduceTasks);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.maxReduceTasks, typedOther.maxReduceTasks);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1174,7 +1168,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
       return lastComparison;
     }
     if (isSetTotalVirtualMemory()) {
-      lastComparison = TBaseHelper.compareTo(this.totalVirtualMemory, typedOther.totalVirtualMemory);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.totalVirtualMemory, typedOther.totalVirtualMemory);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1184,7 +1178,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
       return lastComparison;
     }
     if (isSetTotalPhysicalMemory()) {
-      lastComparison = TBaseHelper.compareTo(this.totalPhysicalMemory, typedOther.totalPhysicalMemory);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.totalPhysicalMemory, typedOther.totalPhysicalMemory);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1194,7 +1188,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
       return lastComparison;
     }
     if (isSetAvailableSpace()) {
-      lastComparison = TBaseHelper.compareTo(this.availableSpace, typedOther.availableSpace);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.availableSpace, typedOther.availableSpace);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1204,7 +1198,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
       return lastComparison;
     }
     if (isSetMapCount()) {
-      lastComparison = TBaseHelper.compareTo(this.mapCount, typedOther.mapCount);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.mapCount, typedOther.mapCount);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1214,7 +1208,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
       return lastComparison;
     }
     if (isSetReduceCount()) {
-      lastComparison = TBaseHelper.compareTo(this.reduceCount, typedOther.reduceCount);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.reduceCount, typedOther.reduceCount);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1226,50 +1220,50 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
     return _Fields.findByThriftId(fieldId);
   }
 
-  public void read(TProtocol iprot) throws TException {
-    TField field;
+  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+    org.apache.thrift.protocol.TField field;
     iprot.readStructBegin();
     while (true)
     {
       field = iprot.readFieldBegin();
-      if (field.type == TType.STOP) { 
+      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
         break;
       }
       switch (field.id) {
         case 1: // TRACKER_NAME
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.trackerName = iprot.readString();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 2: // HOST
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.host = iprot.readString();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 3: // HTTP_PORT
-          if (field.type == TType.I32) {
+          if (field.type == org.apache.thrift.protocol.TType.I32) {
             this.httpPort = iprot.readI32();
             setHttpPortIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 4: // FAILURE_COUNT
-          if (field.type == TType.I32) {
+          if (field.type == org.apache.thrift.protocol.TType.I32) {
             this.failureCount = iprot.readI32();
             setFailureCountIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 5: // TASK_REPORTS
-          if (field.type == TType.LIST) {
+          if (field.type == org.apache.thrift.protocol.TType.LIST) {
             {
-              TList _list35 = iprot.readListBegin();
+              org.apache.thrift.protocol.TList _list35 = iprot.readListBegin();
               this.taskReports = new ArrayList<ThriftTaskStatus>(_list35.size);
               for (int _i36 = 0; _i36 < _list35.size; ++_i36)
               {
@@ -1281,75 +1275,75 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
               iprot.readListEnd();
             }
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 6: // LAST_SEEN
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.lastSeen = iprot.readI64();
             setLastSeenIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 7: // MAX_MAP_TASKS
-          if (field.type == TType.I32) {
+          if (field.type == org.apache.thrift.protocol.TType.I32) {
             this.maxMapTasks = iprot.readI32();
             setMaxMapTasksIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 8: // MAX_REDUCE_TASKS
-          if (field.type == TType.I32) {
+          if (field.type == org.apache.thrift.protocol.TType.I32) {
             this.maxReduceTasks = iprot.readI32();
             setMaxReduceTasksIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 9: // TOTAL_VIRTUAL_MEMORY
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.totalVirtualMemory = iprot.readI64();
             setTotalVirtualMemoryIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 11: // TOTAL_PHYSICAL_MEMORY
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.totalPhysicalMemory = iprot.readI64();
             setTotalPhysicalMemoryIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 13: // AVAILABLE_SPACE
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.availableSpace = iprot.readI64();
             setAvailableSpaceIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 14: // MAP_COUNT
-          if (field.type == TType.I32) {
+          if (field.type == org.apache.thrift.protocol.TType.I32) {
             this.mapCount = iprot.readI32();
             setMapCountIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 15: // REDUCE_COUNT
-          if (field.type == TType.I32) {
+          if (field.type == org.apache.thrift.protocol.TType.I32) {
             this.reduceCount = iprot.readI32();
             setReduceCountIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         default:
-          TProtocolUtil.skip(iprot, field.type);
+          org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
       }
       iprot.readFieldEnd();
     }
@@ -1359,7 +1353,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
     validate();
   }
 
-  public void write(TProtocol oprot) throws TException {
+  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
@@ -1382,7 +1376,7 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
     if (this.taskReports != null) {
       oprot.writeFieldBegin(TASK_REPORTS_FIELD_DESC);
       {
-        oprot.writeListBegin(new TList(TType.STRUCT, this.taskReports.size()));
+        oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, this.taskReports.size()));
         for (ThriftTaskStatus _iter38 : this.taskReports)
         {
           _iter38.write(oprot);
@@ -1491,8 +1485,26 @@ public class ThriftTaskTrackerStatus implements TBase<ThriftTaskTrackerStatus, T
     return sb.toString();
   }
 
-  public void validate() throws TException {
+  public void validate() throws org.apache.thrift.TException {
     // check for required fields
+  }
+
+  private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+    try {
+      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
+  }
+
+  private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+    try {
+      // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+      __isset_bit_vector = new BitSet(1);
+      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
   }
 
 }

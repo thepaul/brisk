@@ -21,27 +21,21 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.apache.thrift.*;
-import org.apache.thrift.async.*;
-import org.apache.thrift.meta_data.*;
-import org.apache.thrift.transport.*;
-import org.apache.thrift.protocol.*;
-
 /**
  * Information that mirrors the "health report" information available on the
  * NameNode web UI
  */
-public class DFSHealthReport implements TBase<DFSHealthReport, DFSHealthReport._Fields>, java.io.Serializable, Cloneable {
-  private static final TStruct STRUCT_DESC = new TStruct("DFSHealthReport");
+public class DFSHealthReport implements org.apache.thrift.TBase<DFSHealthReport, DFSHealthReport._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("DFSHealthReport");
 
-  private static final TField BYTES_TOTAL_FIELD_DESC = new TField("bytesTotal", TType.I64, (short)1);
-  private static final TField BYTES_USED_FIELD_DESC = new TField("bytesUsed", TType.I64, (short)2);
-  private static final TField BYTES_REMAINING_FIELD_DESC = new TField("bytesRemaining", TType.I64, (short)3);
-  private static final TField BYTES_NON_DFS_FIELD_DESC = new TField("bytesNonDfs", TType.I64, (short)4);
-  private static final TField NUM_LIVE_DATA_NODES_FIELD_DESC = new TField("numLiveDataNodes", TType.I32, (short)5);
-  private static final TField NUM_DEAD_DATA_NODES_FIELD_DESC = new TField("numDeadDataNodes", TType.I32, (short)6);
-  private static final TField UPGRADE_STATUS_FIELD_DESC = new TField("upgradeStatus", TType.STRUCT, (short)7);
-  private static final TField HTTP_PORT_FIELD_DESC = new TField("httpPort", TType.I32, (short)8);
+  private static final org.apache.thrift.protocol.TField BYTES_TOTAL_FIELD_DESC = new org.apache.thrift.protocol.TField("bytesTotal", org.apache.thrift.protocol.TType.I64, (short)1);
+  private static final org.apache.thrift.protocol.TField BYTES_USED_FIELD_DESC = new org.apache.thrift.protocol.TField("bytesUsed", org.apache.thrift.protocol.TType.I64, (short)2);
+  private static final org.apache.thrift.protocol.TField BYTES_REMAINING_FIELD_DESC = new org.apache.thrift.protocol.TField("bytesRemaining", org.apache.thrift.protocol.TType.I64, (short)3);
+  private static final org.apache.thrift.protocol.TField BYTES_NON_DFS_FIELD_DESC = new org.apache.thrift.protocol.TField("bytesNonDfs", org.apache.thrift.protocol.TType.I64, (short)4);
+  private static final org.apache.thrift.protocol.TField NUM_LIVE_DATA_NODES_FIELD_DESC = new org.apache.thrift.protocol.TField("numLiveDataNodes", org.apache.thrift.protocol.TType.I32, (short)5);
+  private static final org.apache.thrift.protocol.TField NUM_DEAD_DATA_NODES_FIELD_DESC = new org.apache.thrift.protocol.TField("numDeadDataNodes", org.apache.thrift.protocol.TType.I32, (short)6);
+  private static final org.apache.thrift.protocol.TField UPGRADE_STATUS_FIELD_DESC = new org.apache.thrift.protocol.TField("upgradeStatus", org.apache.thrift.protocol.TType.STRUCT, (short)7);
+  private static final org.apache.thrift.protocol.TField HTTP_PORT_FIELD_DESC = new org.apache.thrift.protocol.TField("httpPort", org.apache.thrift.protocol.TType.I32, (short)8);
 
   public long bytesTotal;
   public long bytesUsed;
@@ -67,7 +61,7 @@ public class DFSHealthReport implements TBase<DFSHealthReport, DFSHealthReport._
   public int httpPort;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements TFieldIdEnum {
+  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     BYTES_TOTAL((short)1, "bytesTotal"),
     BYTES_USED((short)2, "bytesUsed"),
     BYTES_REMAINING((short)3, "bytesRemaining"),
@@ -169,27 +163,27 @@ public class DFSHealthReport implements TBase<DFSHealthReport, DFSHealthReport._
   private static final int __HTTPPORT_ISSET_ID = 6;
   private BitSet __isset_bit_vector = new BitSet(7);
 
-  public static final Map<_Fields, FieldMetaData> metaDataMap;
+  public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.BYTES_TOTAL, new FieldMetaData("bytesTotal", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I64)));
-    tmpMap.put(_Fields.BYTES_USED, new FieldMetaData("bytesUsed", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I64)));
-    tmpMap.put(_Fields.BYTES_REMAINING, new FieldMetaData("bytesRemaining", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I64)));
-    tmpMap.put(_Fields.BYTES_NON_DFS, new FieldMetaData("bytesNonDfs", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I64)));
-    tmpMap.put(_Fields.NUM_LIVE_DATA_NODES, new FieldMetaData("numLiveDataNodes", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I32)));
-    tmpMap.put(_Fields.NUM_DEAD_DATA_NODES, new FieldMetaData("numDeadDataNodes", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I32)));
-    tmpMap.put(_Fields.UPGRADE_STATUS, new FieldMetaData("upgradeStatus", TFieldRequirementType.DEFAULT, 
-        new StructMetaData(TType.STRUCT, UpgradeStatusReport.class)));
-    tmpMap.put(_Fields.HTTP_PORT, new FieldMetaData("httpPort", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I32)));
+    Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.BYTES_TOTAL, new org.apache.thrift.meta_data.FieldMetaData("bytesTotal", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.BYTES_USED, new org.apache.thrift.meta_data.FieldMetaData("bytesUsed", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.BYTES_REMAINING, new org.apache.thrift.meta_data.FieldMetaData("bytesRemaining", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.BYTES_NON_DFS, new org.apache.thrift.meta_data.FieldMetaData("bytesNonDfs", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.NUM_LIVE_DATA_NODES, new org.apache.thrift.meta_data.FieldMetaData("numLiveDataNodes", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+    tmpMap.put(_Fields.NUM_DEAD_DATA_NODES, new org.apache.thrift.meta_data.FieldMetaData("numDeadDataNodes", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+    tmpMap.put(_Fields.UPGRADE_STATUS, new org.apache.thrift.meta_data.FieldMetaData("upgradeStatus", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, UpgradeStatusReport.class)));
+    tmpMap.put(_Fields.HTTP_PORT, new org.apache.thrift.meta_data.FieldMetaData("httpPort", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    FieldMetaData.addStructMetaDataMap(DFSHealthReport.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(DFSHealthReport.class, metaDataMap);
   }
 
   public DFSHealthReport() {
@@ -278,7 +272,7 @@ public class DFSHealthReport implements TBase<DFSHealthReport, DFSHealthReport._
     __isset_bit_vector.clear(__BYTESTOTAL_ISSET_ID);
   }
 
-  /** Returns true if field bytesTotal is set (has been asigned a value) and false otherwise */
+  /** Returns true if field bytesTotal is set (has been assigned a value) and false otherwise */
   public boolean isSetBytesTotal() {
     return __isset_bit_vector.get(__BYTESTOTAL_ISSET_ID);
   }
@@ -301,7 +295,7 @@ public class DFSHealthReport implements TBase<DFSHealthReport, DFSHealthReport._
     __isset_bit_vector.clear(__BYTESUSED_ISSET_ID);
   }
 
-  /** Returns true if field bytesUsed is set (has been asigned a value) and false otherwise */
+  /** Returns true if field bytesUsed is set (has been assigned a value) and false otherwise */
   public boolean isSetBytesUsed() {
     return __isset_bit_vector.get(__BYTESUSED_ISSET_ID);
   }
@@ -324,7 +318,7 @@ public class DFSHealthReport implements TBase<DFSHealthReport, DFSHealthReport._
     __isset_bit_vector.clear(__BYTESREMAINING_ISSET_ID);
   }
 
-  /** Returns true if field bytesRemaining is set (has been asigned a value) and false otherwise */
+  /** Returns true if field bytesRemaining is set (has been assigned a value) and false otherwise */
   public boolean isSetBytesRemaining() {
     return __isset_bit_vector.get(__BYTESREMAINING_ISSET_ID);
   }
@@ -347,7 +341,7 @@ public class DFSHealthReport implements TBase<DFSHealthReport, DFSHealthReport._
     __isset_bit_vector.clear(__BYTESNONDFS_ISSET_ID);
   }
 
-  /** Returns true if field bytesNonDfs is set (has been asigned a value) and false otherwise */
+  /** Returns true if field bytesNonDfs is set (has been assigned a value) and false otherwise */
   public boolean isSetBytesNonDfs() {
     return __isset_bit_vector.get(__BYTESNONDFS_ISSET_ID);
   }
@@ -376,7 +370,7 @@ public class DFSHealthReport implements TBase<DFSHealthReport, DFSHealthReport._
     __isset_bit_vector.clear(__NUMLIVEDATANODES_ISSET_ID);
   }
 
-  /** Returns true if field numLiveDataNodes is set (has been asigned a value) and false otherwise */
+  /** Returns true if field numLiveDataNodes is set (has been assigned a value) and false otherwise */
   public boolean isSetNumLiveDataNodes() {
     return __isset_bit_vector.get(__NUMLIVEDATANODES_ISSET_ID);
   }
@@ -405,7 +399,7 @@ public class DFSHealthReport implements TBase<DFSHealthReport, DFSHealthReport._
     __isset_bit_vector.clear(__NUMDEADDATANODES_ISSET_ID);
   }
 
-  /** Returns true if field numDeadDataNodes is set (has been asigned a value) and false otherwise */
+  /** Returns true if field numDeadDataNodes is set (has been assigned a value) and false otherwise */
   public boolean isSetNumDeadDataNodes() {
     return __isset_bit_vector.get(__NUMDEADDATANODES_ISSET_ID);
   }
@@ -435,7 +429,7 @@ public class DFSHealthReport implements TBase<DFSHealthReport, DFSHealthReport._
     this.upgradeStatus = null;
   }
 
-  /** Returns true if field upgradeStatus is set (has been asigned a value) and false otherwise */
+  /** Returns true if field upgradeStatus is set (has been assigned a value) and false otherwise */
   public boolean isSetUpgradeStatus() {
     return this.upgradeStatus != null;
   }
@@ -468,7 +462,7 @@ public class DFSHealthReport implements TBase<DFSHealthReport, DFSHealthReport._
     __isset_bit_vector.clear(__HTTPPORT_ISSET_ID);
   }
 
-  /** Returns true if field httpPort is set (has been asigned a value) and false otherwise */
+  /** Returns true if field httpPort is set (has been assigned a value) and false otherwise */
   public boolean isSetHttpPort() {
     return __isset_bit_vector.get(__HTTPPORT_ISSET_ID);
   }
@@ -576,7 +570,7 @@ public class DFSHealthReport implements TBase<DFSHealthReport, DFSHealthReport._
     throw new IllegalStateException();
   }
 
-  /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
     if (field == null) {
       throw new IllegalArgumentException();
@@ -751,7 +745,7 @@ public class DFSHealthReport implements TBase<DFSHealthReport, DFSHealthReport._
       return lastComparison;
     }
     if (isSetBytesTotal()) {
-      lastComparison = TBaseHelper.compareTo(this.bytesTotal, typedOther.bytesTotal);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bytesTotal, typedOther.bytesTotal);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -761,7 +755,7 @@ public class DFSHealthReport implements TBase<DFSHealthReport, DFSHealthReport._
       return lastComparison;
     }
     if (isSetBytesUsed()) {
-      lastComparison = TBaseHelper.compareTo(this.bytesUsed, typedOther.bytesUsed);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bytesUsed, typedOther.bytesUsed);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -771,7 +765,7 @@ public class DFSHealthReport implements TBase<DFSHealthReport, DFSHealthReport._
       return lastComparison;
     }
     if (isSetBytesRemaining()) {
-      lastComparison = TBaseHelper.compareTo(this.bytesRemaining, typedOther.bytesRemaining);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bytesRemaining, typedOther.bytesRemaining);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -781,7 +775,7 @@ public class DFSHealthReport implements TBase<DFSHealthReport, DFSHealthReport._
       return lastComparison;
     }
     if (isSetBytesNonDfs()) {
-      lastComparison = TBaseHelper.compareTo(this.bytesNonDfs, typedOther.bytesNonDfs);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.bytesNonDfs, typedOther.bytesNonDfs);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -791,7 +785,7 @@ public class DFSHealthReport implements TBase<DFSHealthReport, DFSHealthReport._
       return lastComparison;
     }
     if (isSetNumLiveDataNodes()) {
-      lastComparison = TBaseHelper.compareTo(this.numLiveDataNodes, typedOther.numLiveDataNodes);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.numLiveDataNodes, typedOther.numLiveDataNodes);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -801,7 +795,7 @@ public class DFSHealthReport implements TBase<DFSHealthReport, DFSHealthReport._
       return lastComparison;
     }
     if (isSetNumDeadDataNodes()) {
-      lastComparison = TBaseHelper.compareTo(this.numDeadDataNodes, typedOther.numDeadDataNodes);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.numDeadDataNodes, typedOther.numDeadDataNodes);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -811,7 +805,7 @@ public class DFSHealthReport implements TBase<DFSHealthReport, DFSHealthReport._
       return lastComparison;
     }
     if (isSetUpgradeStatus()) {
-      lastComparison = TBaseHelper.compareTo(this.upgradeStatus, typedOther.upgradeStatus);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.upgradeStatus, typedOther.upgradeStatus);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -821,7 +815,7 @@ public class DFSHealthReport implements TBase<DFSHealthReport, DFSHealthReport._
       return lastComparison;
     }
     if (isSetHttpPort()) {
-      lastComparison = TBaseHelper.compareTo(this.httpPort, typedOther.httpPort);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.httpPort, typedOther.httpPort);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -833,82 +827,82 @@ public class DFSHealthReport implements TBase<DFSHealthReport, DFSHealthReport._
     return _Fields.findByThriftId(fieldId);
   }
 
-  public void read(TProtocol iprot) throws TException {
-    TField field;
+  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+    org.apache.thrift.protocol.TField field;
     iprot.readStructBegin();
     while (true)
     {
       field = iprot.readFieldBegin();
-      if (field.type == TType.STOP) { 
+      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
         break;
       }
       switch (field.id) {
         case 1: // BYTES_TOTAL
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.bytesTotal = iprot.readI64();
             setBytesTotalIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 2: // BYTES_USED
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.bytesUsed = iprot.readI64();
             setBytesUsedIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 3: // BYTES_REMAINING
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.bytesRemaining = iprot.readI64();
             setBytesRemainingIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 4: // BYTES_NON_DFS
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.bytesNonDfs = iprot.readI64();
             setBytesNonDfsIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 5: // NUM_LIVE_DATA_NODES
-          if (field.type == TType.I32) {
+          if (field.type == org.apache.thrift.protocol.TType.I32) {
             this.numLiveDataNodes = iprot.readI32();
             setNumLiveDataNodesIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 6: // NUM_DEAD_DATA_NODES
-          if (field.type == TType.I32) {
+          if (field.type == org.apache.thrift.protocol.TType.I32) {
             this.numDeadDataNodes = iprot.readI32();
             setNumDeadDataNodesIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 7: // UPGRADE_STATUS
-          if (field.type == TType.STRUCT) {
+          if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
             this.upgradeStatus = new UpgradeStatusReport();
             this.upgradeStatus.read(iprot);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 8: // HTTP_PORT
-          if (field.type == TType.I32) {
+          if (field.type == org.apache.thrift.protocol.TType.I32) {
             this.httpPort = iprot.readI32();
             setHttpPortIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         default:
-          TProtocolUtil.skip(iprot, field.type);
+          org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
       }
       iprot.readFieldEnd();
     }
@@ -918,7 +912,7 @@ public class DFSHealthReport implements TBase<DFSHealthReport, DFSHealthReport._
     validate();
   }
 
-  public void write(TProtocol oprot) throws TException {
+  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
@@ -996,8 +990,26 @@ public class DFSHealthReport implements TBase<DFSHealthReport, DFSHealthReport._
     return sb.toString();
   }
 
-  public void validate() throws TException {
+  public void validate() throws org.apache.thrift.TException {
     // check for required fields
+  }
+
+  private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+    try {
+      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
+  }
+
+  private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+    try {
+      // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+      __isset_bit_vector = new BitSet(1);
+      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
   }
 
 }

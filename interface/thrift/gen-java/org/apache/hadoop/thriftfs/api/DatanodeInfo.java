@@ -21,31 +21,25 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.apache.thrift.*;
-import org.apache.thrift.async.*;
-import org.apache.thrift.meta_data.*;
-import org.apache.thrift.transport.*;
-import org.apache.thrift.protocol.*;
-
 /**
  * Information and state of a data node.
  * 
  * Modelled after org.apache.hadoop.hdfs.protocol.DatanodeInfo
  */
-public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, java.io.Serializable, Cloneable {
-  private static final TStruct STRUCT_DESC = new TStruct("DatanodeInfo");
+public class DatanodeInfo implements org.apache.thrift.TBase<DatanodeInfo, DatanodeInfo._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("DatanodeInfo");
 
-  private static final TField NAME_FIELD_DESC = new TField("name", TType.STRING, (short)1);
-  private static final TField STORAGE_ID_FIELD_DESC = new TField("storageID", TType.STRING, (short)2);
-  private static final TField HOST_FIELD_DESC = new TField("host", TType.STRING, (short)3);
-  private static final TField THRIFT_PORT_FIELD_DESC = new TField("thriftPort", TType.I32, (short)4);
-  private static final TField HTTP_PORT_FIELD_DESC = new TField("httpPort", TType.I32, (short)10);
-  private static final TField CAPACITY_FIELD_DESC = new TField("capacity", TType.I64, (short)5);
-  private static final TField DFS_USED_FIELD_DESC = new TField("dfsUsed", TType.I64, (short)6);
-  private static final TField REMAINING_FIELD_DESC = new TField("remaining", TType.I64, (short)7);
-  private static final TField XCEIVER_COUNT_FIELD_DESC = new TField("xceiverCount", TType.I32, (short)8);
-  private static final TField STATE_FIELD_DESC = new TField("state", TType.I32, (short)9);
-  private static final TField MILLIS_SINCE_UPDATE_FIELD_DESC = new TField("millisSinceUpdate", TType.I64, (short)11);
+  private static final org.apache.thrift.protocol.TField NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("name", org.apache.thrift.protocol.TType.STRING, (short)1);
+  private static final org.apache.thrift.protocol.TField STORAGE_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("storageID", org.apache.thrift.protocol.TType.STRING, (short)2);
+  private static final org.apache.thrift.protocol.TField HOST_FIELD_DESC = new org.apache.thrift.protocol.TField("host", org.apache.thrift.protocol.TType.STRING, (short)3);
+  private static final org.apache.thrift.protocol.TField THRIFT_PORT_FIELD_DESC = new org.apache.thrift.protocol.TField("thriftPort", org.apache.thrift.protocol.TType.I32, (short)4);
+  private static final org.apache.thrift.protocol.TField HTTP_PORT_FIELD_DESC = new org.apache.thrift.protocol.TField("httpPort", org.apache.thrift.protocol.TType.I32, (short)10);
+  private static final org.apache.thrift.protocol.TField CAPACITY_FIELD_DESC = new org.apache.thrift.protocol.TField("capacity", org.apache.thrift.protocol.TType.I64, (short)5);
+  private static final org.apache.thrift.protocol.TField DFS_USED_FIELD_DESC = new org.apache.thrift.protocol.TField("dfsUsed", org.apache.thrift.protocol.TType.I64, (short)6);
+  private static final org.apache.thrift.protocol.TField REMAINING_FIELD_DESC = new org.apache.thrift.protocol.TField("remaining", org.apache.thrift.protocol.TType.I64, (short)7);
+  private static final org.apache.thrift.protocol.TField XCEIVER_COUNT_FIELD_DESC = new org.apache.thrift.protocol.TField("xceiverCount", org.apache.thrift.protocol.TType.I32, (short)8);
+  private static final org.apache.thrift.protocol.TField STATE_FIELD_DESC = new org.apache.thrift.protocol.TField("state", org.apache.thrift.protocol.TType.I32, (short)9);
+  private static final org.apache.thrift.protocol.TField MILLIS_SINCE_UPDATE_FIELD_DESC = new org.apache.thrift.protocol.TField("millisSinceUpdate", org.apache.thrift.protocol.TType.I64, (short)11);
 
   /**
    * HDFS name of the datanode (equals to <host>:<datanode port>)
@@ -96,7 +90,7 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
   public long millisSinceUpdate;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements TFieldIdEnum {
+  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     /**
      * HDFS name of the datanode (equals to <host>:<datanode port>)
      */
@@ -229,33 +223,33 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
   private static final int __MILLISSINCEUPDATE_ISSET_ID = 6;
   private BitSet __isset_bit_vector = new BitSet(7);
 
-  public static final Map<_Fields, FieldMetaData> metaDataMap;
+  public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.NAME, new FieldMetaData("name", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.STRING)));
-    tmpMap.put(_Fields.STORAGE_ID, new FieldMetaData("storageID", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.STRING)));
-    tmpMap.put(_Fields.HOST, new FieldMetaData("host", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.STRING)));
-    tmpMap.put(_Fields.THRIFT_PORT, new FieldMetaData("thriftPort", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I32)));
-    tmpMap.put(_Fields.HTTP_PORT, new FieldMetaData("httpPort", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I32)));
-    tmpMap.put(_Fields.CAPACITY, new FieldMetaData("capacity", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I64)));
-    tmpMap.put(_Fields.DFS_USED, new FieldMetaData("dfsUsed", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I64)));
-    tmpMap.put(_Fields.REMAINING, new FieldMetaData("remaining", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I64)));
-    tmpMap.put(_Fields.XCEIVER_COUNT, new FieldMetaData("xceiverCount", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I32)));
-    tmpMap.put(_Fields.STATE, new FieldMetaData("state", TFieldRequirementType.DEFAULT, 
-        new EnumMetaData(TType.ENUM, DatanodeState.class)));
-    tmpMap.put(_Fields.MILLIS_SINCE_UPDATE, new FieldMetaData("millisSinceUpdate", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I64)));
+    Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.NAME, new org.apache.thrift.meta_data.FieldMetaData("name", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.STORAGE_ID, new org.apache.thrift.meta_data.FieldMetaData("storageID", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.HOST, new org.apache.thrift.meta_data.FieldMetaData("host", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.THRIFT_PORT, new org.apache.thrift.meta_data.FieldMetaData("thriftPort", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+    tmpMap.put(_Fields.HTTP_PORT, new org.apache.thrift.meta_data.FieldMetaData("httpPort", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+    tmpMap.put(_Fields.CAPACITY, new org.apache.thrift.meta_data.FieldMetaData("capacity", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.DFS_USED, new org.apache.thrift.meta_data.FieldMetaData("dfsUsed", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.REMAINING, new org.apache.thrift.meta_data.FieldMetaData("remaining", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.XCEIVER_COUNT, new org.apache.thrift.meta_data.FieldMetaData("xceiverCount", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+    tmpMap.put(_Fields.STATE, new org.apache.thrift.meta_data.FieldMetaData("state", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, DatanodeState.class)));
+    tmpMap.put(_Fields.MILLIS_SINCE_UPDATE, new org.apache.thrift.meta_data.FieldMetaData("millisSinceUpdate", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    FieldMetaData.addStructMetaDataMap(DatanodeInfo.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(DatanodeInfo.class, metaDataMap);
   }
 
   public DatanodeInfo() {
@@ -367,7 +361,7 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
     this.name = null;
   }
 
-  /** Returns true if field name is set (has been asigned a value) and false otherwise */
+  /** Returns true if field name is set (has been assigned a value) and false otherwise */
   public boolean isSetName() {
     return this.name != null;
   }
@@ -397,7 +391,7 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
     this.storageID = null;
   }
 
-  /** Returns true if field storageID is set (has been asigned a value) and false otherwise */
+  /** Returns true if field storageID is set (has been assigned a value) and false otherwise */
   public boolean isSetStorageID() {
     return this.storageID != null;
   }
@@ -427,7 +421,7 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
     this.host = null;
   }
 
-  /** Returns true if field host is set (has been asigned a value) and false otherwise */
+  /** Returns true if field host is set (has been assigned a value) and false otherwise */
   public boolean isSetHost() {
     return this.host != null;
   }
@@ -460,7 +454,7 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
     __isset_bit_vector.clear(__THRIFTPORT_ISSET_ID);
   }
 
-  /** Returns true if field thriftPort is set (has been asigned a value) and false otherwise */
+  /** Returns true if field thriftPort is set (has been assigned a value) and false otherwise */
   public boolean isSetThriftPort() {
     return __isset_bit_vector.get(__THRIFTPORT_ISSET_ID);
   }
@@ -489,7 +483,7 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
     __isset_bit_vector.clear(__HTTPPORT_ISSET_ID);
   }
 
-  /** Returns true if field httpPort is set (has been asigned a value) and false otherwise */
+  /** Returns true if field httpPort is set (has been assigned a value) and false otherwise */
   public boolean isSetHttpPort() {
     return __isset_bit_vector.get(__HTTPPORT_ISSET_ID);
   }
@@ -518,7 +512,7 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
     __isset_bit_vector.clear(__CAPACITY_ISSET_ID);
   }
 
-  /** Returns true if field capacity is set (has been asigned a value) and false otherwise */
+  /** Returns true if field capacity is set (has been assigned a value) and false otherwise */
   public boolean isSetCapacity() {
     return __isset_bit_vector.get(__CAPACITY_ISSET_ID);
   }
@@ -547,7 +541,7 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
     __isset_bit_vector.clear(__DFSUSED_ISSET_ID);
   }
 
-  /** Returns true if field dfsUsed is set (has been asigned a value) and false otherwise */
+  /** Returns true if field dfsUsed is set (has been assigned a value) and false otherwise */
   public boolean isSetDfsUsed() {
     return __isset_bit_vector.get(__DFSUSED_ISSET_ID);
   }
@@ -576,7 +570,7 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
     __isset_bit_vector.clear(__REMAINING_ISSET_ID);
   }
 
-  /** Returns true if field remaining is set (has been asigned a value) and false otherwise */
+  /** Returns true if field remaining is set (has been assigned a value) and false otherwise */
   public boolean isSetRemaining() {
     return __isset_bit_vector.get(__REMAINING_ISSET_ID);
   }
@@ -605,7 +599,7 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
     __isset_bit_vector.clear(__XCEIVERCOUNT_ISSET_ID);
   }
 
-  /** Returns true if field xceiverCount is set (has been asigned a value) and false otherwise */
+  /** Returns true if field xceiverCount is set (has been assigned a value) and false otherwise */
   public boolean isSetXceiverCount() {
     return __isset_bit_vector.get(__XCEIVERCOUNT_ISSET_ID);
   }
@@ -637,7 +631,7 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
     this.state = null;
   }
 
-  /** Returns true if field state is set (has been asigned a value) and false otherwise */
+  /** Returns true if field state is set (has been assigned a value) and false otherwise */
   public boolean isSetState() {
     return this.state != null;
   }
@@ -668,7 +662,7 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
     __isset_bit_vector.clear(__MILLISSINCEUPDATE_ISSET_ID);
   }
 
-  /** Returns true if field millisSinceUpdate is set (has been asigned a value) and false otherwise */
+  /** Returns true if field millisSinceUpdate is set (has been assigned a value) and false otherwise */
   public boolean isSetMillisSinceUpdate() {
     return __isset_bit_vector.get(__MILLISSINCEUPDATE_ISSET_ID);
   }
@@ -809,7 +803,7 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
     throw new IllegalStateException();
   }
 
-  /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
     if (field == null) {
       throw new IllegalArgumentException();
@@ -1032,7 +1026,7 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
       return lastComparison;
     }
     if (isSetName()) {
-      lastComparison = TBaseHelper.compareTo(this.name, typedOther.name);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.name, typedOther.name);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1042,7 +1036,7 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
       return lastComparison;
     }
     if (isSetStorageID()) {
-      lastComparison = TBaseHelper.compareTo(this.storageID, typedOther.storageID);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.storageID, typedOther.storageID);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1052,7 +1046,7 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
       return lastComparison;
     }
     if (isSetHost()) {
-      lastComparison = TBaseHelper.compareTo(this.host, typedOther.host);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.host, typedOther.host);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1062,7 +1056,7 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
       return lastComparison;
     }
     if (isSetThriftPort()) {
-      lastComparison = TBaseHelper.compareTo(this.thriftPort, typedOther.thriftPort);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.thriftPort, typedOther.thriftPort);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1072,7 +1066,7 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
       return lastComparison;
     }
     if (isSetHttpPort()) {
-      lastComparison = TBaseHelper.compareTo(this.httpPort, typedOther.httpPort);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.httpPort, typedOther.httpPort);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1082,7 +1076,7 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
       return lastComparison;
     }
     if (isSetCapacity()) {
-      lastComparison = TBaseHelper.compareTo(this.capacity, typedOther.capacity);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.capacity, typedOther.capacity);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1092,7 +1086,7 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
       return lastComparison;
     }
     if (isSetDfsUsed()) {
-      lastComparison = TBaseHelper.compareTo(this.dfsUsed, typedOther.dfsUsed);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.dfsUsed, typedOther.dfsUsed);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1102,7 +1096,7 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
       return lastComparison;
     }
     if (isSetRemaining()) {
-      lastComparison = TBaseHelper.compareTo(this.remaining, typedOther.remaining);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.remaining, typedOther.remaining);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1112,7 +1106,7 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
       return lastComparison;
     }
     if (isSetXceiverCount()) {
-      lastComparison = TBaseHelper.compareTo(this.xceiverCount, typedOther.xceiverCount);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.xceiverCount, typedOther.xceiverCount);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1122,7 +1116,7 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
       return lastComparison;
     }
     if (isSetState()) {
-      lastComparison = TBaseHelper.compareTo(this.state, typedOther.state);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.state, typedOther.state);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1132,7 +1126,7 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
       return lastComparison;
     }
     if (isSetMillisSinceUpdate()) {
-      lastComparison = TBaseHelper.compareTo(this.millisSinceUpdate, typedOther.millisSinceUpdate);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.millisSinceUpdate, typedOther.millisSinceUpdate);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1144,102 +1138,102 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
     return _Fields.findByThriftId(fieldId);
   }
 
-  public void read(TProtocol iprot) throws TException {
-    TField field;
+  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+    org.apache.thrift.protocol.TField field;
     iprot.readStructBegin();
     while (true)
     {
       field = iprot.readFieldBegin();
-      if (field.type == TType.STOP) { 
+      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
         break;
       }
       switch (field.id) {
         case 1: // NAME
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.name = iprot.readString();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 2: // STORAGE_ID
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.storageID = iprot.readString();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 3: // HOST
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.host = iprot.readString();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 4: // THRIFT_PORT
-          if (field.type == TType.I32) {
+          if (field.type == org.apache.thrift.protocol.TType.I32) {
             this.thriftPort = iprot.readI32();
             setThriftPortIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 10: // HTTP_PORT
-          if (field.type == TType.I32) {
+          if (field.type == org.apache.thrift.protocol.TType.I32) {
             this.httpPort = iprot.readI32();
             setHttpPortIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 5: // CAPACITY
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.capacity = iprot.readI64();
             setCapacityIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 6: // DFS_USED
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.dfsUsed = iprot.readI64();
             setDfsUsedIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 7: // REMAINING
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.remaining = iprot.readI64();
             setRemainingIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 8: // XCEIVER_COUNT
-          if (field.type == TType.I32) {
+          if (field.type == org.apache.thrift.protocol.TType.I32) {
             this.xceiverCount = iprot.readI32();
             setXceiverCountIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 9: // STATE
-          if (field.type == TType.I32) {
+          if (field.type == org.apache.thrift.protocol.TType.I32) {
             this.state = DatanodeState.findByValue(iprot.readI32());
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 11: // MILLIS_SINCE_UPDATE
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.millisSinceUpdate = iprot.readI64();
             setMillisSinceUpdateIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         default:
-          TProtocolUtil.skip(iprot, field.type);
+          org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
       }
       iprot.readFieldEnd();
     }
@@ -1249,7 +1243,7 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
     validate();
   }
 
-  public void write(TProtocol oprot) throws TException {
+  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
@@ -1366,8 +1360,26 @@ public class DatanodeInfo implements TBase<DatanodeInfo, DatanodeInfo._Fields>, 
     return sb.toString();
   }
 
-  public void validate() throws TException {
+  public void validate() throws org.apache.thrift.TException {
     // check for required fields
+  }
+
+  private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+    try {
+      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
+  }
+
+  private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+    try {
+      // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+      __isset_bit_vector = new BitSet(1);
+      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
   }
 
 }

@@ -21,30 +21,24 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.apache.thrift.*;
-import org.apache.thrift.async.*;
-import org.apache.thrift.meta_data.*;
-import org.apache.thrift.transport.*;
-import org.apache.thrift.protocol.*;
-
 /**
  * Information about a path in HDFS.
  * 
  * Modelled after org.apache.hadoop.fs.FileStatus
  */
-public class Stat implements TBase<Stat, Stat._Fields>, java.io.Serializable, Cloneable {
-  private static final TStruct STRUCT_DESC = new TStruct("Stat");
+public class Stat implements org.apache.thrift.TBase<Stat, Stat._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Stat");
 
-  private static final TField PATH_FIELD_DESC = new TField("path", TType.STRING, (short)1);
-  private static final TField IS_DIR_FIELD_DESC = new TField("isDir", TType.BOOL, (short)2);
-  private static final TField ATIME_FIELD_DESC = new TField("atime", TType.I64, (short)3);
-  private static final TField MTIME_FIELD_DESC = new TField("mtime", TType.I64, (short)4);
-  private static final TField PERMS_FIELD_DESC = new TField("perms", TType.I16, (short)5);
-  private static final TField OWNER_FIELD_DESC = new TField("owner", TType.STRING, (short)6);
-  private static final TField GROUP_FIELD_DESC = new TField("group", TType.STRING, (short)7);
-  private static final TField LENGTH_FIELD_DESC = new TField("length", TType.I64, (short)13);
-  private static final TField BLOCK_SIZE_FIELD_DESC = new TField("blockSize", TType.I64, (short)14);
-  private static final TField REPLICATION_FIELD_DESC = new TField("replication", TType.I16, (short)15);
+  private static final org.apache.thrift.protocol.TField PATH_FIELD_DESC = new org.apache.thrift.protocol.TField("path", org.apache.thrift.protocol.TType.STRING, (short)1);
+  private static final org.apache.thrift.protocol.TField IS_DIR_FIELD_DESC = new org.apache.thrift.protocol.TField("isDir", org.apache.thrift.protocol.TType.BOOL, (short)2);
+  private static final org.apache.thrift.protocol.TField ATIME_FIELD_DESC = new org.apache.thrift.protocol.TField("atime", org.apache.thrift.protocol.TType.I64, (short)3);
+  private static final org.apache.thrift.protocol.TField MTIME_FIELD_DESC = new org.apache.thrift.protocol.TField("mtime", org.apache.thrift.protocol.TType.I64, (short)4);
+  private static final org.apache.thrift.protocol.TField PERMS_FIELD_DESC = new org.apache.thrift.protocol.TField("perms", org.apache.thrift.protocol.TType.I16, (short)5);
+  private static final org.apache.thrift.protocol.TField OWNER_FIELD_DESC = new org.apache.thrift.protocol.TField("owner", org.apache.thrift.protocol.TType.STRING, (short)6);
+  private static final org.apache.thrift.protocol.TField GROUP_FIELD_DESC = new org.apache.thrift.protocol.TField("group", org.apache.thrift.protocol.TType.STRING, (short)7);
+  private static final org.apache.thrift.protocol.TField LENGTH_FIELD_DESC = new org.apache.thrift.protocol.TField("length", org.apache.thrift.protocol.TType.I64, (short)13);
+  private static final org.apache.thrift.protocol.TField BLOCK_SIZE_FIELD_DESC = new org.apache.thrift.protocol.TField("blockSize", org.apache.thrift.protocol.TType.I64, (short)14);
+  private static final org.apache.thrift.protocol.TField REPLICATION_FIELD_DESC = new org.apache.thrift.protocol.TField("replication", org.apache.thrift.protocol.TType.I16, (short)15);
 
   /**
    * The path.
@@ -89,7 +83,7 @@ public class Stat implements TBase<Stat, Stat._Fields>, java.io.Serializable, Cl
   public short replication;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements TFieldIdEnum {
+  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     /**
      * The path.
      */
@@ -214,31 +208,31 @@ public class Stat implements TBase<Stat, Stat._Fields>, java.io.Serializable, Cl
   private static final int __REPLICATION_ISSET_ID = 6;
   private BitSet __isset_bit_vector = new BitSet(7);
 
-  public static final Map<_Fields, FieldMetaData> metaDataMap;
+  public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.PATH, new FieldMetaData("path", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.STRING)));
-    tmpMap.put(_Fields.IS_DIR, new FieldMetaData("isDir", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.BOOL)));
-    tmpMap.put(_Fields.ATIME, new FieldMetaData("atime", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I64)));
-    tmpMap.put(_Fields.MTIME, new FieldMetaData("mtime", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I64)));
-    tmpMap.put(_Fields.PERMS, new FieldMetaData("perms", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I16)));
-    tmpMap.put(_Fields.OWNER, new FieldMetaData("owner", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.STRING)));
-    tmpMap.put(_Fields.GROUP, new FieldMetaData("group", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.STRING)));
-    tmpMap.put(_Fields.LENGTH, new FieldMetaData("length", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I64)));
-    tmpMap.put(_Fields.BLOCK_SIZE, new FieldMetaData("blockSize", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I64)));
-    tmpMap.put(_Fields.REPLICATION, new FieldMetaData("replication", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I16)));
+    Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.PATH, new org.apache.thrift.meta_data.FieldMetaData("path", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.IS_DIR, new org.apache.thrift.meta_data.FieldMetaData("isDir", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+    tmpMap.put(_Fields.ATIME, new org.apache.thrift.meta_data.FieldMetaData("atime", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.MTIME, new org.apache.thrift.meta_data.FieldMetaData("mtime", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.PERMS, new org.apache.thrift.meta_data.FieldMetaData("perms", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I16)));
+    tmpMap.put(_Fields.OWNER, new org.apache.thrift.meta_data.FieldMetaData("owner", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.GROUP, new org.apache.thrift.meta_data.FieldMetaData("group", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.LENGTH, new org.apache.thrift.meta_data.FieldMetaData("length", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.BLOCK_SIZE, new org.apache.thrift.meta_data.FieldMetaData("blockSize", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.REPLICATION, new org.apache.thrift.meta_data.FieldMetaData("replication", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I16)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    FieldMetaData.addStructMetaDataMap(Stat.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Stat.class, metaDataMap);
   }
 
   public Stat() {
@@ -344,7 +338,7 @@ public class Stat implements TBase<Stat, Stat._Fields>, java.io.Serializable, Cl
     this.path = null;
   }
 
-  /** Returns true if field path is set (has been asigned a value) and false otherwise */
+  /** Returns true if field path is set (has been assigned a value) and false otherwise */
   public boolean isSetPath() {
     return this.path != null;
   }
@@ -377,7 +371,7 @@ public class Stat implements TBase<Stat, Stat._Fields>, java.io.Serializable, Cl
     __isset_bit_vector.clear(__ISDIR_ISSET_ID);
   }
 
-  /** Returns true if field isDir is set (has been asigned a value) and false otherwise */
+  /** Returns true if field isDir is set (has been assigned a value) and false otherwise */
   public boolean isSetIsDir() {
     return __isset_bit_vector.get(__ISDIR_ISSET_ID);
   }
@@ -406,7 +400,7 @@ public class Stat implements TBase<Stat, Stat._Fields>, java.io.Serializable, Cl
     __isset_bit_vector.clear(__ATIME_ISSET_ID);
   }
 
-  /** Returns true if field atime is set (has been asigned a value) and false otherwise */
+  /** Returns true if field atime is set (has been assigned a value) and false otherwise */
   public boolean isSetAtime() {
     return __isset_bit_vector.get(__ATIME_ISSET_ID);
   }
@@ -435,7 +429,7 @@ public class Stat implements TBase<Stat, Stat._Fields>, java.io.Serializable, Cl
     __isset_bit_vector.clear(__MTIME_ISSET_ID);
   }
 
-  /** Returns true if field mtime is set (has been asigned a value) and false otherwise */
+  /** Returns true if field mtime is set (has been assigned a value) and false otherwise */
   public boolean isSetMtime() {
     return __isset_bit_vector.get(__MTIME_ISSET_ID);
   }
@@ -464,7 +458,7 @@ public class Stat implements TBase<Stat, Stat._Fields>, java.io.Serializable, Cl
     __isset_bit_vector.clear(__PERMS_ISSET_ID);
   }
 
-  /** Returns true if field perms is set (has been asigned a value) and false otherwise */
+  /** Returns true if field perms is set (has been assigned a value) and false otherwise */
   public boolean isSetPerms() {
     return __isset_bit_vector.get(__PERMS_ISSET_ID);
   }
@@ -492,7 +486,7 @@ public class Stat implements TBase<Stat, Stat._Fields>, java.io.Serializable, Cl
     this.owner = null;
   }
 
-  /** Returns true if field owner is set (has been asigned a value) and false otherwise */
+  /** Returns true if field owner is set (has been assigned a value) and false otherwise */
   public boolean isSetOwner() {
     return this.owner != null;
   }
@@ -522,7 +516,7 @@ public class Stat implements TBase<Stat, Stat._Fields>, java.io.Serializable, Cl
     this.group = null;
   }
 
-  /** Returns true if field group is set (has been asigned a value) and false otherwise */
+  /** Returns true if field group is set (has been assigned a value) and false otherwise */
   public boolean isSetGroup() {
     return this.group != null;
   }
@@ -553,7 +547,7 @@ public class Stat implements TBase<Stat, Stat._Fields>, java.io.Serializable, Cl
     __isset_bit_vector.clear(__LENGTH_ISSET_ID);
   }
 
-  /** Returns true if field length is set (has been asigned a value) and false otherwise */
+  /** Returns true if field length is set (has been assigned a value) and false otherwise */
   public boolean isSetLength() {
     return __isset_bit_vector.get(__LENGTH_ISSET_ID);
   }
@@ -582,7 +576,7 @@ public class Stat implements TBase<Stat, Stat._Fields>, java.io.Serializable, Cl
     __isset_bit_vector.clear(__BLOCKSIZE_ISSET_ID);
   }
 
-  /** Returns true if field blockSize is set (has been asigned a value) and false otherwise */
+  /** Returns true if field blockSize is set (has been assigned a value) and false otherwise */
   public boolean isSetBlockSize() {
     return __isset_bit_vector.get(__BLOCKSIZE_ISSET_ID);
   }
@@ -611,7 +605,7 @@ public class Stat implements TBase<Stat, Stat._Fields>, java.io.Serializable, Cl
     __isset_bit_vector.clear(__REPLICATION_ISSET_ID);
   }
 
-  /** Returns true if field replication is set (has been asigned a value) and false otherwise */
+  /** Returns true if field replication is set (has been assigned a value) and false otherwise */
   public boolean isSetReplication() {
     return __isset_bit_vector.get(__REPLICATION_ISSET_ID);
   }
@@ -741,7 +735,7 @@ public class Stat implements TBase<Stat, Stat._Fields>, java.io.Serializable, Cl
     throw new IllegalStateException();
   }
 
-  /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
     if (field == null) {
       throw new IllegalArgumentException();
@@ -948,7 +942,7 @@ public class Stat implements TBase<Stat, Stat._Fields>, java.io.Serializable, Cl
       return lastComparison;
     }
     if (isSetPath()) {
-      lastComparison = TBaseHelper.compareTo(this.path, typedOther.path);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.path, typedOther.path);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -958,7 +952,7 @@ public class Stat implements TBase<Stat, Stat._Fields>, java.io.Serializable, Cl
       return lastComparison;
     }
     if (isSetIsDir()) {
-      lastComparison = TBaseHelper.compareTo(this.isDir, typedOther.isDir);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.isDir, typedOther.isDir);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -968,7 +962,7 @@ public class Stat implements TBase<Stat, Stat._Fields>, java.io.Serializable, Cl
       return lastComparison;
     }
     if (isSetAtime()) {
-      lastComparison = TBaseHelper.compareTo(this.atime, typedOther.atime);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.atime, typedOther.atime);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -978,7 +972,7 @@ public class Stat implements TBase<Stat, Stat._Fields>, java.io.Serializable, Cl
       return lastComparison;
     }
     if (isSetMtime()) {
-      lastComparison = TBaseHelper.compareTo(this.mtime, typedOther.mtime);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.mtime, typedOther.mtime);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -988,7 +982,7 @@ public class Stat implements TBase<Stat, Stat._Fields>, java.io.Serializable, Cl
       return lastComparison;
     }
     if (isSetPerms()) {
-      lastComparison = TBaseHelper.compareTo(this.perms, typedOther.perms);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.perms, typedOther.perms);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -998,7 +992,7 @@ public class Stat implements TBase<Stat, Stat._Fields>, java.io.Serializable, Cl
       return lastComparison;
     }
     if (isSetOwner()) {
-      lastComparison = TBaseHelper.compareTo(this.owner, typedOther.owner);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.owner, typedOther.owner);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1008,7 +1002,7 @@ public class Stat implements TBase<Stat, Stat._Fields>, java.io.Serializable, Cl
       return lastComparison;
     }
     if (isSetGroup()) {
-      lastComparison = TBaseHelper.compareTo(this.group, typedOther.group);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.group, typedOther.group);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1018,7 +1012,7 @@ public class Stat implements TBase<Stat, Stat._Fields>, java.io.Serializable, Cl
       return lastComparison;
     }
     if (isSetLength()) {
-      lastComparison = TBaseHelper.compareTo(this.length, typedOther.length);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.length, typedOther.length);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1028,7 +1022,7 @@ public class Stat implements TBase<Stat, Stat._Fields>, java.io.Serializable, Cl
       return lastComparison;
     }
     if (isSetBlockSize()) {
-      lastComparison = TBaseHelper.compareTo(this.blockSize, typedOther.blockSize);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.blockSize, typedOther.blockSize);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1038,7 +1032,7 @@ public class Stat implements TBase<Stat, Stat._Fields>, java.io.Serializable, Cl
       return lastComparison;
     }
     if (isSetReplication()) {
-      lastComparison = TBaseHelper.compareTo(this.replication, typedOther.replication);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.replication, typedOther.replication);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1050,95 +1044,95 @@ public class Stat implements TBase<Stat, Stat._Fields>, java.io.Serializable, Cl
     return _Fields.findByThriftId(fieldId);
   }
 
-  public void read(TProtocol iprot) throws TException {
-    TField field;
+  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+    org.apache.thrift.protocol.TField field;
     iprot.readStructBegin();
     while (true)
     {
       field = iprot.readFieldBegin();
-      if (field.type == TType.STOP) { 
+      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
         break;
       }
       switch (field.id) {
         case 1: // PATH
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.path = iprot.readString();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 2: // IS_DIR
-          if (field.type == TType.BOOL) {
+          if (field.type == org.apache.thrift.protocol.TType.BOOL) {
             this.isDir = iprot.readBool();
             setIsDirIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 3: // ATIME
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.atime = iprot.readI64();
             setAtimeIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 4: // MTIME
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.mtime = iprot.readI64();
             setMtimeIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 5: // PERMS
-          if (field.type == TType.I16) {
+          if (field.type == org.apache.thrift.protocol.TType.I16) {
             this.perms = iprot.readI16();
             setPermsIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 6: // OWNER
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.owner = iprot.readString();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 7: // GROUP
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.group = iprot.readString();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 13: // LENGTH
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.length = iprot.readI64();
             setLengthIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 14: // BLOCK_SIZE
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.blockSize = iprot.readI64();
             setBlockSizeIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 15: // REPLICATION
-          if (field.type == TType.I16) {
+          if (field.type == org.apache.thrift.protocol.TType.I16) {
             this.replication = iprot.readI16();
             setReplicationIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         default:
-          TProtocolUtil.skip(iprot, field.type);
+          org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
       }
       iprot.readFieldEnd();
     }
@@ -1148,7 +1142,7 @@ public class Stat implements TBase<Stat, Stat._Fields>, java.io.Serializable, Cl
     validate();
   }
 
-  public void write(TProtocol oprot) throws TException {
+  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
@@ -1252,8 +1246,26 @@ public class Stat implements TBase<Stat, Stat._Fields>, java.io.Serializable, Cl
     return sb.toString();
   }
 
-  public void validate() throws TException {
+  public void validate() throws org.apache.thrift.TException {
     // check for required fields
+  }
+
+  private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+    try {
+      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
+  }
+
+  private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+    try {
+      // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+      __isset_bit_vector = new BitSet(1);
+      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
   }
 
 }

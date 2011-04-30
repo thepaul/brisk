@@ -14,7 +14,7 @@ import org.apache.thrift.TEnum;
  * It corresponds to the (inferred) internal state of a TaskInProgress,
  * and not that of a TaskStatus.
  */
-public enum ThriftTaskQueryState implements TEnum {
+public enum ThriftTaskQueryState implements org.apache.thrift.TEnum {
   SUCCEEDED(0),
   FAILED(1),
   RUNNING(2),

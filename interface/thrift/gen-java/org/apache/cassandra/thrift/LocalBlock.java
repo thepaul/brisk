@@ -21,25 +21,19 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.apache.thrift.*;
-import org.apache.thrift.async.*;
-import org.apache.thrift.meta_data.*;
-import org.apache.thrift.transport.*;
-import org.apache.thrift.protocol.*;
+public class LocalBlock implements org.apache.thrift.TBase<LocalBlock, LocalBlock._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("LocalBlock");
 
-public class LocalBlock implements TBase<LocalBlock, LocalBlock._Fields>, java.io.Serializable, Cloneable {
-  private static final TStruct STRUCT_DESC = new TStruct("LocalBlock");
-
-  private static final TField FILE_FIELD_DESC = new TField("file", TType.STRING, (short)1);
-  private static final TField OFFSET_FIELD_DESC = new TField("offset", TType.I64, (short)2);
-  private static final TField LENGTH_FIELD_DESC = new TField("length", TType.I64, (short)3);
+  private static final org.apache.thrift.protocol.TField FILE_FIELD_DESC = new org.apache.thrift.protocol.TField("file", org.apache.thrift.protocol.TType.STRING, (short)1);
+  private static final org.apache.thrift.protocol.TField OFFSET_FIELD_DESC = new org.apache.thrift.protocol.TField("offset", org.apache.thrift.protocol.TType.I64, (short)2);
+  private static final org.apache.thrift.protocol.TField LENGTH_FIELD_DESC = new org.apache.thrift.protocol.TField("length", org.apache.thrift.protocol.TType.I64, (short)3);
 
   public String file;
   public long offset;
   public long length;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements TFieldIdEnum {
+  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     FILE((short)1, "file"),
     OFFSET((short)2, "offset"),
     LENGTH((short)3, "length");
@@ -107,17 +101,17 @@ public class LocalBlock implements TBase<LocalBlock, LocalBlock._Fields>, java.i
   private static final int __LENGTH_ISSET_ID = 1;
   private BitSet __isset_bit_vector = new BitSet(2);
 
-  public static final Map<_Fields, FieldMetaData> metaDataMap;
+  public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.FILE, new FieldMetaData("file", TFieldRequirementType.REQUIRED, 
-        new FieldValueMetaData(TType.STRING)));
-    tmpMap.put(_Fields.OFFSET, new FieldMetaData("offset", TFieldRequirementType.REQUIRED, 
-        new FieldValueMetaData(TType.I64)));
-    tmpMap.put(_Fields.LENGTH, new FieldMetaData("length", TFieldRequirementType.REQUIRED, 
-        new FieldValueMetaData(TType.I64)));
+    Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.FILE, new org.apache.thrift.meta_data.FieldMetaData("file", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.OFFSET, new org.apache.thrift.meta_data.FieldMetaData("offset", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.LENGTH, new org.apache.thrift.meta_data.FieldMetaData("length", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    FieldMetaData.addStructMetaDataMap(LocalBlock.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(LocalBlock.class, metaDataMap);
   }
 
   public LocalBlock() {
@@ -175,7 +169,7 @@ public class LocalBlock implements TBase<LocalBlock, LocalBlock._Fields>, java.i
     this.file = null;
   }
 
-  /** Returns true if field file is set (has been asigned a value) and false otherwise */
+  /** Returns true if field file is set (has been assigned a value) and false otherwise */
   public boolean isSetFile() {
     return this.file != null;
   }
@@ -200,7 +194,7 @@ public class LocalBlock implements TBase<LocalBlock, LocalBlock._Fields>, java.i
     __isset_bit_vector.clear(__OFFSET_ISSET_ID);
   }
 
-  /** Returns true if field offset is set (has been asigned a value) and false otherwise */
+  /** Returns true if field offset is set (has been assigned a value) and false otherwise */
   public boolean isSetOffset() {
     return __isset_bit_vector.get(__OFFSET_ISSET_ID);
   }
@@ -223,7 +217,7 @@ public class LocalBlock implements TBase<LocalBlock, LocalBlock._Fields>, java.i
     __isset_bit_vector.clear(__LENGTH_ISSET_ID);
   }
 
-  /** Returns true if field length is set (has been asigned a value) and false otherwise */
+  /** Returns true if field length is set (has been assigned a value) and false otherwise */
   public boolean isSetLength() {
     return __isset_bit_vector.get(__LENGTH_ISSET_ID);
   }
@@ -276,7 +270,7 @@ public class LocalBlock implements TBase<LocalBlock, LocalBlock._Fields>, java.i
     throw new IllegalStateException();
   }
 
-  /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
     if (field == null) {
       throw new IllegalArgumentException();
@@ -371,7 +365,7 @@ public class LocalBlock implements TBase<LocalBlock, LocalBlock._Fields>, java.i
       return lastComparison;
     }
     if (isSetFile()) {
-      lastComparison = TBaseHelper.compareTo(this.file, typedOther.file);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.file, typedOther.file);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -381,7 +375,7 @@ public class LocalBlock implements TBase<LocalBlock, LocalBlock._Fields>, java.i
       return lastComparison;
     }
     if (isSetOffset()) {
-      lastComparison = TBaseHelper.compareTo(this.offset, typedOther.offset);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.offset, typedOther.offset);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -391,7 +385,7 @@ public class LocalBlock implements TBase<LocalBlock, LocalBlock._Fields>, java.i
       return lastComparison;
     }
     if (isSetLength()) {
-      lastComparison = TBaseHelper.compareTo(this.length, typedOther.length);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.length, typedOther.length);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -403,41 +397,41 @@ public class LocalBlock implements TBase<LocalBlock, LocalBlock._Fields>, java.i
     return _Fields.findByThriftId(fieldId);
   }
 
-  public void read(TProtocol iprot) throws TException {
-    TField field;
+  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+    org.apache.thrift.protocol.TField field;
     iprot.readStructBegin();
     while (true)
     {
       field = iprot.readFieldBegin();
-      if (field.type == TType.STOP) { 
+      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
         break;
       }
       switch (field.id) {
         case 1: // FILE
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.file = iprot.readString();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 2: // OFFSET
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.offset = iprot.readI64();
             setOffsetIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 3: // LENGTH
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.length = iprot.readI64();
             setLengthIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         default:
-          TProtocolUtil.skip(iprot, field.type);
+          org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
       }
       iprot.readFieldEnd();
     }
@@ -445,15 +439,15 @@ public class LocalBlock implements TBase<LocalBlock, LocalBlock._Fields>, java.i
 
     // check for required fields of primitive type, which can't be checked in the validate method
     if (!isSetOffset()) {
-      throw new TProtocolException("Required field 'offset' was not found in serialized data! Struct: " + toString());
+      throw new org.apache.thrift.protocol.TProtocolException("Required field 'offset' was not found in serialized data! Struct: " + toString());
     }
     if (!isSetLength()) {
-      throw new TProtocolException("Required field 'length' was not found in serialized data! Struct: " + toString());
+      throw new org.apache.thrift.protocol.TProtocolException("Required field 'length' was not found in serialized data! Struct: " + toString());
     }
     validate();
   }
 
-  public void write(TProtocol oprot) throws TException {
+  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
@@ -496,13 +490,31 @@ public class LocalBlock implements TBase<LocalBlock, LocalBlock._Fields>, java.i
     return sb.toString();
   }
 
-  public void validate() throws TException {
+  public void validate() throws org.apache.thrift.TException {
     // check for required fields
     if (file == null) {
-      throw new TProtocolException("Required field 'file' was not present! Struct: " + toString());
+      throw new org.apache.thrift.protocol.TProtocolException("Required field 'file' was not present! Struct: " + toString());
     }
     // alas, we cannot check 'offset' because it's a primitive and you chose the non-beans generator.
     // alas, we cannot check 'length' because it's a primitive and you chose the non-beans generator.
+  }
+
+  private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+    try {
+      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
+  }
+
+  private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+    try {
+      // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+      __isset_bit_vector = new BitSet(1);
+      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
   }
 
 }

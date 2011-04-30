@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.HashMap;
 import org.apache.thrift.TEnum;
 
-public enum ThriftTaskPhase implements TEnum {
+public enum ThriftTaskPhase implements org.apache.thrift.TEnum {
   STARTING(0),
   MAP(1),
   SHUFFLE(2),

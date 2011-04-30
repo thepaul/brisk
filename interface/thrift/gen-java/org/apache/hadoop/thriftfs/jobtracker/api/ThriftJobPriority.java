@@ -13,7 +13,7 @@ import org.apache.thrift.TEnum;
 /**
  * Possible job priorities (see ThriftJobStatus)
  */
-public enum ThriftJobPriority implements TEnum {
+public enum ThriftJobPriority implements org.apache.thrift.TEnum {
   VERY_HIGH(0),
   HIGH(1),
   NORMAL(2),

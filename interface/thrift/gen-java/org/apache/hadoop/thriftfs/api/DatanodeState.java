@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.HashMap;
 import org.apache.thrift.TEnum;
 
-public enum DatanodeState implements TEnum {
+public enum DatanodeState implements org.apache.thrift.TEnum {
   NORMAL_STATE(1),
   DECOMMISSION_INPROGRESS(2),
   DECOMMISSIONED(3);

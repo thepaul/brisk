@@ -21,28 +21,22 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.apache.thrift.*;
-import org.apache.thrift.async.*;
-import org.apache.thrift.meta_data.*;
-import org.apache.thrift.transport.*;
-import org.apache.thrift.protocol.*;
-
 /**
  * Memory available via java.lang.Runtime
  */
-public class RuntimeInfo implements TBase<RuntimeInfo, RuntimeInfo._Fields>, java.io.Serializable, Cloneable {
-  private static final TStruct STRUCT_DESC = new TStruct("RuntimeInfo");
+public class RuntimeInfo implements org.apache.thrift.TBase<RuntimeInfo, RuntimeInfo._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("RuntimeInfo");
 
-  private static final TField TOTAL_MEMORY_FIELD_DESC = new TField("totalMemory", TType.I64, (short)1);
-  private static final TField FREE_MEMORY_FIELD_DESC = new TField("freeMemory", TType.I64, (short)2);
-  private static final TField MAX_MEMORY_FIELD_DESC = new TField("maxMemory", TType.I64, (short)3);
+  private static final org.apache.thrift.protocol.TField TOTAL_MEMORY_FIELD_DESC = new org.apache.thrift.protocol.TField("totalMemory", org.apache.thrift.protocol.TType.I64, (short)1);
+  private static final org.apache.thrift.protocol.TField FREE_MEMORY_FIELD_DESC = new org.apache.thrift.protocol.TField("freeMemory", org.apache.thrift.protocol.TType.I64, (short)2);
+  private static final org.apache.thrift.protocol.TField MAX_MEMORY_FIELD_DESC = new org.apache.thrift.protocol.TField("maxMemory", org.apache.thrift.protocol.TType.I64, (short)3);
 
   public long totalMemory;
   public long freeMemory;
   public long maxMemory;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements TFieldIdEnum {
+  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     TOTAL_MEMORY((short)1, "totalMemory"),
     FREE_MEMORY((short)2, "freeMemory"),
     MAX_MEMORY((short)3, "maxMemory");
@@ -111,17 +105,17 @@ public class RuntimeInfo implements TBase<RuntimeInfo, RuntimeInfo._Fields>, jav
   private static final int __MAXMEMORY_ISSET_ID = 2;
   private BitSet __isset_bit_vector = new BitSet(3);
 
-  public static final Map<_Fields, FieldMetaData> metaDataMap;
+  public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.TOTAL_MEMORY, new FieldMetaData("totalMemory", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I64)));
-    tmpMap.put(_Fields.FREE_MEMORY, new FieldMetaData("freeMemory", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I64)));
-    tmpMap.put(_Fields.MAX_MEMORY, new FieldMetaData("maxMemory", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I64)));
+    Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.TOTAL_MEMORY, new org.apache.thrift.meta_data.FieldMetaData("totalMemory", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.FREE_MEMORY, new org.apache.thrift.meta_data.FieldMetaData("freeMemory", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.MAX_MEMORY, new org.apache.thrift.meta_data.FieldMetaData("maxMemory", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    FieldMetaData.addStructMetaDataMap(RuntimeInfo.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(RuntimeInfo.class, metaDataMap);
   }
 
   public RuntimeInfo() {
@@ -180,7 +174,7 @@ public class RuntimeInfo implements TBase<RuntimeInfo, RuntimeInfo._Fields>, jav
     __isset_bit_vector.clear(__TOTALMEMORY_ISSET_ID);
   }
 
-  /** Returns true if field totalMemory is set (has been asigned a value) and false otherwise */
+  /** Returns true if field totalMemory is set (has been assigned a value) and false otherwise */
   public boolean isSetTotalMemory() {
     return __isset_bit_vector.get(__TOTALMEMORY_ISSET_ID);
   }
@@ -203,7 +197,7 @@ public class RuntimeInfo implements TBase<RuntimeInfo, RuntimeInfo._Fields>, jav
     __isset_bit_vector.clear(__FREEMEMORY_ISSET_ID);
   }
 
-  /** Returns true if field freeMemory is set (has been asigned a value) and false otherwise */
+  /** Returns true if field freeMemory is set (has been assigned a value) and false otherwise */
   public boolean isSetFreeMemory() {
     return __isset_bit_vector.get(__FREEMEMORY_ISSET_ID);
   }
@@ -226,7 +220,7 @@ public class RuntimeInfo implements TBase<RuntimeInfo, RuntimeInfo._Fields>, jav
     __isset_bit_vector.clear(__MAXMEMORY_ISSET_ID);
   }
 
-  /** Returns true if field maxMemory is set (has been asigned a value) and false otherwise */
+  /** Returns true if field maxMemory is set (has been assigned a value) and false otherwise */
   public boolean isSetMaxMemory() {
     return __isset_bit_vector.get(__MAXMEMORY_ISSET_ID);
   }
@@ -279,7 +273,7 @@ public class RuntimeInfo implements TBase<RuntimeInfo, RuntimeInfo._Fields>, jav
     throw new IllegalStateException();
   }
 
-  /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
     if (field == null) {
       throw new IllegalArgumentException();
@@ -374,7 +368,7 @@ public class RuntimeInfo implements TBase<RuntimeInfo, RuntimeInfo._Fields>, jav
       return lastComparison;
     }
     if (isSetTotalMemory()) {
-      lastComparison = TBaseHelper.compareTo(this.totalMemory, typedOther.totalMemory);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.totalMemory, typedOther.totalMemory);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -384,7 +378,7 @@ public class RuntimeInfo implements TBase<RuntimeInfo, RuntimeInfo._Fields>, jav
       return lastComparison;
     }
     if (isSetFreeMemory()) {
-      lastComparison = TBaseHelper.compareTo(this.freeMemory, typedOther.freeMemory);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.freeMemory, typedOther.freeMemory);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -394,7 +388,7 @@ public class RuntimeInfo implements TBase<RuntimeInfo, RuntimeInfo._Fields>, jav
       return lastComparison;
     }
     if (isSetMaxMemory()) {
-      lastComparison = TBaseHelper.compareTo(this.maxMemory, typedOther.maxMemory);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.maxMemory, typedOther.maxMemory);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -406,42 +400,42 @@ public class RuntimeInfo implements TBase<RuntimeInfo, RuntimeInfo._Fields>, jav
     return _Fields.findByThriftId(fieldId);
   }
 
-  public void read(TProtocol iprot) throws TException {
-    TField field;
+  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+    org.apache.thrift.protocol.TField field;
     iprot.readStructBegin();
     while (true)
     {
       field = iprot.readFieldBegin();
-      if (field.type == TType.STOP) { 
+      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
         break;
       }
       switch (field.id) {
         case 1: // TOTAL_MEMORY
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.totalMemory = iprot.readI64();
             setTotalMemoryIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 2: // FREE_MEMORY
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.freeMemory = iprot.readI64();
             setFreeMemoryIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 3: // MAX_MEMORY
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.maxMemory = iprot.readI64();
             setMaxMemoryIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         default:
-          TProtocolUtil.skip(iprot, field.type);
+          org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
       }
       iprot.readFieldEnd();
     }
@@ -451,7 +445,7 @@ public class RuntimeInfo implements TBase<RuntimeInfo, RuntimeInfo._Fields>, jav
     validate();
   }
 
-  public void write(TProtocol oprot) throws TException {
+  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
@@ -488,8 +482,26 @@ public class RuntimeInfo implements TBase<RuntimeInfo, RuntimeInfo._Fields>, jav
     return sb.toString();
   }
 
-  public void validate() throws TException {
+  public void validate() throws org.apache.thrift.TException {
     // check for required fields
+  }
+
+  private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+    try {
+      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
+  }
+
+  private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+    try {
+      // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+      __isset_bit_vector = new BitSet(1);
+      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
   }
 
 }

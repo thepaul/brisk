@@ -21,25 +21,19 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.apache.thrift.*;
-import org.apache.thrift.async.*;
-import org.apache.thrift.meta_data.*;
-import org.apache.thrift.transport.*;
-import org.apache.thrift.protocol.*;
-
 /**
  * Information about an entire subtree under a directory
  * Includes the information from org.apache.hadoop.fs.ContentSummary
  */
-public class ContentSummary implements TBase<ContentSummary, ContentSummary._Fields>, java.io.Serializable, Cloneable {
-  private static final TStruct STRUCT_DESC = new TStruct("ContentSummary");
+public class ContentSummary implements org.apache.thrift.TBase<ContentSummary, ContentSummary._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("ContentSummary");
 
-  private static final TField FILE_COUNT_FIELD_DESC = new TField("fileCount", TType.I64, (short)1);
-  private static final TField DIRECTORY_COUNT_FIELD_DESC = new TField("directoryCount", TType.I64, (short)2);
-  private static final TField QUOTA_FIELD_DESC = new TField("quota", TType.I64, (short)3);
-  private static final TField SPACE_CONSUMED_FIELD_DESC = new TField("spaceConsumed", TType.I64, (short)4);
-  private static final TField SPACE_QUOTA_FIELD_DESC = new TField("spaceQuota", TType.I64, (short)5);
-  private static final TField PATH_FIELD_DESC = new TField("path", TType.STRING, (short)6);
+  private static final org.apache.thrift.protocol.TField FILE_COUNT_FIELD_DESC = new org.apache.thrift.protocol.TField("fileCount", org.apache.thrift.protocol.TType.I64, (short)1);
+  private static final org.apache.thrift.protocol.TField DIRECTORY_COUNT_FIELD_DESC = new org.apache.thrift.protocol.TField("directoryCount", org.apache.thrift.protocol.TType.I64, (short)2);
+  private static final org.apache.thrift.protocol.TField QUOTA_FIELD_DESC = new org.apache.thrift.protocol.TField("quota", org.apache.thrift.protocol.TType.I64, (short)3);
+  private static final org.apache.thrift.protocol.TField SPACE_CONSUMED_FIELD_DESC = new org.apache.thrift.protocol.TField("spaceConsumed", org.apache.thrift.protocol.TType.I64, (short)4);
+  private static final org.apache.thrift.protocol.TField SPACE_QUOTA_FIELD_DESC = new org.apache.thrift.protocol.TField("spaceQuota", org.apache.thrift.protocol.TType.I64, (short)5);
+  private static final org.apache.thrift.protocol.TField PATH_FIELD_DESC = new org.apache.thrift.protocol.TField("path", org.apache.thrift.protocol.TType.STRING, (short)6);
 
   /**
    * Number of files in this directory
@@ -67,7 +61,7 @@ public class ContentSummary implements TBase<ContentSummary, ContentSummary._Fie
   public String path;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements TFieldIdEnum {
+  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     /**
      * Number of files in this directory
      */
@@ -165,23 +159,23 @@ public class ContentSummary implements TBase<ContentSummary, ContentSummary._Fie
   private static final int __SPACEQUOTA_ISSET_ID = 4;
   private BitSet __isset_bit_vector = new BitSet(5);
 
-  public static final Map<_Fields, FieldMetaData> metaDataMap;
+  public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.FILE_COUNT, new FieldMetaData("fileCount", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I64)));
-    tmpMap.put(_Fields.DIRECTORY_COUNT, new FieldMetaData("directoryCount", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I64)));
-    tmpMap.put(_Fields.QUOTA, new FieldMetaData("quota", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I64)));
-    tmpMap.put(_Fields.SPACE_CONSUMED, new FieldMetaData("spaceConsumed", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I64)));
-    tmpMap.put(_Fields.SPACE_QUOTA, new FieldMetaData("spaceQuota", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I64)));
-    tmpMap.put(_Fields.PATH, new FieldMetaData("path", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.STRING)));
+    Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.FILE_COUNT, new org.apache.thrift.meta_data.FieldMetaData("fileCount", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.DIRECTORY_COUNT, new org.apache.thrift.meta_data.FieldMetaData("directoryCount", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.QUOTA, new org.apache.thrift.meta_data.FieldMetaData("quota", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.SPACE_CONSUMED, new org.apache.thrift.meta_data.FieldMetaData("spaceConsumed", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.SPACE_QUOTA, new org.apache.thrift.meta_data.FieldMetaData("spaceQuota", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.PATH, new org.apache.thrift.meta_data.FieldMetaData("path", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    FieldMetaData.addStructMetaDataMap(ContentSummary.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ContentSummary.class, metaDataMap);
   }
 
   public ContentSummary() {
@@ -264,7 +258,7 @@ public class ContentSummary implements TBase<ContentSummary, ContentSummary._Fie
     __isset_bit_vector.clear(__FILECOUNT_ISSET_ID);
   }
 
-  /** Returns true if field fileCount is set (has been asigned a value) and false otherwise */
+  /** Returns true if field fileCount is set (has been assigned a value) and false otherwise */
   public boolean isSetFileCount() {
     return __isset_bit_vector.get(__FILECOUNT_ISSET_ID);
   }
@@ -293,7 +287,7 @@ public class ContentSummary implements TBase<ContentSummary, ContentSummary._Fie
     __isset_bit_vector.clear(__DIRECTORYCOUNT_ISSET_ID);
   }
 
-  /** Returns true if field directoryCount is set (has been asigned a value) and false otherwise */
+  /** Returns true if field directoryCount is set (has been assigned a value) and false otherwise */
   public boolean isSetDirectoryCount() {
     return __isset_bit_vector.get(__DIRECTORYCOUNT_ISSET_ID);
   }
@@ -322,7 +316,7 @@ public class ContentSummary implements TBase<ContentSummary, ContentSummary._Fie
     __isset_bit_vector.clear(__QUOTA_ISSET_ID);
   }
 
-  /** Returns true if field quota is set (has been asigned a value) and false otherwise */
+  /** Returns true if field quota is set (has been assigned a value) and false otherwise */
   public boolean isSetQuota() {
     return __isset_bit_vector.get(__QUOTA_ISSET_ID);
   }
@@ -351,7 +345,7 @@ public class ContentSummary implements TBase<ContentSummary, ContentSummary._Fie
     __isset_bit_vector.clear(__SPACECONSUMED_ISSET_ID);
   }
 
-  /** Returns true if field spaceConsumed is set (has been asigned a value) and false otherwise */
+  /** Returns true if field spaceConsumed is set (has been assigned a value) and false otherwise */
   public boolean isSetSpaceConsumed() {
     return __isset_bit_vector.get(__SPACECONSUMED_ISSET_ID);
   }
@@ -380,7 +374,7 @@ public class ContentSummary implements TBase<ContentSummary, ContentSummary._Fie
     __isset_bit_vector.clear(__SPACEQUOTA_ISSET_ID);
   }
 
-  /** Returns true if field spaceQuota is set (has been asigned a value) and false otherwise */
+  /** Returns true if field spaceQuota is set (has been assigned a value) and false otherwise */
   public boolean isSetSpaceQuota() {
     return __isset_bit_vector.get(__SPACEQUOTA_ISSET_ID);
   }
@@ -408,7 +402,7 @@ public class ContentSummary implements TBase<ContentSummary, ContentSummary._Fie
     this.path = null;
   }
 
-  /** Returns true if field path is set (has been asigned a value) and false otherwise */
+  /** Returns true if field path is set (has been assigned a value) and false otherwise */
   public boolean isSetPath() {
     return this.path != null;
   }
@@ -496,7 +490,7 @@ public class ContentSummary implements TBase<ContentSummary, ContentSummary._Fie
     throw new IllegalStateException();
   }
 
-  /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
     if (field == null) {
       throw new IllegalArgumentException();
@@ -639,7 +633,7 @@ public class ContentSummary implements TBase<ContentSummary, ContentSummary._Fie
       return lastComparison;
     }
     if (isSetFileCount()) {
-      lastComparison = TBaseHelper.compareTo(this.fileCount, typedOther.fileCount);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.fileCount, typedOther.fileCount);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -649,7 +643,7 @@ public class ContentSummary implements TBase<ContentSummary, ContentSummary._Fie
       return lastComparison;
     }
     if (isSetDirectoryCount()) {
-      lastComparison = TBaseHelper.compareTo(this.directoryCount, typedOther.directoryCount);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.directoryCount, typedOther.directoryCount);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -659,7 +653,7 @@ public class ContentSummary implements TBase<ContentSummary, ContentSummary._Fie
       return lastComparison;
     }
     if (isSetQuota()) {
-      lastComparison = TBaseHelper.compareTo(this.quota, typedOther.quota);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.quota, typedOther.quota);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -669,7 +663,7 @@ public class ContentSummary implements TBase<ContentSummary, ContentSummary._Fie
       return lastComparison;
     }
     if (isSetSpaceConsumed()) {
-      lastComparison = TBaseHelper.compareTo(this.spaceConsumed, typedOther.spaceConsumed);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.spaceConsumed, typedOther.spaceConsumed);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -679,7 +673,7 @@ public class ContentSummary implements TBase<ContentSummary, ContentSummary._Fie
       return lastComparison;
     }
     if (isSetSpaceQuota()) {
-      lastComparison = TBaseHelper.compareTo(this.spaceQuota, typedOther.spaceQuota);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.spaceQuota, typedOther.spaceQuota);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -689,7 +683,7 @@ public class ContentSummary implements TBase<ContentSummary, ContentSummary._Fie
       return lastComparison;
     }
     if (isSetPath()) {
-      lastComparison = TBaseHelper.compareTo(this.path, typedOther.path);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.path, typedOther.path);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -701,65 +695,65 @@ public class ContentSummary implements TBase<ContentSummary, ContentSummary._Fie
     return _Fields.findByThriftId(fieldId);
   }
 
-  public void read(TProtocol iprot) throws TException {
-    TField field;
+  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+    org.apache.thrift.protocol.TField field;
     iprot.readStructBegin();
     while (true)
     {
       field = iprot.readFieldBegin();
-      if (field.type == TType.STOP) { 
+      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
         break;
       }
       switch (field.id) {
         case 1: // FILE_COUNT
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.fileCount = iprot.readI64();
             setFileCountIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 2: // DIRECTORY_COUNT
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.directoryCount = iprot.readI64();
             setDirectoryCountIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 3: // QUOTA
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.quota = iprot.readI64();
             setQuotaIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 4: // SPACE_CONSUMED
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.spaceConsumed = iprot.readI64();
             setSpaceConsumedIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 5: // SPACE_QUOTA
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.spaceQuota = iprot.readI64();
             setSpaceQuotaIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 6: // PATH
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.path = iprot.readString();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         default:
-          TProtocolUtil.skip(iprot, field.type);
+          org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
       }
       iprot.readFieldEnd();
     }
@@ -769,7 +763,7 @@ public class ContentSummary implements TBase<ContentSummary, ContentSummary._Fie
     validate();
   }
 
-  public void write(TProtocol oprot) throws TException {
+  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
@@ -833,8 +827,26 @@ public class ContentSummary implements TBase<ContentSummary, ContentSummary._Fie
     return sb.toString();
   }
 
-  public void validate() throws TException {
+  public void validate() throws org.apache.thrift.TException {
     // check for required fields
+  }
+
+  private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+    try {
+      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
+  }
+
+  private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+    try {
+      // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+      __isset_bit_vector = new BitSet(1);
+      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
   }
 
 }
