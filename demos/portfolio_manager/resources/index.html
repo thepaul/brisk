@@ -4,7 +4,7 @@
 <html lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	<title>DataStax Portfolio Manager Demo</title>
+	<title>Brisk Portfolio Manager Demo</title>
     <style>
         body {
             font-family: Tahoma,Arial,sans-serif;
@@ -122,37 +122,58 @@
   	<script src="portfolio_types.js" type="text/javascript" charset="utf-8"></script>
   	<script src="PortfolioMgr.js" type="text/javascript" charset="utf-8"></script>
 	<script type="text/javascript" charset="utf-8">
+	
+	    page_state = [];
+	
         function prev() {
-            alert('goprev');
-        }
-        function next() {
-            alert('gonext');
+
+	    if(page_state.length > 2)
+               page_state.pop();
+	    else
+	       return;
+
+	    page_state.pop();
+            
+            var portfolios = client.get_portfolios(page_state[page_state.length-1],9);
+            loadfolio(portfolios);
         }
         
-	  $(document).ready(function(){
-	    var transport = new Thrift.Transport("service")
-	    var protocol  = new Thrift.Protocol(transport)
-	    var client    = new PortfolioMgrClient(protocol)
-	
-	    var portfolios = client.get_portfolios("",9);
-		if(portfolios != undefined)
-		{
-			for(i=0; i<portfolios.length; i++)
-			{
-			   
-			   var change = portfolios[i].price > portfolios[i].basis ? (portfolios[i].basis/portfolios[i].price) : -1*(portfolios[i].price/portfolios[i].basis);			 
-			   change *= 100;
-			   			   
-			   var phtml = '<div class="portfolio">'+
+        function next(){
+            var portfolios = client.get_portfolios(page_state[page_state.length-1],9);
+            loadfolio(portfolios);
+        }
+
+
+        function reload(){
+	    page_state.pop();
+            var portfolios = client.get_portfolios(page_state[page_state.length-1],9);
+            loadfolio(portfolios);
+        }
+        
+        function loadfolio(portfolios)
+        {
+          if(portfolios != undefined)
+          {
+	    document.getElementById('content').innerHTML = "";
+
+            for(i=0; i<portfolios.length; i++)
+            {
+            
+               if(i == (portfolios.length-1))
+                 page_state.push(portfolios[i].name);
+               
+               var change = portfolios[i].price > portfolios[i].basis ? (portfolios[i].basis/portfolios[i].price) : -1*(portfolios[i].price/portfolios[i].basis);            
+               change *= 100;
+                           
+               var phtml = '<div class="portfolio">'+
                    '<div class="cell name">Portfolio #'+portfolios[i].name+'</div>'+
                    '<div class="cell price">' +
                         '<span class="money">$'+portfolios[i].price.toFixed(2)+'</span> ('+
                         '<span class="change-'+(change >= 0 ? 'pos' : 'neg')+'">'+
                         (change > 0 ? '+' : '')+change.toFixed(0)+'%</span>)</div>'+
                    '<div class="clearfix"></div>';
-            
-            
-            //Line chart  
+                        
+              //Line chart  
                var lhtml = '';
                var minp = 10000000000;
                for(j=0; j< portfolios[i].hist_prices.length; j++)
@@ -169,10 +190,10 @@
                 lhtml += (portfolios[i].hist_prices[j].toFixed(0)/minp)*3;                 
                }
                
-                phtml += '<div class="chart linechart"><img src="https://chart.googleapis.com/chart?cht=ls&chs=80x20&chd=t:'+lhtml+'"/></div>';
+              phtml += '<div class="chart linechart"><img src="https://chart.googleapis.com/chart?cht=ls&chs=80x20&chd=t:'+lhtml+'"/></div>';
               
              
-             //Pie chart                   
+              //Pie chart                   
               var chartvals = "";
               var chartkeys = "";
               
@@ -196,19 +217,28 @@
                //Show loss info    
                if(portfolios[i].largest_10day_loss != 0.0)
                   phtml += '<div class="loss"><label>Largest Historical 10day Loss:</label>'+portfolios[i].largest_10day_loss.toFixed(2)+'('+portfolios[i].largest_10day_loss_date+')</div>';
-			   else
-			      phtml += '<div class="loss"><label>Largest Historical 10day Loss:</label>?</div>';
-			     
-			   
-			   phtml += '</div>';
-			   
-			   document.getElementById('content').innerHTML += phtml;
-				
-                   
-              }
-				
-				
-		}
+               else
+                  phtml += '<div class="loss"><label>Largest Historical 10day Loss:</label>?</div>';
+                 
+               
+               phtml += '</div>';
+               
+               document.getElementById('content').innerHTML += phtml;
+                                  
+            }
+         }       
+      }
+        
+	  $(document).ready(function(){
+	    var transport = new Thrift.Transport("service")
+	    var protocol  = new Thrift.Protocol(transport)
+	    client    = new PortfolioMgrClient(protocol)
+	
+	    page_state.push("");
+	
+	    var portfolios = client.get_portfolios("",9);
+		
+	    loadfolio(portfolios);
 	 });
 	</script>
 </head>
@@ -219,7 +249,7 @@
 <img src="logo.png" width="200" align="right" />
 <h1>Portfolio Manager Demo</h1>
 </div>
-<div id="nav"><a href="javascript:void(0);" onclick="prev();">&lsaquo; Previous</a> | <a
+<div id="nav"><a href="javascript:void(0);" onclick="prev();">&lsaquo; Previous</a> | <a href="javascript:void(0);" onclick="reload();">Refresh</a> | <a
 href="javascript:void(0);" onclick="next();">Next &rsaquo;</a></div>
 <div id="content"></div>
 <br/>

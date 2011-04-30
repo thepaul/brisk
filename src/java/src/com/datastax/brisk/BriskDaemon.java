@@ -1,9 +1,14 @@
 package com.datastax.brisk;
 
+import java.io.InputStream;
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.concurrent.ExecutorService;
+import java.util.Properties;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,16 +21,46 @@ import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TThreadPoolServer;
 import org.apache.thrift.transport.*;
 
-public class BriskDaemon extends org.apache.cassandra.service.AbstractCassandraDaemon
+public class BriskDaemon extends org.apache.cassandra.service.AbstractCassandraDaemon implements BriskDaemonMBean
 {
 
     private static Logger logger = LoggerFactory.getLogger(BriskDaemon.class);
     private ThriftServer server;
+
+    public String getReleaseVersion()
+    {
+        try
+        {
+            InputStream in = BriskDaemon.class.getClassLoader().getResourceAsStream("com/datastax/brisk/version.properties");
+            if (in == null)
+            {
+                return "Unknown";
+            }
+            Properties props = new Properties();
+            props.load(in);
+            return props.getProperty("BriskVersion");
+        }
+        catch (Exception e)
+        {
+            logger.warn("Unable to load version.properties", e);
+            return "debug version";
+        }
+    }
     
     protected void setup() throws IOException
     {     
         super.setup();
      
+        MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+        try
+        {
+            mbs.registerMBean(this, new ObjectName("com.datastax.brisk:type=BriskDaemon"));
+        }
+
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
         //Start hadoop trackers...
         if(TrackerInitializer.isTrackerNode)
         {

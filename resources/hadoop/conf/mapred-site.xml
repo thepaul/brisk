@@ -17,7 +17,7 @@
 <property><name>mapred.reduce.tasksperslot</name><value>1.75</value></property>
 <property><name>mapred.tasktracker.reduce.tasks.maximum</name><value>3</value></property>
 <property><name>mapred.compress.map.output</name><value>true</value></property>
-<!--<property><name>mapred.map.output.compression.codec</name><value>com.hadoop.compression.lzo.LzoCodec</value></property>-->
+<!--<property><name>mapred.map.output.compression.codec</name><value>com.hadoop.compression.lzo.LzoCodec</value></property> -->
 <property><name>mapred.output.compression.codec</name><value>org.apache.hadoop.io.compress.GzipCodec</value></property>
 <property><name>io.sort.mb</name><value>200</value></property>
 <property><name>mapred.map.tasks</name><value>2</value></property>

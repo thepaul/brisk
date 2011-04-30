@@ -76,6 +76,7 @@ exit 0
 %defattr(-,root,root,0755)
 # do we need a %doc task?
 %attr(755,root,root) %{_bindir}/*
+%attr(755,%{username},%{username}) %config(noreplace) /%{_sysconfdir}/%{briskname}/hadoop
 
 # chown on brisk as cassandra is our only user for now
 %attr(755,%{username},%{username}) /usr/share/%{briskname}*
@@ -87,7 +88,7 @@ exit 0
 %postun
 # only delete alternative on removal, not upgrade
 if [ "$1" = "0" ]; then
-    alternatives --remove %{username} /usr/share/%{briskname}/hadoop/default.conf/
+    alternatives --remove %{username} /etc/%{briskname}/hadoop/default.conf/
 fi
 exit 0
 

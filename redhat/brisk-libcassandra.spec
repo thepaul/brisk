@@ -137,7 +137,7 @@ exit 0
 %postun
 # only delete alternative on removal, not upgrade
 if [ "$1" = "0" ]; then
-    alternatives --remove %{username} /usr/share/%{briskname}/%{username}/default.conf/
+    alternatives --remove %{username} /etc/%{briskname}/%{username}/default.conf/
 fi
 exit 0
 

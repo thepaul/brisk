@@ -41,8 +41,8 @@ import org.apache.cassandra.utils.FBUtilities;
 public class BriskSimpleSnitch extends AbstractEndpointSnitch
 {
     protected static Logger logger = LoggerFactory.getLogger(BriskSimpleSnitch.class);
-    public static final String BRISK_DC = "BriskHadoopAnalyticsReplicaGroup";
-    public static final String DEFAULT_DC = "CassandraLiveReplicaGroup";
+    public static final String BRISK_DC = "Brisk";
+    public static final String DEFAULT_DC = "Cassandra";
     
     protected String myDC;
 

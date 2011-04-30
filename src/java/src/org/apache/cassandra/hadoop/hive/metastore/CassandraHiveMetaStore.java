@@ -287,7 +287,11 @@ public class CassandraHiveMetaStore implements RawStore {
         else
         {
             List<TBase> removeable = updateTableComponents(databaseName, null, oldTableName, table);
-            dropTable(databaseName, oldTableName);
+            //dropTable(databaseName, oldTableName);
+            Table oldTable = new Table();
+            oldTable.setDbName(databaseName);
+            oldTable.setTableName(oldTableName);
+            metaStorePersister.remove(oldTable, databaseName);
             if ( removeable != null && !removeable.isEmpty() )
                 metaStorePersister.removeAll(removeable, databaseName);
         }
@@ -333,7 +337,16 @@ public class CassandraHiveMetaStore implements RawStore {
         Table table = new Table();
         table.setDbName(databaseName);
         table.setTableName(tableName);
+        List<TBase> removeables = new ArrayList<TBase>();
+        List<Partition> partitions = getPartitions(databaseName, tableName, -1);
+        if ( partitions != null && !partitions.isEmpty() )
+            removeables.addAll(partitions);
+        List<Index> indexes = getIndexes(databaseName, tableName, -1);
+        if ( indexes != null && !indexes.isEmpty() )
+            removeables.addAll(indexes);
         metaStorePersister.remove(table, databaseName);
+        if ( !removeables.isEmpty() )
+            metaStorePersister.removeAll(removeables, databaseName);
         return true;
     }
     
@@ -473,13 +486,12 @@ public class CassandraHiveMetaStore implements RawStore {
     public boolean dropPartition(String databaseName, String tableName, List<String> partitions)
             throws MetaException
     {   
-        // TODO regigger this to build 1 partition internally for each of partitions?
         Partition partition = new Partition();
         partition.setDbName(databaseName);
         partition.setTableName(tableName);
         partition.setValues(partitions);
         if ( log.isDebugEnabled() )
-            log.debug("Dropping partition: ", partition);
+            log.debug("Dropping partition: {}", partition);
         metaStorePersister.remove(partition, databaseName);
         return true;
     }       
