@@ -54,12 +54,12 @@ import org.apache.thrift.TException;
  * -------------------
  * |      inode       |
  * -------------------
- *  {key : [<path>: <  > ] [<sentinel>: <   >] [ <datacol> : < all blocks with its subBlocks serialized>] }
+ *  {key : [<path>: <  > ], [<sentinel>: <   >], [ <datacol> : < all blocks with its subBlocks serialized>] }
  *  
  *  ------------------
  * |     sblocks      |
  *  ------------------
- *  { key(subBlockId): [<datacol> : <data itself. this is where the info is saved>]}
+ *  { key(Block UUID): [<subBlockUUID> : <data>>], [<subBlockUUID> : <data>>], .......[<subBlockUUID> : <data>>] }
  */
 public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 {
