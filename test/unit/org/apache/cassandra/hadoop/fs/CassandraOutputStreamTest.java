@@ -13,6 +13,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.apache.cassandra.CleanupHelper;
 import org.apache.cassandra.EmbeddedServer;
@@ -263,9 +264,9 @@ public class CassandraOutputStreamTest extends CleanupHelper
 		}
 
 		@Override
-		public void storeSubBlock(SubBlock block, ByteArrayOutputStream file) throws IOException {
+		public void storeSubBlock(UUID currentBlockUUID, SubBlock subBlock, ByteArrayOutputStream file)  throws IOException {
 			storeSubBlockCount++;
-			subBlocksStored.add(block);
+			subBlocksStored.add(subBlock);
 		}
 
 		@Override
@@ -282,7 +283,7 @@ public class CassandraOutputStreamTest extends CleanupHelper
 		public void deleteINode(Path path) throws IOException {}
 
 		@Override
-		public void deleteBlock(Block block) throws IOException {}
+		public void deleteSubBlocks(INode inode) throws IOException {}
 
 		@Override
 		public Set<Path> listSubPaths(Path path) throws IOException {
@@ -300,8 +301,7 @@ public class CassandraOutputStreamTest extends CleanupHelper
 		}
 
 		@Override
-		public InputStream retrieveSubBlock(SubBlock subBlock,
-				long byteRangeStart) throws IOException {
+		public InputStream retrieveSubBlock(Block block, SubBlock subBlock, long byteRangeStart) throws IOException {
 			// TODO Auto-generated method stub
 			return null;
 		}

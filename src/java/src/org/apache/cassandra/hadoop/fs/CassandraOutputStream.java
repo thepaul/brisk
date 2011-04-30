@@ -71,6 +71,12 @@ public class CassandraOutputStream extends OutputStream
     private final Progressable       progress;
     
     private FsPermission             perms;
+    
+    /**
+     * Holds the current block UUID to be written.
+     * Since the subBLock is written first, we need to know the Block UUID ahead of time. 
+     */
+    private UUID                     currentBlockUUID;
 
     public CassandraOutputStream(Configuration conf, CassandraFileSystemStore store, Path path, FsPermission perms, 
             long blockSize, long subBlockSize, Progressable progress, int buffersize) throws IOException
@@ -85,6 +91,7 @@ public class CassandraOutputStream extends OutputStream
         this.progress = progress;
         this.outBuf = new byte[bufferSize];
         this.perms = perms;
+        this.currentBlockUUID = generateTimeUUID();
         
         // Integrity check.
         if (blockSize < subBlockSize) 
@@ -259,7 +266,7 @@ public class CassandraOutputStream extends OutputStream
     	
     	nextSubBlockOutputStream();
     	
-    	store.storeSubBlock(nextSubBlock, backupStream);
+    	store.storeSubBlock(currentBlockUUID, nextSubBlock, backupStream);
     	
     	// Get the stream ready for next subBlock
     	backupStream.reset();
@@ -270,9 +277,8 @@ public class CassandraOutputStream extends OutputStream
     
     private synchronized void nextSubBlockOutputStream() {
     	// SubBlock  offset ==> bytesWrittenToBlock - bytesWrittenToSubBlock - pos
-        nextSubBlock = new SubBlock(UUIDGen.makeType1UUIDFromHost(
-        		FBUtilities.getLocalAddress()), 
-        		bytesWrittenToBlock - bytesWrittenToSubBlock - pos, bytesWrittenToSubBlock);
+        nextSubBlock = new SubBlock(generateTimeUUID(), 
+                                    bytesWrittenToBlock - bytesWrittenToSubBlock - pos, bytesWrittenToSubBlock);
 
         subBlocks.add(nextSubBlock);
         
@@ -282,17 +288,23 @@ public class CassandraOutputStream extends OutputStream
 
     private synchronized void nextBlockOutputStream() throws IOException
     {
-        nextBlock = new Block(UUIDGen.makeType1UUIDFromHost(
-        		FBUtilities.getLocalAddress()), 
-        		filePos - bytesWrittenToBlock - pos, bytesWrittenToBlock,
-        		subBlocks.toArray(new SubBlock[subBlocks.size()]));
+        nextBlock = new Block(currentBlockUUID, 
+                              filePos - bytesWrittenToBlock - pos, bytesWrittenToBlock,
+                              subBlocks.toArray(new SubBlock[subBlocks.size()]));
         blocks.add(nextBlock);
         // Clean up the sub blocks collection for the next block.
         subBlocks.clear();
         bytesWrittenToBlock = 0;
+        
+        // Generate the next UUID for the upcoming block so that subBlocks can reference to it.
+        currentBlockUUID = generateTimeUUID();
     }
 
-    private synchronized void internalClose() throws IOException
+    private UUID generateTimeUUID() {
+		return UUIDGen.makeType1UUIDFromHost(FBUtilities.getLocalAddress());
+	}
+
+	private synchronized void internalClose() throws IOException
     {
         INode inode = new INode(
         		System.getProperty("user.name","none"), 

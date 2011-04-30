@@ -52,14 +52,15 @@ service Brisk extends cassandra.Cassandra
   list<list<string>> describe_keys(1:required string keyspace, 2:required list<binary> keys)
    throws (1:InvalidRequestException ire, 2:UnavailableException ue, 3:TimedOutException te),
     
-  /** returns a local or remote block
+  /** returns a local or remote sub block
    * 
-   * A remote block is the expected binary block data
+   * A remote sub block is the expected binary sub block data
    *
-   * A local block is the file, offset and length for the calling application to read
+   * A local sub block is the file, offset and length for the calling application to read
    * This is a great optimization because it avoids any actual data transfer.
+   * 
    */
-   LocalOrRemoteBlock get_cfs_block(1:required string caller_host_name, 2:required binary block_id, 3:i32 offset=0)
+   LocalOrRemoteBlock get_cfs_sblock(1:required string caller_host_name, 2:required binary block_id, 3:required binary sblock_id, 4:i32 offset=0)
     throws (1:InvalidRequestException ire, 2:UnavailableException ue, 3:TimedOutException te, 4:NotFoundException nfe),
 
 }

@@ -35,13 +35,14 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
 
     static final String     cfsKeyspace    = "cfs";
     static final String     cfsInodeFamily = "inode";
-    static final String     cfsBlockFamily = "sblocks";
+    static final String     cfsSubBlockFamily = "sblocks";
     
     static final ByteBuffer dataCol        = ByteBufferUtil.bytes("data");
-    static final ColumnParent blockDataPath= new ColumnParent(cfsBlockFamily);
+    static final ColumnParent subBlockDataPath= new ColumnParent(cfsSubBlockFamily);
     static final QueryPath    inodeQueryPath =  new QueryPath(cfsInodeFamily, null, dataCol);
 
-    public LocalOrRemoteBlock get_cfs_block(String callerHostName, ByteBuffer blockId, int offset) throws TException, TimedOutException, UnavailableException, InvalidRequestException, NotFoundException
+    public LocalOrRemoteBlock get_cfs_sblock(String callerHostName, ByteBuffer blockId,
+    		ByteBuffer sblockId, int offset) throws TException, TimedOutException, UnavailableException, InvalidRequestException, NotFoundException
     {
 
         // This logic is only used on mmap spec machines
@@ -55,7 +56,7 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
             
             for (String hostName : hosts)
             {
-                logger.info("Block "+blockId+" lives on "+hostName);
+                logger.info("Block " + blockId + " lives on " + hostName);
                 
                 if (hostName.equals(callerHostName) && hostName.equals(FBUtilities.getLocalAddress().getHostName()))
                 {
@@ -69,7 +70,7 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
             {
                 logger.info("Local block should be on this node "+blockId);
                 
-                LocalBlock localBlock = getLocalBlock(blockId, offset);               
+                LocalBlock localBlock = getLocalSubBlock(blockId, sblockId, offset);
                 
                 if(localBlock != null)
                 {
@@ -83,7 +84,7 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
         logger.info("Checking for remote block: "+blockId);
        
         //Fallback to storageProxy
-        return getRemoteBlock(blockId, offset);
+        return getRemoteSubBlock(blockId, sblockId, offset);
         
     }
 
@@ -114,16 +115,27 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
         return hosts;
     }
 
-    private LocalBlock getLocalBlock(ByteBuffer blockId, int offset) throws TException
+    /**
+     * Retrieves a local subBlock
+     * 
+     * @param blockId row key
+     * @param sblockId SubBlock column name
+     * @param offset inside the sblock
+     * @return a local sublock
+     * @throws TException
+     */
+    private LocalBlock getLocalSubBlock(ByteBuffer blockId, ByteBuffer sblockId, int offset) throws TException
     {
 
+    	// TODO (use sblockId as Column name to look up the Sub Column.
+    	
         DecoratedKey<Token<?>> decoratedKey = new DecoratedKey<Token<?>>(StorageService.getPartitioner().getToken(
                 blockId), blockId);
 
         Table table = Table.open(cfsKeyspace);
-        ColumnFamilyStore blockStore = table.getColumnFamilyStore(cfsBlockFamily);
+        ColumnFamilyStore sblockStore = table.getColumnFamilyStore(cfsSubBlockFamily);
 
-        Collection<SSTableReader> sstables = blockStore.getSSTables();
+        Collection<SSTableReader> sstables = sblockStore.getSSTables();
 
         for (SSTableReader sstable : sstables)
         { 
@@ -194,7 +206,7 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
 
                 // verify column name
                 ByteBuffer name = ByteBufferUtil.readWithShortLength(file);
-                assert name.equals(dataCol);
+                assert name.equals(sblockId);
 
                 // verify column type;
                 int b = file.readUnsignedByte();
@@ -205,21 +217,21 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
 
                 // skip ts
                 long ts = file.readLong();
-                int blockLength = file.readInt();
+                int sblockLength = file.readInt();
 
                 int bytesReadFromStart = mappedLength - (int)file.bytesRemaining();
 
-                logger.info("BlockLength = "+blockLength+" Availible "+file.bytesRemaining());
+                logger.info("BlockLength = "+sblockLength+" Availible "+file.bytesRemaining());
                 
-                assert offset <= blockLength : String.format("%d > %d", offset,  blockLength);
+                assert offset <= sblockLength : String.format("%d > %d", offset,  sblockLength);
 
                 long dataOffset = position + bytesReadFromStart;
                 
-                if(file.bytesRemaining() == 0 || blockLength == 0)
+                if(file.bytesRemaining() == 0 || sblockLength == 0)
                     return null;
                 
 
-                return new LocalBlock(file.getPath(), dataOffset + offset, blockLength - offset);
+                return new LocalBlock(file.getPath(), dataOffset + offset, sblockLength - offset);
 
             }
             catch (IOException e)
@@ -236,29 +248,17 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
         return null;
     }
 
-    private LocalOrRemoteBlock getRemoteBlock(ByteBuffer blockId, int offset) throws TimedOutException, UnavailableException, InvalidRequestException, NotFoundException
+    private LocalOrRemoteBlock getRemoteSubBlock(ByteBuffer blockId, ByteBuffer sblockId, int offset) throws TimedOutException, UnavailableException, InvalidRequestException, NotFoundException
     {
-        ReadCommand rc = new SliceByNamesReadCommand(cfsKeyspace, blockId, blockDataPath, Arrays.asList(dataCol));
-             
+        // The column name is the SubBlock id (UUID)
+        ReadCommand rc = new SliceByNamesReadCommand(cfsKeyspace, blockId, subBlockDataPath, Arrays.asList(sblockId));
+
         try
         {
+            // CL=ONE as there are NOT multiple versions of the blocks.
             List<Row> rows = StorageProxy.read(Arrays.asList(rc), ConsistencyLevel.ONE);
             
-            if(rows.isEmpty())
-                throw new NotFoundException();
-            
-            if(rows.size() > 1)
-                throw new RuntimeException("Block id returned more than one row");
-            
-            Row row = rows.get(0);
-            if(row.cf == null)
-                throw new NotFoundException();
-            
-            IColumn col = row.cf.getColumn(dataCol);
-            
-            if(col == null || !col.isLive())
-                throw new NotFoundException();
-            
+            IColumn col = validateAndGetColumn(rows, sblockId);
             
             ByteBuffer value = col.value();
             
@@ -289,5 +289,25 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
             throw new TimedOutException();
         }
     }
-    
+
+
+    private IColumn validateAndGetColumn(List<Row> rows, ByteBuffer columnName) throws NotFoundException {
+        if(rows.isEmpty())
+            throw new NotFoundException();
+
+        if(rows.size() > 1)
+            throw new RuntimeException("Block id returned more than one row");
+
+        Row row = rows.get(0);
+        if(row.cf == null)
+            throw new NotFoundException();
+
+        IColumn col = row.cf.getColumn(columnName);
+
+        if(col == null || !col.isLive())
+            throw new NotFoundException();
+
+        return col;
+    }
+
 }

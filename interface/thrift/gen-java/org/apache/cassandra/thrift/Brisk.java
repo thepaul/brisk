@@ -21,12 +21,6 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.apache.thrift.*;
-import org.apache.thrift.async.*;
-import org.apache.thrift.meta_data.*;
-import org.apache.thrift.transport.*;
-import org.apache.thrift.protocol.*;
-
 public class Brisk {
 
   public interface Iface extends org.apache.cassandra.thrift.Cassandra.Iface {
@@ -37,62 +31,64 @@ public class Brisk {
      * @param keyspace
      * @param keys
      */
-    public List<List<String>> describe_keys(String keyspace, List<ByteBuffer> keys) throws InvalidRequestException, UnavailableException, TimedOutException, TException;
+    public List<List<String>> describe_keys(String keyspace, List<ByteBuffer> keys) throws InvalidRequestException, UnavailableException, TimedOutException, org.apache.thrift.TException;
 
     /**
-     * returns a local or remote block
+     * returns a local or remote sub block
      * 
-     * A remote block is the expected binary block data
+     * A remote sub block is the expected binary sub block data
      * 
-     * A local block is the file, offset and length for the calling application to read
+     * A local sub block is the file, offset and length for the calling application to read
      * This is a great optimization because it avoids any actual data transfer.
+     * 
      * 
      * @param caller_host_name
      * @param block_id
+     * @param sblock_id
      * @param offset
      */
-    public LocalOrRemoteBlock get_cfs_block(String caller_host_name, ByteBuffer block_id, int offset) throws InvalidRequestException, UnavailableException, TimedOutException, NotFoundException, TException;
+    public LocalOrRemoteBlock get_cfs_sblock(String caller_host_name, ByteBuffer block_id, ByteBuffer sblock_id, int offset) throws InvalidRequestException, UnavailableException, TimedOutException, NotFoundException, org.apache.thrift.TException;
 
   }
 
   public interface AsyncIface extends org.apache.cassandra.thrift.Cassandra .AsyncIface {
 
-    public void describe_keys(String keyspace, List<ByteBuffer> keys, AsyncMethodCallback<AsyncClient.describe_keys_call> resultHandler) throws TException;
+    public void describe_keys(String keyspace, List<ByteBuffer> keys, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.describe_keys_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void get_cfs_block(String caller_host_name, ByteBuffer block_id, int offset, AsyncMethodCallback<AsyncClient.get_cfs_block_call> resultHandler) throws TException;
+    public void get_cfs_sblock(String caller_host_name, ByteBuffer block_id, ByteBuffer sblock_id, int offset, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.get_cfs_sblock_call> resultHandler) throws org.apache.thrift.TException;
 
   }
 
-  public static class Client extends org.apache.cassandra.thrift.Cassandra.Client implements TServiceClient, Iface {
-    public static class Factory implements TServiceClientFactory<Client> {
+  public static class Client extends org.apache.cassandra.thrift.Cassandra.Client implements org.apache.thrift.TServiceClient, Iface {
+    public static class Factory implements org.apache.thrift.TServiceClientFactory<Client> {
       public Factory() {}
-      public Client getClient(TProtocol prot) {
+      public Client getClient(org.apache.thrift.protocol.TProtocol prot) {
         return new Client(prot);
       }
-      public Client getClient(TProtocol iprot, TProtocol oprot) {
+      public Client getClient(org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) {
         return new Client(iprot, oprot);
       }
     }
 
-    public Client(TProtocol prot)
+    public Client(org.apache.thrift.protocol.TProtocol prot)
     {
       this(prot, prot);
     }
 
-    public Client(TProtocol iprot, TProtocol oprot)
+    public Client(org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot)
     {
       super(iprot, oprot);
     }
 
-    public List<List<String>> describe_keys(String keyspace, List<ByteBuffer> keys) throws InvalidRequestException, UnavailableException, TimedOutException, TException
+    public List<List<String>> describe_keys(String keyspace, List<ByteBuffer> keys) throws InvalidRequestException, UnavailableException, TimedOutException, org.apache.thrift.TException
     {
       send_describe_keys(keyspace, keys);
       return recv_describe_keys();
     }
 
-    public void send_describe_keys(String keyspace, List<ByteBuffer> keys) throws TException
+    public void send_describe_keys(String keyspace, List<ByteBuffer> keys) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("describe_keys", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("describe_keys", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       describe_keys_args args = new describe_keys_args();
       args.setKeyspace(keyspace);
       args.setKeys(keys);
@@ -101,16 +97,16 @@ public class Brisk {
       oprot_.getTransport().flush();
     }
 
-    public List<List<String>> recv_describe_keys() throws InvalidRequestException, UnavailableException, TimedOutException, TException
+    public List<List<String>> recv_describe_keys() throws InvalidRequestException, UnavailableException, TimedOutException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "describe_keys failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "describe_keys failed: out of sequence response");
       }
       describe_keys_result result = new describe_keys_result();
       result.read(iprot_);
@@ -127,39 +123,40 @@ public class Brisk {
       if (result.te != null) {
         throw result.te;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "describe_keys failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "describe_keys failed: unknown result");
     }
 
-    public LocalOrRemoteBlock get_cfs_block(String caller_host_name, ByteBuffer block_id, int offset) throws InvalidRequestException, UnavailableException, TimedOutException, NotFoundException, TException
+    public LocalOrRemoteBlock get_cfs_sblock(String caller_host_name, ByteBuffer block_id, ByteBuffer sblock_id, int offset) throws InvalidRequestException, UnavailableException, TimedOutException, NotFoundException, org.apache.thrift.TException
     {
-      send_get_cfs_block(caller_host_name, block_id, offset);
-      return recv_get_cfs_block();
+      send_get_cfs_sblock(caller_host_name, block_id, sblock_id, offset);
+      return recv_get_cfs_sblock();
     }
 
-    public void send_get_cfs_block(String caller_host_name, ByteBuffer block_id, int offset) throws TException
+    public void send_get_cfs_sblock(String caller_host_name, ByteBuffer block_id, ByteBuffer sblock_id, int offset) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("get_cfs_block", TMessageType.CALL, ++seqid_));
-      get_cfs_block_args args = new get_cfs_block_args();
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("get_cfs_sblock", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
+      get_cfs_sblock_args args = new get_cfs_sblock_args();
       args.setCaller_host_name(caller_host_name);
       args.setBlock_id(block_id);
+      args.setSblock_id(sblock_id);
       args.setOffset(offset);
       args.write(oprot_);
       oprot_.writeMessageEnd();
       oprot_.getTransport().flush();
     }
 
-    public LocalOrRemoteBlock recv_get_cfs_block() throws InvalidRequestException, UnavailableException, TimedOutException, NotFoundException, TException
+    public LocalOrRemoteBlock recv_get_cfs_sblock() throws InvalidRequestException, UnavailableException, TimedOutException, NotFoundException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "get_cfs_block failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "get_cfs_sblock failed: out of sequence response");
       }
-      get_cfs_block_result result = new get_cfs_block_result();
+      get_cfs_sblock_result result = new get_cfs_sblock_result();
       result.read(iprot_);
       iprot_.readMessageEnd();
       if (result.isSetSuccess()) {
@@ -177,44 +174,45 @@ public class Brisk {
       if (result.nfe != null) {
         throw result.nfe;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "get_cfs_block failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "get_cfs_sblock failed: unknown result");
     }
 
   }
   public static class AsyncClient extends org.apache.cassandra.thrift.Cassandra.AsyncClient implements AsyncIface {
-    public static class Factory implements TAsyncClientFactory<AsyncClient> {
-      private TAsyncClientManager clientManager;
-      private TProtocolFactory protocolFactory;
-      public Factory(TAsyncClientManager clientManager, TProtocolFactory protocolFactory) {
+    public static class Factory implements org.apache.thrift.async.TAsyncClientFactory<AsyncClient> {
+      private org.apache.thrift.async.TAsyncClientManager clientManager;
+      private org.apache.thrift.protocol.TProtocolFactory protocolFactory;
+      public Factory(org.apache.thrift.async.TAsyncClientManager clientManager, org.apache.thrift.protocol.TProtocolFactory protocolFactory) {
         this.clientManager = clientManager;
         this.protocolFactory = protocolFactory;
       }
-      public AsyncClient getAsyncClient(TNonblockingTransport transport) {
+      public AsyncClient getAsyncClient(org.apache.thrift.transport.TNonblockingTransport transport) {
         return new AsyncClient(protocolFactory, clientManager, transport);
       }
     }
 
-    public AsyncClient(TProtocolFactory protocolFactory, TAsyncClientManager clientManager, TNonblockingTransport transport) {
+    public AsyncClient(org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.async.TAsyncClientManager clientManager, org.apache.thrift.transport.TNonblockingTransport transport) {
       super(protocolFactory, clientManager, transport);
     }
 
-    public void describe_keys(String keyspace, List<ByteBuffer> keys, AsyncMethodCallback<describe_keys_call> resultHandler) throws TException {
+    public void describe_keys(String keyspace, List<ByteBuffer> keys, org.apache.thrift.async.AsyncMethodCallback<describe_keys_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       describe_keys_call method_call = new describe_keys_call(keyspace, keys, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class describe_keys_call extends TAsyncMethodCall {
+    public static class describe_keys_call extends org.apache.thrift.async.TAsyncMethodCall {
       private String keyspace;
       private List<ByteBuffer> keys;
-      public describe_keys_call(String keyspace, List<ByteBuffer> keys, AsyncMethodCallback<describe_keys_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public describe_keys_call(String keyspace, List<ByteBuffer> keys, org.apache.thrift.async.AsyncMethodCallback<describe_keys_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.keyspace = keyspace;
         this.keys = keys;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("describe_keys", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("describe_keys", org.apache.thrift.protocol.TMessageType.CALL, 0));
         describe_keys_args args = new describe_keys_args();
         args.setKeyspace(keyspace);
         args.setKeys(keys);
@@ -222,76 +220,80 @@ public class Brisk {
         prot.writeMessageEnd();
       }
 
-      public List<List<String>> getResult() throws InvalidRequestException, UnavailableException, TimedOutException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public List<List<String>> getResult() throws InvalidRequestException, UnavailableException, TimedOutException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_describe_keys();
       }
     }
 
-    public void get_cfs_block(String caller_host_name, ByteBuffer block_id, int offset, AsyncMethodCallback<get_cfs_block_call> resultHandler) throws TException {
+    public void get_cfs_sblock(String caller_host_name, ByteBuffer block_id, ByteBuffer sblock_id, int offset, org.apache.thrift.async.AsyncMethodCallback<get_cfs_sblock_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      get_cfs_block_call method_call = new get_cfs_block_call(caller_host_name, block_id, offset, resultHandler, this, protocolFactory, transport);
+      get_cfs_sblock_call method_call = new get_cfs_sblock_call(caller_host_name, block_id, sblock_id, offset, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class get_cfs_block_call extends TAsyncMethodCall {
+    public static class get_cfs_sblock_call extends org.apache.thrift.async.TAsyncMethodCall {
       private String caller_host_name;
       private ByteBuffer block_id;
+      private ByteBuffer sblock_id;
       private int offset;
-      public get_cfs_block_call(String caller_host_name, ByteBuffer block_id, int offset, AsyncMethodCallback<get_cfs_block_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public get_cfs_sblock_call(String caller_host_name, ByteBuffer block_id, ByteBuffer sblock_id, int offset, org.apache.thrift.async.AsyncMethodCallback<get_cfs_sblock_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.caller_host_name = caller_host_name;
         this.block_id = block_id;
+        this.sblock_id = sblock_id;
         this.offset = offset;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("get_cfs_block", TMessageType.CALL, 0));
-        get_cfs_block_args args = new get_cfs_block_args();
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("get_cfs_sblock", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        get_cfs_sblock_args args = new get_cfs_sblock_args();
         args.setCaller_host_name(caller_host_name);
         args.setBlock_id(block_id);
+        args.setSblock_id(sblock_id);
         args.setOffset(offset);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public LocalOrRemoteBlock getResult() throws InvalidRequestException, UnavailableException, TimedOutException, NotFoundException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public LocalOrRemoteBlock getResult() throws InvalidRequestException, UnavailableException, TimedOutException, NotFoundException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        return (new Client(prot)).recv_get_cfs_block();
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        return (new Client(prot)).recv_get_cfs_sblock();
       }
     }
 
   }
 
-  public static class Processor extends org.apache.cassandra.thrift.Cassandra.Processor implements TProcessor {
+  public static class Processor extends org.apache.cassandra.thrift.Cassandra.Processor implements org.apache.thrift.TProcessor {
     private static final Logger LOGGER = LoggerFactory.getLogger(Processor.class.getName());
     public Processor(Iface iface)
     {
       super(iface);
       iface_ = iface;
       processMap_.put("describe_keys", new describe_keys());
-      processMap_.put("get_cfs_block", new get_cfs_block());
+      processMap_.put("get_cfs_sblock", new get_cfs_sblock());
     }
 
     private Iface iface_;
 
-    public boolean process(TProtocol iprot, TProtocol oprot) throws TException
+    public boolean process(org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
     {
-      TMessage msg = iprot.readMessageBegin();
+      org.apache.thrift.protocol.TMessage msg = iprot.readMessageBegin();
       ProcessFunction fn = processMap_.get(msg.name);
       if (fn == null) {
-        TProtocolUtil.skip(iprot, TType.STRUCT);
+        org.apache.thrift.protocol.TProtocolUtil.skip(iprot, org.apache.thrift.protocol.TType.STRUCT);
         iprot.readMessageEnd();
-        TApplicationException x = new TApplicationException(TApplicationException.UNKNOWN_METHOD, "Invalid method name: '"+msg.name+"'");
-        oprot.writeMessageBegin(new TMessage(msg.name, TMessageType.EXCEPTION, msg.seqid));
+        org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.UNKNOWN_METHOD, "Invalid method name: '"+msg.name+"'");
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage(msg.name, org.apache.thrift.protocol.TMessageType.EXCEPTION, msg.seqid));
         x.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -302,15 +304,15 @@ public class Brisk {
     }
 
     private class describe_keys implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         describe_keys_args args = new describe_keys_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("describe_keys", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("describe_keys", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -328,14 +330,14 @@ public class Brisk {
           result.te = te;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing describe_keys", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing describe_keys");
-          oprot.writeMessageBegin(new TMessage("describe_keys", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing describe_keys");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("describe_keys", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("describe_keys", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("describe_keys", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -343,25 +345,25 @@ public class Brisk {
 
     }
 
-    private class get_cfs_block implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+    private class get_cfs_sblock implements ProcessFunction {
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
-        get_cfs_block_args args = new get_cfs_block_args();
+        get_cfs_sblock_args args = new get_cfs_sblock_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("get_cfs_block", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("get_cfs_sblock", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
         iprot.readMessageEnd();
-        get_cfs_block_result result = new get_cfs_block_result();
+        get_cfs_sblock_result result = new get_cfs_sblock_result();
         try {
-          result.success = iface_.get_cfs_block(args.caller_host_name, args.block_id, args.offset);
+          result.success = iface_.get_cfs_sblock(args.caller_host_name, args.block_id, args.sblock_id, args.offset);
         } catch (InvalidRequestException ire) {
           result.ire = ire;
         } catch (UnavailableException ue) {
@@ -371,15 +373,15 @@ public class Brisk {
         } catch (NotFoundException nfe) {
           result.nfe = nfe;
         } catch (Throwable th) {
-          LOGGER.error("Internal error processing get_cfs_block", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing get_cfs_block");
-          oprot.writeMessageBegin(new TMessage("get_cfs_block", TMessageType.EXCEPTION, seqid));
+          LOGGER.error("Internal error processing get_cfs_sblock", th);
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing get_cfs_sblock");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("get_cfs_sblock", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("get_cfs_block", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("get_cfs_sblock", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -389,17 +391,17 @@ public class Brisk {
 
   }
 
-  public static class describe_keys_args implements TBase<describe_keys_args, describe_keys_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("describe_keys_args");
+  public static class describe_keys_args implements org.apache.thrift.TBase<describe_keys_args, describe_keys_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("describe_keys_args");
 
-    private static final TField KEYSPACE_FIELD_DESC = new TField("keyspace", TType.STRING, (short)1);
-    private static final TField KEYS_FIELD_DESC = new TField("keys", TType.LIST, (short)2);
+    private static final org.apache.thrift.protocol.TField KEYSPACE_FIELD_DESC = new org.apache.thrift.protocol.TField("keyspace", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField KEYS_FIELD_DESC = new org.apache.thrift.protocol.TField("keys", org.apache.thrift.protocol.TType.LIST, (short)2);
 
     public String keyspace;
     public List<ByteBuffer> keys;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       KEYSPACE((short)1, "keyspace"),
       KEYS((short)2, "keys");
 
@@ -461,16 +463,16 @@ public class Brisk {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.KEYSPACE, new FieldMetaData("keyspace", TFieldRequirementType.REQUIRED, 
-          new FieldValueMetaData(TType.STRING)));
-      tmpMap.put(_Fields.KEYS, new FieldMetaData("keys", TFieldRequirementType.REQUIRED, 
-          new ListMetaData(TType.LIST, 
-              new FieldValueMetaData(TType.STRING))));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.KEYSPACE, new org.apache.thrift.meta_data.FieldMetaData("keyspace", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.KEYS, new org.apache.thrift.meta_data.FieldMetaData("keys", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+              new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING              , true))));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(describe_keys_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(describe_keys_args.class, metaDataMap);
     }
 
     public describe_keys_args() {
@@ -495,7 +497,7 @@ public class Brisk {
       if (other.isSetKeys()) {
         List<ByteBuffer> __this__keys = new ArrayList<ByteBuffer>();
         for (ByteBuffer other_element : other.keys) {
-          ByteBuffer temp_binary_element = TBaseHelper.copyBinary(other_element);
+          ByteBuffer temp_binary_element = org.apache.thrift.TBaseHelper.copyBinary(other_element);
 ;
           __this__keys.add(temp_binary_element);
         }
@@ -526,7 +528,7 @@ public class Brisk {
       this.keyspace = null;
     }
 
-    /** Returns true if field keyspace is set (has been asigned a value) and false otherwise */
+    /** Returns true if field keyspace is set (has been assigned a value) and false otherwise */
     public boolean isSetKeyspace() {
       return this.keyspace != null;
     }
@@ -565,7 +567,7 @@ public class Brisk {
       this.keys = null;
     }
 
-    /** Returns true if field keys is set (has been asigned a value) and false otherwise */
+    /** Returns true if field keys is set (has been assigned a value) and false otherwise */
     public boolean isSetKeys() {
       return this.keys != null;
     }
@@ -609,7 +611,7 @@ public class Brisk {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -688,7 +690,7 @@ public class Brisk {
         return lastComparison;
       }
       if (isSetKeyspace()) {
-        lastComparison = TBaseHelper.compareTo(this.keyspace, typedOther.keyspace);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.keyspace, typedOther.keyspace);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -698,7 +700,7 @@ public class Brisk {
         return lastComparison;
       }
       if (isSetKeys()) {
-        lastComparison = TBaseHelper.compareTo(this.keys, typedOther.keys);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.keys, typedOther.keys);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -710,27 +712,27 @@ public class Brisk {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 1: // KEYSPACE
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.keyspace = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 2: // KEYS
-            if (field.type == TType.LIST) {
+            if (field.type == org.apache.thrift.protocol.TType.LIST) {
               {
-                TList _list0 = iprot.readListBegin();
+                org.apache.thrift.protocol.TList _list0 = iprot.readListBegin();
                 this.keys = new ArrayList<ByteBuffer>(_list0.size);
                 for (int _i1 = 0; _i1 < _list0.size; ++_i1)
                 {
@@ -741,11 +743,11 @@ public class Brisk {
                 iprot.readListEnd();
               }
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -755,7 +757,7 @@ public class Brisk {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -767,7 +769,7 @@ public class Brisk {
       if (this.keys != null) {
         oprot.writeFieldBegin(KEYS_FIELD_DESC);
         {
-          oprot.writeListBegin(new TList(TType.STRING, this.keys.size()));
+          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, this.keys.size()));
           for (ByteBuffer _iter3 : this.keys)
           {
             oprot.writeBinary(_iter3);
@@ -804,25 +806,41 @@ public class Brisk {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
       if (keyspace == null) {
-        throw new TProtocolException("Required field 'keyspace' was not present! Struct: " + toString());
+        throw new org.apache.thrift.protocol.TProtocolException("Required field 'keyspace' was not present! Struct: " + toString());
       }
       if (keys == null) {
-        throw new TProtocolException("Required field 'keys' was not present! Struct: " + toString());
+        throw new org.apache.thrift.protocol.TProtocolException("Required field 'keys' was not present! Struct: " + toString());
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
       }
     }
 
   }
 
-  public static class describe_keys_result implements TBase<describe_keys_result, describe_keys_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("describe_keys_result");
+  public static class describe_keys_result implements org.apache.thrift.TBase<describe_keys_result, describe_keys_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("describe_keys_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.LIST, (short)0);
-    private static final TField IRE_FIELD_DESC = new TField("ire", TType.STRUCT, (short)1);
-    private static final TField UE_FIELD_DESC = new TField("ue", TType.STRUCT, (short)2);
-    private static final TField TE_FIELD_DESC = new TField("te", TType.STRUCT, (short)3);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.LIST, (short)0);
+    private static final org.apache.thrift.protocol.TField IRE_FIELD_DESC = new org.apache.thrift.protocol.TField("ire", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField UE_FIELD_DESC = new org.apache.thrift.protocol.TField("ue", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField TE_FIELD_DESC = new org.apache.thrift.protocol.TField("te", org.apache.thrift.protocol.TType.STRUCT, (short)3);
 
     public List<List<String>> success;
     public InvalidRequestException ire;
@@ -830,7 +848,7 @@ public class Brisk {
     public TimedOutException te;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success"),
       IRE((short)1, "ire"),
       UE((short)2, "ue"),
@@ -898,21 +916,21 @@ public class Brisk {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new ListMetaData(TType.LIST, 
-              new ListMetaData(TType.LIST, 
-                  new FieldValueMetaData(TType.STRING)))));
-      tmpMap.put(_Fields.IRE, new FieldMetaData("ire", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
-      tmpMap.put(_Fields.UE, new FieldMetaData("ue", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
-      tmpMap.put(_Fields.TE, new FieldMetaData("te", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+              new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+                  new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)))));
+      tmpMap.put(_Fields.IRE, new org.apache.thrift.meta_data.FieldMetaData("ire", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.UE, new org.apache.thrift.meta_data.FieldMetaData("ue", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.TE, new org.apache.thrift.meta_data.FieldMetaData("te", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(describe_keys_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(describe_keys_result.class, metaDataMap);
     }
 
     public describe_keys_result() {
@@ -997,7 +1015,7 @@ public class Brisk {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -1021,7 +1039,7 @@ public class Brisk {
       this.ire = null;
     }
 
-    /** Returns true if field ire is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ire is set (has been assigned a value) and false otherwise */
     public boolean isSetIre() {
       return this.ire != null;
     }
@@ -1045,7 +1063,7 @@ public class Brisk {
       this.ue = null;
     }
 
-    /** Returns true if field ue is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ue is set (has been assigned a value) and false otherwise */
     public boolean isSetUe() {
       return this.ue != null;
     }
@@ -1069,7 +1087,7 @@ public class Brisk {
       this.te = null;
     }
 
-    /** Returns true if field te is set (has been asigned a value) and false otherwise */
+    /** Returns true if field te is set (has been assigned a value) and false otherwise */
     public boolean isSetTe() {
       return this.te != null;
     }
@@ -1135,7 +1153,7 @@ public class Brisk {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -1246,7 +1264,7 @@ public class Brisk {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -1256,7 +1274,7 @@ public class Brisk {
         return lastComparison;
       }
       if (isSetIre()) {
-        lastComparison = TBaseHelper.compareTo(this.ire, typedOther.ire);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ire, typedOther.ire);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -1266,7 +1284,7 @@ public class Brisk {
         return lastComparison;
       }
       if (isSetUe()) {
-        lastComparison = TBaseHelper.compareTo(this.ue, typedOther.ue);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ue, typedOther.ue);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -1276,7 +1294,7 @@ public class Brisk {
         return lastComparison;
       }
       if (isSetTe()) {
-        lastComparison = TBaseHelper.compareTo(this.te, typedOther.te);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.te, typedOther.te);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -1288,26 +1306,26 @@ public class Brisk {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.LIST) {
+            if (field.type == org.apache.thrift.protocol.TType.LIST) {
               {
-                TList _list4 = iprot.readListBegin();
+                org.apache.thrift.protocol.TList _list4 = iprot.readListBegin();
                 this.success = new ArrayList<List<String>>(_list4.size);
                 for (int _i5 = 0; _i5 < _list4.size; ++_i5)
                 {
                   List<String> _elem6;
                   {
-                    TList _list7 = iprot.readListBegin();
+                    org.apache.thrift.protocol.TList _list7 = iprot.readListBegin();
                     _elem6 = new ArrayList<String>(_list7.size);
                     for (int _i8 = 0; _i8 < _list7.size; ++_i8)
                     {
@@ -1322,35 +1340,35 @@ public class Brisk {
                 iprot.readListEnd();
               }
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // IRE
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ire = new InvalidRequestException();
               this.ire.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 2: // UE
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ue = new UnavailableException();
               this.ue.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 3: // TE
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.te = new TimedOutException();
               this.te.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -1360,17 +1378,17 @@ public class Brisk {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
         {
-          oprot.writeListBegin(new TList(TType.LIST, this.success.size()));
+          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.LIST, this.success.size()));
           for (List<String> _iter10 : this.success)
           {
             {
-              oprot.writeListBegin(new TList(TType.STRING, _iter10.size()));
+              oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, _iter10.size()));
               for (String _iter11 : _iter10)
               {
                 oprot.writeString(_iter11);
@@ -1438,28 +1456,47 @@ public class Brisk {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class get_cfs_block_args implements TBase<get_cfs_block_args, get_cfs_block_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("get_cfs_block_args");
+  public static class get_cfs_sblock_args implements org.apache.thrift.TBase<get_cfs_sblock_args, get_cfs_sblock_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("get_cfs_sblock_args");
 
-    private static final TField CALLER_HOST_NAME_FIELD_DESC = new TField("caller_host_name", TType.STRING, (short)1);
-    private static final TField BLOCK_ID_FIELD_DESC = new TField("block_id", TType.STRING, (short)2);
-    private static final TField OFFSET_FIELD_DESC = new TField("offset", TType.I32, (short)3);
+    private static final org.apache.thrift.protocol.TField CALLER_HOST_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("caller_host_name", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField BLOCK_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("block_id", org.apache.thrift.protocol.TType.STRING, (short)2);
+    private static final org.apache.thrift.protocol.TField SBLOCK_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("sblock_id", org.apache.thrift.protocol.TType.STRING, (short)3);
+    private static final org.apache.thrift.protocol.TField OFFSET_FIELD_DESC = new org.apache.thrift.protocol.TField("offset", org.apache.thrift.protocol.TType.I32, (short)4);
 
     public String caller_host_name;
     public ByteBuffer block_id;
+    public ByteBuffer sblock_id;
     public int offset;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CALLER_HOST_NAME((short)1, "caller_host_name"),
       BLOCK_ID((short)2, "block_id"),
-      OFFSET((short)3, "offset");
+      SBLOCK_ID((short)3, "sblock_id"),
+      OFFSET((short)4, "offset");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -1478,7 +1515,9 @@ public class Brisk {
             return CALLER_HOST_NAME;
           case 2: // BLOCK_ID
             return BLOCK_ID;
-          case 3: // OFFSET
+          case 3: // SBLOCK_ID
+            return SBLOCK_ID;
+          case 4: // OFFSET
             return OFFSET;
           default:
             return null;
@@ -1523,32 +1562,36 @@ public class Brisk {
     private static final int __OFFSET_ISSET_ID = 0;
     private BitSet __isset_bit_vector = new BitSet(1);
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CALLER_HOST_NAME, new FieldMetaData("caller_host_name", TFieldRequirementType.REQUIRED, 
-          new FieldValueMetaData(TType.STRING)));
-      tmpMap.put(_Fields.BLOCK_ID, new FieldMetaData("block_id", TFieldRequirementType.REQUIRED, 
-          new FieldValueMetaData(TType.STRING)));
-      tmpMap.put(_Fields.OFFSET, new FieldMetaData("offset", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.I32)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CALLER_HOST_NAME, new org.apache.thrift.meta_data.FieldMetaData("caller_host_name", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.BLOCK_ID, new org.apache.thrift.meta_data.FieldMetaData("block_id", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , true)));
+      tmpMap.put(_Fields.SBLOCK_ID, new org.apache.thrift.meta_data.FieldMetaData("sblock_id", org.apache.thrift.TFieldRequirementType.REQUIRED, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING          , true)));
+      tmpMap.put(_Fields.OFFSET, new org.apache.thrift.meta_data.FieldMetaData("offset", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(get_cfs_block_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(get_cfs_sblock_args.class, metaDataMap);
     }
 
-    public get_cfs_block_args() {
+    public get_cfs_sblock_args() {
       this.offset = 0;
 
     }
 
-    public get_cfs_block_args(
+    public get_cfs_sblock_args(
       String caller_host_name,
       ByteBuffer block_id,
+      ByteBuffer sblock_id,
       int offset)
     {
       this();
       this.caller_host_name = caller_host_name;
       this.block_id = block_id;
+      this.sblock_id = sblock_id;
       this.offset = offset;
       setOffsetIsSet(true);
     }
@@ -1556,27 +1599,32 @@ public class Brisk {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public get_cfs_block_args(get_cfs_block_args other) {
+    public get_cfs_sblock_args(get_cfs_sblock_args other) {
       __isset_bit_vector.clear();
       __isset_bit_vector.or(other.__isset_bit_vector);
       if (other.isSetCaller_host_name()) {
         this.caller_host_name = other.caller_host_name;
       }
       if (other.isSetBlock_id()) {
-        this.block_id = TBaseHelper.copyBinary(other.block_id);
+        this.block_id = org.apache.thrift.TBaseHelper.copyBinary(other.block_id);
+;
+      }
+      if (other.isSetSblock_id()) {
+        this.sblock_id = org.apache.thrift.TBaseHelper.copyBinary(other.sblock_id);
 ;
       }
       this.offset = other.offset;
     }
 
-    public get_cfs_block_args deepCopy() {
-      return new get_cfs_block_args(this);
+    public get_cfs_sblock_args deepCopy() {
+      return new get_cfs_sblock_args(this);
     }
 
     @Override
     public void clear() {
       this.caller_host_name = null;
       this.block_id = null;
+      this.sblock_id = null;
       this.offset = 0;
 
     }
@@ -1585,7 +1633,7 @@ public class Brisk {
       return this.caller_host_name;
     }
 
-    public get_cfs_block_args setCaller_host_name(String caller_host_name) {
+    public get_cfs_sblock_args setCaller_host_name(String caller_host_name) {
       this.caller_host_name = caller_host_name;
       return this;
     }
@@ -1594,7 +1642,7 @@ public class Brisk {
       this.caller_host_name = null;
     }
 
-    /** Returns true if field caller_host_name is set (has been asigned a value) and false otherwise */
+    /** Returns true if field caller_host_name is set (has been assigned a value) and false otherwise */
     public boolean isSetCaller_host_name() {
       return this.caller_host_name != null;
     }
@@ -1606,20 +1654,20 @@ public class Brisk {
     }
 
     public byte[] getBlock_id() {
-      setBlock_id(TBaseHelper.rightSize(block_id));
-      return block_id.array();
+      setBlock_id(org.apache.thrift.TBaseHelper.rightSize(block_id));
+      return block_id == null ? null : block_id.array();
     }
 
-    public ByteBuffer BufferForBlock_id() {
+    public ByteBuffer bufferForBlock_id() {
       return block_id;
     }
 
-    public get_cfs_block_args setBlock_id(byte[] block_id) {
-      setBlock_id(ByteBuffer.wrap(block_id));
+    public get_cfs_sblock_args setBlock_id(byte[] block_id) {
+      setBlock_id(block_id == null ? (ByteBuffer)null : ByteBuffer.wrap(block_id));
       return this;
     }
 
-    public get_cfs_block_args setBlock_id(ByteBuffer block_id) {
+    public get_cfs_sblock_args setBlock_id(ByteBuffer block_id) {
       this.block_id = block_id;
       return this;
     }
@@ -1628,7 +1676,7 @@ public class Brisk {
       this.block_id = null;
     }
 
-    /** Returns true if field block_id is set (has been asigned a value) and false otherwise */
+    /** Returns true if field block_id is set (has been assigned a value) and false otherwise */
     public boolean isSetBlock_id() {
       return this.block_id != null;
     }
@@ -1639,11 +1687,45 @@ public class Brisk {
       }
     }
 
+    public byte[] getSblock_id() {
+      setSblock_id(org.apache.thrift.TBaseHelper.rightSize(sblock_id));
+      return sblock_id == null ? null : sblock_id.array();
+    }
+
+    public ByteBuffer bufferForSblock_id() {
+      return sblock_id;
+    }
+
+    public get_cfs_sblock_args setSblock_id(byte[] sblock_id) {
+      setSblock_id(sblock_id == null ? (ByteBuffer)null : ByteBuffer.wrap(sblock_id));
+      return this;
+    }
+
+    public get_cfs_sblock_args setSblock_id(ByteBuffer sblock_id) {
+      this.sblock_id = sblock_id;
+      return this;
+    }
+
+    public void unsetSblock_id() {
+      this.sblock_id = null;
+    }
+
+    /** Returns true if field sblock_id is set (has been assigned a value) and false otherwise */
+    public boolean isSetSblock_id() {
+      return this.sblock_id != null;
+    }
+
+    public void setSblock_idIsSet(boolean value) {
+      if (!value) {
+        this.sblock_id = null;
+      }
+    }
+
     public int getOffset() {
       return this.offset;
     }
 
-    public get_cfs_block_args setOffset(int offset) {
+    public get_cfs_sblock_args setOffset(int offset) {
       this.offset = offset;
       setOffsetIsSet(true);
       return this;
@@ -1653,7 +1735,7 @@ public class Brisk {
       __isset_bit_vector.clear(__OFFSET_ISSET_ID);
     }
 
-    /** Returns true if field offset is set (has been asigned a value) and false otherwise */
+    /** Returns true if field offset is set (has been assigned a value) and false otherwise */
     public boolean isSetOffset() {
       return __isset_bit_vector.get(__OFFSET_ISSET_ID);
     }
@@ -1680,6 +1762,14 @@ public class Brisk {
         }
         break;
 
+      case SBLOCK_ID:
+        if (value == null) {
+          unsetSblock_id();
+        } else {
+          setSblock_id((ByteBuffer)value);
+        }
+        break;
+
       case OFFSET:
         if (value == null) {
           unsetOffset();
@@ -1699,6 +1789,9 @@ public class Brisk {
       case BLOCK_ID:
         return getBlock_id();
 
+      case SBLOCK_ID:
+        return getSblock_id();
+
       case OFFSET:
         return new Integer(getOffset());
 
@@ -1706,7 +1799,7 @@ public class Brisk {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -1717,6 +1810,8 @@ public class Brisk {
         return isSetCaller_host_name();
       case BLOCK_ID:
         return isSetBlock_id();
+      case SBLOCK_ID:
+        return isSetSblock_id();
       case OFFSET:
         return isSetOffset();
       }
@@ -1727,12 +1822,12 @@ public class Brisk {
     public boolean equals(Object that) {
       if (that == null)
         return false;
-      if (that instanceof get_cfs_block_args)
-        return this.equals((get_cfs_block_args)that);
+      if (that instanceof get_cfs_sblock_args)
+        return this.equals((get_cfs_sblock_args)that);
       return false;
     }
 
-    public boolean equals(get_cfs_block_args that) {
+    public boolean equals(get_cfs_sblock_args that) {
       if (that == null)
         return false;
 
@@ -1751,6 +1846,15 @@ public class Brisk {
         if (!(this_present_block_id && that_present_block_id))
           return false;
         if (!this.block_id.equals(that.block_id))
+          return false;
+      }
+
+      boolean this_present_sblock_id = true && this.isSetSblock_id();
+      boolean that_present_sblock_id = true && that.isSetSblock_id();
+      if (this_present_sblock_id || that_present_sblock_id) {
+        if (!(this_present_sblock_id && that_present_sblock_id))
+          return false;
+        if (!this.sblock_id.equals(that.sblock_id))
           return false;
       }
 
@@ -1780,6 +1884,11 @@ public class Brisk {
       if (present_block_id)
         builder.append(block_id);
 
+      boolean present_sblock_id = true && (isSetSblock_id());
+      builder.append(present_sblock_id);
+      if (present_sblock_id)
+        builder.append(sblock_id);
+
       boolean present_offset = true;
       builder.append(present_offset);
       if (present_offset)
@@ -1788,20 +1897,20 @@ public class Brisk {
       return builder.toHashCode();
     }
 
-    public int compareTo(get_cfs_block_args other) {
+    public int compareTo(get_cfs_sblock_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
 
       int lastComparison = 0;
-      get_cfs_block_args typedOther = (get_cfs_block_args)other;
+      get_cfs_sblock_args typedOther = (get_cfs_sblock_args)other;
 
       lastComparison = Boolean.valueOf(isSetCaller_host_name()).compareTo(typedOther.isSetCaller_host_name());
       if (lastComparison != 0) {
         return lastComparison;
       }
       if (isSetCaller_host_name()) {
-        lastComparison = TBaseHelper.compareTo(this.caller_host_name, typedOther.caller_host_name);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.caller_host_name, typedOther.caller_host_name);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -1811,7 +1920,17 @@ public class Brisk {
         return lastComparison;
       }
       if (isSetBlock_id()) {
-        lastComparison = TBaseHelper.compareTo(this.block_id, typedOther.block_id);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.block_id, typedOther.block_id);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetSblock_id()).compareTo(typedOther.isSetSblock_id());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSblock_id()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.sblock_id, typedOther.sblock_id);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -1821,7 +1940,7 @@ public class Brisk {
         return lastComparison;
       }
       if (isSetOffset()) {
-        lastComparison = TBaseHelper.compareTo(this.offset, typedOther.offset);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.offset, typedOther.offset);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -1833,40 +1952,47 @@ public class Brisk {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 1: // CALLER_HOST_NAME
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.caller_host_name = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 2: // BLOCK_ID
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.block_id = iprot.readBinary();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
-          case 3: // OFFSET
-            if (field.type == TType.I32) {
+          case 3: // SBLOCK_ID
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
+              this.sblock_id = iprot.readBinary();
+            } else { 
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+            }
+            break;
+          case 4: // OFFSET
+            if (field.type == org.apache.thrift.protocol.TType.I32) {
               this.offset = iprot.readI32();
               setOffsetIsSet(true);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -1876,7 +2002,7 @@ public class Brisk {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -1890,6 +2016,11 @@ public class Brisk {
         oprot.writeBinary(this.block_id);
         oprot.writeFieldEnd();
       }
+      if (this.sblock_id != null) {
+        oprot.writeFieldBegin(SBLOCK_ID_FIELD_DESC);
+        oprot.writeBinary(this.sblock_id);
+        oprot.writeFieldEnd();
+      }
       oprot.writeFieldBegin(OFFSET_FIELD_DESC);
       oprot.writeI32(this.offset);
       oprot.writeFieldEnd();
@@ -1899,7 +2030,7 @@ public class Brisk {
 
     @Override
     public String toString() {
-      StringBuilder sb = new StringBuilder("get_cfs_block_args(");
+      StringBuilder sb = new StringBuilder("get_cfs_sblock_args(");
       boolean first = true;
 
       sb.append("caller_host_name:");
@@ -1914,7 +2045,15 @@ public class Brisk {
       if (this.block_id == null) {
         sb.append("null");
       } else {
-        TBaseHelper.toString(this.block_id, sb);
+        org.apache.thrift.TBaseHelper.toString(this.block_id, sb);
+      }
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("sblock_id:");
+      if (this.sblock_id == null) {
+        sb.append("null");
+      } else {
+        org.apache.thrift.TBaseHelper.toString(this.sblock_id, sb);
       }
       first = false;
       if (!first) sb.append(", ");
@@ -1925,26 +2064,45 @@ public class Brisk {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
       if (caller_host_name == null) {
-        throw new TProtocolException("Required field 'caller_host_name' was not present! Struct: " + toString());
+        throw new org.apache.thrift.protocol.TProtocolException("Required field 'caller_host_name' was not present! Struct: " + toString());
       }
       if (block_id == null) {
-        throw new TProtocolException("Required field 'block_id' was not present! Struct: " + toString());
+        throw new org.apache.thrift.protocol.TProtocolException("Required field 'block_id' was not present! Struct: " + toString());
+      }
+      if (sblock_id == null) {
+        throw new org.apache.thrift.protocol.TProtocolException("Required field 'sblock_id' was not present! Struct: " + toString());
+      }
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
       }
     }
 
   }
 
-  public static class get_cfs_block_result implements TBase<get_cfs_block_result, get_cfs_block_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("get_cfs_block_result");
+  public static class get_cfs_sblock_result implements org.apache.thrift.TBase<get_cfs_sblock_result, get_cfs_sblock_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("get_cfs_sblock_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.STRUCT, (short)0);
-    private static final TField IRE_FIELD_DESC = new TField("ire", TType.STRUCT, (short)1);
-    private static final TField UE_FIELD_DESC = new TField("ue", TType.STRUCT, (short)2);
-    private static final TField TE_FIELD_DESC = new TField("te", TType.STRUCT, (short)3);
-    private static final TField NFE_FIELD_DESC = new TField("nfe", TType.STRUCT, (short)4);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField IRE_FIELD_DESC = new org.apache.thrift.protocol.TField("ire", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField UE_FIELD_DESC = new org.apache.thrift.protocol.TField("ue", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField TE_FIELD_DESC = new org.apache.thrift.protocol.TField("te", org.apache.thrift.protocol.TType.STRUCT, (short)3);
+    private static final org.apache.thrift.protocol.TField NFE_FIELD_DESC = new org.apache.thrift.protocol.TField("nfe", org.apache.thrift.protocol.TType.STRUCT, (short)4);
 
     public LocalOrRemoteBlock success;
     public InvalidRequestException ire;
@@ -1953,7 +2111,7 @@ public class Brisk {
     public NotFoundException nfe;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success"),
       IRE((short)1, "ire"),
       UE((short)2, "ue"),
@@ -2024,27 +2182,27 @@ public class Brisk {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, LocalOrRemoteBlock.class)));
-      tmpMap.put(_Fields.IRE, new FieldMetaData("ire", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
-      tmpMap.put(_Fields.UE, new FieldMetaData("ue", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
-      tmpMap.put(_Fields.TE, new FieldMetaData("te", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
-      tmpMap.put(_Fields.NFE, new FieldMetaData("nfe", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, LocalOrRemoteBlock.class)));
+      tmpMap.put(_Fields.IRE, new org.apache.thrift.meta_data.FieldMetaData("ire", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.UE, new org.apache.thrift.meta_data.FieldMetaData("ue", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.TE, new org.apache.thrift.meta_data.FieldMetaData("te", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.NFE, new org.apache.thrift.meta_data.FieldMetaData("nfe", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(get_cfs_block_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(get_cfs_sblock_result.class, metaDataMap);
     }
 
-    public get_cfs_block_result() {
+    public get_cfs_sblock_result() {
     }
 
-    public get_cfs_block_result(
+    public get_cfs_sblock_result(
       LocalOrRemoteBlock success,
       InvalidRequestException ire,
       UnavailableException ue,
@@ -2062,7 +2220,7 @@ public class Brisk {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public get_cfs_block_result(get_cfs_block_result other) {
+    public get_cfs_sblock_result(get_cfs_sblock_result other) {
       if (other.isSetSuccess()) {
         this.success = new LocalOrRemoteBlock(other.success);
       }
@@ -2080,8 +2238,8 @@ public class Brisk {
       }
     }
 
-    public get_cfs_block_result deepCopy() {
-      return new get_cfs_block_result(this);
+    public get_cfs_sblock_result deepCopy() {
+      return new get_cfs_sblock_result(this);
     }
 
     @Override
@@ -2097,7 +2255,7 @@ public class Brisk {
       return this.success;
     }
 
-    public get_cfs_block_result setSuccess(LocalOrRemoteBlock success) {
+    public get_cfs_sblock_result setSuccess(LocalOrRemoteBlock success) {
       this.success = success;
       return this;
     }
@@ -2106,7 +2264,7 @@ public class Brisk {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -2121,7 +2279,7 @@ public class Brisk {
       return this.ire;
     }
 
-    public get_cfs_block_result setIre(InvalidRequestException ire) {
+    public get_cfs_sblock_result setIre(InvalidRequestException ire) {
       this.ire = ire;
       return this;
     }
@@ -2130,7 +2288,7 @@ public class Brisk {
       this.ire = null;
     }
 
-    /** Returns true if field ire is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ire is set (has been assigned a value) and false otherwise */
     public boolean isSetIre() {
       return this.ire != null;
     }
@@ -2145,7 +2303,7 @@ public class Brisk {
       return this.ue;
     }
 
-    public get_cfs_block_result setUe(UnavailableException ue) {
+    public get_cfs_sblock_result setUe(UnavailableException ue) {
       this.ue = ue;
       return this;
     }
@@ -2154,7 +2312,7 @@ public class Brisk {
       this.ue = null;
     }
 
-    /** Returns true if field ue is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ue is set (has been assigned a value) and false otherwise */
     public boolean isSetUe() {
       return this.ue != null;
     }
@@ -2169,7 +2327,7 @@ public class Brisk {
       return this.te;
     }
 
-    public get_cfs_block_result setTe(TimedOutException te) {
+    public get_cfs_sblock_result setTe(TimedOutException te) {
       this.te = te;
       return this;
     }
@@ -2178,7 +2336,7 @@ public class Brisk {
       this.te = null;
     }
 
-    /** Returns true if field te is set (has been asigned a value) and false otherwise */
+    /** Returns true if field te is set (has been assigned a value) and false otherwise */
     public boolean isSetTe() {
       return this.te != null;
     }
@@ -2193,7 +2351,7 @@ public class Brisk {
       return this.nfe;
     }
 
-    public get_cfs_block_result setNfe(NotFoundException nfe) {
+    public get_cfs_sblock_result setNfe(NotFoundException nfe) {
       this.nfe = nfe;
       return this;
     }
@@ -2202,7 +2360,7 @@ public class Brisk {
       this.nfe = null;
     }
 
-    /** Returns true if field nfe is set (has been asigned a value) and false otherwise */
+    /** Returns true if field nfe is set (has been assigned a value) and false otherwise */
     public boolean isSetNfe() {
       return this.nfe != null;
     }
@@ -2279,7 +2437,7 @@ public class Brisk {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -2304,12 +2462,12 @@ public class Brisk {
     public boolean equals(Object that) {
       if (that == null)
         return false;
-      if (that instanceof get_cfs_block_result)
-        return this.equals((get_cfs_block_result)that);
+      if (that instanceof get_cfs_sblock_result)
+        return this.equals((get_cfs_sblock_result)that);
       return false;
     }
 
-    public boolean equals(get_cfs_block_result that) {
+    public boolean equals(get_cfs_sblock_result that) {
       if (that == null)
         return false;
 
@@ -2393,20 +2551,20 @@ public class Brisk {
       return builder.toHashCode();
     }
 
-    public int compareTo(get_cfs_block_result other) {
+    public int compareTo(get_cfs_sblock_result other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
 
       int lastComparison = 0;
-      get_cfs_block_result typedOther = (get_cfs_block_result)other;
+      get_cfs_sblock_result typedOther = (get_cfs_sblock_result)other;
 
       lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(typedOther.isSetSuccess());
       if (lastComparison != 0) {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -2416,7 +2574,7 @@ public class Brisk {
         return lastComparison;
       }
       if (isSetIre()) {
-        lastComparison = TBaseHelper.compareTo(this.ire, typedOther.ire);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ire, typedOther.ire);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -2426,7 +2584,7 @@ public class Brisk {
         return lastComparison;
       }
       if (isSetUe()) {
-        lastComparison = TBaseHelper.compareTo(this.ue, typedOther.ue);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ue, typedOther.ue);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -2436,7 +2594,7 @@ public class Brisk {
         return lastComparison;
       }
       if (isSetTe()) {
-        lastComparison = TBaseHelper.compareTo(this.te, typedOther.te);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.te, typedOther.te);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -2446,7 +2604,7 @@ public class Brisk {
         return lastComparison;
       }
       if (isSetNfe()) {
-        lastComparison = TBaseHelper.compareTo(this.nfe, typedOther.nfe);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.nfe, typedOther.nfe);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -2458,58 +2616,58 @@ public class Brisk {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.success = new LocalOrRemoteBlock();
               this.success.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // IRE
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ire = new InvalidRequestException();
               this.ire.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 2: // UE
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ue = new UnavailableException();
               this.ue.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 3: // TE
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.te = new TimedOutException();
               this.te.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 4: // NFE
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.nfe = new NotFoundException();
               this.nfe.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -2519,7 +2677,7 @@ public class Brisk {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -2549,7 +2707,7 @@ public class Brisk {
 
     @Override
     public String toString() {
-      StringBuilder sb = new StringBuilder("get_cfs_block_result(");
+      StringBuilder sb = new StringBuilder("get_cfs_sblock_result(");
       boolean first = true;
 
       sb.append("success:");
@@ -2595,8 +2753,24 @@ public class Brisk {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }

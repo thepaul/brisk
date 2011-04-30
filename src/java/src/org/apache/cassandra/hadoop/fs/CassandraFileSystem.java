@@ -23,6 +23,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
@@ -308,10 +309,7 @@ public class CassandraFileSystem extends FileSystem
         if (inode.isFile())
         {
             store.deleteINode(absolutePath);
-            for (Block block : inode.getBlocks())
-            {
-                store.deleteBlock(block);
-            }
+            store.deleteSubBlocks(inode);
         }
         else
         {
@@ -336,7 +334,8 @@ public class CassandraFileSystem extends FileSystem
         return true;
     }
 
-    @Override
+
+	@Override
     @Deprecated
     public boolean delete(Path path) throws IOException
     {

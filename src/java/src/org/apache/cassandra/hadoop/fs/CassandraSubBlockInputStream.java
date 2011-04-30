@@ -119,7 +119,7 @@ public class CassandraSubBlockInputStream extends InputStream {
 
         this.pos = target;
         this.subBlockEnd = targetSubBlockEnd;
-        this.blockStream = store.retrieveSubBlock(block.subBlocks[targetSubBlock], offsetIntoSubBlock);
+        this.blockStream = store.retrieveSubBlock(block, block.subBlocks[targetSubBlock], offsetIntoSubBlock);
 
     }
 	
