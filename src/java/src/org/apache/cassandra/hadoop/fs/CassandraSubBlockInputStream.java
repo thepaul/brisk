@@ -7,6 +7,11 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
+ * Inner inputStream for SubBlocks that provides an abstraction to
+ * @link {@link CassandraInputStream} to read a flow of data.
+ * 
+ *  It handles the SubBlock swtich and closes the underlying inputstream.
+ * 
  * @author patricioe (Patricio Echague - patricio@datastax.com)
  *
  */
@@ -16,7 +21,7 @@ public class CassandraSubBlockInputStream extends InputStream {
     
     private long                     pos      = 0;
 
-    private InputStream              blockStream;
+    private InputStream              subBlockStream;
     
     private Block                    block;
     
@@ -49,7 +54,7 @@ public class CassandraSubBlockInputStream extends InputStream {
             {
                 subBlockSeekTo(pos);
             }
-            result = blockStream.read();
+            result = subBlockStream.read();
             if (result >= 0)
             {
                 pos++;
@@ -73,7 +78,7 @@ public class CassandraSubBlockInputStream extends InputStream {
             	subBlockSeekTo(pos);
             }
             int realLen = Math.min(len, (int) (subBlockEnd - pos + 1));
-            int result = blockStream.read(buf, off, realLen);
+            int result = subBlockStream.read(buf, off, realLen);
             if (result >= 0)
             {
                 pos += result;
@@ -85,8 +90,9 @@ public class CassandraSubBlockInputStream extends InputStream {
 	
     private synchronized void subBlockSeekTo(long target) throws IOException
     {
-        if (this.blockStream != null) {
-            //this.blockStream.close();
+    	// Close underlying inputStream when switching to the new subBlock.
+        if (this.subBlockStream != null) {
+            this.subBlockStream.close();
         }
 
         //
@@ -119,7 +125,7 @@ public class CassandraSubBlockInputStream extends InputStream {
 
         this.pos = target;
         this.subBlockEnd = targetSubBlockEnd;
-        this.blockStream = store.retrieveSubBlock(block, block.subBlocks[targetSubBlock], offsetIntoSubBlock);
+        this.subBlockStream = store.retrieveSubBlock(block, block.subBlocks[targetSubBlock], offsetIntoSubBlock);
 
     }
 	
@@ -129,6 +135,10 @@ public class CassandraSubBlockInputStream extends InputStream {
         if (closed)
         {
             return;
+        }
+        
+        if (this.subBlockStream != null) {
+            this.subBlockStream.close();
         }
        
         super.close();
