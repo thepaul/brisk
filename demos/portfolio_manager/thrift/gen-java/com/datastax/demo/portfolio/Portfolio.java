@@ -9,26 +9,34 @@ import java.util.*;
 
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
-import org.apache.thrift.*;
-import org.apache.thrift.meta_data.*;
-import org.apache.thrift.protocol.*;
+public class Portfolio implements org.apache.thrift.TBase<Portfolio, Portfolio._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("Portfolio");
 
-public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.Serializable, Cloneable {
-  private static final TStruct STRUCT_DESC = new TStruct("Portfolio");
-
-  private static final TField NAME_FIELD_DESC = new TField("name", TType.STRING, (short)1);
-  private static final TField CONSTITUENTS_FIELD_DESC = new TField("constituents", TType.LIST, (short)2);
-  private static final TField PRICE_FIELD_DESC = new TField("price", TType.DOUBLE, (short)3);
+  private static final org.apache.thrift.protocol.TField NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("name", org.apache.thrift.protocol.TType.STRING, (short)1);
+  private static final org.apache.thrift.protocol.TField CONSTITUENTS_FIELD_DESC = new org.apache.thrift.protocol.TField("constituents", org.apache.thrift.protocol.TType.LIST, (short)2);
+  private static final org.apache.thrift.protocol.TField BASIS_FIELD_DESC = new org.apache.thrift.protocol.TField("basis", org.apache.thrift.protocol.TType.DOUBLE, (short)3);
+  private static final org.apache.thrift.protocol.TField PRICE_FIELD_DESC = new org.apache.thrift.protocol.TField("price", org.apache.thrift.protocol.TType.DOUBLE, (short)4);
+  private static final org.apache.thrift.protocol.TField LARGEST_10DAY_LOSS_FIELD_DESC = new org.apache.thrift.protocol.TField("largest_10day_loss", org.apache.thrift.protocol.TType.DOUBLE, (short)5);
+  private static final org.apache.thrift.protocol.TField LARGEST_10DAY_LOSS_DATE_FIELD_DESC = new org.apache.thrift.protocol.TField("largest_10day_loss_date", org.apache.thrift.protocol.TType.STRING, (short)6);
+  private static final org.apache.thrift.protocol.TField HIST_PRICES_FIELD_DESC = new org.apache.thrift.protocol.TField("hist_prices", org.apache.thrift.protocol.TType.LIST, (short)7);
 
   public String name;
-  public List<Stock> constituents;
+  public List<Position> constituents;
+  public double basis;
   public double price;
+  public double largest_10day_loss;
+  public String largest_10day_loss_date;
+  public List<Double> hist_prices;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements TFieldIdEnum {
+  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     NAME((short)1, "name"),
     CONSTITUENTS((short)2, "constituents"),
-    PRICE((short)3, "price");
+    BASIS((short)3, "basis"),
+    PRICE((short)4, "price"),
+    LARGEST_10DAY_LOSS((short)5, "largest_10day_loss"),
+    LARGEST_10DAY_LOSS_DATE((short)6, "largest_10day_loss_date"),
+    HIST_PRICES((short)7, "hist_prices");
 
     private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -47,8 +55,16 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
           return NAME;
         case 2: // CONSTITUENTS
           return CONSTITUENTS;
-        case 3: // PRICE
+        case 3: // BASIS
+          return BASIS;
+        case 4: // PRICE
           return PRICE;
+        case 5: // LARGEST_10DAY_LOSS
+          return LARGEST_10DAY_LOSS;
+        case 6: // LARGEST_10DAY_LOSS_DATE
+          return LARGEST_10DAY_LOSS_DATE;
+        case 7: // HIST_PRICES
+          return HIST_PRICES;
         default:
           return null;
       }
@@ -89,21 +105,32 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
   }
 
   // isset id assignments
-  private static final int __PRICE_ISSET_ID = 0;
-  private BitSet __isset_bit_vector = new BitSet(1);
+  private static final int __BASIS_ISSET_ID = 0;
+  private static final int __PRICE_ISSET_ID = 1;
+  private static final int __LARGEST_10DAY_LOSS_ISSET_ID = 2;
+  private BitSet __isset_bit_vector = new BitSet(3);
 
-  public static final Map<_Fields, FieldMetaData> metaDataMap;
+  public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.NAME, new FieldMetaData("name", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.STRING)));
-    tmpMap.put(_Fields.CONSTITUENTS, new FieldMetaData("constituents", TFieldRequirementType.DEFAULT, 
-        new ListMetaData(TType.LIST, 
-            new StructMetaData(TType.STRUCT, Stock.class))));
-    tmpMap.put(_Fields.PRICE, new FieldMetaData("price", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.DOUBLE)));
+    Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.NAME, new org.apache.thrift.meta_data.FieldMetaData("name", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.CONSTITUENTS, new org.apache.thrift.meta_data.FieldMetaData("constituents", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+            new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Position.class))));
+    tmpMap.put(_Fields.BASIS, new org.apache.thrift.meta_data.FieldMetaData("basis", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
+    tmpMap.put(_Fields.PRICE, new org.apache.thrift.meta_data.FieldMetaData("price", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
+    tmpMap.put(_Fields.LARGEST_10DAY_LOSS, new org.apache.thrift.meta_data.FieldMetaData("largest_10day_loss", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
+    tmpMap.put(_Fields.LARGEST_10DAY_LOSS_DATE, new org.apache.thrift.meta_data.FieldMetaData("largest_10day_loss_date", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.HIST_PRICES, new org.apache.thrift.meta_data.FieldMetaData("hist_prices", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+            new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE))));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    FieldMetaData.addStructMetaDataMap(Portfolio.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(Portfolio.class, metaDataMap);
   }
 
   public Portfolio() {
@@ -111,14 +138,24 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
 
   public Portfolio(
     String name,
-    List<Stock> constituents,
-    double price)
+    List<Position> constituents,
+    double basis,
+    double price,
+    double largest_10day_loss,
+    String largest_10day_loss_date,
+    List<Double> hist_prices)
   {
     this();
     this.name = name;
     this.constituents = constituents;
+    this.basis = basis;
+    setBasisIsSet(true);
     this.price = price;
     setPriceIsSet(true);
+    this.largest_10day_loss = largest_10day_loss;
+    setLargest_10day_lossIsSet(true);
+    this.largest_10day_loss_date = largest_10day_loss_date;
+    this.hist_prices = hist_prices;
   }
 
   /**
@@ -131,13 +168,25 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
       this.name = other.name;
     }
     if (other.isSetConstituents()) {
-      List<Stock> __this__constituents = new ArrayList<Stock>();
-      for (Stock other_element : other.constituents) {
-        __this__constituents.add(new Stock(other_element));
+      List<Position> __this__constituents = new ArrayList<Position>();
+      for (Position other_element : other.constituents) {
+        __this__constituents.add(new Position(other_element));
       }
       this.constituents = __this__constituents;
     }
+    this.basis = other.basis;
     this.price = other.price;
+    this.largest_10day_loss = other.largest_10day_loss;
+    if (other.isSetLargest_10day_loss_date()) {
+      this.largest_10day_loss_date = other.largest_10day_loss_date;
+    }
+    if (other.isSetHist_prices()) {
+      List<Double> __this__hist_prices = new ArrayList<Double>();
+      for (Double other_element : other.hist_prices) {
+        __this__hist_prices.add(other_element);
+      }
+      this.hist_prices = __this__hist_prices;
+    }
   }
 
   public Portfolio deepCopy() {
@@ -148,8 +197,14 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
   public void clear() {
     this.name = null;
     this.constituents = null;
+    setBasisIsSet(false);
+    this.basis = 0.0;
     setPriceIsSet(false);
     this.price = 0.0;
+    setLargest_10day_lossIsSet(false);
+    this.largest_10day_loss = 0.0;
+    this.largest_10day_loss_date = null;
+    this.hist_prices = null;
   }
 
   public String getName() {
@@ -165,7 +220,7 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
     this.name = null;
   }
 
-  /** Returns true if field name is set (has been asigned a value) and false otherwise */
+  /** Returns true if field name is set (has been assigned a value) and false otherwise */
   public boolean isSetName() {
     return this.name != null;
   }
@@ -180,22 +235,22 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
     return (this.constituents == null) ? 0 : this.constituents.size();
   }
 
-  public java.util.Iterator<Stock> getConstituentsIterator() {
+  public java.util.Iterator<Position> getConstituentsIterator() {
     return (this.constituents == null) ? null : this.constituents.iterator();
   }
 
-  public void addToConstituents(Stock elem) {
+  public void addToConstituents(Position elem) {
     if (this.constituents == null) {
-      this.constituents = new ArrayList<Stock>();
+      this.constituents = new ArrayList<Position>();
     }
     this.constituents.add(elem);
   }
 
-  public List<Stock> getConstituents() {
+  public List<Position> getConstituents() {
     return this.constituents;
   }
 
-  public Portfolio setConstituents(List<Stock> constituents) {
+  public Portfolio setConstituents(List<Position> constituents) {
     this.constituents = constituents;
     return this;
   }
@@ -204,7 +259,7 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
     this.constituents = null;
   }
 
-  /** Returns true if field constituents is set (has been asigned a value) and false otherwise */
+  /** Returns true if field constituents is set (has been assigned a value) and false otherwise */
   public boolean isSetConstituents() {
     return this.constituents != null;
   }
@@ -213,6 +268,29 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
     if (!value) {
       this.constituents = null;
     }
+  }
+
+  public double getBasis() {
+    return this.basis;
+  }
+
+  public Portfolio setBasis(double basis) {
+    this.basis = basis;
+    setBasisIsSet(true);
+    return this;
+  }
+
+  public void unsetBasis() {
+    __isset_bit_vector.clear(__BASIS_ISSET_ID);
+  }
+
+  /** Returns true if field basis is set (has been assigned a value) and false otherwise */
+  public boolean isSetBasis() {
+    return __isset_bit_vector.get(__BASIS_ISSET_ID);
+  }
+
+  public void setBasisIsSet(boolean value) {
+    __isset_bit_vector.set(__BASIS_ISSET_ID, value);
   }
 
   public double getPrice() {
@@ -229,13 +307,99 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
     __isset_bit_vector.clear(__PRICE_ISSET_ID);
   }
 
-  /** Returns true if field price is set (has been asigned a value) and false otherwise */
+  /** Returns true if field price is set (has been assigned a value) and false otherwise */
   public boolean isSetPrice() {
     return __isset_bit_vector.get(__PRICE_ISSET_ID);
   }
 
   public void setPriceIsSet(boolean value) {
     __isset_bit_vector.set(__PRICE_ISSET_ID, value);
+  }
+
+  public double getLargest_10day_loss() {
+    return this.largest_10day_loss;
+  }
+
+  public Portfolio setLargest_10day_loss(double largest_10day_loss) {
+    this.largest_10day_loss = largest_10day_loss;
+    setLargest_10day_lossIsSet(true);
+    return this;
+  }
+
+  public void unsetLargest_10day_loss() {
+    __isset_bit_vector.clear(__LARGEST_10DAY_LOSS_ISSET_ID);
+  }
+
+  /** Returns true if field largest_10day_loss is set (has been assigned a value) and false otherwise */
+  public boolean isSetLargest_10day_loss() {
+    return __isset_bit_vector.get(__LARGEST_10DAY_LOSS_ISSET_ID);
+  }
+
+  public void setLargest_10day_lossIsSet(boolean value) {
+    __isset_bit_vector.set(__LARGEST_10DAY_LOSS_ISSET_ID, value);
+  }
+
+  public String getLargest_10day_loss_date() {
+    return this.largest_10day_loss_date;
+  }
+
+  public Portfolio setLargest_10day_loss_date(String largest_10day_loss_date) {
+    this.largest_10day_loss_date = largest_10day_loss_date;
+    return this;
+  }
+
+  public void unsetLargest_10day_loss_date() {
+    this.largest_10day_loss_date = null;
+  }
+
+  /** Returns true if field largest_10day_loss_date is set (has been assigned a value) and false otherwise */
+  public boolean isSetLargest_10day_loss_date() {
+    return this.largest_10day_loss_date != null;
+  }
+
+  public void setLargest_10day_loss_dateIsSet(boolean value) {
+    if (!value) {
+      this.largest_10day_loss_date = null;
+    }
+  }
+
+  public int getHist_pricesSize() {
+    return (this.hist_prices == null) ? 0 : this.hist_prices.size();
+  }
+
+  public java.util.Iterator<Double> getHist_pricesIterator() {
+    return (this.hist_prices == null) ? null : this.hist_prices.iterator();
+  }
+
+  public void addToHist_prices(double elem) {
+    if (this.hist_prices == null) {
+      this.hist_prices = new ArrayList<Double>();
+    }
+    this.hist_prices.add(elem);
+  }
+
+  public List<Double> getHist_prices() {
+    return this.hist_prices;
+  }
+
+  public Portfolio setHist_prices(List<Double> hist_prices) {
+    this.hist_prices = hist_prices;
+    return this;
+  }
+
+  public void unsetHist_prices() {
+    this.hist_prices = null;
+  }
+
+  /** Returns true if field hist_prices is set (has been assigned a value) and false otherwise */
+  public boolean isSetHist_prices() {
+    return this.hist_prices != null;
+  }
+
+  public void setHist_pricesIsSet(boolean value) {
+    if (!value) {
+      this.hist_prices = null;
+    }
   }
 
   public void setFieldValue(_Fields field, Object value) {
@@ -252,7 +416,15 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
       if (value == null) {
         unsetConstituents();
       } else {
-        setConstituents((List<Stock>)value);
+        setConstituents((List<Position>)value);
+      }
+      break;
+
+    case BASIS:
+      if (value == null) {
+        unsetBasis();
+      } else {
+        setBasis((Double)value);
       }
       break;
 
@@ -261,6 +433,30 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
         unsetPrice();
       } else {
         setPrice((Double)value);
+      }
+      break;
+
+    case LARGEST_10DAY_LOSS:
+      if (value == null) {
+        unsetLargest_10day_loss();
+      } else {
+        setLargest_10day_loss((Double)value);
+      }
+      break;
+
+    case LARGEST_10DAY_LOSS_DATE:
+      if (value == null) {
+        unsetLargest_10day_loss_date();
+      } else {
+        setLargest_10day_loss_date((String)value);
+      }
+      break;
+
+    case HIST_PRICES:
+      if (value == null) {
+        unsetHist_prices();
+      } else {
+        setHist_prices((List<Double>)value);
       }
       break;
 
@@ -275,14 +471,26 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
     case CONSTITUENTS:
       return getConstituents();
 
+    case BASIS:
+      return new Double(getBasis());
+
     case PRICE:
       return new Double(getPrice());
+
+    case LARGEST_10DAY_LOSS:
+      return new Double(getLargest_10day_loss());
+
+    case LARGEST_10DAY_LOSS_DATE:
+      return getLargest_10day_loss_date();
+
+    case HIST_PRICES:
+      return getHist_prices();
 
     }
     throw new IllegalStateException();
   }
 
-  /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
     if (field == null) {
       throw new IllegalArgumentException();
@@ -293,8 +501,16 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
       return isSetName();
     case CONSTITUENTS:
       return isSetConstituents();
+    case BASIS:
+      return isSetBasis();
     case PRICE:
       return isSetPrice();
+    case LARGEST_10DAY_LOSS:
+      return isSetLargest_10day_loss();
+    case LARGEST_10DAY_LOSS_DATE:
+      return isSetLargest_10day_loss_date();
+    case HIST_PRICES:
+      return isSetHist_prices();
     }
     throw new IllegalStateException();
   }
@@ -330,12 +546,48 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
         return false;
     }
 
+    boolean this_present_basis = true;
+    boolean that_present_basis = true;
+    if (this_present_basis || that_present_basis) {
+      if (!(this_present_basis && that_present_basis))
+        return false;
+      if (this.basis != that.basis)
+        return false;
+    }
+
     boolean this_present_price = true;
     boolean that_present_price = true;
     if (this_present_price || that_present_price) {
       if (!(this_present_price && that_present_price))
         return false;
       if (this.price != that.price)
+        return false;
+    }
+
+    boolean this_present_largest_10day_loss = true;
+    boolean that_present_largest_10day_loss = true;
+    if (this_present_largest_10day_loss || that_present_largest_10day_loss) {
+      if (!(this_present_largest_10day_loss && that_present_largest_10day_loss))
+        return false;
+      if (this.largest_10day_loss != that.largest_10day_loss)
+        return false;
+    }
+
+    boolean this_present_largest_10day_loss_date = true && this.isSetLargest_10day_loss_date();
+    boolean that_present_largest_10day_loss_date = true && that.isSetLargest_10day_loss_date();
+    if (this_present_largest_10day_loss_date || that_present_largest_10day_loss_date) {
+      if (!(this_present_largest_10day_loss_date && that_present_largest_10day_loss_date))
+        return false;
+      if (!this.largest_10day_loss_date.equals(that.largest_10day_loss_date))
+        return false;
+    }
+
+    boolean this_present_hist_prices = true && this.isSetHist_prices();
+    boolean that_present_hist_prices = true && that.isSetHist_prices();
+    if (this_present_hist_prices || that_present_hist_prices) {
+      if (!(this_present_hist_prices && that_present_hist_prices))
+        return false;
+      if (!this.hist_prices.equals(that.hist_prices))
         return false;
     }
 
@@ -356,10 +608,30 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
     if (present_constituents)
       builder.append(constituents);
 
+    boolean present_basis = true;
+    builder.append(present_basis);
+    if (present_basis)
+      builder.append(basis);
+
     boolean present_price = true;
     builder.append(present_price);
     if (present_price)
       builder.append(price);
+
+    boolean present_largest_10day_loss = true;
+    builder.append(present_largest_10day_loss);
+    if (present_largest_10day_loss)
+      builder.append(largest_10day_loss);
+
+    boolean present_largest_10day_loss_date = true && (isSetLargest_10day_loss_date());
+    builder.append(present_largest_10day_loss_date);
+    if (present_largest_10day_loss_date)
+      builder.append(largest_10day_loss_date);
+
+    boolean present_hist_prices = true && (isSetHist_prices());
+    builder.append(present_hist_prices);
+    if (present_hist_prices)
+      builder.append(hist_prices);
 
     return builder.toHashCode();
   }
@@ -377,7 +649,7 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
       return lastComparison;
     }
     if (isSetName()) {
-      lastComparison = TBaseHelper.compareTo(this.name, typedOther.name);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.name, typedOther.name);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -387,7 +659,17 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
       return lastComparison;
     }
     if (isSetConstituents()) {
-      lastComparison = TBaseHelper.compareTo(this.constituents, typedOther.constituents);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.constituents, typedOther.constituents);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetBasis()).compareTo(typedOther.isSetBasis());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetBasis()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.basis, typedOther.basis);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -397,7 +679,37 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
       return lastComparison;
     }
     if (isSetPrice()) {
-      lastComparison = TBaseHelper.compareTo(this.price, typedOther.price);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.price, typedOther.price);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetLargest_10day_loss()).compareTo(typedOther.isSetLargest_10day_loss());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetLargest_10day_loss()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.largest_10day_loss, typedOther.largest_10day_loss);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetLargest_10day_loss_date()).compareTo(typedOther.isSetLargest_10day_loss_date());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetLargest_10day_loss_date()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.largest_10day_loss_date, typedOther.largest_10day_loss_date);
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+    }
+    lastComparison = Boolean.valueOf(isSetHist_prices()).compareTo(typedOther.isSetHist_prices());
+    if (lastComparison != 0) {
+      return lastComparison;
+    }
+    if (isSetHist_prices()) {
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.hist_prices, typedOther.hist_prices);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -409,51 +721,91 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
     return _Fields.findByThriftId(fieldId);
   }
 
-  public void read(TProtocol iprot) throws TException {
-    TField field;
+  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+    org.apache.thrift.protocol.TField field;
     iprot.readStructBegin();
     while (true)
     {
       field = iprot.readFieldBegin();
-      if (field.type == TType.STOP) { 
+      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
         break;
       }
       switch (field.id) {
         case 1: // NAME
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.name = iprot.readString();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 2: // CONSTITUENTS
-          if (field.type == TType.LIST) {
+          if (field.type == org.apache.thrift.protocol.TType.LIST) {
             {
-              TList _list0 = iprot.readListBegin();
-              this.constituents = new ArrayList<Stock>(_list0.size);
+              org.apache.thrift.protocol.TList _list0 = iprot.readListBegin();
+              this.constituents = new ArrayList<Position>(_list0.size);
               for (int _i1 = 0; _i1 < _list0.size; ++_i1)
               {
-                Stock _elem2;
-                _elem2 = new Stock();
+                Position _elem2;
+                _elem2 = new Position();
                 _elem2.read(iprot);
                 this.constituents.add(_elem2);
               }
               iprot.readListEnd();
             }
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
-        case 3: // PRICE
-          if (field.type == TType.DOUBLE) {
+        case 3: // BASIS
+          if (field.type == org.apache.thrift.protocol.TType.DOUBLE) {
+            this.basis = iprot.readDouble();
+            setBasisIsSet(true);
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        case 4: // PRICE
+          if (field.type == org.apache.thrift.protocol.TType.DOUBLE) {
             this.price = iprot.readDouble();
             setPriceIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        case 5: // LARGEST_10DAY_LOSS
+          if (field.type == org.apache.thrift.protocol.TType.DOUBLE) {
+            this.largest_10day_loss = iprot.readDouble();
+            setLargest_10day_lossIsSet(true);
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        case 6: // LARGEST_10DAY_LOSS_DATE
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
+            this.largest_10day_loss_date = iprot.readString();
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
+          }
+          break;
+        case 7: // HIST_PRICES
+          if (field.type == org.apache.thrift.protocol.TType.LIST) {
+            {
+              org.apache.thrift.protocol.TList _list3 = iprot.readListBegin();
+              this.hist_prices = new ArrayList<Double>(_list3.size);
+              for (int _i4 = 0; _i4 < _list3.size; ++_i4)
+              {
+                double _elem5;
+                _elem5 = iprot.readDouble();
+                this.hist_prices.add(_elem5);
+              }
+              iprot.readListEnd();
+            }
+          } else { 
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         default:
-          TProtocolUtil.skip(iprot, field.type);
+          org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
       }
       iprot.readFieldEnd();
     }
@@ -463,7 +815,7 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
     validate();
   }
 
-  public void write(TProtocol oprot) throws TException {
+  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
@@ -475,18 +827,41 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
     if (this.constituents != null) {
       oprot.writeFieldBegin(CONSTITUENTS_FIELD_DESC);
       {
-        oprot.writeListBegin(new TList(TType.STRUCT, this.constituents.size()));
-        for (Stock _iter3 : this.constituents)
+        oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, this.constituents.size()));
+        for (Position _iter6 : this.constituents)
         {
-          _iter3.write(oprot);
+          _iter6.write(oprot);
         }
         oprot.writeListEnd();
       }
       oprot.writeFieldEnd();
     }
+    oprot.writeFieldBegin(BASIS_FIELD_DESC);
+    oprot.writeDouble(this.basis);
+    oprot.writeFieldEnd();
     oprot.writeFieldBegin(PRICE_FIELD_DESC);
     oprot.writeDouble(this.price);
     oprot.writeFieldEnd();
+    oprot.writeFieldBegin(LARGEST_10DAY_LOSS_FIELD_DESC);
+    oprot.writeDouble(this.largest_10day_loss);
+    oprot.writeFieldEnd();
+    if (this.largest_10day_loss_date != null) {
+      oprot.writeFieldBegin(LARGEST_10DAY_LOSS_DATE_FIELD_DESC);
+      oprot.writeString(this.largest_10day_loss_date);
+      oprot.writeFieldEnd();
+    }
+    if (this.hist_prices != null) {
+      oprot.writeFieldBegin(HIST_PRICES_FIELD_DESC);
+      {
+        oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.DOUBLE, this.hist_prices.size()));
+        for (double _iter7 : this.hist_prices)
+        {
+          oprot.writeDouble(_iter7);
+        }
+        oprot.writeListEnd();
+      }
+      oprot.writeFieldEnd();
+    }
     oprot.writeFieldStop();
     oprot.writeStructEnd();
   }
@@ -512,14 +887,38 @@ public class Portfolio implements TBase<Portfolio, Portfolio._Fields>, java.io.S
     }
     first = false;
     if (!first) sb.append(", ");
+    sb.append("basis:");
+    sb.append(this.basis);
+    first = false;
+    if (!first) sb.append(", ");
     sb.append("price:");
     sb.append(this.price);
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("largest_10day_loss:");
+    sb.append(this.largest_10day_loss);
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("largest_10day_loss_date:");
+    if (this.largest_10day_loss_date == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.largest_10day_loss_date);
+    }
+    first = false;
+    if (!first) sb.append(", ");
+    sb.append("hist_prices:");
+    if (this.hist_prices == null) {
+      sb.append("null");
+    } else {
+      sb.append(this.hist_prices);
+    }
     first = false;
     sb.append(")");
     return sb.toString();
   }
 
-  public void validate() throws TException {
+  public void validate() throws org.apache.thrift.TException {
     // check for required fields
   }
 

@@ -30,8 +30,6 @@ import org.apache.hadoop.fs.permission.FsPermission;
 import org.apache.hadoop.util.Progressable;
 import org.apache.log4j.Logger;
 
-import com.datastax.brisk.BriskConf;
-
 public class CassandraFileSystem extends FileSystem
 {
     private static final Logger           logger = Logger.getLogger(CassandraFileSystem.class);
@@ -41,6 +39,8 @@ public class CassandraFileSystem extends FileSystem
     public final CassandraFileSystemStore store;
 
     private Path                          workingDir;
+    
+    private long                          subBlockSize;
 
     public CassandraFileSystem()
     {
@@ -49,9 +49,7 @@ public class CassandraFileSystem extends FileSystem
 
     public void initialize(URI uri, Configuration conf) throws IOException
     {
-        // Init configuration.
-        BriskConf.initialize();
-    
+
         super.initialize(uri, conf);
 
         setConf(conf);
@@ -59,6 +57,7 @@ public class CassandraFileSystem extends FileSystem
         this.workingDir = new Path("/user", System.getProperty("user.name")).makeQualified(this);
 
         store.initialize(this.uri, conf);
+        subBlockSize = conf.getLong("fs.local.subblock.size", 256L * 1024L);
     }
 
     @Override
@@ -215,7 +214,7 @@ public class CassandraFileSystem extends FileSystem
             }
         }
         return new FSDataOutputStream(new CassandraOutputStream(getConf(), store, makeAbsolute(file), permission,
-                blockSize, progress, bufferSize), statistics);
+                blockSize, subBlockSize, progress, bufferSize), statistics);
     }
 
     @Override
@@ -307,10 +306,7 @@ public class CassandraFileSystem extends FileSystem
         if (inode.isFile())
         {
             store.deleteINode(absolutePath);
-            for (Block block : inode.getBlocks())
-            {
-                store.deleteBlock(block);
-            }
+            store.deleteSubBlocks(inode);
         }
         else
         {
@@ -335,7 +331,8 @@ public class CassandraFileSystem extends FileSystem
         return true;
     }
 
-    @Override
+
+	@Override
     @Deprecated
     public boolean delete(Path path) throws IOException
     {
@@ -368,10 +365,14 @@ public class CassandraFileSystem extends FileSystem
 
         long end = start+len;
         
+        if (logger.isDebugEnabled()) {
+            logger.debug(String.format("Looking up Blocks Start: %d Len: %d", start, len));
+        }
+        
         List<Block> usedBlocks = new ArrayList<Block>();
         for (Block block : inode.getBlocks())
         {
-                      
+
             //See if the two windows overlap
             if ( ((start >= block.offset && start < (block.offset + block.length)) ||
                   (end   >= block.offset && end   < (block.offset + block.length)))
@@ -382,11 +383,26 @@ public class CassandraFileSystem extends FileSystem
                 usedBlocks.add(block);
             }
         }
+        
+        if (logger.isDebugEnabled()) {
+            logger.debug("Blocks used:");
+            printBlocksDebug(usedBlocks);
+        }
 
         return store.getBlockLocation(usedBlocks, start, len);
     }
 
     /**
+     * Print this List by invoking its objects' toString(); using the logger in debug mode.
+     * @param blocks list of blocks to be printed
+     */
+    private void printBlocksDebug(List<Block> blocks) {
+        for (Block block : blocks) {
+            logger.debug(block);
+        }
+    }
+
+	/**
      * FileStatus for Cassandra file systems.
      */
     @Override

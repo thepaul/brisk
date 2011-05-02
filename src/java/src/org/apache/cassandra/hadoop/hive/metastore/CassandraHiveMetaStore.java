@@ -2,38 +2,18 @@ package org.apache.cassandra.hadoop.hive.metastore;
 
 import java.util.*;
 
-import org.apache.cassandra.thrift.Cassandra;
-import org.apache.cassandra.thrift.CfDef;
-import org.apache.cassandra.thrift.InvalidRequestException;
-import org.apache.cassandra.thrift.KsDef;
-import org.apache.cassandra.thrift.NotFoundException;
 import org.apache.commons.lang.StringUtils;
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hive.metastore.RawStore;
-import org.apache.hadoop.hive.metastore.api.Database;
-import org.apache.hadoop.hive.metastore.api.FieldSchema;
-import org.apache.hadoop.hive.metastore.api.Index;
-import org.apache.hadoop.hive.metastore.api.InvalidObjectException;
-import org.apache.hadoop.hive.metastore.api.MetaException;
-import org.apache.hadoop.hive.metastore.api.NoSuchObjectException;
-import org.apache.hadoop.hive.metastore.api.Partition;
-import org.apache.hadoop.hive.metastore.api.PrincipalPrivilegeSet;
-import org.apache.hadoop.hive.metastore.api.PrincipalType;
-import org.apache.hadoop.hive.metastore.api.PrivilegeBag;
-import org.apache.hadoop.hive.metastore.api.Role;
-import org.apache.hadoop.hive.metastore.api.Table;
-import org.apache.hadoop.hive.metastore.api.Type;
-import org.apache.hadoop.hive.metastore.model.MDBPrivilege;
-import org.apache.hadoop.hive.metastore.model.MGlobalPrivilege;
-import org.apache.hadoop.hive.metastore.model.MPartitionColumnPrivilege;
-import org.apache.hadoop.hive.metastore.model.MPartitionPrivilege;
-import org.apache.hadoop.hive.metastore.model.MRoleMap;
-import org.apache.hadoop.hive.metastore.model.MStorageDescriptor;
-import org.apache.hadoop.hive.metastore.model.MTableColumnPrivilege;
-import org.apache.hadoop.hive.metastore.model.MTablePrivilege;
-import org.apache.thrift.TBase;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.apache.cassandra.config.KSMetaData;
+import org.apache.cassandra.thrift.*;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hive.metastore.RawStore;
+import org.apache.hadoop.hive.metastore.api.*;
+import org.apache.hadoop.hive.metastore.model.*;
+import org.apache.thrift.TBase;
 
 /**
  * Serializes thrift structs for Hive Meta Store to Apache Cassandra.
@@ -49,7 +29,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author zznate
  */
-public class CassandraHiveMetaStore implements RawStore {        
+public class CassandraHiveMetaStore implements RawStore {       
     
     private static final Logger log = LoggerFactory.getLogger(CassandraHiveMetaStore.class);
     private Configuration configuration;
@@ -114,11 +94,12 @@ public class CassandraHiveMetaStore implements RawStore {
         
         CfDef cf = new CfDef(cassandraClientHolder.getKeyspaceName(), 
                 cassandraClientHolder.getColumnFamily());
+        cf.setKey_validation_class("UTF8Type");
         cf.setComparator_type("UTF8Type");
         KsDef ks = new KsDef(cassandraClientHolder.getKeyspaceName(), 
-                "org.apache.cassandra.locator.SimpleStrategy", 
-                conf.getInt(CassandraClientHolder.CONF_PARAM_REPLICATION_FACTOR, 1), 
+                "org.apache.cassandra.locator.SimpleStrategy",  
                 Arrays.asList(cf));
+        ks.setStrategy_options(KSMetaData.optsWithRF(conf.getInt(CassandraClientHolder.CONF_PARAM_REPLICATION_FACTOR, 1)));
         try {
             client.system_add_keyspace(ks);
         } catch (Exception e) {
@@ -140,6 +121,7 @@ public class CassandraHiveMetaStore implements RawStore {
     {
         log.debug("in getDatabase with database name: {}", databaseName);
         Database db = new Database();
+        db.setName(databaseName);
         try 
         {
             metaStorePersister.load(db, databaseName);
@@ -209,6 +191,7 @@ public class CassandraHiveMetaStore implements RawStore {
         Database database = new Database();
         database.setName(databaseName);
         metaStorePersister.remove(database, databaseName);
+        metaStorePersister.remove(database, CassandraClientHolder.DATABASES_ROW_KEY);
         return true;
     }
 
@@ -274,10 +257,24 @@ public class CassandraHiveMetaStore implements RawStore {
     {
         if ( log.isDebugEnabled() ) 
             log.debug("Altering oldTableName {} on datbase: {} new Table: {}",
-                    new Object[]{oldTableName, databaseName, table});
+                    new Object[]{oldTableName, databaseName, table.getTableName()});        
         
-        updateTableComponents(databaseName, null, oldTableName, table);
-        dropTable(databaseName, oldTableName);
+        if ( oldTableName.equals(table.getTableName()) )
+        {
+            createTable(table);
+        }
+        else
+        {
+            List<TBase> removeable = updateTableComponents(databaseName, null, oldTableName, table);
+            //dropTable(databaseName, oldTableName);
+            Table oldTable = new Table();
+            oldTable.setDbName(databaseName);
+            oldTable.setTableName(oldTableName);
+            metaStorePersister.remove(oldTable, databaseName);
+            if ( removeable != null && !removeable.isEmpty() )
+                metaStorePersister.removeAll(removeable, databaseName);
+        }
+         
     }   
     
     private List<TBase> updateTableComponents(String oldDatabaseName, Database database, String oldTableName, Table table)
@@ -293,6 +290,11 @@ public class CassandraHiveMetaStore implements RawStore {
             if ( database != null )
                 partition.setDbName(database.getName());
             partition.setTableName(table.getTableName());
+            String loc = partition.getSd().getLocation();
+            if ( loc.contains(oldTableName))
+            {                                
+                partition.getSd().setLocation(loc.replace(oldTableName, table.getTableName()));
+            }
             addPartition(partition);
         }
         // getIndexes
@@ -314,7 +316,16 @@ public class CassandraHiveMetaStore implements RawStore {
         Table table = new Table();
         table.setDbName(databaseName);
         table.setTableName(tableName);
+        List<TBase> removeables = new ArrayList<TBase>();
+        List<Partition> partitions = getPartitions(databaseName, tableName, -1);
+        if ( partitions != null && !partitions.isEmpty() )
+            removeables.addAll(partitions);
+        List<Index> indexes = getIndexes(databaseName, tableName, -1);
+        if ( indexes != null && !indexes.isEmpty() )
+            removeables.addAll(indexes);
         metaStorePersister.remove(table, databaseName);
+        if ( !removeables.isEmpty() )
+            metaStorePersister.removeAll(removeables, databaseName);
         return true;
     }
     
@@ -413,7 +424,7 @@ public class CassandraHiveMetaStore implements RawStore {
                 new Object[]{databaseName, tableName, max});
         
         List results = metaStorePersister.find(new Partition(), databaseName, tableName, max);
-        
+        log.debug("Found partitions: {}", results);
         return (List<Partition>)results;
     }
     
@@ -453,11 +464,13 @@ public class CassandraHiveMetaStore implements RawStore {
 
     public boolean dropPartition(String databaseName, String tableName, List<String> partitions)
             throws MetaException
-    {
+    {   
         Partition partition = new Partition();
         partition.setDbName(databaseName);
         partition.setTableName(tableName);
         partition.setValues(partitions);
+        if ( log.isDebugEnabled() )
+            log.debug("Dropping partition: {}", partition);
         metaStorePersister.remove(partition, databaseName);
         return true;
     }       

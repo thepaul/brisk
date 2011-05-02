@@ -81,14 +81,7 @@ fi
 
 # Specifies the default port over which Cassandra will be available for
 # JMX connections.
-JMX_PORT="8080"
-
-# To use mx4j, an HTML interface for JMX, add mx4j-tools.jar to the lib/ directory.
-# By default mx4j listens on 0.0.0.0:8081. Uncomment the following lines to control
-# its listen address and port.
-#MX4J_ADDRESS="-Dmx4jaddress=0.0.0.0"
-#MX4J_PORT="-Dmx4jport=8081"
-
+JMX_PORT="7199"
 
 # Here we create the arguments that will get passed to the jvm when
 # starting cassandra.
@@ -96,6 +89,13 @@ JMX_PORT="8080"
 # enable assertions.  disabling this in production will give a modest
 # performance benefit (around 5%).
 JVM_OPTS="$JVM_OPTS -ea"
+
+# add the jamm javaagent
+check_openjdk=$(java -version 2>&1 | awk '{if (NR == 2) {print $1}}')
+if [ "$check_openjdk" != "OpenJDK" ]
+then
+    JVM_OPTS="$JVM_OPTS -javaagent:$CASSANDRA_HOME/lib/jamm-0.2.1.jar"
+fi
 
 # enable thread priorities, primarily so we can give periodic tasks
 # a lower priority to avoid interfering with client workload
@@ -136,7 +136,7 @@ JVM_OPTS="$JVM_OPTS -XX:+UseCMSInitiatingOccupancyOnly"
 # JVM_OPTS="$JVM_OPTS -XX:+PrintClassHistogram"
 # JVM_OPTS="$JVM_OPTS -XX:+PrintTenuringDistribution"
 # JVM_OPTS="$JVM_OPTS -XX:+PrintGCApplicationStoppedTime"
-# JVM_OPTS="$JVM_OPTS -Xloggc:/var/log/cassandra/gc.log"
+# JVM_OPTS="$JVM_OPTS -Xloggc:/var/log/cassandra/gc-`date +%s`.log"
 
 # uncomment to have Cassandra JVM listen for remote debuggers/profilers on port 1414
 # JVM_OPTS="$JVM_OPTS -Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=1414"
@@ -158,5 +158,3 @@ JVM_OPTS="$JVM_OPTS -Djava.net.preferIPv4Stack=true"
 JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.port=$JMX_PORT" 
 JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.ssl=false" 
 JVM_OPTS="$JVM_OPTS -Dcom.sun.management.jmxremote.authenticate=false" 
-JVM_OPTS="$JVM_OPTS $MX4J_ADDRESS" 
-JVM_OPTS="$JVM_OPTS $MX4J_PORT" 

@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+import org.apache.cassandra.config.KSMetaData;
 import org.apache.cassandra.thrift.*;
 import org.apache.cassandra.utils.CircuitBreaker;
 import org.apache.log4j.Logger;
@@ -47,6 +48,11 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
 
     private static final Logger logger  = Logger.getLogger(CassandraProxyClient.class);
 
+    public enum ConnectionStrategy {
+        RANDOM, ROUND_ROBIN, STICKY
+    };
+    
+    
     /**
      * The initial host to create the proxy client.
      */
@@ -57,7 +63,7 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
      * If true, randomly choose a server to connect after failure.
      * Otherwise, use round-robin mechanism.
      */
-    private final boolean       randomizeConnections;
+    private final ConnectionStrategy connectionStrategy;
     /**
      * The last successfully connected server.
      */
@@ -107,12 +113,11 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
      * @return a Brisk Client Interface
      * @throws IOException
      */
-    public static Brisk.Iface newProxyConnection(String host, int port, boolean framed, boolean randomizeConnections)
+    public static Brisk.Iface newProxyConnection(String host, int port, boolean framed, ConnectionStrategy connectionStrategy)
             throws IOException
     {
         return (Brisk.Iface) java.lang.reflect.Proxy.newProxyInstance(Brisk.Client.class.getClassLoader(),
-                Brisk.Client.class.getInterfaces(), new CassandraProxyClient(host, port, framed,
-                        randomizeConnections));
+                Brisk.Client.class.getInterfaces(), new CassandraProxyClient(host, port, framed, connectionStrategy));
     }
 
     /**
@@ -153,17 +158,17 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
         return client;
     }
 
-    private CassandraProxyClient(String host, int port, boolean framed, boolean randomizeConnections)
+    private CassandraProxyClient(String host, int port, boolean framed, ConnectionStrategy connectionStrategy)
             throws IOException
     {
 
         this.host = host;
         this.port = port;
         this.framed = framed;
-        this.randomizeConnections = randomizeConnections;
+        this.connectionStrategy = connectionStrategy;
         this.lastUsedHost = host;
         //If randomized to choose a connection, initialize the random generator.
-        if (randomizeConnections) {
+        if (connectionStrategy == ConnectionStrategy.RANDOM) {
         	random = new Random();
         } else {
         	//If not randomized to choose a connection, use round robin mechanism.
@@ -234,10 +239,11 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
      * @throws TException error
      * @throws InterruptedException error
      */
-    private KsDef createTmpKs() throws InvalidRequestException, TException, InterruptedException
+    private KsDef createTmpKs() throws InvalidRequestException, TException, InterruptedException, SchemaDisagreementException
     {
-        KsDef tmpKs = new KsDef("proxy_client_ks", "org.apache.cassandra.locator.SimpleStrategy", 1, Arrays
+        KsDef tmpKs = new KsDef("proxy_client_ks", "org.apache.cassandra.locator.SimpleStrategy", Arrays
                 .asList(new CfDef[] {}));
+        tmpKs.setStrategy_options(KSMetaData.optsWithRF(1));
 
         client.system_add_keyspace(tmpKs);
 
@@ -264,7 +270,7 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
                     ring = client.describe_ring(ringKs);
                     lastPoolCheck = now;
                     //Reset the round robin to 0
-                    if (!randomizeConnections)
+                    if (connectionStrategy == ConnectionStrategy.ROUND_ROBIN)
                     	lastUsedConnIndex = 0;
 
                     breaker.success();
@@ -285,23 +291,30 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
      *
      * 1. Random to choose next server.
      * 2. Round-robin mechanism.
+     * 3. Sticky
      *
      * @param host the last server tried
      */
     private String getNextServer(String host) {
     	String endpoint = host;
 
+    	
+    	if(connectionStrategy == ConnectionStrategy.STICKY)
+    	    return endpoint;
+    	
         List<String> endpoints = ring.get(random.nextInt(ring.size())).endpoints;
 
    	 	// pick a different node from the ring
         while (!endpoint.equals(host))
         {
         	int i = lastUsedConnIndex;
-        	if (randomizeConnections)
+        
+        	if (connectionStrategy == ConnectionStrategy.RANDOM)
         		i = random.nextInt(endpoints.size());
 
         	endpoint = endpoints.get(i);
-        	if (!randomizeConnections)
+        
+        	if (connectionStrategy == ConnectionStrategy.ROUND_ROBIN)
         	{
         		i ++;
         		//Start from beginning if reaches to the last server in the ring.
@@ -319,7 +332,7 @@ public class CassandraProxyClient implements java.lang.reflect.InvocationHandler
     private void attemptReconnect()
     {
         // first try to connect to the same host as before
-        if (!randomizeConnections || ring == null || ring.size() == 0)
+        if (connectionStrategy == ConnectionStrategy.STICKY || ring == null || ring.size() == 0)
         {
             try
             {

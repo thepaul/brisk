@@ -15,11 +15,11 @@
 	<property name="autogen.thrift.dir" location="${basedir}/thrift" />
 
 	<target name="init">
-		<tstamp />
-		<mkdir dir="${build}" />
-		<mkdir dir="${build}/output" />
-		<mkdir dir="${build.classes}" />
-		<mkdir dir="${build.test.classes}" />
+	  <tstamp />
+	  <mkdir dir="${build}" />
+	  <mkdir dir="${build}/output" />
+	  <mkdir dir="${build.classes}" />
+	  <mkdir dir="${build.test.classes}" />
 	</target>
 
 	<path id="portfolio.classpath">
@@ -40,8 +40,7 @@
 	</target>
 
 	<target name="portfolio.jar" depends="compile">
-		<jar jarfile="portfolio.jar" basedir="${build.classes}" />
-		
+	  <jar jarfile="portfolio.jar" basedir="${build.classes}" />		
 	</target>
 
 	<target name="clean">

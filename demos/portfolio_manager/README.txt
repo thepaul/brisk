@@ -1,5 +1,8 @@
 Brisk Portfolio Manager Demo
 ============================
 
-The Portfolio manager demonstrates a hybrid workflow: live changing data and backend analytics.
+The portfolio manager demonstrates a hybrid workflow: 
+live changing data and backend analytics.
+
+Our 
 

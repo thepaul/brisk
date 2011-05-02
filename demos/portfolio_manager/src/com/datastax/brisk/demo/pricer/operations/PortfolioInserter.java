@@ -17,18 +17,15 @@
  */
 package com.datastax.brisk.demo.pricer.operations;
 
-import org.apache.cassandra.db.ColumnFamilyType;
-import org.apache.cassandra.thrift.*;
-import org.apache.cassandra.utils.ByteBufferUtil;
-
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import com.datastax.brisk.demo.pricer.Pricer;
 import com.datastax.brisk.demo.pricer.util.Operation;
+
+import org.apache.cassandra.thrift.*;
+import org.apache.cassandra.utils.ByteBufferUtil;
 
 public class PortfolioInserter extends Operation
 {
@@ -45,7 +42,7 @@ public class PortfolioInserter extends Operation
         
         for (int i = 0; i < stocks.length; i++)
         {
-            columns.add(new Column(ByteBufferUtil.bytes(stocks[i]), ByteBufferUtil.EMPTY_BYTE_BUFFER, System.currentTimeMillis()));
+            columns.add(new Column().setName(ByteBufferUtil.bytes(stocks[i])).setValue(ByteBufferUtil.bytes((long)Pricer.randomizer.nextInt(50))).setTimestamp(System.currentTimeMillis()));
         }
        
         String rawKey = String.valueOf(index);

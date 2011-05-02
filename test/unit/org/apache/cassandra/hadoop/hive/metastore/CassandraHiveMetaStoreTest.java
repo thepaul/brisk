@@ -1,24 +1,25 @@
 package org.apache.cassandra.hadoop.hive.metastore;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.junit.BeforeClass;
+import org.junit.Test;
+
 import org.apache.cassandra.CleanupHelper;
 import org.apache.cassandra.EmbeddedServer;
 import org.apache.cassandra.config.ConfigurationException;
 import org.apache.cassandra.config.DatabaseDescriptor;
 import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hive.metastore.api.Database;
-import org.apache.hadoop.hive.metastore.api.Partition;
-import org.apache.hadoop.hive.metastore.api.Table;
+import org.apache.hadoop.hive.metastore.api.*;
 import org.apache.thrift.transport.TTransportException;
-import org.junit.BeforeClass;
-import org.junit.Ignore;
-import org.junit.Test;
 
 /**
  * Test plumbing of CassandraHiveMetaStore
@@ -179,6 +180,40 @@ public class CassandraHiveMetaStoreTest extends CleanupHelper {
 
     }
     
+    @Test
+    public void testCreateMultipleDatabases() throws Exception 
+    {
+        CassandraHiveMetaStore metaStore = new CassandraHiveMetaStore();
+        metaStore.setConf(buildConfiguration());
+        Database database = new Database("db_1", "My Database", "file:///tmp/", new HashMap<String, String>());
+        metaStore.createDatabase(database);
+        database.setName("db_2");
+        metaStore.createDatabase(database);
+        assertTrue(metaStore.getAllDatabases().size() > 1);
+    }
+    
+    @Test
+    public void testAddDropReAddDatabase() throws Exception 
+    {
+        CassandraHiveMetaStore metaStore = new CassandraHiveMetaStore();
+        metaStore.setConf(buildConfiguration());
+        Database database = new Database("add_drop_readd_db", "My Database", "file:///tmp/", new HashMap<String, String>());
+        metaStore.createDatabase(database);
+        Database foundDatabase = metaStore.getDatabase("add_drop_readd_db");
+        assertEquals(database, foundDatabase);
+        metaStore.dropDatabase("add_drop_readd_db");
+        try {
+            foundDatabase = metaStore.getDatabase("add_drop_readd_db");
+            fail();
+        } catch (NoSuchObjectException nsoe) {
+            foundDatabase = null;
+        }
+        metaStore.createDatabase(database);
+        foundDatabase = metaStore.getDatabase("add_drop_readd_db");
+        assertEquals(database, foundDatabase);
+        
+    }
+    
     
     private Configuration buildConfiguration() 
     {
@@ -186,7 +221,7 @@ public class CassandraHiveMetaStoreTest extends CleanupHelper {
         conf.set(CassandraClientHolder.CONF_PARAM_HOST, "localhost");
         conf.setInt(CassandraClientHolder.CONF_PARAM_PORT, DatabaseDescriptor.getRpcPort());
         conf.setBoolean(CassandraClientHolder.CONF_PARAM_FRAMED, true);
-        conf.setBoolean(CassandraClientHolder.CONF_PARAM_RANDOMIZE_CONNECTIONS, true);
+        conf.set(CassandraClientHolder.CONF_PARAM_CONNECTION_STRATEGY, "STICKY");
         return conf;
     }
 }

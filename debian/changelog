@@ -1,0 +1,5 @@
+brisk (0.1~pre1) stable; urgency=low
+
+  * Initial release.
+
+ -- Brandon Williams <brandon@datastax.com>  Mon, 18 Apr 2011 11:22:50 -0500

@@ -17,10 +17,23 @@ public class TrackerInitializer
 {
     private static Logger logger = Logger.getLogger(TrackerInitializer.class);
     private static final CountDownLatch jobTrackerStarted = new CountDownLatch(1);
+    public static final String  trackersProperty = "hadoop-trackers";
+    public static final boolean isTrackerNode = System.getProperty(trackersProperty, "false").equalsIgnoreCase("true");
     
     public static void init() 
     {
-              
+             
+        //Wait for gossip                
+        try
+        {                    
+            logger.info("Waiting for gossip to start");
+            Thread.sleep(5000);
+        }
+        catch (InterruptedException e)
+        {
+           throw new RuntimeException(e);
+        }
+        
         //Are we a JobTracker?
         InetAddress jobTrackerAddr = CassandraJobConf.getJobTrackerNode();
         if(jobTrackerAddr.equals(FBUtilities.getLocalAddress()))
@@ -54,18 +67,7 @@ public class TrackerInitializer
             public void run()
             {
                 JobTracker jobTracker = null; 
-                               
-                //Wait for gossip                
-                try
-                {                    
-                    logger.info("Waiting for gossip to start");
-                    Thread.sleep(5000);
-                }
-                catch (InterruptedException e)
-                {
-                   throw new RuntimeException(e);
-                }
-                
+                                              
                 while(true)
                 {
                     try

@@ -19,19 +19,16 @@ package com.datastax.brisk.demo.pricer.util;
 
 import java.io.IOException;
 import java.math.BigInteger;
-import java.nio.ByteBuffer;
 import java.security.MessageDigest;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.datastax.brisk.demo.pricer.Session;
 import com.datastax.brisk.demo.pricer.Pricer;
+import com.datastax.brisk.demo.pricer.Session;
 
 import org.apache.cassandra.thrift.Cassandra;
 import org.apache.cassandra.thrift.InvalidRequestException;
-import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.cassandra.utils.FBUtilities;
 
 public abstract class Operation
@@ -82,7 +79,7 @@ public abstract class Operation
     
     protected String[] generatePortfolio(int limit)
     {
-        String[] portfolio = new String[Pricer.randomizer.nextInt(limit)];
+        String[] portfolio = new String[Pricer.randomizer.nextInt(limit)+1];
         
         for(int i=0; i<portfolio.length; i++)
         {

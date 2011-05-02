@@ -17,19 +17,21 @@
  */
 package org.apache.cassandra.hadoop.fs;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.InetAddress;
 import java.net.URI;
 import java.nio.ByteBuffer;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
 import java.util.*;
 
 import com.datastax.brisk.BriskInternalServer;
-import com.datastax.brisk.BriskConf;
 
 import org.apache.cassandra.hadoop.CassandraProxyClient;
+import org.apache.cassandra.hadoop.CassandraProxyClient.ConnectionStrategy;
 import org.apache.cassandra.hadoop.trackers.CassandraJobConf;
+import org.apache.cassandra.io.util.FileUtils;
+import org.apache.cassandra.locator.BriskSimpleSnitch;
 import org.apache.cassandra.thrift.*;
 import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.cassandra.utils.FBUtilities;
@@ -40,66 +42,84 @@ import org.apache.hadoop.fs.Path;
 import org.apache.log4j.Logger;
 import org.apache.thrift.TException;
 
+/**
+ * 
+ * CFs schema:
+ * 
+ * Column Families:
+ * - inode
+ * - sblocks
+ * 
+ * -------------------
+ * |      inode       |
+ * -------------------
+ *  {key : [<path>: <  > ], [<sentinel>: <   >], [ <datacol> : < all blocks with its subBlocks serialized>] }
+ *  
+ *  ------------------
+ * |     sblocks      |
+ *  ------------------
+ *  { key(Block UUID): [<subBlockUUID> : <data>>], [<subBlockUUID> : <data>>], .......[<subBlockUUID> : <data>>] }
+ */
 public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 {
-    private final static Logger logger = Logger.getLogger(CassandraFileSystemThriftStore.class);     
-    
-    private static final String         keySpace         = "cfs";
-    private static final String         inodeCf          = "inode";
-    private static final String         blockCf          = "blocks";
+    private final static Logger         logger        = Logger.getLogger(CassandraFileSystemThriftStore.class);
 
-    private static final ByteBuffer     dataCol          = ByteBufferUtil.bytes("data");
-    private static final ByteBuffer     pathCol          = ByteBufferUtil.bytes("path");
-    private static final ByteBuffer     sentCol          = ByteBufferUtil.bytes("sentinel");
+    private static final String         keySpace      = "cfs";
+    private static final String         inodeCf       = "inode";
+    private static final String         sblockCf       = "sblocks";
 
-    private static final ColumnPath     blockPath        = new ColumnPath(blockCf);
-    private static final ColumnParent   blockParent      = new ColumnParent(blockCf);
+    private static final ByteBuffer     dataCol       = ByteBufferUtil.bytes("data");
+    private static final ByteBuffer     pathCol       = ByteBufferUtil.bytes("path");
+    private static final ByteBuffer     sentCol       = ByteBufferUtil.bytes("sentinel");
 
-    private static final ColumnPath     inodePath        = new ColumnPath(inodeCf);
-    private static final ColumnParent   inodeParent      = new ColumnParent(inodeCf);
+    private static final ColumnPath     sblockPath     = new ColumnPath(sblockCf);
+    private static final ColumnParent   sblockParent   = new ColumnParent(sblockCf);
 
-    private static final ColumnPath     inodeDataPath    = new ColumnPath(inodeCf).setColumn(dataCol);
-    private static final ColumnPath     blockDataPath    = new ColumnPath(blockCf).setColumn(dataCol);
+    private static final ColumnPath     inodePath     = new ColumnPath(inodeCf);
+    private static final ColumnParent   inodeParent   = new ColumnParent(inodeCf);
 
-    private static final SlicePredicate pathPredicate    = new SlicePredicate().setColumn_names(Arrays.asList(pathCol));
+    private static final ColumnPath     inodeDataPath = new ColumnPath(inodeCf).setColumn(dataCol);
+    private static final ColumnPath     sblockDataPath = new ColumnPath(sblockCf).setColumn(dataCol);
 
-    private static final ByteBuffer     sentinelValue    = ByteBufferUtil.bytes("x");
+    private static final SlicePredicate pathPredicate = new SlicePredicate().setColumn_names(Arrays.asList(pathCol));
+
+    private static final ByteBuffer     sentinelValue = ByteBufferUtil.bytes("x");
 
     private ConsistencyLevel            consistencyLevelRead;
 
     private ConsistencyLevel            consistencyLevelWrite;
 
-    private Cassandra.Iface       client;
+    private Cassandra.Iface             client;
 
     public CassandraFileSystemThriftStore()
     {
-        
+
     }
 
     public void initialize(URI uri, Configuration conf) throws IOException
     {
 
         String host = uri.getHost();
-        int    port = uri.getPort();
-        
-        if(host == null || host.isEmpty() || host.equals("null"))
+        int port = uri.getPort();
+
+        if (host == null || host.isEmpty() || host.equals("null"))
             host = InetAddress.getLocalHost().getHostName();
-            
-        if(port == -1)
-            port = 9160; //default
-        
-        //We could be running inside of cassandra...
-        if(conf instanceof CassandraJobConf)
+
+        if (port == -1)
+            port = 9160; // default
+
+        // We could be running inside of cassandra...
+        if (conf instanceof CassandraJobConf)
             client = new BriskInternalServer();
         else
-            client = CassandraProxyClient.newProxyConnection(host, port, true, true);
-        
+            client = CassandraProxyClient.newProxyConnection(host, port, true, ConnectionStrategy.STICKY);
+
         KsDef ks = checkKeyspace();
 
         if (ks == null)
             ks = createKeySpace();
-        
-        initConsistencyLevels(ks);
+
+        initConsistencyLevels(ks, conf);
 
         try
         {
@@ -113,27 +133,31 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
     /**
      * Initialize the consistency levels for reads and writes.
-     * @param ks Keyspace definition
+     * 
+     * @param ks
+     *            Keyspace definition
      */
-    private void initConsistencyLevels(KsDef ks) {
-        consistencyLevelRead = BriskConf.getConsistencyLevelRead();
-        consistencyLevelWrite = BriskConf.getConsistencyLevelWrite();
+    private void initConsistencyLevels(KsDef ks, Configuration conf)
+    {
+
+        consistencyLevelRead = ConsistencyLevel.valueOf(conf.get("brisk.consistencylevel.read", "QUORUM"));
+        consistencyLevelWrite = ConsistencyLevel.valueOf(conf.get("brisk.consistencylevel.write", "QUORUM"));
 
         // Change consistency if this using NTS
         if (ks.getStrategy_class().contains("NetworkTopologyStrategy"))
         {
-            if (consistencyLevelRead.equals(ConsistencyLevel.QUORUM)) 
+            if (consistencyLevelRead.equals(ConsistencyLevel.QUORUM))
             {
                 consistencyLevelRead = ConsistencyLevel.LOCAL_QUORUM;
             }
-            if (consistencyLevelWrite.equals(ConsistencyLevel.QUORUM)) 
+            if (consistencyLevelWrite.equals(ConsistencyLevel.QUORUM))
             {
                 consistencyLevelWrite = ConsistencyLevel.LOCAL_QUORUM;
             }
         }
     }
 
-	private KsDef checkKeyspace() throws IOException
+    private KsDef checkKeyspace() throws IOException
     {
         try
         {
@@ -173,6 +197,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
             cf.setComparator_type("BytesType");
             cf.setKey_cache_size(0);
             cf.setRow_cache_size(0);
+            cf.setGc_grace_seconds(60);
             cf.setComment("Stores file meta data");
             cf.setKeyspace(keySpace);
 
@@ -183,17 +208,25 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
             cfs.add(cf);
 
             cf = new CfDef();
-            cf.setName(blockCf);
+            cf.setName(sblockCf);
             cf.setComparator_type("BytesType");
             cf.setKey_cache_size(0);
             cf.setRow_cache_size(0);
+            cf.setGc_grace_seconds(60);
             cf.setComment("Stores blocks of information associated with a inode");
             cf.setKeyspace(keySpace);
 
             cfs.add(cf);
+            
+            Map<String,String> stratOpts = new HashMap<String,String>();
+            stratOpts.put(BriskSimpleSnitch.BRISK_DC, System.getProperty("cfs.replication","1"));
+            stratOpts.put(BriskSimpleSnitch.DEFAULT_DC, "0");
 
-            cfsKs = new KsDef().setName(keySpace).setReplication_factor(1).setStrategy_class(
-                    "org.apache.cassandra.locator.SimpleStrategy").setCf_defs(cfs);
+            cfsKs = new KsDef()
+                .setName(keySpace)
+                .setStrategy_class("org.apache.cassandra.locator.NetworkTopologyStrategy")
+                .setStrategy_options(stratOpts)
+                .setCf_defs(cfs);
 
             client.system_add_keyspace(cfsKs);
 
@@ -208,27 +241,74 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
     public InputStream retrieveBlock(Block block, long byteRangeStart) throws IOException
     {
-        ByteBuffer blockId = getBlockKey(block.id);
+    	return new CassandraSubBlockInputStream(this, block, byteRangeStart);
+    }
+    
+    public InputStream retrieveSubBlock(Block block, SubBlock subBlock, long byteRangeStart) throws IOException
+    {
+    	ByteBuffer blockId = uuidToByteBuffer(block.id);
+        ByteBuffer subBlockId = uuidToByteBuffer(subBlock.id);
 
-        ColumnOrSuperColumn blockData = null;
+        LocalOrRemoteBlock blockData = null;
 
         try
         {
-            blockData = client.get(blockId, blockDataPath, consistencyLevelRead);
+            blockData = ((Brisk.Iface) client).get_cfs_sblock(FBUtilities.getLocalAddress().getHostName(), 
+            		blockId, subBlockId, (int) byteRangeStart);
         }
         catch (Exception e)
         {
             throw new IOException(e);
         }
 
-        if (blockData == null || blockData.column == null)
-            throw new IOException("Missing block: " + block.id);
+        if (blockData == null)
+            throw new IOException("Missing block: " + subBlock.id);
 
-        InputStream is = ByteBufferUtil.inputStream(blockData.column.value);
-
-        is.skip(byteRangeStart);
+        InputStream is = null;
+        if (blockData.remote_block != null)
+            is = ByteBufferUtil.inputStream(blockData.remote_block);
+        else
+            is = readLocalBlock(blockData.getLocal_block());
 
         return is;
+    }
+
+    private InputStream readLocalBlock(LocalBlock blockInfo)
+    {
+
+        if (blockInfo.file == null)
+            throw new RuntimeException("Local file name is not defined");
+
+        if (blockInfo.length == 0)
+            return ByteBufferUtil.inputStream(ByteBufferUtil.EMPTY_BYTE_BUFFER);
+
+        RandomAccessFile raf = null;
+        try
+        {
+            raf = new RandomAccessFile(blockInfo.file, "r");
+
+            logger.info("Mmapping " + blockInfo.length + " bytes");
+
+            MappedByteBuffer bb = raf.getChannel().map(FileChannel.MapMode.READ_ONLY, blockInfo.offset,
+                    blockInfo.length);
+
+            return new ByteBufferUtil().inputStream(bb);
+
+        }
+        catch (FileNotFoundException e)
+        {
+            throw new RuntimeException("Local file does not exist: " + blockInfo.file);
+        }
+        catch (IOException e)
+        {
+            throw new RuntimeException(String.format("Unable to mmap block %s[%d,%d]", blockInfo.file,
+                    blockInfo.length, blockInfo.offset), e);
+        }
+        finally
+        {
+            FileUtils.closeQuietly(raf);
+        }
+
     }
 
     public INode retrieveINode(Path path) throws IOException
@@ -252,16 +332,33 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         return INode.deserialize(ByteBufferUtil.inputStream(pathInfo.column.value), pathInfo.column.getTimestamp());
     }
 
-    public void storeBlock(Block block, ByteArrayOutputStream os) throws IOException
+    /**
+     * {@inheritDoc}
+     */
+    public void storeSubBlock(UUID parentBlockUUID, SubBlock sblock, ByteArrayOutputStream os) throws IOException
     {
-        ByteBuffer blockId = getBlockKey(block.id);
+    	assert parentBlockUUID != null;
+    	
+    	// Row key is the Block id to which this SubBLock belongs to.
+        ByteBuffer parentBlockId = uuidToByteBuffer(parentBlockUUID);
 
         ByteBuffer data = ByteBuffer.wrap(os.toByteArray());
+        
+        if (logger.isDebugEnabled()) {
+        	logger.debug("Storing " + sblock);
+        }
+        
+        // Row Key: UUID of SubBLock Block parent
+        // Column name: Sub Block UUID
+        // Column value: Sub Block Data.
 
         try
         {
-            client.insert(blockId, blockParent, new Column(dataCol, data, System.currentTimeMillis()),
-                            consistencyLevelWrite);
+            client.insert(
+                parentBlockId, 
+                sblockParent, 
+                new Column().setName(uuidToByteBuffer(sblock.id)).setValue(data).setTimestamp(System.currentTimeMillis()), 
+                consistencyLevelWrite);
         }
         catch (Exception e)
         {
@@ -271,8 +368,13 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
     public void storeINode(Path path, INode inode) throws IOException
     {
-        logger.info("Writing inode to: "+path);
-                
+        logger.info("Writing inode to: " + path);
+        
+        if (logger.isDebugEnabled() && inode.getBlocks() != null) {
+        	printBlocksDebug(inode.getBlocks());
+        }
+
+        // Inode row key
         ByteBuffer pathKey = getPathKey(path);
 
         ByteBuffer data = inode.serialize();
@@ -288,16 +390,16 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         long ts = System.currentTimeMillis();
 
         // file name
-        mutations.add(new Mutation().setColumn_or_supercolumn(new ColumnOrSuperColumn().setColumn(new Column(pathCol,
-                ByteBufferUtil.bytes(path.toUri().getPath()), ts))));
+        mutations.add(new Mutation().setColumn_or_supercolumn(new ColumnOrSuperColumn().setColumn(new Column().setName(
+                pathCol).setValue(ByteBufferUtil.bytes(path.toUri().getPath())).setTimestamp(ts))));
 
         // sentinal
-        mutations.add(new Mutation().setColumn_or_supercolumn(new ColumnOrSuperColumn().setColumn(new Column(sentCol,
-                sentinelValue, ts))));
+        mutations.add(new Mutation().setColumn_or_supercolumn(new ColumnOrSuperColumn().setColumn(new Column().setName(
+                sentCol).setValue(sentinelValue).setTimestamp(ts))));
 
         // serialized inode
-        mutations.add(new Mutation().setColumn_or_supercolumn(new ColumnOrSuperColumn().setColumn(new Column(dataCol,
-                data, ts))));
+        mutations.add(new Mutation().setColumn_or_supercolumn(new ColumnOrSuperColumn().setColumn(new Column().setName(
+                dataCol).setValue(data).setTimestamp(ts))));
 
         try
         {
@@ -308,6 +410,16 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
             throw new IOException(e);
         }
     }
+    
+    /**
+     * Print this List by invoking its objects' toString(); using the logger in debug mode.
+     * @param blocks list of blocks to be printed
+     */
+    private void printBlocksDebug(Block[] blocks) {
+        for (Block block : blocks) {
+            logger.debug(block);
+        }
+    }
 
     ByteBuffer getPathKey(Path path)
     {
@@ -315,26 +427,49 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
                 .toString(16));
     }
 
-    ByteBuffer getBlockKey(UUID id)
+
+    ByteBuffer uuidToByteBuffer(UUID id)
     {
         return ByteBufferUtil.bytes(FBUtilities.bytesToHex(UUIDGen.decompose(id)));
     }
 
-    public void deleteBlock(Block block) throws IOException
+    /**
+     * {@inheritDoc}
+     */
+    public void deleteSubBlocks(INode inode) throws IOException
     {
-
+        // Get all the SubBlock keys to delete.
+        List<UUID> subBlockKeys = getListOfBlockIds(inode.getBlocks());
         try
         {
-            client.remove(ByteBuffer.wrap(UUIDGen.decompose(block.id)), blockPath, System.currentTimeMillis(),
-                    consistencyLevelWrite);
+            // TODO (patricioe) can we send one big batch mutation  here ?
+            for (UUID subBlocksKey : subBlockKeys) {
+                client.remove(ByteBuffer.wrap(UUIDGen.decompose(subBlocksKey)), sblockPath, System.currentTimeMillis(),
+                        consistencyLevelWrite);
+            }
         }
         catch (Exception e)
         {
             throw new IOException(e);
         }
-
     }
+    
+    /**
+     * Retrieves a list of UUIDs
+     * @param blocks list of blocks
+     * @return a list of UUID
+     */
+    private List<UUID> getListOfBlockIds(Block[] blocks) {
+		List<UUID> blockIds = new ArrayList<UUID>(blocks.length);
+		for (Block aBlock : blocks) {
+			blockIds.add(aBlock.id);
+		}
+		return blockIds;
+	}
 
+    /**
+     * {@inheritDoc}
+     */
     public void deleteINode(Path path) throws IOException
     {
         try
@@ -395,7 +530,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
         for (Path p : allPaths)
         {
-            if (p.depth() == (path.depth() + 1) )
+            if (p.depth() == (path.depth() + 1))
             {
                 prunedPath.add(p);
             }
@@ -417,28 +552,28 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         List<ByteBuffer> blockKeys = new ArrayList<ByteBuffer>(blocks.size());
 
         for (Block b : blocks)
-            blockKeys.add(getBlockKey(b.id));
+            blockKeys.add(uuidToByteBuffer(b.id));
 
         BlockLocation[] locations = new BlockLocation[blocks.size()];
 
         try
         {
-            List<List<String>> blockEndpoints = ((Brisk.Iface)client).describe_keys(keySpace, blockKeys);
+            List<List<String>> blockEndpoints = ((Brisk.Iface) client).describe_keys(keySpace, blockKeys);
 
             for (int i = 0; i < blockEndpoints.size(); i++)
             {
                 List<String> endpoints = blockEndpoints.get(i);
                 Block b = blocks.get(i);
-                
+
                 long offset = (i == 0 && b.offset > start) ? start : b.offset;
-                            
+
                 // TODO: Add topology info if at all possible?
                 locations[i] = new BlockLocation(null, endpoints.toArray(new String[0]), offset, b.length);
             }
 
             return locations;
         }
-        catch (TException e)
+        catch (Exception e)
         {
             throw new IOException(e);
         }

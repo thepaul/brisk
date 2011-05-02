@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.apache.cassandra.EmbeddedBriskErrorServer;
 import org.apache.cassandra.config.DatabaseDescriptor;
 import org.apache.cassandra.hadoop.CassandraProxyClient;
+import org.apache.cassandra.hadoop.CassandraProxyClient.ConnectionStrategy;
 import org.apache.cassandra.thrift.*;
 import org.apache.cassandra.utils.ByteBufferUtil;
 
@@ -25,7 +26,7 @@ public class CassandraProxyClientTest
 
         try
         {
-            client = CassandraProxyClient.newProxyConnection("localhost", DatabaseDescriptor.getRpcPort(), true, true);
+            client = CassandraProxyClient.newProxyConnection("localhost", DatabaseDescriptor.getRpcPort(), true, ConnectionStrategy.STICKY);
             fail("This should error");
         }
         catch (IOException e)
@@ -34,7 +35,7 @@ public class CassandraProxyClientTest
         }
 
     }
-
+    
     /**
      * The purpose of this test is to make sure that:
      * When a TimedOutException is thrown out from invoke method, the CassandraProxyClient will try at least maxAttempts times before
@@ -50,7 +51,7 @@ public class CassandraProxyClientTest
 
         EmbeddedBriskErrorServer.startBrisk();
 
-        Brisk.Iface client = CassandraProxyClient.newProxyConnection("localhost", DatabaseDescriptor.getRpcPort(), true, true);
+        Brisk.Iface client = CassandraProxyClient.newProxyConnection("localhost", DatabaseDescriptor.getRpcPort(), true, ConnectionStrategy.STICKY);
         List<KsDef> ks = client.describe_keyspaces();
 
         assertTrue(ks.size() > 0);
@@ -62,8 +63,9 @@ public class CassandraProxyClientTest
         } catch(TimedOutException e) {
         	//This is expected.
         }
-
+        
         assertEquals(11, client.get_count(ByteBufferUtil.EMPTY_BYTE_BUFFER, new ColumnParent("test"), new SlicePredicate(), ConsistencyLevel.ALL));
+        
     }
 
 }

@@ -1,37 +1,17 @@
 package org.apache.cassandra.hadoop.hive.metastore;
 
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import org.apache.cassandra.thrift.Cassandra;
-import org.apache.cassandra.thrift.Column;
-import org.apache.cassandra.thrift.ColumnOrSuperColumn;
-import org.apache.cassandra.thrift.ColumnParent;
-import org.apache.cassandra.thrift.ColumnPath;
-import org.apache.cassandra.thrift.ConsistencyLevel;
-import org.apache.cassandra.thrift.Deletion;
-import org.apache.cassandra.thrift.NotFoundException;
-import org.apache.cassandra.thrift.SlicePredicate;
-import org.apache.cassandra.thrift.SliceRange;
-import org.apache.cassandra.utils.ByteBufferUtil;
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.hive.metastore.api.Index;
-import org.apache.hadoop.hive.metastore.api.Partition;
-import org.apache.hadoop.hive.metastore.api.PrincipalPrivilegeSet;
-import org.apache.hadoop.hive.metastore.api.PrincipalType;
-import org.apache.hadoop.hive.metastore.api.Role;
-import org.apache.hadoop.hive.metastore.api.Table;
-import org.apache.hadoop.hive.metastore.api.Type;
-import org.apache.thrift.TBase;
-import org.apache.thrift.TDeserializer;
-import org.apache.thrift.TFieldIdEnum;
-import org.apache.thrift.TSerializer;
-import org.apache.thrift.meta_data.FieldMetaData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.apache.cassandra.thrift.*;
+import org.apache.cassandra.utils.ByteBufferUtil;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hive.metastore.api.*;
+import org.apache.thrift.*;
+import org.apache.thrift.meta_data.FieldMetaData;
 
 /**
  * Generically persist and load the Hive Meta Store model classes
@@ -68,10 +48,10 @@ public class MetaStorePersister
         {
             batchMutation.addInsertion(ByteBufferUtil.bytes(databaseName), 
                     Arrays.asList(cassandraClientHolder.getColumnFamily()), 
-                    new Column(
-                    ByteBufferUtil.bytes(buildEntityColumnName(base)),
-                    ByteBuffer.wrap(serializer.serialize(base)), System
-                            .currentTimeMillis() * 1000));
+                    new Column()
+            .setName(ByteBufferUtil.bytes(buildEntityColumnName(base)))
+            .setValue(ByteBuffer.wrap(serializer.serialize(base)))
+            .setTimestamp(System.currentTimeMillis()));
                        
             cassandraClientHolder.getClient().batch_mutate(batchMutation.getMutationMap(),
                     cassandraClientHolder.getWriteCl());
@@ -169,7 +149,7 @@ public class MetaStorePersister
         BatchMutation batchMutation = new BatchMutation();     
         try
         {    
-            Deletion deletion = new Deletion(System.currentTimeMillis() * 1000);
+            Deletion deletion = new Deletion().setTimestamp(System.currentTimeMillis());
             SlicePredicate predicate = new SlicePredicate();
             
             for (TBase tBase : bases)
@@ -194,7 +174,10 @@ public class MetaStorePersister
     private String buildEntityColumnName(TBase base) {
         StringBuilder colName = new StringBuilder(96);
         colName.append(base.getClass().getName()).append("::");
-        if ( base instanceof Table ) 
+        if ( base instanceof Database )
+        {
+            colName.append(((Database)base).getName());
+        } else if ( base instanceof Table ) 
         {
             colName.append(((Table)base).getTableName());
         } else if ( base instanceof Index ) 

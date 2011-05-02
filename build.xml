@@ -63,7 +63,7 @@
     </condition>
     <property name="version" value="${base.version}-SNAPSHOT"/>
     <property name="version.properties.dir"
-              value="${build.classes}/org/apache/cassandra/config/" />
+        value="${build.classes}/com/datastax/brisk/" />
     <property name="final.name" value="${ant.project.name}-${version}"/>
     <property name="maven-ant-tasks.version" value="2.1.1" />
     <property name="maven-ant-tasks.url"
@@ -101,7 +101,7 @@
           <include name="**/*.jar" />
         </fileset>
 	<fileset dir="${hadoop.dir}">
-          <include name="**/*.jar" />
+          <include name="*.jar" />
         </fileset>
 	<fileset dir="${hadoop.dir.lib}">
           <include name="**/*.jar" />
@@ -161,7 +161,12 @@
       <artifact:remoteRepository id="central"   url="${artifact.remoteRepository.central}"/>
       <artifact:remoteRepository id="java.net2" url="${artifact.remoteRepository.java.net2}"/>
       <artifact:remoteRepository id="apache"    url="${artifact.remoteRepository.apache}"/>
-      <artifact:remoteRepository id="datastax"  url="${artifact.remoteRepository.datastax}"/>
+      <artifact:remoteRepository id="datastax-snapshot"  url="${artifact.remoteRepository.datastax-snapshot}">
+      	<releases updatePolicy="always"/>
+      </artifact:remoteRepository>
+      <artifact:remoteRepository id="datastax-deps"  url="${artifact.remoteRepository.datastax-deps}">
+      	<releases updatePolicy="always"/>
+      </artifact:remoteRepository>
       <artifact:remoteRepository id="datanucleus"  url="${artifact.remoteRepository.datanucleus}"/>
       <!-- for distributed tests -->
       <artifact:remoteRepository id="jclouds"   url="${artifact.remoteRepository.jclouds}"/>
@@ -188,12 +193,14 @@
 			     cacheDependencyRefs="true" 
 			     dependencyRefsBuildFile="${build.dir}/build-hadoop-dependencies.xml">
 
-	<dependency groupId="org.apache.hadoop" artifactId="hadoop-core" version="${hadoop.build.version}"/>
+	<dependency groupId="org.apache.hadoop" artifactId="hadoop-core" version="${hadoop-core.build.version}"/>
 	<dependency groupId="org.apache.hadoop" artifactId="hadoop-streaming" version="${hadoop.build.version}"/>
 	<dependency groupId="org.apache.hadoop" artifactId="hadoop-tools" version="${hadoop.build.version}"/>
+	<dependency groupId="org.apache.hadoop" artifactId="hadoop-examples" version="${hadoop.build.version}"/>
+	<dependency groupId="org.apache.hadoop" artifactId="hadoop-test" version="${hadoop.build.version}"/>
+	<dependency groupId="org.slf4j" artifactId="slf4j-log4j12" version="1.6.1"/>		
 
-	
-	<remoteRepository refid="datastax"/>
+	<remoteRepository refid="datastax-snapshot"/>      	
 	<remoteRepository refid="central"/>
 	<remoteRepository refid="apache"/>
 	<remoteRepository refid="java.net2"/>
@@ -203,8 +210,12 @@
                              dependencyRefsBuildFile="${build.dir}/build-cassandra-dependencies.xml">
 
 	<dependency groupId="org.slf4j" artifactId="slf4j-log4j12" version="1.6.1"/>	
-	<dependency groupId="org.apache.cassandra" artifactId="cassandra-all" version="${cassandra.build.version}"/>
-          
+	<dependency groupId="org.apache.cassandra" artifactId="apache-cassandra" version="${cassandra.build.version}"/>
+	<dependency groupId="org.apache.cassandra" artifactId="apache-cassandra-thrift" version="${cassandra-thrift.build.version}"/>
+	<dependency groupId="org.apache.cassandra" artifactId="apache-cassandra-cql" version="${cassandra-cql.build.version}"/>
+	<dependency groupId="joda-time" artifactId="joda-time" version="1.6.2"/>
+	<remoteRepository refid="datastax-deps"/>    
+        <remoteRepository refid="datastax-snapshot"/>    
 	<remoteRepository refid="central"/>
 	<remoteRepository refid="apache"/>
 	<remoteRepository refid="java.net2"/>
@@ -224,16 +235,15 @@
 	<dependency groupId="org.apache.hive" artifactId="hive-metastore" version="${hive.build.version}"/>
 	<dependency groupId="org.apache.hive" artifactId="hive-cassandra-handler" version="${hive.build.version}"/>
 
-	<dependency groupId="org.apache.hive" artifactId="hive-deps" version="${hive.build.version}" classifier="derby"/>
-	<dependency groupId="org.apache.hive" artifactId="hive-deps" version="${hive.build.version}" classifier="thrift-fb303"/>
+	<dependency groupId="org.apache.hive" artifactId="hive-deps" version="${hive.build.version}" classifier="derby"/>	
 	<dependency groupId="org.apache.hive" artifactId="hive-deps" version="${hive.build.version}" classifier="json"/>
-	<dependency groupId="org.apache.hive" artifactId="hive-deps" version="${hive.build.version}" classifier="thrift"/>
+	<dependency groupId="org.apache.hive" artifactId="hive-deps" version="${hive.build.version}" classifier="thrift-fb303"/>
 
 	<dependency groupId="org.antlr" artifactId="antlr" version="3.0.1"/>
 	<dependency groupId="commons-collections" artifactId="commons-collections" version="3.2.1"/>
 	<dependency groupId="commons-codec" artifactId="commons-codec" version="1.3"/>
 
-	<remoteRepository refid="datastax"/>
+	<remoteRepository refid="datastax-snapshot"/>
 	<remoteRepository refid="datanucleus"/>
 	<remoteRepository refid="central"/>
 	<remoteRepository refid="apache"/>
@@ -287,7 +297,7 @@
     </target>
 
   <!-- Generate Eclipse project description files -->
-  <target name="generate-eclipse-files" depends="build">
+  <target name="eclipse-files" depends="build">
     <echo file=".project"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
   <name>brisk</name>
@@ -317,25 +327,30 @@
   <classpathentry kind="src" path="src/gen-java"/>
   <classpathentry kind="src" path="interface/thrift/gen-java"/>  
   <classpathentry kind="src" path="test/unit"/>
+  <classpathentry kind="src" path="demos/portfolio_manager/src"/>  
+  <classpathentry kind="src" path="demos/portfolio_manager/thrift/gen-java"/>  
   <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-  <classpathentry kind="output" path="build/classes/main"/>		
+  <classpathentry kind="output" path="build/classes/main"/>
   <classpathentry kind="lib" path="test/conf"/>
 ]]>
 	</echo>	  
   	<path id="eclipse-project-libs-path">
  	 <fileset dir="${hadoop.dir}">
- 	    <include name="**/*.jar" />
-    </fileset>  		
+	   <include name="**/*.jar" />
+	 </fileset>  		
   	 <fileset dir="${hadoop.dir.lib}">
-  	    <include name="**/*.jar" />
-     </fileset>
+	   <include name="**/*.jar" />
+	 </fileset>
   	 <fileset dir="${cassandra.dir.lib}">
-  	    <include name="**/*.jar" />
-     </fileset>
+	   <include name="**/*.jar" />
+	 </fileset>
   	 <fileset dir="${hive.dir.lib}">
-  	    <include name="**/*.jar" />
-     </fileset>
+	   <include name="**/*.jar" />
+	 </fileset>
  	 <fileset dir="build/lib/jars">
+  	    <include name="**/*.jar" />
+  	 </fileset>
+ 	 <fileset dir="build">
   	    <include name="**/*.jar" />
   	 </fileset>
   	</path>
@@ -398,6 +413,24 @@
         <arg line="-o ${interface.thrift.dir}" />
         <arg line="brisk.thrift" />
       </exec>
+      <exec executable="thrift" dir="${basedir}/interface" failonerror="true">
+        <arg line="--gen java:hashcode" />
+	<arg line="-I ${basedir}/interface" />
+        <arg line="-o ${interface.thrift.dir}" />
+        <arg line="jobtracker.thrift" />
+      </exec>
+      <exec executable="thrift" dir="${basedir}/interface" failonerror="true">
+        <arg line="--gen java:hashcode" />
+	<arg line="-I ${basedir}/interface" />
+        <arg line="-o ${interface.thrift.dir}" />
+        <arg line="hdfs.thrift" />
+      </exec>
+      <exec executable="thrift" dir="${basedir}/interface" failonerror="true">
+        <arg line="--gen java:hashcode" />
+	<arg line="-I ${basedir}/interface" />
+        <arg line="-o ${interface.thrift.dir}" />
+        <arg line="common.thrift" />
+      </exec>
     </target>
     <target name="gen-thrift-py" description="Generate Thrift Python artifacts">
       <echo>Generating Thrift Python code from ${basedir}/interface/brisk.thrift ....</echo>
@@ -413,6 +446,14 @@
         <arg line="-o ${interface.thrift.dir}" />
         <arg line="brisk.thrift" />
       </exec>
+    </target>
+
+    <!-- create properties file with Brisk version -->
+    <target name="createVersionPropFile">
+      <taskdef name="propertyfile" classname="org.apache.tools.ant.taskdefs.optional.PropertyFile"/>
+      <propertyfile file="${version.properties.dir}/version.properties">
+        <entry key="BriskVersion" value="${version}"/>
+      </propertyfile>
     </target>
 
     <!--
@@ -440,6 +481,7 @@
         <taskdef name="paranamer" classname="com.thoughtworks.paranamer.ant.ParanamerGeneratorTask">
           <classpath refid="cassandra.classpath" />
         </taskdef>
+        <antcall target="createVersionPropFile"/>
     </target>
 
 
@@ -607,6 +649,8 @@
         <sysproperty key="net.sourceforge.cobertura.datafile" file="${cobertura.datafile}"/>
         <formatter type="xml" usefile="true"/>
         <formatter type="brief" usefile="false"/>
+      	<jvmarg value="-Dhadoop-trackers=true"/>
+      	<jvmarg value="-Dhadoop.log.dir=${build.test.dir}/logs"/>
         <jvmarg value="-Dstorage-config=${test.conf}"/>
         <jvmarg value="-Daccess.properties=${test.conf}/access.properties"/>
         <jvmarg value="-Dlog4j.configuration=log4j-junit.properties" />

@@ -33,8 +33,7 @@ public class EmbeddedServer
     static ExecutorService executor = Executors.newSingleThreadExecutor();
     
     public static void startBrisk() throws IOException
-
-    {
+    {   
         executor.execute(new Runnable()
         {
             public void run()
@@ -46,7 +45,7 @@ public class EmbeddedServer
         });
         try
         {
-            TimeUnit.SECONDS.sleep(3);
+            TimeUnit.SECONDS.sleep(10);
         }
         catch (InterruptedException e)
         {

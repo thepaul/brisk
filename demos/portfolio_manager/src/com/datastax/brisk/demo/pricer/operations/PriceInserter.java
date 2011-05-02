@@ -17,19 +17,17 @@
  */
 package com.datastax.brisk.demo.pricer.operations;
 
-import org.apache.cassandra.db.ColumnFamilyType;
-import org.apache.cassandra.thrift.*;
-import org.apache.cassandra.utils.ByteBufferUtil;
-
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.datastax.brisk.demo.pricer.Pricer;
 import com.datastax.brisk.demo.pricer.util.Operation;
+
+import org.apache.cassandra.thrift.Cassandra;
+import org.apache.cassandra.thrift.Column;
+import org.apache.cassandra.thrift.Mutation;
+import org.apache.cassandra.utils.ByteBufferUtil;
 
 public class PriceInserter extends Operation
 {
@@ -46,7 +44,7 @@ public class PriceInserter extends Operation
 
         List<Column> columns = new ArrayList<Column>();
         
-        columns.add(new Column(ByteBufferUtil.bytes("price"), ByteBufferUtil.bytes(String.valueOf((double)(Pricer.randomizer.nextDouble()*1000))), System.currentTimeMillis()));
+        columns.add(new Column().setName(ByteBufferUtil.bytes("price")).setValue(ByteBufferUtil.bytes(String.valueOf((double)(Pricer.randomizer.nextDouble()*100)))).setTimestamp(System.currentTimeMillis()));
     
         
         Map<ByteBuffer, Map<String, List<Mutation>>> record = new HashMap<ByteBuffer, Map<String, List<Mutation>>>();

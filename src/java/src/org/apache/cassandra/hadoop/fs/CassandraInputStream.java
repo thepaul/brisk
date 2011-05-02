@@ -148,6 +148,10 @@ public class CassandraInputStream extends FSInputStream
 
     private synchronized void blockSeekTo(long target) throws IOException
     {
+    	// Close underlying inputStream when switching to the new subBlock.
+        if (this.blockStream != null) {
+            this.blockStream.close();
+        }
         //
         // Compute desired block
         //
@@ -189,6 +193,11 @@ public class CassandraInputStream extends FSInputStream
         if (closed)
         {
             return;
+        }
+        
+    	// Close underlying inputStream when switching to the new subBlock.
+        if (this.blockStream != null) {
+            this.blockStream.close();
         }
        
         super.close();

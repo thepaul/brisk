@@ -28,17 +28,28 @@ public class Block
     public final UUID id;
     public final long length;
     public final long offset;
+    public final SubBlock[] subBlocks;
     
-    public Block(UUID id, long offset, long length)
+    public Block(UUID id, long offset, long length, SubBlock[] subBlocks)
     {
         this.id     = id;
         this.offset = offset;
-        this.length = length;        
+        this.length = length;
+        this.subBlocks = subBlocks;
     }
     
     @Override
     public String toString() {
-      return "Block[" + id + ", " + offset + ", "+ length+"]";
+      StringBuilder sb = new StringBuilder("Block[" + id + ", " + offset + ", "+ length + "\n");
+
+      if (subBlocks != null) 
+      {
+           for (SubBlock sblock : subBlocks) {
+               sb.append("    " + sblock.toString());
+           }
+      }
+
+      return sb.toString();
     }
 
 }

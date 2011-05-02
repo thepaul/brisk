@@ -6,7 +6,6 @@ import java.util.Comparator;
 import java.util.Set;
 
 import org.apache.cassandra.config.DatabaseDescriptor;
-import org.apache.cassandra.gms.Gossiper;
 import org.apache.cassandra.utils.FBUtilities;
 import org.apache.log4j.Logger;
 
@@ -44,32 +43,14 @@ public class CassandraJobConf extends org.apache.hadoop.mapred.JobConf
         
         Set<InetAddress> seeds    = DatabaseDescriptor.getSeeds();
         
+        
         InetAddress[] sortedSeeds = seeds.toArray(new InetAddress[]{});
-       /* Arrays.sort(sortedSeeds, new Comparator<InetAddress>(){
-
+        Arrays.sort(sortedSeeds, new Comparator<InetAddress>(){
             public int compare(InetAddress a, InetAddress b)
             {
-                byte a1[] = a.getAddress();
-                byte b1[] = b.getAddress();
-                
-                if(a1.length < b1.length)
-                    return -1;
-                
-                if(a1.length > b1.length)
-                    return 1;
-                
-                for(int i=0; i<a1.length; i++)
-                {
-                    if(a1[i] < b1[i])
-                        return -1;
-                    
-                    if(a1[i] > b1[i])
-                        return 1;                   
-                }
-                
-                return 0;
+                return a.getHostAddress().compareTo(b.getHostAddress());            
             }         
-        }); */
+        }); 
         
 
         //Pick a seed in the same DC as this node to be the job tracker

@@ -1,9 +1,14 @@
 package com.datastax.brisk;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.util.Properties;
 import java.util.concurrent.ExecutorService;
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,24 +16,58 @@ import org.slf4j.LoggerFactory;
 import org.apache.cassandra.config.DatabaseDescriptor;
 import org.apache.cassandra.hadoop.trackers.TrackerInitializer;
 import org.apache.cassandra.thrift.*;
-import org.apache.thrift.TProcessorFactory;
 import org.apache.thrift.protocol.TProtocolFactory;
 import org.apache.thrift.server.TServer;
+import org.apache.thrift.server.TThreadPoolServer;
 import org.apache.thrift.transport.*;
 
-public class BriskDaemon extends org.apache.cassandra.service.AbstractCassandraDaemon
+public class BriskDaemon extends org.apache.cassandra.service.AbstractCassandraDaemon implements BriskDaemonMBean
 {
 
     private static Logger logger = LoggerFactory.getLogger(BriskDaemon.class);
     private ThriftServer server;
+
+    public String getReleaseVersion()
+    {
+        try
+        {
+            InputStream in = BriskDaemon.class.getClassLoader().getResourceAsStream("com/datastax/brisk/version.properties");
+            if (in == null)
+            {
+                return "Unknown";
+            }
+            Properties props = new Properties();
+            props.load(in);
+            return props.getProperty("BriskVersion");
+        }
+        catch (Exception e)
+        {
+            logger.warn("Unable to load version.properties", e);
+            return "debug version";
+        }
+    }
     
     protected void setup() throws IOException
-    {
+    {     
         super.setup();
-            
+     
+        MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+        try
+        {
+            mbs.registerMBean(this, new ObjectName("com.datastax.brisk:type=BriskDaemon"));
+        }
+
+        catch (Exception e)
+        {
+            throw new RuntimeException(e);
+        }
         //Start hadoop trackers...
-        if(System.getProperty("hadoop-trackers", "false").equalsIgnoreCase("true"))
+        if(TrackerInitializer.isTrackerNode)
+        {
+            logger.info("Starting up Hadoop trackers");
             TrackerInitializer.init();
+        }
+        
     }
 
     protected void startServer()
@@ -109,23 +148,22 @@ public class BriskDaemon extends org.apache.cassandra.service.AbstractCassandraD
                 outTransportFactory = new TTransportFactory();
             }
 
-            // ThreadPool Server
-            CustomTThreadPoolServer.Options options = new CustomTThreadPoolServer.Options();
-            options.minWorkerThreads = DatabaseDescriptor.getRpcMinThreads();
-            options.maxWorkerThreads = DatabaseDescriptor.getRpcMaxThreads();
+            TThreadPoolServer.Args args = new TThreadPoolServer.Args(tServerSocket)
+            .minWorkerThreads(DatabaseDescriptor.getRpcMinThreads())
+            .maxWorkerThreads(DatabaseDescriptor.getRpcMaxThreads())
+            .inputTransportFactory(inTransportFactory)
+            .outputTransportFactory(outTransportFactory)
+            .inputProtocolFactory(tProtocolFactory)
+            .outputProtocolFactory(tProtocolFactory)
+            .processor(processor);
 
             ExecutorService executorService = new CleaningThreadPool(briskServer.clientState,
-                    options.minWorkerThreads,
-                    options.maxWorkerThreads);
-            serverEngine = new CustomTThreadPoolServer(new TProcessorFactory(processor),
-                    tServerSocket,
-                    inTransportFactory,
-                    outTransportFactory,
-                    tProtocolFactory,
-                    tProtocolFactory,
-                    options,
-                    executorService);
+                    args.minWorkerThreads,
+                    args.maxWorkerThreads);
+            serverEngine = new CustomTThreadPoolServer(args, executorService);
         }
+    
+   
 
         public void run()
         {
