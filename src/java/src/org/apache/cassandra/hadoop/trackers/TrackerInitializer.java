@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.apache.cassandra.utils.FBUtilities;
 import org.apache.hadoop.mapred.JobTracker;

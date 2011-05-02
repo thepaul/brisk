@@ -4,16 +4,15 @@
 package org.apache.cassandra.hadoop.fs;
 
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
+
+import org.junit.*;
 
 import org.apache.cassandra.CleanupHelper;
 import org.apache.cassandra.EmbeddedServer;
@@ -23,10 +22,6 @@ import org.apache.hadoop.fs.BlockLocation;
 import org.apache.hadoop.fs.Path;
 import org.apache.log4j.Logger;
 import org.apache.thrift.transport.TTransportException;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
 
 /**
  * Test the logic to write into Blocks and SubBlocks.

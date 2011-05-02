@@ -6,7 +6,6 @@ import java.util.Comparator;
 import java.util.Set;
 
 import org.apache.cassandra.config.DatabaseDescriptor;
-import org.apache.cassandra.gms.Gossiper;
 import org.apache.cassandra.utils.FBUtilities;
 import org.apache.log4j.Logger;
 

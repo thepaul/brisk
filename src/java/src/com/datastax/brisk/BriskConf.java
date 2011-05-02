@@ -5,9 +5,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.apache.cassandra.thrift.ConsistencyLevel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import org.apache.cassandra.thrift.ConsistencyLevel;
 
 /**
  * Loads brisk configuration file specified by the system prop "brisk.conf".

@@ -22,8 +22,9 @@ import java.util.Random;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.thrift.transport.TTransport;
+
 import org.apache.thrift.transport.TSocket;
+import org.apache.thrift.transport.TTransport;
 
 /**
  * Represents the context of a Thrift service

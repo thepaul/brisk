@@ -27,12 +27,10 @@ import java.util.*;
 
 import com.datastax.brisk.BriskInternalServer;
 
-import org.apache.cassandra.config.KSMetaData;
 import org.apache.cassandra.hadoop.CassandraProxyClient;
 import org.apache.cassandra.hadoop.trackers.CassandraJobConf;
 import org.apache.cassandra.io.util.FileUtils;
 import org.apache.cassandra.locator.BriskSimpleSnitch;
-import org.apache.cassandra.locator.SimpleSnitch;
 import org.apache.cassandra.thrift.*;
 import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.cassandra.utils.FBUtilities;
@@ -198,6 +196,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
             cf.setComparator_type("BytesType");
             cf.setKey_cache_size(0);
             cf.setRow_cache_size(0);
+            cf.setGc_grace_seconds(60);
             cf.setComment("Stores file meta data");
             cf.setKeyspace(keySpace);
 
@@ -212,6 +211,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
             cf.setComparator_type("BytesType");
             cf.setKey_cache_size(0);
             cf.setRow_cache_size(0);
+            cf.setGc_grace_seconds(60);
             cf.setComment("Stores blocks of information associated with a inode");
             cf.setKeyspace(keySpace);
 

@@ -4,7 +4,6 @@ import java.io.IOException;
 
 import org.apache.cassandra.hadoop.CassandraProxyClient;
 import org.apache.cassandra.thrift.Cassandra;
-import org.apache.cassandra.thrift.ColumnParent;
 import org.apache.cassandra.thrift.ConsistencyLevel;
 import org.apache.cassandra.thrift.InvalidRequestException;
 import org.apache.hadoop.conf.Configuration;

@@ -17,18 +17,15 @@
  */
 package com.datastax.brisk.demo.pricer.operations;
 
-import org.apache.cassandra.thrift.*;
-import org.apache.cassandra.utils.ByteBufferUtil;
-
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import com.datastax.brisk.demo.pricer.Pricer;
 import com.datastax.brisk.demo.pricer.util.Operation;
+
+import org.apache.cassandra.thrift.*;
+import org.apache.cassandra.utils.ByteBufferUtil;
 
 public class PortfolioInserter extends Operation
 {

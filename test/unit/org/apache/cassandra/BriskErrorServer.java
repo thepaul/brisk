@@ -9,7 +9,6 @@ import org.apache.cassandra.config.DatabaseDescriptor;
 import org.apache.cassandra.config.KSMetaData;
 import org.apache.cassandra.service.ClientState;
 import org.apache.cassandra.thrift.*;
-import org.apache.cassandra.utils.FBUtilities;
 import org.apache.thrift.TException;
 
 

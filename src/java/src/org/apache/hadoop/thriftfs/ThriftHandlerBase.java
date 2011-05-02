@@ -20,27 +20,17 @@ package org.apache.hadoop.thriftfs;
 
 import java.security.PrivilegedAction;
 import java.security.PrivilegedExceptionAction;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.hadoop.security.UserGroupInformation;
-import org.apache.hadoop.util.VersionInfo;
+
 import org.apache.hadoop.metrics.ContextFactory;
 import org.apache.hadoop.metrics.spi.OutputRecord;
-
-import org.apache.hadoop.thriftfs.api.HadoopServiceBase;
-import org.apache.hadoop.thriftfs.api.IOException;
-import org.apache.hadoop.thriftfs.api.MetricsContext;
-import org.apache.hadoop.thriftfs.api.MetricsRecord;
-import org.apache.hadoop.thriftfs.api.RequestContext;
-import org.apache.hadoop.thriftfs.api.RuntimeInfo;
+import org.apache.hadoop.security.UserGroupInformation;
+import org.apache.hadoop.thriftfs.api.*;
 import org.apache.hadoop.thriftfs.api.StackTraceElement;
-import org.apache.hadoop.thriftfs.api.ThreadStackTrace;
+import org.apache.hadoop.util.VersionInfo;
 
 /**
  * Base class to provide some utility functions for thrift plugin handlers

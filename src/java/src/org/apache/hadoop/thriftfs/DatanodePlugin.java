@@ -18,14 +18,15 @@
 package org.apache.hadoop.thriftfs;
 
 import java.io.EOFException;
-import java.nio.ByteBuffer;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.nio.ByteBuffer;
 import java.security.PrivilegedExceptionAction;
 import java.util.zip.CRC32;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
 import org.apache.hadoop.conf.Configurable;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hdfs.DFSClient;
@@ -33,12 +34,7 @@ import org.apache.hadoop.hdfs.security.token.block.BlockTokenIdentifier;
 import org.apache.hadoop.hdfs.server.datanode.DataNode;
 import org.apache.hadoop.net.NetUtils;
 import org.apache.hadoop.security.token.Token;
-import org.apache.hadoop.thriftfs.api.Block;
-import org.apache.hadoop.thriftfs.api.BlockData;
-import org.apache.hadoop.thriftfs.api.Datanode;
-import org.apache.hadoop.thriftfs.api.IOException;
-import org.apache.hadoop.thriftfs.api.Namenode;
-import org.apache.hadoop.thriftfs.api.RequestContext;
+import org.apache.hadoop.thriftfs.api.*;
 import org.apache.thrift.TException;
 import org.apache.thrift.TProcessor;
 import org.apache.thrift.TProcessorFactory;

@@ -25,9 +25,6 @@ import java.util.concurrent.TimeUnit;
 
 import com.datastax.brisk.BriskDaemon;
 
-import org.apache.cassandra.hadoop.trackers.TrackerInitializer;
-import org.apache.cassandra.locator.BriskSimpleSnitch;
-
 
 public class EmbeddedServer 
 {
