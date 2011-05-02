@@ -3,6 +3,8 @@
 %define relname %{name}-%{version}
 %define cass_name apache-cassandra-%{version}
 %define briskname brisk
+%define briskversion 0.0.1
+%define briskrel %{briskname}-%{briskversion}
 
 Name:           brisk-libcassandra
 Version:        0.8.0
@@ -73,7 +75,7 @@ mkdir -p %{buildroot}/usr/bin
 # copy over configurations and env setup
 cp -p resources/%{username}/conf/* %{buildroot}/etc/%{briskname}/%{username}/default.conf
 cp -p resources/%{username}/lib/*.jar %{buildroot}/usr/share/%{briskname}/%{username}/lib
-cp -p build/brisk*.jar %{buildroot}/usr/share/%{briskname}/%{username}/lib
+cp -p build/%{briskrel}.jar %{buildroot}/usr/share/%{briskname}/brisk.jar
 cp -p redhat/%{username} %{buildroot}/etc/rc.d/init.d/
 cp -p packaging-common/brisk.default %{buildroot}/etc/default/brisk
 cp -p packaging-common/%{username}.conf %{buildroot}/etc/security/limits.d/

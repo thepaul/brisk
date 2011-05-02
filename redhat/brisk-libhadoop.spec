@@ -82,13 +82,13 @@ exit 0
 %attr(755,%{username},%{username}) /usr/share/%{briskname}*
 
 %post
-alternatives --install /etc/%{briskname}/hadoop/conf %{username} /etc/%{briskname}/hadoop/default.conf/ 0
+alternatives --install /etc/%{briskname}/hadoop hadoop /etc/%{briskname}/hadoop/default.conf/ 0
 exit 0
 
 %postun
 # only delete alternative on removal, not upgrade
 if [ "$1" = "0" ]; then
-    alternatives --remove %{username} /etc/%{briskname}/hadoop/default.conf/
+    alternatives --remove hadoop /etc/%{briskname}/hadoop/default.conf/
 fi
 exit 0
 

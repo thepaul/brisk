@@ -8,3 +8,4 @@ CLASSPATH=$CASSANDRA_CONF
 for jar in /usr/share/brisk/cassandra/lib/*.jar; do
     CLASSPATH=$CLASSPATH:$jar
 done
+CLASSPATH=$CLASSPATH:/usr/share/brisk/brisk.jar
