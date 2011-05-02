@@ -96,18 +96,18 @@ public class BriskErrorDaemon extends org.apache.cassandra.service.AbstractCassa
 
             // Transport factory
             TTransportFactory inTransportFactory, outTransportFactory;
-            if (DatabaseDescriptor.isThriftFramed())
-            {
+            //if (DatabaseDescriptor.isThriftFramed())
+            //{
                 int tFramedTransportSize = DatabaseDescriptor.getThriftFramedTransportSize();
                 inTransportFactory  = new TFramedTransport.Factory(tFramedTransportSize);
                 outTransportFactory = new TFramedTransport.Factory(tFramedTransportSize);
                 logger.info("Using TFastFramedTransport with a max frame size of {} bytes.", tFramedTransportSize);
-            }
-            else
-            {
-                inTransportFactory = new TTransportFactory();
-                outTransportFactory = new TTransportFactory();
-            }
+            //}
+            //else
+            //{
+            //    inTransportFactory = new TTransportFactory();
+            //    outTransportFactory = new TTransportFactory();
+            //}
 
             // ThreadPool Server
             TThreadPoolServer.Args args = new TThreadPoolServer.Args(tServerSocket)
