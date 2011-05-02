@@ -221,7 +221,7 @@ public class CassandraHiveMetaStoreTest extends CleanupHelper {
         conf.set(CassandraClientHolder.CONF_PARAM_HOST, "localhost");
         conf.setInt(CassandraClientHolder.CONF_PARAM_PORT, DatabaseDescriptor.getRpcPort());
         conf.setBoolean(CassandraClientHolder.CONF_PARAM_FRAMED, true);
-        conf.setBoolean(CassandraClientHolder.CONF_PARAM_RANDOMIZE_CONNECTIONS, true);
+        conf.set(CassandraClientHolder.CONF_PARAM_CONNECTION_STRATEGY, "STICKY");
         return conf;
     }
 }
