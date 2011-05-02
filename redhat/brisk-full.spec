@@ -24,7 +24,7 @@ Requires:      brisk-libcassandra
 Requires:      brisk-libhadoop
 Requires:      brisk-libhive
 
-BuildArch:      noarch
+BuildArch:     noarch
 
 %description
 Realtime analytics and distributed database (cassandra libraries)
@@ -53,15 +53,16 @@ cp -p bin/brisk %{buildroot}/usr/bin/
 
 %files
 %defattr(-,root,root,0755)
-%attr(755,%{username},%{username}) %config(noreplace) /%{_sysconfdir}/brisk/*
+%attr(755,root,root) %{_bindir}/brisk
+%attr(755,%{username},%{username}) %config(noreplace) /%{_sysconfdir}/brisk
 
 %post
-alternatives --install /etc/%{briskname}/%{username}/conf %{username} /etc/%{briskname}/default.conf/ 0
+alternatives --install /etc/%{briskname} brisk /etc/%{briskname}/default.conf/ 0
 exit 0
 
 %postun
 # only delete alternative on removal, not upgrade
 if [ "$1" = "0" ]; then
-    alternatives --remove %{username} /etc/%{briskname}/default.conf/
+    alternatives --remove brisk /etc/%{briskname}/default.conf/
 fi
 exit 0

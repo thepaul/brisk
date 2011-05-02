@@ -1,3 +1,2 @@
 bin/brisk usr/bin
 packaging-common/brisk-env.sh etc/brisk
-packaging-common/brisk-init etc/init.d/brisk

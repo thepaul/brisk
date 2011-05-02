@@ -17,15 +17,29 @@ export CASSANDRA_OWNR=cassandra
 NAME="cassandra"
 log_file=/var/log/cassandra/cassandra.log
 pid_file=/var/run/cassandra/cassandra.pid
-CASSANDRA_PROG=/usr/sbin/cassandra
-
+EXTRA_FLAGS=""
 # Read configuration variable file if it is present
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
+
+
+CASSANDRA_PROG=/usr/sbin/cassandra
 
 case "$1" in
     start)
         # Cassandra startup
-        echo -n "Starting Cassandra: "
+        if [ "$HADOOP_ENABLED" = "0" ]; then
+    		echo "Brisk daemon starting with Hadoop disabled (edit /etc/default/brisk to enable)"
+		else
+			# load brisk env
+			[ -e /etc/brisk/brisk-env.sh ] || exit 0
+			# Read Brisk environment file.
+			. /etc/brisk/brisk-env.sh			
+			EXTRA_FLAGS="$EXTRA_FLAGS -t"
+			CASSANDRA_PROG=$CASSANDRA_PROG $EXTRA_FLAGS    		
+    		echo "Brisk daemon starting with Hadoop enabled (edit /etc/default/brisk to disable)"
+		fi
+        
+        echo -n "Starting Cassandra: "        
         su $CASSANDRA_OWNR -c "$CASSANDRA_PROG -p $pid_file" > $log_file 2>&1
         echo "OK"
         ;;
