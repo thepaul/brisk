@@ -9,22 +9,24 @@ import java.nio.channels.FileChannel;
 import java.util.*;
 import java.util.concurrent.TimeoutException;
 
+import org.apache.cassandra.config.CFMetaData;
 import org.apache.cassandra.config.DatabaseDescriptor;
 import org.apache.cassandra.config.Config.DiskAccessMode;
 import org.apache.cassandra.db.*;
 import org.apache.cassandra.db.filter.QueryPath;
+import org.apache.cassandra.db.marshal.AbstractType;
 import org.apache.cassandra.dht.Token;
 import org.apache.cassandra.io.sstable.Component;
 import org.apache.cassandra.io.sstable.IndexHelper;
 import org.apache.cassandra.io.sstable.SSTableReader;
 import org.apache.cassandra.io.sstable.SSTableReader.Operator;
-import org.apache.cassandra.io.util.FileUtils;
-import org.apache.cassandra.io.util.MappedFileDataInput;
+import org.apache.cassandra.io.util.*;
 import org.apache.cassandra.service.StorageProxy;
 import org.apache.cassandra.service.StorageService;
 import org.apache.cassandra.thrift.*;
 import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.cassandra.utils.FBUtilities;
+import org.apache.cassandra.utils.Filter;
 import org.apache.log4j.Logger;
 import org.apache.thrift.TException;
 
@@ -177,8 +179,13 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
                 assert rowSize > 0;
                 assert rowSize < mappedLength;
 
-                IndexHelper.skipBloomFilter(file);
-                IndexHelper.skipIndex(file);
+                Filter bf = IndexHelper.defreezeBloomFilter(file, sstable.descriptor.usesOldBloomFilter);
+                
+                //verify this column in in this version of the row.
+                if(!bf.isPresent(sblockId))
+                    continue;
+                
+                List<IndexHelper.IndexInfo> indexList = IndexHelper.deserializeIndex(file);
 
                 // we can stop early if bloom filter says none of the
                 // columns actually exist -- but,
@@ -200,25 +207,19 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
                             + " with " + sstable.metadata + " from " + file, e);
                 }
 
-                // verify column count
-                int numColumns = file.readInt();
-                assert numColumns == 1;
-
-                // verify column name
-                ByteBuffer name = ByteBufferUtil.readWithShortLength(file);
-                assert name.equals(sblockId);
-
-                // verify column type;
-                int b = file.readUnsignedByte();
-                if ((b & ColumnSerializer.DELETION_MASK) != 0 || (b & ColumnSerializer.EXPIRATION_MASK) != 0)
-                {
+                
+                Integer sblockLength = null;
+                
+                if(indexList == null)
+                    sblockLength = seekToSubColumn(sstable.metadata, file, sblockId);
+                else
+                    sblockLength = seekToSubColumn(sstable.metadata, file, sblockId, indexList);
+                    
+             
+                if(sblockLength == null || sblockLength < 0)
                     continue;
-                }
-
-                // skip ts
-                long ts = file.readLong();
-                int sblockLength = file.readInt();
-
+                
+             
                 int bytesReadFromStart = mappedLength - (int)file.bytesRemaining();
 
                 logger.info("BlockLength = "+sblockLength+" Availible "+file.bytesRemaining());
@@ -228,7 +229,7 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
                 long dataOffset = position + bytesReadFromStart;
                 
                 if(file.bytesRemaining() == 0 || sblockLength == 0)
-                    return null;
+                    continue;
                 
 
                 return new LocalBlock(file.getPath(), dataOffset + offset, sblockLength - offset);
@@ -244,6 +245,95 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
             }
         }
 
+        
+        return null;
+    }
+    
+    //Called when there are is no row index (meaning small number of columns)
+    private Integer seekToSubColumn(CFMetaData metadata, FileDataInput file, ByteBuffer sblockId) throws IOException
+    {
+        int columns = file.readInt();
+        int n = 0;
+        for (int i = 0; i < columns; i++)
+        {
+            Integer dataLength = isSubBlockFound(metadata, file, sblockId);
+            
+            
+            if(dataLength == null)
+                return null;
+            
+            if(dataLength < 0)
+                continue;
+            
+            return dataLength;
+            
+        }
+        
+        return null;
+    }
+
+    /**
+     * Checks if the current column is the one we are looking for
+     * @param metadata
+     * @param file
+     * @param sblockId
+     * @return if > 0 the length to read from current file offset. if -1 not relevent. if null out of bounds
+     */
+    private Integer isSubBlockFound(CFMetaData metadata, FileDataInput file, ByteBuffer sblockId) throws IOException
+    {
+        ByteBuffer name = ByteBufferUtil.readWithShortLength(file);
+        
+        //Stop if we've gone too far (return null)
+        if(metadata.comparator.compare(name, sblockId) > 0)
+            return null;
+        
+        // verify column type;
+        int b = file.readUnsignedByte();
+                  
+        // skip ts (since we know block ids are unique)
+        long ts = file.readLong();
+        int sblockLength = file.readInt();
+      
+        if(!name.equals(sblockId) || (b & ColumnSerializer.DELETION_MASK) != 0 || (b & ColumnSerializer.EXPIRATION_MASK) != 0)
+        {
+            FileUtils.skipBytesFully(file, sblockLength);
+            return -1;
+        }
+             
+        return sblockLength;                   
+    }
+    
+    private Integer seekToSubColumn(CFMetaData metadata, FileDataInput file, ByteBuffer sblockId, List<IndexHelper.IndexInfo> indexList) throws IOException
+    {
+        file.readInt(); // column count
+
+        /* get the various column ranges we have to read */
+        AbstractType comparator = metadata.comparator;
+        
+        int index = IndexHelper.indexFor(sblockId, indexList, comparator, false);
+        if (index == indexList.size())
+            return null;
+        
+        IndexHelper.IndexInfo indexInfo = indexList.get(index);
+        if (comparator.compare(sblockId, indexInfo.firstName) < 0)
+            return null;
+       
+        FileMark mark = file.mark();
+       
+        FileUtils.skipBytesFully(file, indexInfo.offset);
+
+        while (file.bytesPastMark(mark) < indexInfo.offset + indexInfo.width)
+        {            
+            Integer dataLength = isSubBlockFound(metadata, file, sblockId);
+                       
+            if(dataLength == null)
+                return null;
+            
+            if(dataLength < 0)
+                continue;
+            
+            return dataLength;          
+        }
         
         return null;
     }
