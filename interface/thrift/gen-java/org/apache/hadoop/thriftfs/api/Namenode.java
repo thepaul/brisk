@@ -21,12 +21,6 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.apache.thrift.*;
-import org.apache.thrift.async.*;
-import org.apache.thrift.meta_data.*;
-import org.apache.thrift.transport.*;
-import org.apache.thrift.protocol.*;
-
 public class Namenode {
 
   /**
@@ -43,7 +37,7 @@ public class Namenode {
      * 
      * @param perms New permissions for the file or directory.
      */
-    public void chmod(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short perms) throws org.apache.hadoop.thriftfs.api.IOException, TException;
+    public void chmod(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short perms) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException;
 
     /**
      * Set owner of a file or directory.
@@ -60,7 +54,7 @@ public class Namenode {
      * 
      * @param group New group.
      */
-    public void chown(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, String owner, String group) throws org.apache.hadoop.thriftfs.api.IOException, TException;
+    public void chown(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, String owner, String group) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException;
 
     /**
      * Return a list containing:
@@ -70,14 +64,14 @@ public class Namenode {
      * 
      * @param ctx
      */
-    public List<Long> df(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException;
+    public List<Long> df(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException;
 
     /**
      * Enter safe mode.
      * 
      * @param ctx
      */
-    public void enterSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.hadoop.thriftfs.api.IOException, TException;
+    public void enterSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException;
 
     /**
      * Get a list of all blocks containing a region of a file
@@ -89,7 +83,7 @@ public class Namenode {
      * 
      * @param length Length of the region
      */
-    public List<Block> getBlocks(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long offset, long length) throws org.apache.hadoop.thriftfs.api.IOException, TException;
+    public List<Block> getBlocks(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long offset, long length) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException;
 
     /**
      * Get the preferred block size for the given file.
@@ -99,21 +93,21 @@ public class Namenode {
      * @param ctx
      * @param path Path to the file.
      */
-    public long getPreferredBlockSize(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path) throws org.apache.hadoop.thriftfs.api.IOException, TException;
+    public long getPreferredBlockSize(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException;
 
     /**
      * Returns whether HDFS is in safe mode or not.
      * 
      * @param ctx
      */
-    public boolean isInSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.hadoop.thriftfs.api.IOException, TException;
+    public boolean isInSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException;
 
     /**
      * Leave safe mode.
      * 
      * @param ctx
      */
-    public void leaveSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.hadoop.thriftfs.api.IOException, TException;
+    public void leaveSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException;
 
     /**
      * Get a listing of the indicated directory.
@@ -121,7 +115,7 @@ public class Namenode {
      * @param ctx
      * @param path Path to the directory.
      */
-    public List<Stat> ls(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path) throws org.apache.hadoop.thriftfs.api.IOException, TException;
+    public List<Stat> ls(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException;
 
     /**
      * Create a directory (or hierarchy of directories).
@@ -134,14 +128,14 @@ public class Namenode {
      * 
      * @param perms Access permissions of the directory.
      */
-    public boolean mkdirhier(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short perms) throws org.apache.hadoop.thriftfs.api.IOException, TException;
+    public boolean mkdirhier(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short perms) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException;
 
     /**
      * Tells the name node to reread the hosts and exclude files.
      * 
      * @param ctx
      */
-    public void refreshNodes(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.hadoop.thriftfs.api.IOException, TException;
+    public void refreshNodes(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException;
 
     /**
      * Rename an item in the file system namespace.
@@ -155,7 +149,7 @@ public class Namenode {
      * 
      * @param newPath New path.
      */
-    public boolean rename(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, String newPath) throws org.apache.hadoop.thriftfs.api.IOException, TException;
+    public boolean rename(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, String newPath) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException;
 
     /**
      * Report corrupted blocks.
@@ -163,7 +157,7 @@ public class Namenode {
      * @param ctx
      * @param blocks List of corrupted blocks.
      */
-    public void reportBadBlocks(org.apache.hadoop.thriftfs.api.RequestContext ctx, List<Block> blocks) throws org.apache.hadoop.thriftfs.api.IOException, TException;
+    public void reportBadBlocks(org.apache.hadoop.thriftfs.api.RequestContext ctx, List<Block> blocks) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException;
 
     /**
      * Get information about a path in HDFS.
@@ -173,7 +167,7 @@ public class Namenode {
      * @param ctx
      * @param path Path of the file or directory.
      */
-    public Stat stat(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path) throws org.apache.hadoop.thriftfs.api.IOException, TException;
+    public Stat stat(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException;
 
     /**
      * Get the summary of a directory's contents.
@@ -185,7 +179,7 @@ public class Namenode {
      * @param ctx
      * @param Path
      */
-    public ContentSummary getContentSummary(org.apache.hadoop.thriftfs.api.RequestContext ctx, String Path) throws org.apache.hadoop.thriftfs.api.IOException, TException;
+    public ContentSummary getContentSummary(org.apache.hadoop.thriftfs.api.RequestContext ctx, String Path) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException;
 
     /**
      * Get ContentSummary objects for multiple directories simultaneously. The same warnings
@@ -194,7 +188,7 @@ public class Namenode {
      * @param ctx
      * @param paths
      */
-    public List<ContentSummary> multiGetContentSummary(org.apache.hadoop.thriftfs.api.RequestContext ctx, List<String> paths) throws org.apache.hadoop.thriftfs.api.IOException, TException;
+    public List<ContentSummary> multiGetContentSummary(org.apache.hadoop.thriftfs.api.RequestContext ctx, List<String> paths) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException;
 
     /**
      * Set the quota for a directory.
@@ -215,7 +209,7 @@ public class Namenode {
      * @param diskspaceQuota Limit on disk space occupied by all the files in the
      * directory.
      */
-    public void setQuota(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long namespaceQuota, long diskspaceQuota) throws org.apache.hadoop.thriftfs.api.IOException, TException;
+    public void setQuota(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long namespaceQuota, long diskspaceQuota) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException;
 
     /**
      * Set replication factor for an existing file.
@@ -233,7 +227,7 @@ public class Namenode {
      * 
      * @param replication New replication factor.
      */
-    public boolean setReplication(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short replication) throws org.apache.hadoop.thriftfs.api.IOException, TException;
+    public boolean setReplication(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short replication) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException;
 
     /**
      * Delete a file or directory from the file system.
@@ -245,7 +239,7 @@ public class Namenode {
      * 
      * @param recursive Delete a non-empty directory recursively.
      */
-    public boolean unlink(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, boolean recursive) throws org.apache.hadoop.thriftfs.api.IOException, TException;
+    public boolean unlink(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, boolean recursive) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException;
 
     /**
      * Sets the modification and access time of a file or directory.
@@ -263,7 +257,7 @@ public class Namenode {
      * 
      * @param mtime Modification time in milliseconds since 1970-01-01 00:00 UTC
      */
-    public void utime(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long atime, long mtime) throws org.apache.hadoop.thriftfs.api.IOException, TException;
+    public void utime(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long atime, long mtime) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException;
 
     /**
      * Inform the namenode that a datanode process has started.
@@ -274,7 +268,7 @@ public class Namenode {
      * 
      * @param thriftPort Thrift port of the datanode
      */
-    public void datanodeUp(String name, String storage, int thriftPort) throws TException;
+    public void datanodeUp(String name, String storage, int thriftPort) throws org.apache.thrift.TException;
 
     /**
      * Inform the namenode that a datanode process has stopped.
@@ -285,7 +279,7 @@ public class Namenode {
      * 
      * @param thriftPort Thrift port of the datanode
      */
-    public void datanodeDown(String name, String storage, int thriftPort) throws TException;
+    public void datanodeDown(String name, String storage, int thriftPort) throws org.apache.thrift.TException;
 
     /**
      * Get an HDFS delegation token.
@@ -293,90 +287,90 @@ public class Namenode {
      * @param ctx
      * @param renewer
      */
-    public org.apache.hadoop.thriftfs.api.ThriftDelegationToken getDelegationToken(org.apache.hadoop.thriftfs.api.RequestContext ctx, String renewer) throws org.apache.hadoop.thriftfs.api.IOException, TException;
+    public org.apache.hadoop.thriftfs.api.ThriftDelegationToken getDelegationToken(org.apache.hadoop.thriftfs.api.RequestContext ctx, String renewer) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException;
 
   }
 
   public interface AsyncIface extends org.apache.hadoop.thriftfs.api.HadoopServiceBase .AsyncIface {
 
-    public void chmod(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short perms, AsyncMethodCallback<AsyncClient.chmod_call> resultHandler) throws TException;
+    public void chmod(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short perms, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.chmod_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void chown(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, String owner, String group, AsyncMethodCallback<AsyncClient.chown_call> resultHandler) throws TException;
+    public void chown(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, String owner, String group, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.chown_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void df(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<AsyncClient.df_call> resultHandler) throws TException;
+    public void df(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.df_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void enterSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<AsyncClient.enterSafeMode_call> resultHandler) throws TException;
+    public void enterSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.enterSafeMode_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getBlocks(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long offset, long length, AsyncMethodCallback<AsyncClient.getBlocks_call> resultHandler) throws TException;
+    public void getBlocks(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long offset, long length, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getBlocks_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getPreferredBlockSize(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, AsyncMethodCallback<AsyncClient.getPreferredBlockSize_call> resultHandler) throws TException;
+    public void getPreferredBlockSize(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getPreferredBlockSize_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void isInSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<AsyncClient.isInSafeMode_call> resultHandler) throws TException;
+    public void isInSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.isInSafeMode_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void leaveSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<AsyncClient.leaveSafeMode_call> resultHandler) throws TException;
+    public void leaveSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.leaveSafeMode_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void ls(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, AsyncMethodCallback<AsyncClient.ls_call> resultHandler) throws TException;
+    public void ls(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.ls_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void mkdirhier(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short perms, AsyncMethodCallback<AsyncClient.mkdirhier_call> resultHandler) throws TException;
+    public void mkdirhier(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short perms, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.mkdirhier_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void refreshNodes(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<AsyncClient.refreshNodes_call> resultHandler) throws TException;
+    public void refreshNodes(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.refreshNodes_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void rename(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, String newPath, AsyncMethodCallback<AsyncClient.rename_call> resultHandler) throws TException;
+    public void rename(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, String newPath, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.rename_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void reportBadBlocks(org.apache.hadoop.thriftfs.api.RequestContext ctx, List<Block> blocks, AsyncMethodCallback<AsyncClient.reportBadBlocks_call> resultHandler) throws TException;
+    public void reportBadBlocks(org.apache.hadoop.thriftfs.api.RequestContext ctx, List<Block> blocks, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.reportBadBlocks_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void stat(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, AsyncMethodCallback<AsyncClient.stat_call> resultHandler) throws TException;
+    public void stat(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.stat_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getContentSummary(org.apache.hadoop.thriftfs.api.RequestContext ctx, String Path, AsyncMethodCallback<AsyncClient.getContentSummary_call> resultHandler) throws TException;
+    public void getContentSummary(org.apache.hadoop.thriftfs.api.RequestContext ctx, String Path, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getContentSummary_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void multiGetContentSummary(org.apache.hadoop.thriftfs.api.RequestContext ctx, List<String> paths, AsyncMethodCallback<AsyncClient.multiGetContentSummary_call> resultHandler) throws TException;
+    public void multiGetContentSummary(org.apache.hadoop.thriftfs.api.RequestContext ctx, List<String> paths, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.multiGetContentSummary_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void setQuota(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long namespaceQuota, long diskspaceQuota, AsyncMethodCallback<AsyncClient.setQuota_call> resultHandler) throws TException;
+    public void setQuota(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long namespaceQuota, long diskspaceQuota, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.setQuota_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void setReplication(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short replication, AsyncMethodCallback<AsyncClient.setReplication_call> resultHandler) throws TException;
+    public void setReplication(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short replication, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.setReplication_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void unlink(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, boolean recursive, AsyncMethodCallback<AsyncClient.unlink_call> resultHandler) throws TException;
+    public void unlink(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, boolean recursive, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.unlink_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void utime(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long atime, long mtime, AsyncMethodCallback<AsyncClient.utime_call> resultHandler) throws TException;
+    public void utime(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long atime, long mtime, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.utime_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void datanodeUp(String name, String storage, int thriftPort, AsyncMethodCallback<AsyncClient.datanodeUp_call> resultHandler) throws TException;
+    public void datanodeUp(String name, String storage, int thriftPort, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.datanodeUp_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void datanodeDown(String name, String storage, int thriftPort, AsyncMethodCallback<AsyncClient.datanodeDown_call> resultHandler) throws TException;
+    public void datanodeDown(String name, String storage, int thriftPort, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.datanodeDown_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getDelegationToken(org.apache.hadoop.thriftfs.api.RequestContext ctx, String renewer, AsyncMethodCallback<AsyncClient.getDelegationToken_call> resultHandler) throws TException;
+    public void getDelegationToken(org.apache.hadoop.thriftfs.api.RequestContext ctx, String renewer, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getDelegationToken_call> resultHandler) throws org.apache.thrift.TException;
 
   }
 
-  public static class Client extends org.apache.hadoop.thriftfs.api.HadoopServiceBase.Client implements TServiceClient, Iface {
-    public static class Factory implements TServiceClientFactory<Client> {
+  public static class Client extends org.apache.hadoop.thriftfs.api.HadoopServiceBase.Client implements org.apache.thrift.TServiceClient, Iface {
+    public static class Factory implements org.apache.thrift.TServiceClientFactory<Client> {
       public Factory() {}
-      public Client getClient(TProtocol prot) {
+      public Client getClient(org.apache.thrift.protocol.TProtocol prot) {
         return new Client(prot);
       }
-      public Client getClient(TProtocol iprot, TProtocol oprot) {
+      public Client getClient(org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) {
         return new Client(iprot, oprot);
       }
     }
 
-    public Client(TProtocol prot)
+    public Client(org.apache.thrift.protocol.TProtocol prot)
     {
       this(prot, prot);
     }
 
-    public Client(TProtocol iprot, TProtocol oprot)
+    public Client(org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot)
     {
       super(iprot, oprot);
     }
 
-    public void chmod(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short perms) throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public void chmod(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short perms) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
       send_chmod(ctx, path, perms);
       recv_chmod();
     }
 
-    public void send_chmod(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short perms) throws TException
+    public void send_chmod(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short perms) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("chmod", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("chmod", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       chmod_args args = new chmod_args();
       args.setCtx(ctx);
       args.setPath(path);
@@ -386,16 +380,16 @@ public class Namenode {
       oprot_.getTransport().flush();
     }
 
-    public void recv_chmod() throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public void recv_chmod() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "chmod failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "chmod failed: out of sequence response");
       }
       chmod_result result = new chmod_result();
       result.read(iprot_);
@@ -406,15 +400,15 @@ public class Namenode {
       return;
     }
 
-    public void chown(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, String owner, String group) throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public void chown(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, String owner, String group) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
       send_chown(ctx, path, owner, group);
       recv_chown();
     }
 
-    public void send_chown(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, String owner, String group) throws TException
+    public void send_chown(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, String owner, String group) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("chown", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("chown", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       chown_args args = new chown_args();
       args.setCtx(ctx);
       args.setPath(path);
@@ -425,16 +419,16 @@ public class Namenode {
       oprot_.getTransport().flush();
     }
 
-    public void recv_chown() throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public void recv_chown() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "chown failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "chown failed: out of sequence response");
       }
       chown_result result = new chown_result();
       result.read(iprot_);
@@ -445,15 +439,15 @@ public class Namenode {
       return;
     }
 
-    public List<Long> df(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public List<Long> df(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
       send_df(ctx);
       return recv_df();
     }
 
-    public void send_df(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public void send_df(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("df", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("df", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       df_args args = new df_args();
       args.setCtx(ctx);
       args.write(oprot_);
@@ -461,16 +455,16 @@ public class Namenode {
       oprot_.getTransport().flush();
     }
 
-    public List<Long> recv_df() throws TException
+    public List<Long> recv_df() throws org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "df failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "df failed: out of sequence response");
       }
       df_result result = new df_result();
       result.read(iprot_);
@@ -478,18 +472,18 @@ public class Namenode {
       if (result.isSetSuccess()) {
         return result.success;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "df failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "df failed: unknown result");
     }
 
-    public void enterSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public void enterSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
       send_enterSafeMode(ctx);
       recv_enterSafeMode();
     }
 
-    public void send_enterSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public void send_enterSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("enterSafeMode", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("enterSafeMode", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       enterSafeMode_args args = new enterSafeMode_args();
       args.setCtx(ctx);
       args.write(oprot_);
@@ -497,16 +491,16 @@ public class Namenode {
       oprot_.getTransport().flush();
     }
 
-    public void recv_enterSafeMode() throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public void recv_enterSafeMode() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "enterSafeMode failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "enterSafeMode failed: out of sequence response");
       }
       enterSafeMode_result result = new enterSafeMode_result();
       result.read(iprot_);
@@ -517,15 +511,15 @@ public class Namenode {
       return;
     }
 
-    public List<Block> getBlocks(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long offset, long length) throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public List<Block> getBlocks(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long offset, long length) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
       send_getBlocks(ctx, path, offset, length);
       return recv_getBlocks();
     }
 
-    public void send_getBlocks(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long offset, long length) throws TException
+    public void send_getBlocks(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long offset, long length) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("getBlocks", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getBlocks", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getBlocks_args args = new getBlocks_args();
       args.setCtx(ctx);
       args.setPath(path);
@@ -536,16 +530,16 @@ public class Namenode {
       oprot_.getTransport().flush();
     }
 
-    public List<Block> recv_getBlocks() throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public List<Block> recv_getBlocks() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "getBlocks failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "getBlocks failed: out of sequence response");
       }
       getBlocks_result result = new getBlocks_result();
       result.read(iprot_);
@@ -556,18 +550,18 @@ public class Namenode {
       if (result.err != null) {
         throw result.err;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "getBlocks failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getBlocks failed: unknown result");
     }
 
-    public long getPreferredBlockSize(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path) throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public long getPreferredBlockSize(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
       send_getPreferredBlockSize(ctx, path);
       return recv_getPreferredBlockSize();
     }
 
-    public void send_getPreferredBlockSize(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path) throws TException
+    public void send_getPreferredBlockSize(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("getPreferredBlockSize", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getPreferredBlockSize", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getPreferredBlockSize_args args = new getPreferredBlockSize_args();
       args.setCtx(ctx);
       args.setPath(path);
@@ -576,16 +570,16 @@ public class Namenode {
       oprot_.getTransport().flush();
     }
 
-    public long recv_getPreferredBlockSize() throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public long recv_getPreferredBlockSize() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "getPreferredBlockSize failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "getPreferredBlockSize failed: out of sequence response");
       }
       getPreferredBlockSize_result result = new getPreferredBlockSize_result();
       result.read(iprot_);
@@ -596,18 +590,18 @@ public class Namenode {
       if (result.err != null) {
         throw result.err;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "getPreferredBlockSize failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getPreferredBlockSize failed: unknown result");
     }
 
-    public boolean isInSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public boolean isInSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
       send_isInSafeMode(ctx);
       return recv_isInSafeMode();
     }
 
-    public void send_isInSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public void send_isInSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("isInSafeMode", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("isInSafeMode", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       isInSafeMode_args args = new isInSafeMode_args();
       args.setCtx(ctx);
       args.write(oprot_);
@@ -615,16 +609,16 @@ public class Namenode {
       oprot_.getTransport().flush();
     }
 
-    public boolean recv_isInSafeMode() throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public boolean recv_isInSafeMode() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "isInSafeMode failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "isInSafeMode failed: out of sequence response");
       }
       isInSafeMode_result result = new isInSafeMode_result();
       result.read(iprot_);
@@ -635,18 +629,18 @@ public class Namenode {
       if (result.err != null) {
         throw result.err;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "isInSafeMode failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "isInSafeMode failed: unknown result");
     }
 
-    public void leaveSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public void leaveSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
       send_leaveSafeMode(ctx);
       recv_leaveSafeMode();
     }
 
-    public void send_leaveSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public void send_leaveSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("leaveSafeMode", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("leaveSafeMode", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       leaveSafeMode_args args = new leaveSafeMode_args();
       args.setCtx(ctx);
       args.write(oprot_);
@@ -654,16 +648,16 @@ public class Namenode {
       oprot_.getTransport().flush();
     }
 
-    public void recv_leaveSafeMode() throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public void recv_leaveSafeMode() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "leaveSafeMode failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "leaveSafeMode failed: out of sequence response");
       }
       leaveSafeMode_result result = new leaveSafeMode_result();
       result.read(iprot_);
@@ -674,15 +668,15 @@ public class Namenode {
       return;
     }
 
-    public List<Stat> ls(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path) throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public List<Stat> ls(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
       send_ls(ctx, path);
       return recv_ls();
     }
 
-    public void send_ls(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path) throws TException
+    public void send_ls(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("ls", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("ls", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       ls_args args = new ls_args();
       args.setCtx(ctx);
       args.setPath(path);
@@ -691,16 +685,16 @@ public class Namenode {
       oprot_.getTransport().flush();
     }
 
-    public List<Stat> recv_ls() throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public List<Stat> recv_ls() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "ls failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "ls failed: out of sequence response");
       }
       ls_result result = new ls_result();
       result.read(iprot_);
@@ -711,18 +705,18 @@ public class Namenode {
       if (result.err != null) {
         throw result.err;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "ls failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "ls failed: unknown result");
     }
 
-    public boolean mkdirhier(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short perms) throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public boolean mkdirhier(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short perms) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
       send_mkdirhier(ctx, path, perms);
       return recv_mkdirhier();
     }
 
-    public void send_mkdirhier(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short perms) throws TException
+    public void send_mkdirhier(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short perms) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("mkdirhier", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("mkdirhier", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       mkdirhier_args args = new mkdirhier_args();
       args.setCtx(ctx);
       args.setPath(path);
@@ -732,16 +726,16 @@ public class Namenode {
       oprot_.getTransport().flush();
     }
 
-    public boolean recv_mkdirhier() throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public boolean recv_mkdirhier() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "mkdirhier failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "mkdirhier failed: out of sequence response");
       }
       mkdirhier_result result = new mkdirhier_result();
       result.read(iprot_);
@@ -752,18 +746,18 @@ public class Namenode {
       if (result.err != null) {
         throw result.err;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "mkdirhier failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "mkdirhier failed: unknown result");
     }
 
-    public void refreshNodes(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public void refreshNodes(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
       send_refreshNodes(ctx);
       recv_refreshNodes();
     }
 
-    public void send_refreshNodes(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public void send_refreshNodes(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("refreshNodes", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("refreshNodes", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       refreshNodes_args args = new refreshNodes_args();
       args.setCtx(ctx);
       args.write(oprot_);
@@ -771,16 +765,16 @@ public class Namenode {
       oprot_.getTransport().flush();
     }
 
-    public void recv_refreshNodes() throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public void recv_refreshNodes() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "refreshNodes failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "refreshNodes failed: out of sequence response");
       }
       refreshNodes_result result = new refreshNodes_result();
       result.read(iprot_);
@@ -791,15 +785,15 @@ public class Namenode {
       return;
     }
 
-    public boolean rename(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, String newPath) throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public boolean rename(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, String newPath) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
       send_rename(ctx, path, newPath);
       return recv_rename();
     }
 
-    public void send_rename(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, String newPath) throws TException
+    public void send_rename(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, String newPath) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("rename", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("rename", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       rename_args args = new rename_args();
       args.setCtx(ctx);
       args.setPath(path);
@@ -809,16 +803,16 @@ public class Namenode {
       oprot_.getTransport().flush();
     }
 
-    public boolean recv_rename() throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public boolean recv_rename() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "rename failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "rename failed: out of sequence response");
       }
       rename_result result = new rename_result();
       result.read(iprot_);
@@ -829,18 +823,18 @@ public class Namenode {
       if (result.err != null) {
         throw result.err;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "rename failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "rename failed: unknown result");
     }
 
-    public void reportBadBlocks(org.apache.hadoop.thriftfs.api.RequestContext ctx, List<Block> blocks) throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public void reportBadBlocks(org.apache.hadoop.thriftfs.api.RequestContext ctx, List<Block> blocks) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
       send_reportBadBlocks(ctx, blocks);
       recv_reportBadBlocks();
     }
 
-    public void send_reportBadBlocks(org.apache.hadoop.thriftfs.api.RequestContext ctx, List<Block> blocks) throws TException
+    public void send_reportBadBlocks(org.apache.hadoop.thriftfs.api.RequestContext ctx, List<Block> blocks) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("reportBadBlocks", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("reportBadBlocks", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       reportBadBlocks_args args = new reportBadBlocks_args();
       args.setCtx(ctx);
       args.setBlocks(blocks);
@@ -849,16 +843,16 @@ public class Namenode {
       oprot_.getTransport().flush();
     }
 
-    public void recv_reportBadBlocks() throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public void recv_reportBadBlocks() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "reportBadBlocks failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "reportBadBlocks failed: out of sequence response");
       }
       reportBadBlocks_result result = new reportBadBlocks_result();
       result.read(iprot_);
@@ -869,15 +863,15 @@ public class Namenode {
       return;
     }
 
-    public Stat stat(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path) throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public Stat stat(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
       send_stat(ctx, path);
       return recv_stat();
     }
 
-    public void send_stat(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path) throws TException
+    public void send_stat(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("stat", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("stat", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       stat_args args = new stat_args();
       args.setCtx(ctx);
       args.setPath(path);
@@ -886,16 +880,16 @@ public class Namenode {
       oprot_.getTransport().flush();
     }
 
-    public Stat recv_stat() throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public Stat recv_stat() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "stat failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "stat failed: out of sequence response");
       }
       stat_result result = new stat_result();
       result.read(iprot_);
@@ -906,18 +900,18 @@ public class Namenode {
       if (result.err != null) {
         throw result.err;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "stat failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "stat failed: unknown result");
     }
 
-    public ContentSummary getContentSummary(org.apache.hadoop.thriftfs.api.RequestContext ctx, String Path) throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public ContentSummary getContentSummary(org.apache.hadoop.thriftfs.api.RequestContext ctx, String Path) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
       send_getContentSummary(ctx, Path);
       return recv_getContentSummary();
     }
 
-    public void send_getContentSummary(org.apache.hadoop.thriftfs.api.RequestContext ctx, String Path) throws TException
+    public void send_getContentSummary(org.apache.hadoop.thriftfs.api.RequestContext ctx, String Path) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("getContentSummary", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getContentSummary", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getContentSummary_args args = new getContentSummary_args();
       args.setCtx(ctx);
       args.setPath(Path);
@@ -926,16 +920,16 @@ public class Namenode {
       oprot_.getTransport().flush();
     }
 
-    public ContentSummary recv_getContentSummary() throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public ContentSummary recv_getContentSummary() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "getContentSummary failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "getContentSummary failed: out of sequence response");
       }
       getContentSummary_result result = new getContentSummary_result();
       result.read(iprot_);
@@ -946,18 +940,18 @@ public class Namenode {
       if (result.err != null) {
         throw result.err;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "getContentSummary failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getContentSummary failed: unknown result");
     }
 
-    public List<ContentSummary> multiGetContentSummary(org.apache.hadoop.thriftfs.api.RequestContext ctx, List<String> paths) throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public List<ContentSummary> multiGetContentSummary(org.apache.hadoop.thriftfs.api.RequestContext ctx, List<String> paths) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
       send_multiGetContentSummary(ctx, paths);
       return recv_multiGetContentSummary();
     }
 
-    public void send_multiGetContentSummary(org.apache.hadoop.thriftfs.api.RequestContext ctx, List<String> paths) throws TException
+    public void send_multiGetContentSummary(org.apache.hadoop.thriftfs.api.RequestContext ctx, List<String> paths) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("multiGetContentSummary", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("multiGetContentSummary", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       multiGetContentSummary_args args = new multiGetContentSummary_args();
       args.setCtx(ctx);
       args.setPaths(paths);
@@ -966,16 +960,16 @@ public class Namenode {
       oprot_.getTransport().flush();
     }
 
-    public List<ContentSummary> recv_multiGetContentSummary() throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public List<ContentSummary> recv_multiGetContentSummary() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "multiGetContentSummary failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "multiGetContentSummary failed: out of sequence response");
       }
       multiGetContentSummary_result result = new multiGetContentSummary_result();
       result.read(iprot_);
@@ -986,18 +980,18 @@ public class Namenode {
       if (result.err != null) {
         throw result.err;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "multiGetContentSummary failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "multiGetContentSummary failed: unknown result");
     }
 
-    public void setQuota(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long namespaceQuota, long diskspaceQuota) throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public void setQuota(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long namespaceQuota, long diskspaceQuota) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
       send_setQuota(ctx, path, namespaceQuota, diskspaceQuota);
       recv_setQuota();
     }
 
-    public void send_setQuota(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long namespaceQuota, long diskspaceQuota) throws TException
+    public void send_setQuota(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long namespaceQuota, long diskspaceQuota) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("setQuota", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("setQuota", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       setQuota_args args = new setQuota_args();
       args.setCtx(ctx);
       args.setPath(path);
@@ -1008,16 +1002,16 @@ public class Namenode {
       oprot_.getTransport().flush();
     }
 
-    public void recv_setQuota() throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public void recv_setQuota() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "setQuota failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "setQuota failed: out of sequence response");
       }
       setQuota_result result = new setQuota_result();
       result.read(iprot_);
@@ -1028,15 +1022,15 @@ public class Namenode {
       return;
     }
 
-    public boolean setReplication(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short replication) throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public boolean setReplication(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short replication) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
       send_setReplication(ctx, path, replication);
       return recv_setReplication();
     }
 
-    public void send_setReplication(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short replication) throws TException
+    public void send_setReplication(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short replication) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("setReplication", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("setReplication", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       setReplication_args args = new setReplication_args();
       args.setCtx(ctx);
       args.setPath(path);
@@ -1046,16 +1040,16 @@ public class Namenode {
       oprot_.getTransport().flush();
     }
 
-    public boolean recv_setReplication() throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public boolean recv_setReplication() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "setReplication failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "setReplication failed: out of sequence response");
       }
       setReplication_result result = new setReplication_result();
       result.read(iprot_);
@@ -1066,18 +1060,18 @@ public class Namenode {
       if (result.err != null) {
         throw result.err;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "setReplication failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "setReplication failed: unknown result");
     }
 
-    public boolean unlink(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, boolean recursive) throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public boolean unlink(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, boolean recursive) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
       send_unlink(ctx, path, recursive);
       return recv_unlink();
     }
 
-    public void send_unlink(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, boolean recursive) throws TException
+    public void send_unlink(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, boolean recursive) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("unlink", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("unlink", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       unlink_args args = new unlink_args();
       args.setCtx(ctx);
       args.setPath(path);
@@ -1087,16 +1081,16 @@ public class Namenode {
       oprot_.getTransport().flush();
     }
 
-    public boolean recv_unlink() throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public boolean recv_unlink() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "unlink failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "unlink failed: out of sequence response");
       }
       unlink_result result = new unlink_result();
       result.read(iprot_);
@@ -1107,18 +1101,18 @@ public class Namenode {
       if (result.err != null) {
         throw result.err;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "unlink failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "unlink failed: unknown result");
     }
 
-    public void utime(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long atime, long mtime) throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public void utime(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long atime, long mtime) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
       send_utime(ctx, path, atime, mtime);
       recv_utime();
     }
 
-    public void send_utime(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long atime, long mtime) throws TException
+    public void send_utime(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long atime, long mtime) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("utime", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("utime", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       utime_args args = new utime_args();
       args.setCtx(ctx);
       args.setPath(path);
@@ -1129,16 +1123,16 @@ public class Namenode {
       oprot_.getTransport().flush();
     }
 
-    public void recv_utime() throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public void recv_utime() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "utime failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "utime failed: out of sequence response");
       }
       utime_result result = new utime_result();
       result.read(iprot_);
@@ -1149,15 +1143,15 @@ public class Namenode {
       return;
     }
 
-    public void datanodeUp(String name, String storage, int thriftPort) throws TException
+    public void datanodeUp(String name, String storage, int thriftPort) throws org.apache.thrift.TException
     {
       send_datanodeUp(name, storage, thriftPort);
       recv_datanodeUp();
     }
 
-    public void send_datanodeUp(String name, String storage, int thriftPort) throws TException
+    public void send_datanodeUp(String name, String storage, int thriftPort) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("datanodeUp", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("datanodeUp", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       datanodeUp_args args = new datanodeUp_args();
       args.setName(name);
       args.setStorage(storage);
@@ -1167,16 +1161,16 @@ public class Namenode {
       oprot_.getTransport().flush();
     }
 
-    public void recv_datanodeUp() throws TException
+    public void recv_datanodeUp() throws org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "datanodeUp failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "datanodeUp failed: out of sequence response");
       }
       datanodeUp_result result = new datanodeUp_result();
       result.read(iprot_);
@@ -1184,15 +1178,15 @@ public class Namenode {
       return;
     }
 
-    public void datanodeDown(String name, String storage, int thriftPort) throws TException
+    public void datanodeDown(String name, String storage, int thriftPort) throws org.apache.thrift.TException
     {
       send_datanodeDown(name, storage, thriftPort);
       recv_datanodeDown();
     }
 
-    public void send_datanodeDown(String name, String storage, int thriftPort) throws TException
+    public void send_datanodeDown(String name, String storage, int thriftPort) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("datanodeDown", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("datanodeDown", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       datanodeDown_args args = new datanodeDown_args();
       args.setName(name);
       args.setStorage(storage);
@@ -1202,16 +1196,16 @@ public class Namenode {
       oprot_.getTransport().flush();
     }
 
-    public void recv_datanodeDown() throws TException
+    public void recv_datanodeDown() throws org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "datanodeDown failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "datanodeDown failed: out of sequence response");
       }
       datanodeDown_result result = new datanodeDown_result();
       result.read(iprot_);
@@ -1219,15 +1213,15 @@ public class Namenode {
       return;
     }
 
-    public org.apache.hadoop.thriftfs.api.ThriftDelegationToken getDelegationToken(org.apache.hadoop.thriftfs.api.RequestContext ctx, String renewer) throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public org.apache.hadoop.thriftfs.api.ThriftDelegationToken getDelegationToken(org.apache.hadoop.thriftfs.api.RequestContext ctx, String renewer) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
       send_getDelegationToken(ctx, renewer);
       return recv_getDelegationToken();
     }
 
-    public void send_getDelegationToken(org.apache.hadoop.thriftfs.api.RequestContext ctx, String renewer) throws TException
+    public void send_getDelegationToken(org.apache.hadoop.thriftfs.api.RequestContext ctx, String renewer) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("getDelegationToken", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getDelegationToken", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getDelegationToken_args args = new getDelegationToken_args();
       args.setCtx(ctx);
       args.setRenewer(renewer);
@@ -1236,16 +1230,16 @@ public class Namenode {
       oprot_.getTransport().flush();
     }
 
-    public org.apache.hadoop.thriftfs.api.ThriftDelegationToken recv_getDelegationToken() throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public org.apache.hadoop.thriftfs.api.ThriftDelegationToken recv_getDelegationToken() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "getDelegationToken failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "getDelegationToken failed: out of sequence response");
       }
       getDelegationToken_result result = new getDelegationToken_result();
       result.read(iprot_);
@@ -1256,46 +1250,47 @@ public class Namenode {
       if (result.err != null) {
         throw result.err;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "getDelegationToken failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getDelegationToken failed: unknown result");
     }
 
   }
   public static class AsyncClient extends org.apache.hadoop.thriftfs.api.HadoopServiceBase.AsyncClient implements AsyncIface {
-    public static class Factory implements TAsyncClientFactory<AsyncClient> {
-      private TAsyncClientManager clientManager;
-      private TProtocolFactory protocolFactory;
-      public Factory(TAsyncClientManager clientManager, TProtocolFactory protocolFactory) {
+    public static class Factory implements org.apache.thrift.async.TAsyncClientFactory<AsyncClient> {
+      private org.apache.thrift.async.TAsyncClientManager clientManager;
+      private org.apache.thrift.protocol.TProtocolFactory protocolFactory;
+      public Factory(org.apache.thrift.async.TAsyncClientManager clientManager, org.apache.thrift.protocol.TProtocolFactory protocolFactory) {
         this.clientManager = clientManager;
         this.protocolFactory = protocolFactory;
       }
-      public AsyncClient getAsyncClient(TNonblockingTransport transport) {
+      public AsyncClient getAsyncClient(org.apache.thrift.transport.TNonblockingTransport transport) {
         return new AsyncClient(protocolFactory, clientManager, transport);
       }
     }
 
-    public AsyncClient(TProtocolFactory protocolFactory, TAsyncClientManager clientManager, TNonblockingTransport transport) {
+    public AsyncClient(org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.async.TAsyncClientManager clientManager, org.apache.thrift.transport.TNonblockingTransport transport) {
       super(protocolFactory, clientManager, transport);
     }
 
-    public void chmod(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short perms, AsyncMethodCallback<chmod_call> resultHandler) throws TException {
+    public void chmod(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short perms, org.apache.thrift.async.AsyncMethodCallback<chmod_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       chmod_call method_call = new chmod_call(ctx, path, perms, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class chmod_call extends TAsyncMethodCall {
+    public static class chmod_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private String path;
       private short perms;
-      public chmod_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short perms, AsyncMethodCallback<chmod_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public chmod_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short perms, org.apache.thrift.async.AsyncMethodCallback<chmod_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.path = path;
         this.perms = perms;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("chmod", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("chmod", org.apache.thrift.protocol.TMessageType.CALL, 0));
         chmod_args args = new chmod_args();
         args.setCtx(ctx);
         args.setPath(path);
@@ -1304,28 +1299,29 @@ public class Namenode {
         prot.writeMessageEnd();
       }
 
-      public void getResult() throws org.apache.hadoop.thriftfs.api.IOException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public void getResult() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         (new Client(prot)).recv_chmod();
       }
     }
 
-    public void chown(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, String owner, String group, AsyncMethodCallback<chown_call> resultHandler) throws TException {
+    public void chown(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, String owner, String group, org.apache.thrift.async.AsyncMethodCallback<chown_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       chown_call method_call = new chown_call(ctx, path, owner, group, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class chown_call extends TAsyncMethodCall {
+    public static class chown_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private String path;
       private String owner;
       private String group;
-      public chown_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, String owner, String group, AsyncMethodCallback<chown_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public chown_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, String owner, String group, org.apache.thrift.async.AsyncMethodCallback<chown_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.path = path;
@@ -1333,8 +1329,8 @@ public class Namenode {
         this.group = group;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("chown", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("chown", org.apache.thrift.protocol.TMessageType.CALL, 0));
         chown_args args = new chown_args();
         args.setCtx(ctx);
         args.setPath(path);
@@ -1344,90 +1340,93 @@ public class Namenode {
         prot.writeMessageEnd();
       }
 
-      public void getResult() throws org.apache.hadoop.thriftfs.api.IOException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public void getResult() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         (new Client(prot)).recv_chown();
       }
     }
 
-    public void df(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<df_call> resultHandler) throws TException {
+    public void df(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<df_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       df_call method_call = new df_call(ctx, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class df_call extends TAsyncMethodCall {
+    public static class df_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
-      public df_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<df_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public df_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<df_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("df", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("df", org.apache.thrift.protocol.TMessageType.CALL, 0));
         df_args args = new df_args();
         args.setCtx(ctx);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public List<Long> getResult() throws TException {
-        if (getState() != State.RESPONSE_READ) {
+      public List<Long> getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_df();
       }
     }
 
-    public void enterSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<enterSafeMode_call> resultHandler) throws TException {
+    public void enterSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<enterSafeMode_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       enterSafeMode_call method_call = new enterSafeMode_call(ctx, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class enterSafeMode_call extends TAsyncMethodCall {
+    public static class enterSafeMode_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
-      public enterSafeMode_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<enterSafeMode_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public enterSafeMode_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<enterSafeMode_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("enterSafeMode", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("enterSafeMode", org.apache.thrift.protocol.TMessageType.CALL, 0));
         enterSafeMode_args args = new enterSafeMode_args();
         args.setCtx(ctx);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public void getResult() throws org.apache.hadoop.thriftfs.api.IOException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public void getResult() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         (new Client(prot)).recv_enterSafeMode();
       }
     }
 
-    public void getBlocks(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long offset, long length, AsyncMethodCallback<getBlocks_call> resultHandler) throws TException {
+    public void getBlocks(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long offset, long length, org.apache.thrift.async.AsyncMethodCallback<getBlocks_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getBlocks_call method_call = new getBlocks_call(ctx, path, offset, length, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class getBlocks_call extends TAsyncMethodCall {
+    public static class getBlocks_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private String path;
       private long offset;
       private long length;
-      public getBlocks_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long offset, long length, AsyncMethodCallback<getBlocks_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public getBlocks_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long offset, long length, org.apache.thrift.async.AsyncMethodCallback<getBlocks_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.path = path;
@@ -1435,8 +1434,8 @@ public class Namenode {
         this.length = length;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("getBlocks", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getBlocks", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getBlocks_args args = new getBlocks_args();
         args.setCtx(ctx);
         args.setPath(path);
@@ -1446,33 +1445,34 @@ public class Namenode {
         prot.writeMessageEnd();
       }
 
-      public List<Block> getResult() throws org.apache.hadoop.thriftfs.api.IOException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public List<Block> getResult() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_getBlocks();
       }
     }
 
-    public void getPreferredBlockSize(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, AsyncMethodCallback<getPreferredBlockSize_call> resultHandler) throws TException {
+    public void getPreferredBlockSize(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, org.apache.thrift.async.AsyncMethodCallback<getPreferredBlockSize_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getPreferredBlockSize_call method_call = new getPreferredBlockSize_call(ctx, path, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class getPreferredBlockSize_call extends TAsyncMethodCall {
+    public static class getPreferredBlockSize_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private String path;
-      public getPreferredBlockSize_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, AsyncMethodCallback<getPreferredBlockSize_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public getPreferredBlockSize_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, org.apache.thrift.async.AsyncMethodCallback<getPreferredBlockSize_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.path = path;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("getPreferredBlockSize", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getPreferredBlockSize", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getPreferredBlockSize_args args = new getPreferredBlockSize_args();
         args.setCtx(ctx);
         args.setPath(path);
@@ -1480,95 +1480,98 @@ public class Namenode {
         prot.writeMessageEnd();
       }
 
-      public long getResult() throws org.apache.hadoop.thriftfs.api.IOException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public long getResult() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_getPreferredBlockSize();
       }
     }
 
-    public void isInSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<isInSafeMode_call> resultHandler) throws TException {
+    public void isInSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<isInSafeMode_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       isInSafeMode_call method_call = new isInSafeMode_call(ctx, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class isInSafeMode_call extends TAsyncMethodCall {
+    public static class isInSafeMode_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
-      public isInSafeMode_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<isInSafeMode_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public isInSafeMode_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<isInSafeMode_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("isInSafeMode", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("isInSafeMode", org.apache.thrift.protocol.TMessageType.CALL, 0));
         isInSafeMode_args args = new isInSafeMode_args();
         args.setCtx(ctx);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public boolean getResult() throws org.apache.hadoop.thriftfs.api.IOException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public boolean getResult() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_isInSafeMode();
       }
     }
 
-    public void leaveSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<leaveSafeMode_call> resultHandler) throws TException {
+    public void leaveSafeMode(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<leaveSafeMode_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       leaveSafeMode_call method_call = new leaveSafeMode_call(ctx, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class leaveSafeMode_call extends TAsyncMethodCall {
+    public static class leaveSafeMode_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
-      public leaveSafeMode_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<leaveSafeMode_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public leaveSafeMode_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<leaveSafeMode_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("leaveSafeMode", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("leaveSafeMode", org.apache.thrift.protocol.TMessageType.CALL, 0));
         leaveSafeMode_args args = new leaveSafeMode_args();
         args.setCtx(ctx);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public void getResult() throws org.apache.hadoop.thriftfs.api.IOException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public void getResult() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         (new Client(prot)).recv_leaveSafeMode();
       }
     }
 
-    public void ls(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, AsyncMethodCallback<ls_call> resultHandler) throws TException {
+    public void ls(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, org.apache.thrift.async.AsyncMethodCallback<ls_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       ls_call method_call = new ls_call(ctx, path, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class ls_call extends TAsyncMethodCall {
+    public static class ls_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private String path;
-      public ls_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, AsyncMethodCallback<ls_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public ls_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, org.apache.thrift.async.AsyncMethodCallback<ls_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.path = path;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("ls", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("ls", org.apache.thrift.protocol.TMessageType.CALL, 0));
         ls_args args = new ls_args();
         args.setCtx(ctx);
         args.setPath(path);
@@ -1576,35 +1579,36 @@ public class Namenode {
         prot.writeMessageEnd();
       }
 
-      public List<Stat> getResult() throws org.apache.hadoop.thriftfs.api.IOException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public List<Stat> getResult() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_ls();
       }
     }
 
-    public void mkdirhier(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short perms, AsyncMethodCallback<mkdirhier_call> resultHandler) throws TException {
+    public void mkdirhier(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short perms, org.apache.thrift.async.AsyncMethodCallback<mkdirhier_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       mkdirhier_call method_call = new mkdirhier_call(ctx, path, perms, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class mkdirhier_call extends TAsyncMethodCall {
+    public static class mkdirhier_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private String path;
       private short perms;
-      public mkdirhier_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short perms, AsyncMethodCallback<mkdirhier_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public mkdirhier_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short perms, org.apache.thrift.async.AsyncMethodCallback<mkdirhier_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.path = path;
         this.perms = perms;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("mkdirhier", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("mkdirhier", org.apache.thrift.protocol.TMessageType.CALL, 0));
         mkdirhier_args args = new mkdirhier_args();
         args.setCtx(ctx);
         args.setPath(path);
@@ -1613,66 +1617,68 @@ public class Namenode {
         prot.writeMessageEnd();
       }
 
-      public boolean getResult() throws org.apache.hadoop.thriftfs.api.IOException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public boolean getResult() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_mkdirhier();
       }
     }
 
-    public void refreshNodes(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<refreshNodes_call> resultHandler) throws TException {
+    public void refreshNodes(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<refreshNodes_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       refreshNodes_call method_call = new refreshNodes_call(ctx, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class refreshNodes_call extends TAsyncMethodCall {
+    public static class refreshNodes_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
-      public refreshNodes_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<refreshNodes_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public refreshNodes_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<refreshNodes_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("refreshNodes", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("refreshNodes", org.apache.thrift.protocol.TMessageType.CALL, 0));
         refreshNodes_args args = new refreshNodes_args();
         args.setCtx(ctx);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public void getResult() throws org.apache.hadoop.thriftfs.api.IOException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public void getResult() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         (new Client(prot)).recv_refreshNodes();
       }
     }
 
-    public void rename(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, String newPath, AsyncMethodCallback<rename_call> resultHandler) throws TException {
+    public void rename(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, String newPath, org.apache.thrift.async.AsyncMethodCallback<rename_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       rename_call method_call = new rename_call(ctx, path, newPath, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class rename_call extends TAsyncMethodCall {
+    public static class rename_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private String path;
       private String newPath;
-      public rename_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, String newPath, AsyncMethodCallback<rename_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public rename_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, String newPath, org.apache.thrift.async.AsyncMethodCallback<rename_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.path = path;
         this.newPath = newPath;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("rename", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("rename", org.apache.thrift.protocol.TMessageType.CALL, 0));
         rename_args args = new rename_args();
         args.setCtx(ctx);
         args.setPath(path);
@@ -1681,33 +1687,34 @@ public class Namenode {
         prot.writeMessageEnd();
       }
 
-      public boolean getResult() throws org.apache.hadoop.thriftfs.api.IOException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public boolean getResult() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_rename();
       }
     }
 
-    public void reportBadBlocks(org.apache.hadoop.thriftfs.api.RequestContext ctx, List<Block> blocks, AsyncMethodCallback<reportBadBlocks_call> resultHandler) throws TException {
+    public void reportBadBlocks(org.apache.hadoop.thriftfs.api.RequestContext ctx, List<Block> blocks, org.apache.thrift.async.AsyncMethodCallback<reportBadBlocks_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       reportBadBlocks_call method_call = new reportBadBlocks_call(ctx, blocks, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class reportBadBlocks_call extends TAsyncMethodCall {
+    public static class reportBadBlocks_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private List<Block> blocks;
-      public reportBadBlocks_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, List<Block> blocks, AsyncMethodCallback<reportBadBlocks_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public reportBadBlocks_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, List<Block> blocks, org.apache.thrift.async.AsyncMethodCallback<reportBadBlocks_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.blocks = blocks;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("reportBadBlocks", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("reportBadBlocks", org.apache.thrift.protocol.TMessageType.CALL, 0));
         reportBadBlocks_args args = new reportBadBlocks_args();
         args.setCtx(ctx);
         args.setBlocks(blocks);
@@ -1715,33 +1722,34 @@ public class Namenode {
         prot.writeMessageEnd();
       }
 
-      public void getResult() throws org.apache.hadoop.thriftfs.api.IOException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public void getResult() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         (new Client(prot)).recv_reportBadBlocks();
       }
     }
 
-    public void stat(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, AsyncMethodCallback<stat_call> resultHandler) throws TException {
+    public void stat(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, org.apache.thrift.async.AsyncMethodCallback<stat_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       stat_call method_call = new stat_call(ctx, path, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class stat_call extends TAsyncMethodCall {
+    public static class stat_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private String path;
-      public stat_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, AsyncMethodCallback<stat_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public stat_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, org.apache.thrift.async.AsyncMethodCallback<stat_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.path = path;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("stat", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("stat", org.apache.thrift.protocol.TMessageType.CALL, 0));
         stat_args args = new stat_args();
         args.setCtx(ctx);
         args.setPath(path);
@@ -1749,33 +1757,34 @@ public class Namenode {
         prot.writeMessageEnd();
       }
 
-      public Stat getResult() throws org.apache.hadoop.thriftfs.api.IOException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public Stat getResult() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_stat();
       }
     }
 
-    public void getContentSummary(org.apache.hadoop.thriftfs.api.RequestContext ctx, String Path, AsyncMethodCallback<getContentSummary_call> resultHandler) throws TException {
+    public void getContentSummary(org.apache.hadoop.thriftfs.api.RequestContext ctx, String Path, org.apache.thrift.async.AsyncMethodCallback<getContentSummary_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getContentSummary_call method_call = new getContentSummary_call(ctx, Path, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class getContentSummary_call extends TAsyncMethodCall {
+    public static class getContentSummary_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private String Path;
-      public getContentSummary_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String Path, AsyncMethodCallback<getContentSummary_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public getContentSummary_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String Path, org.apache.thrift.async.AsyncMethodCallback<getContentSummary_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.Path = Path;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("getContentSummary", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getContentSummary", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getContentSummary_args args = new getContentSummary_args();
         args.setCtx(ctx);
         args.setPath(Path);
@@ -1783,33 +1792,34 @@ public class Namenode {
         prot.writeMessageEnd();
       }
 
-      public ContentSummary getResult() throws org.apache.hadoop.thriftfs.api.IOException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public ContentSummary getResult() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_getContentSummary();
       }
     }
 
-    public void multiGetContentSummary(org.apache.hadoop.thriftfs.api.RequestContext ctx, List<String> paths, AsyncMethodCallback<multiGetContentSummary_call> resultHandler) throws TException {
+    public void multiGetContentSummary(org.apache.hadoop.thriftfs.api.RequestContext ctx, List<String> paths, org.apache.thrift.async.AsyncMethodCallback<multiGetContentSummary_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       multiGetContentSummary_call method_call = new multiGetContentSummary_call(ctx, paths, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class multiGetContentSummary_call extends TAsyncMethodCall {
+    public static class multiGetContentSummary_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private List<String> paths;
-      public multiGetContentSummary_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, List<String> paths, AsyncMethodCallback<multiGetContentSummary_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public multiGetContentSummary_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, List<String> paths, org.apache.thrift.async.AsyncMethodCallback<multiGetContentSummary_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.paths = paths;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("multiGetContentSummary", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("multiGetContentSummary", org.apache.thrift.protocol.TMessageType.CALL, 0));
         multiGetContentSummary_args args = new multiGetContentSummary_args();
         args.setCtx(ctx);
         args.setPaths(paths);
@@ -1817,28 +1827,29 @@ public class Namenode {
         prot.writeMessageEnd();
       }
 
-      public List<ContentSummary> getResult() throws org.apache.hadoop.thriftfs.api.IOException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public List<ContentSummary> getResult() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_multiGetContentSummary();
       }
     }
 
-    public void setQuota(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long namespaceQuota, long diskspaceQuota, AsyncMethodCallback<setQuota_call> resultHandler) throws TException {
+    public void setQuota(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long namespaceQuota, long diskspaceQuota, org.apache.thrift.async.AsyncMethodCallback<setQuota_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       setQuota_call method_call = new setQuota_call(ctx, path, namespaceQuota, diskspaceQuota, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class setQuota_call extends TAsyncMethodCall {
+    public static class setQuota_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private String path;
       private long namespaceQuota;
       private long diskspaceQuota;
-      public setQuota_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long namespaceQuota, long diskspaceQuota, AsyncMethodCallback<setQuota_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public setQuota_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long namespaceQuota, long diskspaceQuota, org.apache.thrift.async.AsyncMethodCallback<setQuota_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.path = path;
@@ -1846,8 +1857,8 @@ public class Namenode {
         this.diskspaceQuota = diskspaceQuota;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("setQuota", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("setQuota", org.apache.thrift.protocol.TMessageType.CALL, 0));
         setQuota_args args = new setQuota_args();
         args.setCtx(ctx);
         args.setPath(path);
@@ -1857,35 +1868,36 @@ public class Namenode {
         prot.writeMessageEnd();
       }
 
-      public void getResult() throws org.apache.hadoop.thriftfs.api.IOException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public void getResult() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         (new Client(prot)).recv_setQuota();
       }
     }
 
-    public void setReplication(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short replication, AsyncMethodCallback<setReplication_call> resultHandler) throws TException {
+    public void setReplication(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short replication, org.apache.thrift.async.AsyncMethodCallback<setReplication_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       setReplication_call method_call = new setReplication_call(ctx, path, replication, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class setReplication_call extends TAsyncMethodCall {
+    public static class setReplication_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private String path;
       private short replication;
-      public setReplication_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short replication, AsyncMethodCallback<setReplication_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public setReplication_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, short replication, org.apache.thrift.async.AsyncMethodCallback<setReplication_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.path = path;
         this.replication = replication;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("setReplication", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("setReplication", org.apache.thrift.protocol.TMessageType.CALL, 0));
         setReplication_args args = new setReplication_args();
         args.setCtx(ctx);
         args.setPath(path);
@@ -1894,35 +1906,36 @@ public class Namenode {
         prot.writeMessageEnd();
       }
 
-      public boolean getResult() throws org.apache.hadoop.thriftfs.api.IOException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public boolean getResult() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_setReplication();
       }
     }
 
-    public void unlink(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, boolean recursive, AsyncMethodCallback<unlink_call> resultHandler) throws TException {
+    public void unlink(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, boolean recursive, org.apache.thrift.async.AsyncMethodCallback<unlink_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       unlink_call method_call = new unlink_call(ctx, path, recursive, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class unlink_call extends TAsyncMethodCall {
+    public static class unlink_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private String path;
       private boolean recursive;
-      public unlink_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, boolean recursive, AsyncMethodCallback<unlink_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public unlink_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, boolean recursive, org.apache.thrift.async.AsyncMethodCallback<unlink_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.path = path;
         this.recursive = recursive;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("unlink", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("unlink", org.apache.thrift.protocol.TMessageType.CALL, 0));
         unlink_args args = new unlink_args();
         args.setCtx(ctx);
         args.setPath(path);
@@ -1931,28 +1944,29 @@ public class Namenode {
         prot.writeMessageEnd();
       }
 
-      public boolean getResult() throws org.apache.hadoop.thriftfs.api.IOException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public boolean getResult() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_unlink();
       }
     }
 
-    public void utime(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long atime, long mtime, AsyncMethodCallback<utime_call> resultHandler) throws TException {
+    public void utime(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long atime, long mtime, org.apache.thrift.async.AsyncMethodCallback<utime_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       utime_call method_call = new utime_call(ctx, path, atime, mtime, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class utime_call extends TAsyncMethodCall {
+    public static class utime_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private String path;
       private long atime;
       private long mtime;
-      public utime_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long atime, long mtime, AsyncMethodCallback<utime_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public utime_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String path, long atime, long mtime, org.apache.thrift.async.AsyncMethodCallback<utime_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.path = path;
@@ -1960,8 +1974,8 @@ public class Namenode {
         this.mtime = mtime;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("utime", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("utime", org.apache.thrift.protocol.TMessageType.CALL, 0));
         utime_args args = new utime_args();
         args.setCtx(ctx);
         args.setPath(path);
@@ -1971,35 +1985,36 @@ public class Namenode {
         prot.writeMessageEnd();
       }
 
-      public void getResult() throws org.apache.hadoop.thriftfs.api.IOException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public void getResult() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         (new Client(prot)).recv_utime();
       }
     }
 
-    public void datanodeUp(String name, String storage, int thriftPort, AsyncMethodCallback<datanodeUp_call> resultHandler) throws TException {
+    public void datanodeUp(String name, String storage, int thriftPort, org.apache.thrift.async.AsyncMethodCallback<datanodeUp_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       datanodeUp_call method_call = new datanodeUp_call(name, storage, thriftPort, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class datanodeUp_call extends TAsyncMethodCall {
+    public static class datanodeUp_call extends org.apache.thrift.async.TAsyncMethodCall {
       private String name;
       private String storage;
       private int thriftPort;
-      public datanodeUp_call(String name, String storage, int thriftPort, AsyncMethodCallback<datanodeUp_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public datanodeUp_call(String name, String storage, int thriftPort, org.apache.thrift.async.AsyncMethodCallback<datanodeUp_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.name = name;
         this.storage = storage;
         this.thriftPort = thriftPort;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("datanodeUp", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("datanodeUp", org.apache.thrift.protocol.TMessageType.CALL, 0));
         datanodeUp_args args = new datanodeUp_args();
         args.setName(name);
         args.setStorage(storage);
@@ -2008,35 +2023,36 @@ public class Namenode {
         prot.writeMessageEnd();
       }
 
-      public void getResult() throws TException {
-        if (getState() != State.RESPONSE_READ) {
+      public void getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         (new Client(prot)).recv_datanodeUp();
       }
     }
 
-    public void datanodeDown(String name, String storage, int thriftPort, AsyncMethodCallback<datanodeDown_call> resultHandler) throws TException {
+    public void datanodeDown(String name, String storage, int thriftPort, org.apache.thrift.async.AsyncMethodCallback<datanodeDown_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       datanodeDown_call method_call = new datanodeDown_call(name, storage, thriftPort, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class datanodeDown_call extends TAsyncMethodCall {
+    public static class datanodeDown_call extends org.apache.thrift.async.TAsyncMethodCall {
       private String name;
       private String storage;
       private int thriftPort;
-      public datanodeDown_call(String name, String storage, int thriftPort, AsyncMethodCallback<datanodeDown_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public datanodeDown_call(String name, String storage, int thriftPort, org.apache.thrift.async.AsyncMethodCallback<datanodeDown_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.name = name;
         this.storage = storage;
         this.thriftPort = thriftPort;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("datanodeDown", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("datanodeDown", org.apache.thrift.protocol.TMessageType.CALL, 0));
         datanodeDown_args args = new datanodeDown_args();
         args.setName(name);
         args.setStorage(storage);
@@ -2045,33 +2061,34 @@ public class Namenode {
         prot.writeMessageEnd();
       }
 
-      public void getResult() throws TException {
-        if (getState() != State.RESPONSE_READ) {
+      public void getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         (new Client(prot)).recv_datanodeDown();
       }
     }
 
-    public void getDelegationToken(org.apache.hadoop.thriftfs.api.RequestContext ctx, String renewer, AsyncMethodCallback<getDelegationToken_call> resultHandler) throws TException {
+    public void getDelegationToken(org.apache.hadoop.thriftfs.api.RequestContext ctx, String renewer, org.apache.thrift.async.AsyncMethodCallback<getDelegationToken_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getDelegationToken_call method_call = new getDelegationToken_call(ctx, renewer, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class getDelegationToken_call extends TAsyncMethodCall {
+    public static class getDelegationToken_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private String renewer;
-      public getDelegationToken_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String renewer, AsyncMethodCallback<getDelegationToken_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public getDelegationToken_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String renewer, org.apache.thrift.async.AsyncMethodCallback<getDelegationToken_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.renewer = renewer;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("getDelegationToken", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getDelegationToken", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getDelegationToken_args args = new getDelegationToken_args();
         args.setCtx(ctx);
         args.setRenewer(renewer);
@@ -2079,19 +2096,19 @@ public class Namenode {
         prot.writeMessageEnd();
       }
 
-      public org.apache.hadoop.thriftfs.api.ThriftDelegationToken getResult() throws org.apache.hadoop.thriftfs.api.IOException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public org.apache.hadoop.thriftfs.api.ThriftDelegationToken getResult() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_getDelegationToken();
       }
     }
 
   }
 
-  public static class Processor extends org.apache.hadoop.thriftfs.api.HadoopServiceBase.Processor implements TProcessor {
+  public static class Processor extends org.apache.hadoop.thriftfs.api.HadoopServiceBase.Processor implements org.apache.thrift.TProcessor {
     private static final Logger LOGGER = LoggerFactory.getLogger(Processor.class.getName());
     public Processor(Iface iface)
     {
@@ -2124,15 +2141,15 @@ public class Namenode {
 
     private Iface iface_;
 
-    public boolean process(TProtocol iprot, TProtocol oprot) throws TException
+    public boolean process(org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
     {
-      TMessage msg = iprot.readMessageBegin();
+      org.apache.thrift.protocol.TMessage msg = iprot.readMessageBegin();
       ProcessFunction fn = processMap_.get(msg.name);
       if (fn == null) {
-        TProtocolUtil.skip(iprot, TType.STRUCT);
+        org.apache.thrift.protocol.TProtocolUtil.skip(iprot, org.apache.thrift.protocol.TType.STRUCT);
         iprot.readMessageEnd();
-        TApplicationException x = new TApplicationException(TApplicationException.UNKNOWN_METHOD, "Invalid method name: '"+msg.name+"'");
-        oprot.writeMessageBegin(new TMessage(msg.name, TMessageType.EXCEPTION, msg.seqid));
+        org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.UNKNOWN_METHOD, "Invalid method name: '"+msg.name+"'");
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage(msg.name, org.apache.thrift.protocol.TMessageType.EXCEPTION, msg.seqid));
         x.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2143,15 +2160,15 @@ public class Namenode {
     }
 
     private class chmod implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         chmod_args args = new chmod_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("chmod", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("chmod", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2165,14 +2182,14 @@ public class Namenode {
           result.err = err;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing chmod", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing chmod");
-          oprot.writeMessageBegin(new TMessage("chmod", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing chmod");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("chmod", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("chmod", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("chmod", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2181,15 +2198,15 @@ public class Namenode {
     }
 
     private class chown implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         chown_args args = new chown_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("chown", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("chown", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2203,14 +2220,14 @@ public class Namenode {
           result.err = err;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing chown", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing chown");
-          oprot.writeMessageBegin(new TMessage("chown", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing chown");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("chown", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("chown", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("chown", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2219,15 +2236,15 @@ public class Namenode {
     }
 
     private class df implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         df_args args = new df_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("df", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("df", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2236,7 +2253,7 @@ public class Namenode {
         iprot.readMessageEnd();
         df_result result = new df_result();
         result.success = iface_.df(args.ctx);
-        oprot.writeMessageBegin(new TMessage("df", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("df", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2245,15 +2262,15 @@ public class Namenode {
     }
 
     private class enterSafeMode implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         enterSafeMode_args args = new enterSafeMode_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("enterSafeMode", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("enterSafeMode", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2267,14 +2284,14 @@ public class Namenode {
           result.err = err;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing enterSafeMode", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing enterSafeMode");
-          oprot.writeMessageBegin(new TMessage("enterSafeMode", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing enterSafeMode");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("enterSafeMode", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("enterSafeMode", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("enterSafeMode", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2283,15 +2300,15 @@ public class Namenode {
     }
 
     private class getBlocks implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         getBlocks_args args = new getBlocks_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("getBlocks", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getBlocks", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2305,14 +2322,14 @@ public class Namenode {
           result.err = err;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing getBlocks", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing getBlocks");
-          oprot.writeMessageBegin(new TMessage("getBlocks", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing getBlocks");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getBlocks", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("getBlocks", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getBlocks", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2321,15 +2338,15 @@ public class Namenode {
     }
 
     private class getPreferredBlockSize implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         getPreferredBlockSize_args args = new getPreferredBlockSize_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("getPreferredBlockSize", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getPreferredBlockSize", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2344,14 +2361,14 @@ public class Namenode {
           result.err = err;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing getPreferredBlockSize", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing getPreferredBlockSize");
-          oprot.writeMessageBegin(new TMessage("getPreferredBlockSize", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing getPreferredBlockSize");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getPreferredBlockSize", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("getPreferredBlockSize", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getPreferredBlockSize", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2360,15 +2377,15 @@ public class Namenode {
     }
 
     private class isInSafeMode implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         isInSafeMode_args args = new isInSafeMode_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("isInSafeMode", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("isInSafeMode", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2383,14 +2400,14 @@ public class Namenode {
           result.err = err;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing isInSafeMode", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing isInSafeMode");
-          oprot.writeMessageBegin(new TMessage("isInSafeMode", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing isInSafeMode");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("isInSafeMode", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("isInSafeMode", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("isInSafeMode", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2399,15 +2416,15 @@ public class Namenode {
     }
 
     private class leaveSafeMode implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         leaveSafeMode_args args = new leaveSafeMode_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("leaveSafeMode", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("leaveSafeMode", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2421,14 +2438,14 @@ public class Namenode {
           result.err = err;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing leaveSafeMode", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing leaveSafeMode");
-          oprot.writeMessageBegin(new TMessage("leaveSafeMode", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing leaveSafeMode");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("leaveSafeMode", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("leaveSafeMode", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("leaveSafeMode", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2437,15 +2454,15 @@ public class Namenode {
     }
 
     private class ls implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         ls_args args = new ls_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("ls", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("ls", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2459,14 +2476,14 @@ public class Namenode {
           result.err = err;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing ls", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing ls");
-          oprot.writeMessageBegin(new TMessage("ls", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing ls");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("ls", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("ls", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("ls", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2475,15 +2492,15 @@ public class Namenode {
     }
 
     private class mkdirhier implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         mkdirhier_args args = new mkdirhier_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("mkdirhier", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("mkdirhier", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2498,14 +2515,14 @@ public class Namenode {
           result.err = err;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing mkdirhier", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing mkdirhier");
-          oprot.writeMessageBegin(new TMessage("mkdirhier", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing mkdirhier");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("mkdirhier", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("mkdirhier", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("mkdirhier", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2514,15 +2531,15 @@ public class Namenode {
     }
 
     private class refreshNodes implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         refreshNodes_args args = new refreshNodes_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("refreshNodes", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("refreshNodes", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2536,14 +2553,14 @@ public class Namenode {
           result.err = err;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing refreshNodes", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing refreshNodes");
-          oprot.writeMessageBegin(new TMessage("refreshNodes", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing refreshNodes");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("refreshNodes", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("refreshNodes", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("refreshNodes", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2552,15 +2569,15 @@ public class Namenode {
     }
 
     private class rename implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         rename_args args = new rename_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("rename", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("rename", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2575,14 +2592,14 @@ public class Namenode {
           result.err = err;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing rename", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing rename");
-          oprot.writeMessageBegin(new TMessage("rename", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing rename");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("rename", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("rename", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("rename", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2591,15 +2608,15 @@ public class Namenode {
     }
 
     private class reportBadBlocks implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         reportBadBlocks_args args = new reportBadBlocks_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("reportBadBlocks", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("reportBadBlocks", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2613,14 +2630,14 @@ public class Namenode {
           result.err = err;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing reportBadBlocks", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing reportBadBlocks");
-          oprot.writeMessageBegin(new TMessage("reportBadBlocks", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing reportBadBlocks");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("reportBadBlocks", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("reportBadBlocks", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("reportBadBlocks", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2629,15 +2646,15 @@ public class Namenode {
     }
 
     private class stat implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         stat_args args = new stat_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("stat", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("stat", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2651,14 +2668,14 @@ public class Namenode {
           result.err = err;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing stat", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing stat");
-          oprot.writeMessageBegin(new TMessage("stat", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing stat");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("stat", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("stat", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("stat", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2667,15 +2684,15 @@ public class Namenode {
     }
 
     private class getContentSummary implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         getContentSummary_args args = new getContentSummary_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("getContentSummary", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getContentSummary", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2689,14 +2706,14 @@ public class Namenode {
           result.err = err;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing getContentSummary", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing getContentSummary");
-          oprot.writeMessageBegin(new TMessage("getContentSummary", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing getContentSummary");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getContentSummary", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("getContentSummary", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getContentSummary", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2705,15 +2722,15 @@ public class Namenode {
     }
 
     private class multiGetContentSummary implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         multiGetContentSummary_args args = new multiGetContentSummary_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("multiGetContentSummary", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("multiGetContentSummary", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2727,14 +2744,14 @@ public class Namenode {
           result.err = err;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing multiGetContentSummary", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing multiGetContentSummary");
-          oprot.writeMessageBegin(new TMessage("multiGetContentSummary", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing multiGetContentSummary");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("multiGetContentSummary", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("multiGetContentSummary", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("multiGetContentSummary", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2743,15 +2760,15 @@ public class Namenode {
     }
 
     private class setQuota implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         setQuota_args args = new setQuota_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("setQuota", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("setQuota", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2765,14 +2782,14 @@ public class Namenode {
           result.err = err;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing setQuota", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing setQuota");
-          oprot.writeMessageBegin(new TMessage("setQuota", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing setQuota");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("setQuota", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("setQuota", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("setQuota", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2781,15 +2798,15 @@ public class Namenode {
     }
 
     private class setReplication implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         setReplication_args args = new setReplication_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("setReplication", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("setReplication", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2804,14 +2821,14 @@ public class Namenode {
           result.err = err;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing setReplication", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing setReplication");
-          oprot.writeMessageBegin(new TMessage("setReplication", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing setReplication");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("setReplication", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("setReplication", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("setReplication", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2820,15 +2837,15 @@ public class Namenode {
     }
 
     private class unlink implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         unlink_args args = new unlink_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("unlink", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("unlink", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2843,14 +2860,14 @@ public class Namenode {
           result.err = err;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing unlink", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing unlink");
-          oprot.writeMessageBegin(new TMessage("unlink", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing unlink");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("unlink", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("unlink", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("unlink", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2859,15 +2876,15 @@ public class Namenode {
     }
 
     private class utime implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         utime_args args = new utime_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("utime", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("utime", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2881,14 +2898,14 @@ public class Namenode {
           result.err = err;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing utime", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing utime");
-          oprot.writeMessageBegin(new TMessage("utime", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing utime");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("utime", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("utime", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("utime", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2897,15 +2914,15 @@ public class Namenode {
     }
 
     private class datanodeUp implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         datanodeUp_args args = new datanodeUp_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("datanodeUp", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("datanodeUp", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2914,7 +2931,7 @@ public class Namenode {
         iprot.readMessageEnd();
         datanodeUp_result result = new datanodeUp_result();
         iface_.datanodeUp(args.name, args.storage, args.thriftPort);
-        oprot.writeMessageBegin(new TMessage("datanodeUp", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("datanodeUp", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2923,15 +2940,15 @@ public class Namenode {
     }
 
     private class datanodeDown implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         datanodeDown_args args = new datanodeDown_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("datanodeDown", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("datanodeDown", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2940,7 +2957,7 @@ public class Namenode {
         iprot.readMessageEnd();
         datanodeDown_result result = new datanodeDown_result();
         iface_.datanodeDown(args.name, args.storage, args.thriftPort);
-        oprot.writeMessageBegin(new TMessage("datanodeDown", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("datanodeDown", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2949,15 +2966,15 @@ public class Namenode {
     }
 
     private class getDelegationToken implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         getDelegationToken_args args = new getDelegationToken_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("getDelegationToken", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getDelegationToken", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2971,14 +2988,14 @@ public class Namenode {
           result.err = err;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing getDelegationToken", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing getDelegationToken");
-          oprot.writeMessageBegin(new TMessage("getDelegationToken", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing getDelegationToken");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getDelegationToken", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("getDelegationToken", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getDelegationToken", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2988,12 +3005,12 @@ public class Namenode {
 
   }
 
-  public static class chmod_args implements TBase<chmod_args, chmod_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("chmod_args");
+  public static class chmod_args implements org.apache.thrift.TBase<chmod_args, chmod_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("chmod_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
-    private static final TField PATH_FIELD_DESC = new TField("path", TType.STRING, (short)1);
-    private static final TField PERMS_FIELD_DESC = new TField("perms", TType.I16, (short)2);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField PATH_FIELD_DESC = new org.apache.thrift.protocol.TField("path", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField PERMS_FIELD_DESC = new org.apache.thrift.protocol.TField("perms", org.apache.thrift.protocol.TType.I16, (short)2);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     /**
@@ -3006,7 +3023,7 @@ public class Namenode {
     public short perms;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx"),
       /**
        * Path of the file or directory.
@@ -3079,17 +3096,17 @@ public class Namenode {
     private static final int __PERMS_ISSET_ID = 0;
     private BitSet __isset_bit_vector = new BitSet(1);
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.PATH, new FieldMetaData("path", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRING)));
-      tmpMap.put(_Fields.PERMS, new FieldMetaData("perms", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.I16)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.PATH, new org.apache.thrift.meta_data.FieldMetaData("path", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.PERMS, new org.apache.thrift.meta_data.FieldMetaData("perms", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I16)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(chmod_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(chmod_args.class, metaDataMap);
     }
 
     public chmod_args() {
@@ -3147,7 +3164,7 @@ public class Namenode {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -3177,7 +3194,7 @@ public class Namenode {
       this.path = null;
     }
 
-    /** Returns true if field path is set (has been asigned a value) and false otherwise */
+    /** Returns true if field path is set (has been assigned a value) and false otherwise */
     public boolean isSetPath() {
       return this.path != null;
     }
@@ -3208,7 +3225,7 @@ public class Namenode {
       __isset_bit_vector.clear(__PERMS_ISSET_ID);
     }
 
-    /** Returns true if field perms is set (has been asigned a value) and false otherwise */
+    /** Returns true if field perms is set (has been assigned a value) and false otherwise */
     public boolean isSetPerms() {
       return __isset_bit_vector.get(__PERMS_ISSET_ID);
     }
@@ -3261,7 +3278,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -3356,7 +3373,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -3366,7 +3383,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetPath()) {
-        lastComparison = TBaseHelper.compareTo(this.path, typedOther.path);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.path, typedOther.path);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -3376,7 +3393,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetPerms()) {
-        lastComparison = TBaseHelper.compareTo(this.perms, typedOther.perms);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.perms, typedOther.perms);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -3388,41 +3405,41 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // PATH
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.path = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 2: // PERMS
-            if (field.type == TType.I16) {
+            if (field.type == org.apache.thrift.protocol.TType.I16) {
               this.perms = iprot.readI16();
               setPermsIsSet(true);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -3432,7 +3449,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -3481,21 +3498,39 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bit_vector = new BitSet(1);
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class chmod_result implements TBase<chmod_result, chmod_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("chmod_result");
+  public static class chmod_result implements org.apache.thrift.TBase<chmod_result, chmod_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("chmod_result");
 
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public org.apache.hadoop.thriftfs.api.IOException err;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       ERR((short)1, "err");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -3554,13 +3589,13 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(chmod_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(chmod_result.class, metaDataMap);
     }
 
     public chmod_result() {
@@ -3604,7 +3639,7 @@ public class Namenode {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -3637,7 +3672,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -3700,7 +3735,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -3712,26 +3747,26 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new org.apache.hadoop.thriftfs.api.IOException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -3741,7 +3776,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetErr()) {
@@ -3769,19 +3804,35 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class chown_args implements TBase<chown_args, chown_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("chown_args");
+  public static class chown_args implements org.apache.thrift.TBase<chown_args, chown_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("chown_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
-    private static final TField PATH_FIELD_DESC = new TField("path", TType.STRING, (short)1);
-    private static final TField OWNER_FIELD_DESC = new TField("owner", TType.STRING, (short)2);
-    private static final TField GROUP_FIELD_DESC = new TField("group", TType.STRING, (short)3);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField PATH_FIELD_DESC = new org.apache.thrift.protocol.TField("path", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField OWNER_FIELD_DESC = new org.apache.thrift.protocol.TField("owner", org.apache.thrift.protocol.TType.STRING, (short)2);
+    private static final org.apache.thrift.protocol.TField GROUP_FIELD_DESC = new org.apache.thrift.protocol.TField("group", org.apache.thrift.protocol.TType.STRING, (short)3);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     /**
@@ -3798,7 +3849,7 @@ public class Namenode {
     public String group;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx"),
       /**
        * Path to the file or directory
@@ -3875,19 +3926,19 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.PATH, new FieldMetaData("path", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRING)));
-      tmpMap.put(_Fields.OWNER, new FieldMetaData("owner", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRING)));
-      tmpMap.put(_Fields.GROUP, new FieldMetaData("group", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRING)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.PATH, new org.apache.thrift.meta_data.FieldMetaData("path", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.OWNER, new org.apache.thrift.meta_data.FieldMetaData("owner", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.GROUP, new org.apache.thrift.meta_data.FieldMetaData("group", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(chown_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(chown_args.class, metaDataMap);
     }
 
     public chown_args() {
@@ -3949,7 +4000,7 @@ public class Namenode {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -3979,7 +4030,7 @@ public class Namenode {
       this.path = null;
     }
 
-    /** Returns true if field path is set (has been asigned a value) and false otherwise */
+    /** Returns true if field path is set (has been assigned a value) and false otherwise */
     public boolean isSetPath() {
       return this.path != null;
     }
@@ -4009,7 +4060,7 @@ public class Namenode {
       this.owner = null;
     }
 
-    /** Returns true if field owner is set (has been asigned a value) and false otherwise */
+    /** Returns true if field owner is set (has been assigned a value) and false otherwise */
     public boolean isSetOwner() {
       return this.owner != null;
     }
@@ -4039,7 +4090,7 @@ public class Namenode {
       this.group = null;
     }
 
-    /** Returns true if field group is set (has been asigned a value) and false otherwise */
+    /** Returns true if field group is set (has been assigned a value) and false otherwise */
     public boolean isSetGroup() {
       return this.group != null;
     }
@@ -4105,7 +4156,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -4216,7 +4267,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -4226,7 +4277,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetPath()) {
-        lastComparison = TBaseHelper.compareTo(this.path, typedOther.path);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.path, typedOther.path);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -4236,7 +4287,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetOwner()) {
-        lastComparison = TBaseHelper.compareTo(this.owner, typedOther.owner);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.owner, typedOther.owner);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -4246,7 +4297,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetGroup()) {
-        lastComparison = TBaseHelper.compareTo(this.group, typedOther.group);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.group, typedOther.group);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -4258,47 +4309,47 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // PATH
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.path = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 2: // OWNER
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.owner = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 3: // GROUP
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.group = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -4308,7 +4359,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -4376,21 +4427,37 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class chown_result implements TBase<chown_result, chown_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("chown_result");
+  public static class chown_result implements org.apache.thrift.TBase<chown_result, chown_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("chown_result");
 
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public org.apache.hadoop.thriftfs.api.IOException err;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       ERR((short)1, "err");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -4449,13 +4516,13 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(chown_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(chown_result.class, metaDataMap);
     }
 
     public chown_result() {
@@ -4499,7 +4566,7 @@ public class Namenode {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -4532,7 +4599,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -4595,7 +4662,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -4607,26 +4674,26 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new org.apache.hadoop.thriftfs.api.IOException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -4636,7 +4703,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetErr()) {
@@ -4664,21 +4731,37 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class df_args implements TBase<df_args, df_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("df_args");
+  public static class df_args implements org.apache.thrift.TBase<df_args, df_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("df_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -4737,13 +4820,13 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(df_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(df_args.class, metaDataMap);
     }
 
     public df_args() {
@@ -4787,7 +4870,7 @@ public class Namenode {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -4820,7 +4903,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -4883,7 +4966,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -4895,26 +4978,26 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -4924,7 +5007,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -4953,21 +5036,37 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class df_result implements TBase<df_result, df_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("df_result");
+  public static class df_result implements org.apache.thrift.TBase<df_result, df_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("df_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.LIST, (short)0);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.LIST, (short)0);
 
     public List<Long> success;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -5026,14 +5125,14 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new ListMetaData(TType.LIST, 
-              new FieldValueMetaData(TType.I64))));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+              new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64))));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(df_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(df_result.class, metaDataMap);
     }
 
     public df_result() {
@@ -5096,7 +5195,7 @@ public class Namenode {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -5129,7 +5228,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -5192,7 +5291,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -5204,20 +5303,20 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.LIST) {
+            if (field.type == org.apache.thrift.protocol.TType.LIST) {
               {
-                TList _list4 = iprot.readListBegin();
+                org.apache.thrift.protocol.TList _list4 = iprot.readListBegin();
                 this.success = new ArrayList<Long>(_list4.size);
                 for (int _i5 = 0; _i5 < _list4.size; ++_i5)
                 {
@@ -5228,11 +5327,11 @@ public class Namenode {
                 iprot.readListEnd();
               }
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -5242,13 +5341,13 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
         {
-          oprot.writeListBegin(new TList(TType.I64, this.success.size()));
+          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.I64, this.success.size()));
           for (long _iter7 : this.success)
           {
             oprot.writeI64(_iter7);
@@ -5277,21 +5376,37 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class enterSafeMode_args implements TBase<enterSafeMode_args, enterSafeMode_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("enterSafeMode_args");
+  public static class enterSafeMode_args implements org.apache.thrift.TBase<enterSafeMode_args, enterSafeMode_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("enterSafeMode_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -5350,13 +5465,13 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(enterSafeMode_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(enterSafeMode_args.class, metaDataMap);
     }
 
     public enterSafeMode_args() {
@@ -5400,7 +5515,7 @@ public class Namenode {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -5433,7 +5548,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -5496,7 +5611,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -5508,26 +5623,26 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -5537,7 +5652,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -5566,21 +5681,37 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class enterSafeMode_result implements TBase<enterSafeMode_result, enterSafeMode_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("enterSafeMode_result");
+  public static class enterSafeMode_result implements org.apache.thrift.TBase<enterSafeMode_result, enterSafeMode_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("enterSafeMode_result");
 
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public org.apache.hadoop.thriftfs.api.IOException err;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       ERR((short)1, "err");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -5639,13 +5770,13 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(enterSafeMode_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(enterSafeMode_result.class, metaDataMap);
     }
 
     public enterSafeMode_result() {
@@ -5689,7 +5820,7 @@ public class Namenode {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -5722,7 +5853,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -5785,7 +5916,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -5797,26 +5928,26 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new org.apache.hadoop.thriftfs.api.IOException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -5826,7 +5957,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetErr()) {
@@ -5854,19 +5985,35 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getBlocks_args implements TBase<getBlocks_args, getBlocks_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getBlocks_args");
+  public static class getBlocks_args implements org.apache.thrift.TBase<getBlocks_args, getBlocks_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getBlocks_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
-    private static final TField PATH_FIELD_DESC = new TField("path", TType.STRING, (short)1);
-    private static final TField OFFSET_FIELD_DESC = new TField("offset", TType.I64, (short)2);
-    private static final TField LENGTH_FIELD_DESC = new TField("length", TType.I64, (short)3);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField PATH_FIELD_DESC = new org.apache.thrift.protocol.TField("path", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField OFFSET_FIELD_DESC = new org.apache.thrift.protocol.TField("offset", org.apache.thrift.protocol.TType.I64, (short)2);
+    private static final org.apache.thrift.protocol.TField LENGTH_FIELD_DESC = new org.apache.thrift.protocol.TField("length", org.apache.thrift.protocol.TType.I64, (short)3);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     /**
@@ -5883,7 +6030,7 @@ public class Namenode {
     public long length;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx"),
       /**
        * Path to the file.
@@ -5963,19 +6110,19 @@ public class Namenode {
     private static final int __LENGTH_ISSET_ID = 1;
     private BitSet __isset_bit_vector = new BitSet(2);
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.PATH, new FieldMetaData("path", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRING)));
-      tmpMap.put(_Fields.OFFSET, new FieldMetaData("offset", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.I64)));
-      tmpMap.put(_Fields.LENGTH, new FieldMetaData("length", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.I64)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.PATH, new org.apache.thrift.meta_data.FieldMetaData("path", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.OFFSET, new org.apache.thrift.meta_data.FieldMetaData("offset", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+      tmpMap.put(_Fields.LENGTH, new org.apache.thrift.meta_data.FieldMetaData("length", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getBlocks_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getBlocks_args.class, metaDataMap);
     }
 
     public getBlocks_args() {
@@ -6039,7 +6186,7 @@ public class Namenode {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -6069,7 +6216,7 @@ public class Namenode {
       this.path = null;
     }
 
-    /** Returns true if field path is set (has been asigned a value) and false otherwise */
+    /** Returns true if field path is set (has been assigned a value) and false otherwise */
     public boolean isSetPath() {
       return this.path != null;
     }
@@ -6100,7 +6247,7 @@ public class Namenode {
       __isset_bit_vector.clear(__OFFSET_ISSET_ID);
     }
 
-    /** Returns true if field offset is set (has been asigned a value) and false otherwise */
+    /** Returns true if field offset is set (has been assigned a value) and false otherwise */
     public boolean isSetOffset() {
       return __isset_bit_vector.get(__OFFSET_ISSET_ID);
     }
@@ -6129,7 +6276,7 @@ public class Namenode {
       __isset_bit_vector.clear(__LENGTH_ISSET_ID);
     }
 
-    /** Returns true if field length is set (has been asigned a value) and false otherwise */
+    /** Returns true if field length is set (has been assigned a value) and false otherwise */
     public boolean isSetLength() {
       return __isset_bit_vector.get(__LENGTH_ISSET_ID);
     }
@@ -6193,7 +6340,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -6304,7 +6451,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -6314,7 +6461,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetPath()) {
-        lastComparison = TBaseHelper.compareTo(this.path, typedOther.path);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.path, typedOther.path);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -6324,7 +6471,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetOffset()) {
-        lastComparison = TBaseHelper.compareTo(this.offset, typedOther.offset);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.offset, typedOther.offset);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -6334,7 +6481,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetLength()) {
-        lastComparison = TBaseHelper.compareTo(this.length, typedOther.length);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.length, typedOther.length);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -6346,49 +6493,49 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // PATH
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.path = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 2: // OFFSET
-            if (field.type == TType.I64) {
+            if (field.type == org.apache.thrift.protocol.TType.I64) {
               this.offset = iprot.readI64();
               setOffsetIsSet(true);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 3: // LENGTH
-            if (field.type == TType.I64) {
+            if (field.type == org.apache.thrift.protocol.TType.I64) {
               this.length = iprot.readI64();
               setLengthIsSet(true);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -6398,7 +6545,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -6454,23 +6601,41 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bit_vector = new BitSet(1);
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getBlocks_result implements TBase<getBlocks_result, getBlocks_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getBlocks_result");
+  public static class getBlocks_result implements org.apache.thrift.TBase<getBlocks_result, getBlocks_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getBlocks_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.LIST, (short)0);
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.LIST, (short)0);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public List<Block> success;
     public org.apache.hadoop.thriftfs.api.IOException err;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success"),
       ERR((short)1, "err");
 
@@ -6532,16 +6697,16 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new ListMetaData(TType.LIST, 
-              new StructMetaData(TType.STRUCT, Block.class))));
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+              new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Block.class))));
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getBlocks_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getBlocks_result.class, metaDataMap);
     }
 
     public getBlocks_result() {
@@ -6610,7 +6775,7 @@ public class Namenode {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -6634,7 +6799,7 @@ public class Namenode {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -6678,7 +6843,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -6757,7 +6922,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -6767,7 +6932,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -6779,20 +6944,20 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.LIST) {
+            if (field.type == org.apache.thrift.protocol.TType.LIST) {
               {
-                TList _list8 = iprot.readListBegin();
+                org.apache.thrift.protocol.TList _list8 = iprot.readListBegin();
                 this.success = new ArrayList<Block>(_list8.size);
                 for (int _i9 = 0; _i9 < _list8.size; ++_i9)
                 {
@@ -6804,19 +6969,19 @@ public class Namenode {
                 iprot.readListEnd();
               }
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new org.apache.hadoop.thriftfs.api.IOException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -6826,13 +6991,13 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
         {
-          oprot.writeListBegin(new TList(TType.STRUCT, this.success.size()));
+          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, this.success.size()));
           for (Block _iter11 : this.success)
           {
             _iter11.write(oprot);
@@ -6873,17 +7038,33 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getPreferredBlockSize_args implements TBase<getPreferredBlockSize_args, getPreferredBlockSize_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getPreferredBlockSize_args");
+  public static class getPreferredBlockSize_args implements org.apache.thrift.TBase<getPreferredBlockSize_args, getPreferredBlockSize_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getPreferredBlockSize_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
-    private static final TField PATH_FIELD_DESC = new TField("path", TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField PATH_FIELD_DESC = new org.apache.thrift.protocol.TField("path", org.apache.thrift.protocol.TType.STRING, (short)1);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     /**
@@ -6892,7 +7073,7 @@ public class Namenode {
     public String path;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx"),
       /**
        * Path to the file.
@@ -6957,15 +7138,15 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.PATH, new FieldMetaData("path", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRING)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.PATH, new org.apache.thrift.meta_data.FieldMetaData("path", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getPreferredBlockSize_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getPreferredBlockSize_args.class, metaDataMap);
     }
 
     public getPreferredBlockSize_args() {
@@ -7015,7 +7196,7 @@ public class Namenode {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -7045,7 +7226,7 @@ public class Namenode {
       this.path = null;
     }
 
-    /** Returns true if field path is set (has been asigned a value) and false otherwise */
+    /** Returns true if field path is set (has been assigned a value) and false otherwise */
     public boolean isSetPath() {
       return this.path != null;
     }
@@ -7089,7 +7270,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -7168,7 +7349,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -7178,7 +7359,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetPath()) {
-        lastComparison = TBaseHelper.compareTo(this.path, typedOther.path);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.path, typedOther.path);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -7190,33 +7371,33 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // PATH
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.path = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -7226,7 +7407,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -7268,23 +7449,39 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getPreferredBlockSize_result implements TBase<getPreferredBlockSize_result, getPreferredBlockSize_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getPreferredBlockSize_result");
+  public static class getPreferredBlockSize_result implements org.apache.thrift.TBase<getPreferredBlockSize_result, getPreferredBlockSize_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getPreferredBlockSize_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.I64, (short)0);
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.I64, (short)0);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public long success;
     public org.apache.hadoop.thriftfs.api.IOException err;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success"),
       ERR((short)1, "err");
 
@@ -7348,15 +7545,15 @@ public class Namenode {
     private static final int __SUCCESS_ISSET_ID = 0;
     private BitSet __isset_bit_vector = new BitSet(1);
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.I64)));
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getPreferredBlockSize_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getPreferredBlockSize_result.class, metaDataMap);
     }
 
     public getPreferredBlockSize_result() {
@@ -7409,7 +7606,7 @@ public class Namenode {
       __isset_bit_vector.clear(__SUCCESS_ISSET_ID);
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return __isset_bit_vector.get(__SUCCESS_ISSET_ID);
     }
@@ -7431,7 +7628,7 @@ public class Namenode {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -7475,7 +7672,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -7554,7 +7751,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -7564,7 +7761,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -7576,34 +7773,34 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.I64) {
+            if (field.type == org.apache.thrift.protocol.TType.I64) {
               this.success = iprot.readI64();
               setSuccessIsSet(true);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new org.apache.hadoop.thriftfs.api.IOException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -7613,7 +7810,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -7649,21 +7846,37 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class isInSafeMode_args implements TBase<isInSafeMode_args, isInSafeMode_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("isInSafeMode_args");
+  public static class isInSafeMode_args implements org.apache.thrift.TBase<isInSafeMode_args, isInSafeMode_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("isInSafeMode_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -7722,13 +7935,13 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(isInSafeMode_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(isInSafeMode_args.class, metaDataMap);
     }
 
     public isInSafeMode_args() {
@@ -7772,7 +7985,7 @@ public class Namenode {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -7805,7 +8018,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -7868,7 +8081,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -7880,26 +8093,26 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -7909,7 +8122,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -7938,23 +8151,39 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class isInSafeMode_result implements TBase<isInSafeMode_result, isInSafeMode_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("isInSafeMode_result");
+  public static class isInSafeMode_result implements org.apache.thrift.TBase<isInSafeMode_result, isInSafeMode_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("isInSafeMode_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.BOOL, (short)0);
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.BOOL, (short)0);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public boolean success;
     public org.apache.hadoop.thriftfs.api.IOException err;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success"),
       ERR((short)1, "err");
 
@@ -8018,15 +8247,15 @@ public class Namenode {
     private static final int __SUCCESS_ISSET_ID = 0;
     private BitSet __isset_bit_vector = new BitSet(1);
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.BOOL)));
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(isInSafeMode_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(isInSafeMode_result.class, metaDataMap);
     }
 
     public isInSafeMode_result() {
@@ -8079,7 +8308,7 @@ public class Namenode {
       __isset_bit_vector.clear(__SUCCESS_ISSET_ID);
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return __isset_bit_vector.get(__SUCCESS_ISSET_ID);
     }
@@ -8101,7 +8330,7 @@ public class Namenode {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -8145,7 +8374,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -8224,7 +8453,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -8234,7 +8463,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -8246,34 +8475,34 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.BOOL) {
+            if (field.type == org.apache.thrift.protocol.TType.BOOL) {
               this.success = iprot.readBool();
               setSuccessIsSet(true);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new org.apache.hadoop.thriftfs.api.IOException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -8283,7 +8512,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -8319,21 +8548,37 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class leaveSafeMode_args implements TBase<leaveSafeMode_args, leaveSafeMode_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("leaveSafeMode_args");
+  public static class leaveSafeMode_args implements org.apache.thrift.TBase<leaveSafeMode_args, leaveSafeMode_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("leaveSafeMode_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -8392,13 +8637,13 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(leaveSafeMode_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(leaveSafeMode_args.class, metaDataMap);
     }
 
     public leaveSafeMode_args() {
@@ -8442,7 +8687,7 @@ public class Namenode {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -8475,7 +8720,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -8538,7 +8783,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -8550,26 +8795,26 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -8579,7 +8824,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -8608,21 +8853,37 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class leaveSafeMode_result implements TBase<leaveSafeMode_result, leaveSafeMode_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("leaveSafeMode_result");
+  public static class leaveSafeMode_result implements org.apache.thrift.TBase<leaveSafeMode_result, leaveSafeMode_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("leaveSafeMode_result");
 
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public org.apache.hadoop.thriftfs.api.IOException err;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       ERR((short)1, "err");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -8681,13 +8942,13 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(leaveSafeMode_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(leaveSafeMode_result.class, metaDataMap);
     }
 
     public leaveSafeMode_result() {
@@ -8731,7 +8992,7 @@ public class Namenode {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -8764,7 +9025,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -8827,7 +9088,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -8839,26 +9100,26 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new org.apache.hadoop.thriftfs.api.IOException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -8868,7 +9129,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetErr()) {
@@ -8896,17 +9157,33 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class ls_args implements TBase<ls_args, ls_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("ls_args");
+  public static class ls_args implements org.apache.thrift.TBase<ls_args, ls_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("ls_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
-    private static final TField PATH_FIELD_DESC = new TField("path", TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField PATH_FIELD_DESC = new org.apache.thrift.protocol.TField("path", org.apache.thrift.protocol.TType.STRING, (short)1);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     /**
@@ -8915,7 +9192,7 @@ public class Namenode {
     public String path;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx"),
       /**
        * Path to the directory.
@@ -8980,15 +9257,15 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.PATH, new FieldMetaData("path", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRING)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.PATH, new org.apache.thrift.meta_data.FieldMetaData("path", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(ls_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ls_args.class, metaDataMap);
     }
 
     public ls_args() {
@@ -9038,7 +9315,7 @@ public class Namenode {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -9068,7 +9345,7 @@ public class Namenode {
       this.path = null;
     }
 
-    /** Returns true if field path is set (has been asigned a value) and false otherwise */
+    /** Returns true if field path is set (has been assigned a value) and false otherwise */
     public boolean isSetPath() {
       return this.path != null;
     }
@@ -9112,7 +9389,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -9191,7 +9468,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -9201,7 +9478,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetPath()) {
-        lastComparison = TBaseHelper.compareTo(this.path, typedOther.path);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.path, typedOther.path);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -9213,33 +9490,33 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // PATH
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.path = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -9249,7 +9526,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -9291,23 +9568,39 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class ls_result implements TBase<ls_result, ls_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("ls_result");
+  public static class ls_result implements org.apache.thrift.TBase<ls_result, ls_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("ls_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.LIST, (short)0);
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.LIST, (short)0);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public List<Stat> success;
     public org.apache.hadoop.thriftfs.api.IOException err;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success"),
       ERR((short)1, "err");
 
@@ -9369,16 +9662,16 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new ListMetaData(TType.LIST, 
-              new StructMetaData(TType.STRUCT, Stat.class))));
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+              new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Stat.class))));
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(ls_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ls_result.class, metaDataMap);
     }
 
     public ls_result() {
@@ -9447,7 +9740,7 @@ public class Namenode {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -9471,7 +9764,7 @@ public class Namenode {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -9515,7 +9808,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -9594,7 +9887,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -9604,7 +9897,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -9616,20 +9909,20 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.LIST) {
+            if (field.type == org.apache.thrift.protocol.TType.LIST) {
               {
-                TList _list12 = iprot.readListBegin();
+                org.apache.thrift.protocol.TList _list12 = iprot.readListBegin();
                 this.success = new ArrayList<Stat>(_list12.size);
                 for (int _i13 = 0; _i13 < _list12.size; ++_i13)
                 {
@@ -9641,19 +9934,19 @@ public class Namenode {
                 iprot.readListEnd();
               }
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new org.apache.hadoop.thriftfs.api.IOException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -9663,13 +9956,13 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
         {
-          oprot.writeListBegin(new TList(TType.STRUCT, this.success.size()));
+          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, this.success.size()));
           for (Stat _iter15 : this.success)
           {
             _iter15.write(oprot);
@@ -9710,18 +10003,34 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class mkdirhier_args implements TBase<mkdirhier_args, mkdirhier_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("mkdirhier_args");
+  public static class mkdirhier_args implements org.apache.thrift.TBase<mkdirhier_args, mkdirhier_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("mkdirhier_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
-    private static final TField PATH_FIELD_DESC = new TField("path", TType.STRING, (short)1);
-    private static final TField PERMS_FIELD_DESC = new TField("perms", TType.I16, (short)2);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField PATH_FIELD_DESC = new org.apache.thrift.protocol.TField("path", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField PERMS_FIELD_DESC = new org.apache.thrift.protocol.TField("perms", org.apache.thrift.protocol.TType.I16, (short)2);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     /**
@@ -9734,7 +10043,7 @@ public class Namenode {
     public short perms;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx"),
       /**
        * Path to the directory.
@@ -9807,17 +10116,17 @@ public class Namenode {
     private static final int __PERMS_ISSET_ID = 0;
     private BitSet __isset_bit_vector = new BitSet(1);
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.PATH, new FieldMetaData("path", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRING)));
-      tmpMap.put(_Fields.PERMS, new FieldMetaData("perms", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.I16)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.PATH, new org.apache.thrift.meta_data.FieldMetaData("path", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.PERMS, new org.apache.thrift.meta_data.FieldMetaData("perms", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I16)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(mkdirhier_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(mkdirhier_args.class, metaDataMap);
     }
 
     public mkdirhier_args() {
@@ -9875,7 +10184,7 @@ public class Namenode {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -9905,7 +10214,7 @@ public class Namenode {
       this.path = null;
     }
 
-    /** Returns true if field path is set (has been asigned a value) and false otherwise */
+    /** Returns true if field path is set (has been assigned a value) and false otherwise */
     public boolean isSetPath() {
       return this.path != null;
     }
@@ -9936,7 +10245,7 @@ public class Namenode {
       __isset_bit_vector.clear(__PERMS_ISSET_ID);
     }
 
-    /** Returns true if field perms is set (has been asigned a value) and false otherwise */
+    /** Returns true if field perms is set (has been assigned a value) and false otherwise */
     public boolean isSetPerms() {
       return __isset_bit_vector.get(__PERMS_ISSET_ID);
     }
@@ -9989,7 +10298,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -10084,7 +10393,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -10094,7 +10403,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetPath()) {
-        lastComparison = TBaseHelper.compareTo(this.path, typedOther.path);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.path, typedOther.path);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -10104,7 +10413,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetPerms()) {
-        lastComparison = TBaseHelper.compareTo(this.perms, typedOther.perms);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.perms, typedOther.perms);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -10116,41 +10425,41 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // PATH
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.path = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 2: // PERMS
-            if (field.type == TType.I16) {
+            if (field.type == org.apache.thrift.protocol.TType.I16) {
               this.perms = iprot.readI16();
               setPermsIsSet(true);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -10160,7 +10469,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -10209,23 +10518,39 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class mkdirhier_result implements TBase<mkdirhier_result, mkdirhier_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("mkdirhier_result");
+  public static class mkdirhier_result implements org.apache.thrift.TBase<mkdirhier_result, mkdirhier_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("mkdirhier_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.BOOL, (short)0);
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.BOOL, (short)0);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public boolean success;
     public org.apache.hadoop.thriftfs.api.IOException err;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success"),
       ERR((short)1, "err");
 
@@ -10289,15 +10614,15 @@ public class Namenode {
     private static final int __SUCCESS_ISSET_ID = 0;
     private BitSet __isset_bit_vector = new BitSet(1);
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.BOOL)));
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(mkdirhier_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(mkdirhier_result.class, metaDataMap);
     }
 
     public mkdirhier_result() {
@@ -10350,7 +10675,7 @@ public class Namenode {
       __isset_bit_vector.clear(__SUCCESS_ISSET_ID);
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return __isset_bit_vector.get(__SUCCESS_ISSET_ID);
     }
@@ -10372,7 +10697,7 @@ public class Namenode {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -10416,7 +10741,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -10495,7 +10820,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -10505,7 +10830,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -10517,34 +10842,34 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.BOOL) {
+            if (field.type == org.apache.thrift.protocol.TType.BOOL) {
               this.success = iprot.readBool();
               setSuccessIsSet(true);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new org.apache.hadoop.thriftfs.api.IOException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -10554,7 +10879,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -10590,21 +10915,37 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class refreshNodes_args implements TBase<refreshNodes_args, refreshNodes_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("refreshNodes_args");
+  public static class refreshNodes_args implements org.apache.thrift.TBase<refreshNodes_args, refreshNodes_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("refreshNodes_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -10663,13 +11004,13 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(refreshNodes_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(refreshNodes_args.class, metaDataMap);
     }
 
     public refreshNodes_args() {
@@ -10713,7 +11054,7 @@ public class Namenode {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -10746,7 +11087,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -10809,7 +11150,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -10821,26 +11162,26 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -10850,7 +11191,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -10879,21 +11220,37 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class refreshNodes_result implements TBase<refreshNodes_result, refreshNodes_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("refreshNodes_result");
+  public static class refreshNodes_result implements org.apache.thrift.TBase<refreshNodes_result, refreshNodes_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("refreshNodes_result");
 
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public org.apache.hadoop.thriftfs.api.IOException err;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       ERR((short)1, "err");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -10952,13 +11309,13 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(refreshNodes_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(refreshNodes_result.class, metaDataMap);
     }
 
     public refreshNodes_result() {
@@ -11002,7 +11359,7 @@ public class Namenode {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -11035,7 +11392,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -11098,7 +11455,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -11110,26 +11467,26 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new org.apache.hadoop.thriftfs.api.IOException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -11139,7 +11496,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetErr()) {
@@ -11167,18 +11524,34 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class rename_args implements TBase<rename_args, rename_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("rename_args");
+  public static class rename_args implements org.apache.thrift.TBase<rename_args, rename_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("rename_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
-    private static final TField PATH_FIELD_DESC = new TField("path", TType.STRING, (short)1);
-    private static final TField NEW_PATH_FIELD_DESC = new TField("newPath", TType.STRING, (short)2);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField PATH_FIELD_DESC = new org.apache.thrift.protocol.TField("path", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField NEW_PATH_FIELD_DESC = new org.apache.thrift.protocol.TField("newPath", org.apache.thrift.protocol.TType.STRING, (short)2);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     /**
@@ -11191,7 +11564,7 @@ public class Namenode {
     public String newPath;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx"),
       /**
        * Path to existing file or directory.
@@ -11262,17 +11635,17 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.PATH, new FieldMetaData("path", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRING)));
-      tmpMap.put(_Fields.NEW_PATH, new FieldMetaData("newPath", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRING)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.PATH, new org.apache.thrift.meta_data.FieldMetaData("path", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.NEW_PATH, new org.apache.thrift.meta_data.FieldMetaData("newPath", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(rename_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(rename_args.class, metaDataMap);
     }
 
     public rename_args() {
@@ -11328,7 +11701,7 @@ public class Namenode {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -11358,7 +11731,7 @@ public class Namenode {
       this.path = null;
     }
 
-    /** Returns true if field path is set (has been asigned a value) and false otherwise */
+    /** Returns true if field path is set (has been assigned a value) and false otherwise */
     public boolean isSetPath() {
       return this.path != null;
     }
@@ -11388,7 +11761,7 @@ public class Namenode {
       this.newPath = null;
     }
 
-    /** Returns true if field newPath is set (has been asigned a value) and false otherwise */
+    /** Returns true if field newPath is set (has been assigned a value) and false otherwise */
     public boolean isSetNewPath() {
       return this.newPath != null;
     }
@@ -11443,7 +11816,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -11538,7 +11911,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -11548,7 +11921,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetPath()) {
-        lastComparison = TBaseHelper.compareTo(this.path, typedOther.path);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.path, typedOther.path);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -11558,7 +11931,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetNewPath()) {
-        lastComparison = TBaseHelper.compareTo(this.newPath, typedOther.newPath);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.newPath, typedOther.newPath);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -11570,40 +11943,40 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // PATH
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.path = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 2: // NEW_PATH
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.newPath = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -11613,7 +11986,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -11668,23 +12041,39 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class rename_result implements TBase<rename_result, rename_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("rename_result");
+  public static class rename_result implements org.apache.thrift.TBase<rename_result, rename_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("rename_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.BOOL, (short)0);
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.BOOL, (short)0);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public boolean success;
     public org.apache.hadoop.thriftfs.api.IOException err;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success"),
       ERR((short)1, "err");
 
@@ -11748,15 +12137,15 @@ public class Namenode {
     private static final int __SUCCESS_ISSET_ID = 0;
     private BitSet __isset_bit_vector = new BitSet(1);
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.BOOL)));
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(rename_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(rename_result.class, metaDataMap);
     }
 
     public rename_result() {
@@ -11809,7 +12198,7 @@ public class Namenode {
       __isset_bit_vector.clear(__SUCCESS_ISSET_ID);
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return __isset_bit_vector.get(__SUCCESS_ISSET_ID);
     }
@@ -11831,7 +12220,7 @@ public class Namenode {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -11875,7 +12264,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -11954,7 +12343,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -11964,7 +12353,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -11976,34 +12365,34 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.BOOL) {
+            if (field.type == org.apache.thrift.protocol.TType.BOOL) {
               this.success = iprot.readBool();
               setSuccessIsSet(true);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new org.apache.hadoop.thriftfs.api.IOException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -12013,7 +12402,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -12049,17 +12438,33 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class reportBadBlocks_args implements TBase<reportBadBlocks_args, reportBadBlocks_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("reportBadBlocks_args");
+  public static class reportBadBlocks_args implements org.apache.thrift.TBase<reportBadBlocks_args, reportBadBlocks_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("reportBadBlocks_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
-    private static final TField BLOCKS_FIELD_DESC = new TField("blocks", TType.LIST, (short)1);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField BLOCKS_FIELD_DESC = new org.apache.thrift.protocol.TField("blocks", org.apache.thrift.protocol.TType.LIST, (short)1);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     /**
@@ -12068,7 +12473,7 @@ public class Namenode {
     public List<Block> blocks;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx"),
       /**
        * List of corrupted blocks.
@@ -12133,16 +12538,16 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.BLOCKS, new FieldMetaData("blocks", TFieldRequirementType.DEFAULT, 
-          new ListMetaData(TType.LIST, 
-              new StructMetaData(TType.STRUCT, Block.class))));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.BLOCKS, new org.apache.thrift.meta_data.FieldMetaData("blocks", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+              new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Block.class))));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(reportBadBlocks_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(reportBadBlocks_args.class, metaDataMap);
     }
 
     public reportBadBlocks_args() {
@@ -12196,7 +12601,7 @@ public class Namenode {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -12241,7 +12646,7 @@ public class Namenode {
       this.blocks = null;
     }
 
-    /** Returns true if field blocks is set (has been asigned a value) and false otherwise */
+    /** Returns true if field blocks is set (has been assigned a value) and false otherwise */
     public boolean isSetBlocks() {
       return this.blocks != null;
     }
@@ -12285,7 +12690,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -12364,7 +12769,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -12374,7 +12779,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetBlocks()) {
-        lastComparison = TBaseHelper.compareTo(this.blocks, typedOther.blocks);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.blocks, typedOther.blocks);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -12386,28 +12791,28 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // BLOCKS
-            if (field.type == TType.LIST) {
+            if (field.type == org.apache.thrift.protocol.TType.LIST) {
               {
-                TList _list16 = iprot.readListBegin();
+                org.apache.thrift.protocol.TList _list16 = iprot.readListBegin();
                 this.blocks = new ArrayList<Block>(_list16.size);
                 for (int _i17 = 0; _i17 < _list16.size; ++_i17)
                 {
@@ -12419,11 +12824,11 @@ public class Namenode {
                 iprot.readListEnd();
               }
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -12433,14 +12838,14 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
       if (this.blocks != null) {
         oprot.writeFieldBegin(BLOCKS_FIELD_DESC);
         {
-          oprot.writeListBegin(new TList(TType.STRUCT, this.blocks.size()));
+          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, this.blocks.size()));
           for (Block _iter19 : this.blocks)
           {
             _iter19.write(oprot);
@@ -12482,21 +12887,37 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class reportBadBlocks_result implements TBase<reportBadBlocks_result, reportBadBlocks_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("reportBadBlocks_result");
+  public static class reportBadBlocks_result implements org.apache.thrift.TBase<reportBadBlocks_result, reportBadBlocks_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("reportBadBlocks_result");
 
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public org.apache.hadoop.thriftfs.api.IOException err;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       ERR((short)1, "err");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -12555,13 +12976,13 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(reportBadBlocks_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(reportBadBlocks_result.class, metaDataMap);
     }
 
     public reportBadBlocks_result() {
@@ -12605,7 +13026,7 @@ public class Namenode {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -12638,7 +13059,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -12701,7 +13122,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -12713,26 +13134,26 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new org.apache.hadoop.thriftfs.api.IOException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -12742,7 +13163,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetErr()) {
@@ -12770,17 +13191,33 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class stat_args implements TBase<stat_args, stat_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("stat_args");
+  public static class stat_args implements org.apache.thrift.TBase<stat_args, stat_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("stat_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
-    private static final TField PATH_FIELD_DESC = new TField("path", TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField PATH_FIELD_DESC = new org.apache.thrift.protocol.TField("path", org.apache.thrift.protocol.TType.STRING, (short)1);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     /**
@@ -12789,7 +13226,7 @@ public class Namenode {
     public String path;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx"),
       /**
        * Path of the file or directory.
@@ -12854,15 +13291,15 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.PATH, new FieldMetaData("path", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRING)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.PATH, new org.apache.thrift.meta_data.FieldMetaData("path", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(stat_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(stat_args.class, metaDataMap);
     }
 
     public stat_args() {
@@ -12912,7 +13349,7 @@ public class Namenode {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -12942,7 +13379,7 @@ public class Namenode {
       this.path = null;
     }
 
-    /** Returns true if field path is set (has been asigned a value) and false otherwise */
+    /** Returns true if field path is set (has been assigned a value) and false otherwise */
     public boolean isSetPath() {
       return this.path != null;
     }
@@ -12986,7 +13423,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -13065,7 +13502,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -13075,7 +13512,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetPath()) {
-        lastComparison = TBaseHelper.compareTo(this.path, typedOther.path);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.path, typedOther.path);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -13087,33 +13524,33 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // PATH
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.path = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -13123,7 +13560,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -13165,23 +13602,39 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class stat_result implements TBase<stat_result, stat_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("stat_result");
+  public static class stat_result implements org.apache.thrift.TBase<stat_result, stat_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("stat_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.STRUCT, (short)0);
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public Stat success;
     public org.apache.hadoop.thriftfs.api.IOException err;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success"),
       ERR((short)1, "err");
 
@@ -13243,15 +13696,15 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, Stat.class)));
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, Stat.class)));
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(stat_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(stat_result.class, metaDataMap);
     }
 
     public stat_result() {
@@ -13301,7 +13754,7 @@ public class Namenode {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -13325,7 +13778,7 @@ public class Namenode {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -13369,7 +13822,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -13448,7 +13901,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -13458,7 +13911,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -13470,34 +13923,34 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.success = new Stat();
               this.success.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new org.apache.hadoop.thriftfs.api.IOException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -13507,7 +13960,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -13547,23 +14000,39 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getContentSummary_args implements TBase<getContentSummary_args, getContentSummary_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getContentSummary_args");
+  public static class getContentSummary_args implements org.apache.thrift.TBase<getContentSummary_args, getContentSummary_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getContentSummary_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
-    private static final TField PATH_FIELD_DESC = new TField("Path", TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField PATH_FIELD_DESC = new org.apache.thrift.protocol.TField("Path", org.apache.thrift.protocol.TType.STRING, (short)1);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     public String Path;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx"),
       PATH((short)1, "Path");
 
@@ -13625,15 +14094,15 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.PATH, new FieldMetaData("Path", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRING)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.PATH, new org.apache.thrift.meta_data.FieldMetaData("Path", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getContentSummary_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getContentSummary_args.class, metaDataMap);
     }
 
     public getContentSummary_args() {
@@ -13683,7 +14152,7 @@ public class Namenode {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -13707,7 +14176,7 @@ public class Namenode {
       this.Path = null;
     }
 
-    /** Returns true if field Path is set (has been asigned a value) and false otherwise */
+    /** Returns true if field Path is set (has been assigned a value) and false otherwise */
     public boolean isSetPath() {
       return this.Path != null;
     }
@@ -13751,7 +14220,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -13830,7 +14299,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -13840,7 +14309,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetPath()) {
-        lastComparison = TBaseHelper.compareTo(this.Path, typedOther.Path);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.Path, typedOther.Path);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -13852,33 +14321,33 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // PATH
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.Path = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -13888,7 +14357,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -13930,23 +14399,39 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getContentSummary_result implements TBase<getContentSummary_result, getContentSummary_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getContentSummary_result");
+  public static class getContentSummary_result implements org.apache.thrift.TBase<getContentSummary_result, getContentSummary_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getContentSummary_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.STRUCT, (short)0);
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public ContentSummary success;
     public org.apache.hadoop.thriftfs.api.IOException err;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success"),
       ERR((short)1, "err");
 
@@ -14008,15 +14493,15 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, ContentSummary.class)));
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ContentSummary.class)));
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getContentSummary_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getContentSummary_result.class, metaDataMap);
     }
 
     public getContentSummary_result() {
@@ -14066,7 +14551,7 @@ public class Namenode {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -14090,7 +14575,7 @@ public class Namenode {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -14134,7 +14619,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -14213,7 +14698,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -14223,7 +14708,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -14235,34 +14720,34 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.success = new ContentSummary();
               this.success.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new org.apache.hadoop.thriftfs.api.IOException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -14272,7 +14757,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -14312,23 +14797,39 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class multiGetContentSummary_args implements TBase<multiGetContentSummary_args, multiGetContentSummary_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("multiGetContentSummary_args");
+  public static class multiGetContentSummary_args implements org.apache.thrift.TBase<multiGetContentSummary_args, multiGetContentSummary_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("multiGetContentSummary_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
-    private static final TField PATHS_FIELD_DESC = new TField("paths", TType.LIST, (short)1);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField PATHS_FIELD_DESC = new org.apache.thrift.protocol.TField("paths", org.apache.thrift.protocol.TType.LIST, (short)1);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     public List<String> paths;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx"),
       PATHS((short)1, "paths");
 
@@ -14390,16 +14891,16 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.PATHS, new FieldMetaData("paths", TFieldRequirementType.DEFAULT, 
-          new ListMetaData(TType.LIST, 
-              new FieldValueMetaData(TType.STRING))));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.PATHS, new org.apache.thrift.meta_data.FieldMetaData("paths", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+              new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING))));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(multiGetContentSummary_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(multiGetContentSummary_args.class, metaDataMap);
     }
 
     public multiGetContentSummary_args() {
@@ -14453,7 +14954,7 @@ public class Namenode {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -14492,7 +14993,7 @@ public class Namenode {
       this.paths = null;
     }
 
-    /** Returns true if field paths is set (has been asigned a value) and false otherwise */
+    /** Returns true if field paths is set (has been assigned a value) and false otherwise */
     public boolean isSetPaths() {
       return this.paths != null;
     }
@@ -14536,7 +15037,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -14615,7 +15116,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -14625,7 +15126,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetPaths()) {
-        lastComparison = TBaseHelper.compareTo(this.paths, typedOther.paths);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.paths, typedOther.paths);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -14637,28 +15138,28 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // PATHS
-            if (field.type == TType.LIST) {
+            if (field.type == org.apache.thrift.protocol.TType.LIST) {
               {
-                TList _list20 = iprot.readListBegin();
+                org.apache.thrift.protocol.TList _list20 = iprot.readListBegin();
                 this.paths = new ArrayList<String>(_list20.size);
                 for (int _i21 = 0; _i21 < _list20.size; ++_i21)
                 {
@@ -14669,11 +15170,11 @@ public class Namenode {
                 iprot.readListEnd();
               }
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -14683,14 +15184,14 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
       if (this.paths != null) {
         oprot.writeFieldBegin(PATHS_FIELD_DESC);
         {
-          oprot.writeListBegin(new TList(TType.STRING, this.paths.size()));
+          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, this.paths.size()));
           for (String _iter23 : this.paths)
           {
             oprot.writeString(_iter23);
@@ -14732,23 +15233,39 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class multiGetContentSummary_result implements TBase<multiGetContentSummary_result, multiGetContentSummary_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("multiGetContentSummary_result");
+  public static class multiGetContentSummary_result implements org.apache.thrift.TBase<multiGetContentSummary_result, multiGetContentSummary_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("multiGetContentSummary_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.LIST, (short)0);
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.LIST, (short)0);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public List<ContentSummary> success;
     public org.apache.hadoop.thriftfs.api.IOException err;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success"),
       ERR((short)1, "err");
 
@@ -14810,16 +15327,16 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new ListMetaData(TType.LIST, 
-              new StructMetaData(TType.STRUCT, ContentSummary.class))));
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+              new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ContentSummary.class))));
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(multiGetContentSummary_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(multiGetContentSummary_result.class, metaDataMap);
     }
 
     public multiGetContentSummary_result() {
@@ -14888,7 +15405,7 @@ public class Namenode {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -14912,7 +15429,7 @@ public class Namenode {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -14956,7 +15473,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -15035,7 +15552,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -15045,7 +15562,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -15057,20 +15574,20 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.LIST) {
+            if (field.type == org.apache.thrift.protocol.TType.LIST) {
               {
-                TList _list24 = iprot.readListBegin();
+                org.apache.thrift.protocol.TList _list24 = iprot.readListBegin();
                 this.success = new ArrayList<ContentSummary>(_list24.size);
                 for (int _i25 = 0; _i25 < _list24.size; ++_i25)
                 {
@@ -15082,19 +15599,19 @@ public class Namenode {
                 iprot.readListEnd();
               }
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new org.apache.hadoop.thriftfs.api.IOException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -15104,13 +15621,13 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
         oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
         {
-          oprot.writeListBegin(new TList(TType.STRUCT, this.success.size()));
+          oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, this.success.size()));
           for (ContentSummary _iter27 : this.success)
           {
             _iter27.write(oprot);
@@ -15151,19 +15668,35 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class setQuota_args implements TBase<setQuota_args, setQuota_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("setQuota_args");
+  public static class setQuota_args implements org.apache.thrift.TBase<setQuota_args, setQuota_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("setQuota_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
-    private static final TField PATH_FIELD_DESC = new TField("path", TType.STRING, (short)1);
-    private static final TField NAMESPACE_QUOTA_FIELD_DESC = new TField("namespaceQuota", TType.I64, (short)2);
-    private static final TField DISKSPACE_QUOTA_FIELD_DESC = new TField("diskspaceQuota", TType.I64, (short)3);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField PATH_FIELD_DESC = new org.apache.thrift.protocol.TField("path", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField NAMESPACE_QUOTA_FIELD_DESC = new org.apache.thrift.protocol.TField("namespaceQuota", org.apache.thrift.protocol.TType.I64, (short)2);
+    private static final org.apache.thrift.protocol.TField DISKSPACE_QUOTA_FIELD_DESC = new org.apache.thrift.protocol.TField("diskspaceQuota", org.apache.thrift.protocol.TType.I64, (short)3);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     /**
@@ -15181,7 +15714,7 @@ public class Namenode {
     public long diskspaceQuota;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx"),
       /**
        * Path of the directory.
@@ -15262,19 +15795,19 @@ public class Namenode {
     private static final int __DISKSPACEQUOTA_ISSET_ID = 1;
     private BitSet __isset_bit_vector = new BitSet(2);
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.PATH, new FieldMetaData("path", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRING)));
-      tmpMap.put(_Fields.NAMESPACE_QUOTA, new FieldMetaData("namespaceQuota", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.I64)));
-      tmpMap.put(_Fields.DISKSPACE_QUOTA, new FieldMetaData("diskspaceQuota", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.I64)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.PATH, new org.apache.thrift.meta_data.FieldMetaData("path", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.NAMESPACE_QUOTA, new org.apache.thrift.meta_data.FieldMetaData("namespaceQuota", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+      tmpMap.put(_Fields.DISKSPACE_QUOTA, new org.apache.thrift.meta_data.FieldMetaData("diskspaceQuota", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(setQuota_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(setQuota_args.class, metaDataMap);
     }
 
     public setQuota_args() {
@@ -15338,7 +15871,7 @@ public class Namenode {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -15368,7 +15901,7 @@ public class Namenode {
       this.path = null;
     }
 
-    /** Returns true if field path is set (has been asigned a value) and false otherwise */
+    /** Returns true if field path is set (has been assigned a value) and false otherwise */
     public boolean isSetPath() {
       return this.path != null;
     }
@@ -15399,7 +15932,7 @@ public class Namenode {
       __isset_bit_vector.clear(__NAMESPACEQUOTA_ISSET_ID);
     }
 
-    /** Returns true if field namespaceQuota is set (has been asigned a value) and false otherwise */
+    /** Returns true if field namespaceQuota is set (has been assigned a value) and false otherwise */
     public boolean isSetNamespaceQuota() {
       return __isset_bit_vector.get(__NAMESPACEQUOTA_ISSET_ID);
     }
@@ -15430,7 +15963,7 @@ public class Namenode {
       __isset_bit_vector.clear(__DISKSPACEQUOTA_ISSET_ID);
     }
 
-    /** Returns true if field diskspaceQuota is set (has been asigned a value) and false otherwise */
+    /** Returns true if field diskspaceQuota is set (has been assigned a value) and false otherwise */
     public boolean isSetDiskspaceQuota() {
       return __isset_bit_vector.get(__DISKSPACEQUOTA_ISSET_ID);
     }
@@ -15494,7 +16027,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -15605,7 +16138,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -15615,7 +16148,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetPath()) {
-        lastComparison = TBaseHelper.compareTo(this.path, typedOther.path);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.path, typedOther.path);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -15625,7 +16158,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetNamespaceQuota()) {
-        lastComparison = TBaseHelper.compareTo(this.namespaceQuota, typedOther.namespaceQuota);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.namespaceQuota, typedOther.namespaceQuota);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -15635,7 +16168,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetDiskspaceQuota()) {
-        lastComparison = TBaseHelper.compareTo(this.diskspaceQuota, typedOther.diskspaceQuota);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.diskspaceQuota, typedOther.diskspaceQuota);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -15647,49 +16180,49 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // PATH
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.path = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 2: // NAMESPACE_QUOTA
-            if (field.type == TType.I64) {
+            if (field.type == org.apache.thrift.protocol.TType.I64) {
               this.namespaceQuota = iprot.readI64();
               setNamespaceQuotaIsSet(true);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 3: // DISKSPACE_QUOTA
-            if (field.type == TType.I64) {
+            if (field.type == org.apache.thrift.protocol.TType.I64) {
               this.diskspaceQuota = iprot.readI64();
               setDiskspaceQuotaIsSet(true);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -15699,7 +16232,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -15755,21 +16288,37 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class setQuota_result implements TBase<setQuota_result, setQuota_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("setQuota_result");
+  public static class setQuota_result implements org.apache.thrift.TBase<setQuota_result, setQuota_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("setQuota_result");
 
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public org.apache.hadoop.thriftfs.api.IOException err;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       ERR((short)1, "err");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -15828,13 +16377,13 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(setQuota_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(setQuota_result.class, metaDataMap);
     }
 
     public setQuota_result() {
@@ -15878,7 +16427,7 @@ public class Namenode {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -15911,7 +16460,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -15974,7 +16523,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -15986,26 +16535,26 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new org.apache.hadoop.thriftfs.api.IOException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -16015,7 +16564,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetErr()) {
@@ -16043,18 +16592,34 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class setReplication_args implements TBase<setReplication_args, setReplication_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("setReplication_args");
+  public static class setReplication_args implements org.apache.thrift.TBase<setReplication_args, setReplication_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("setReplication_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
-    private static final TField PATH_FIELD_DESC = new TField("path", TType.STRING, (short)1);
-    private static final TField REPLICATION_FIELD_DESC = new TField("replication", TType.I16, (short)2);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField PATH_FIELD_DESC = new org.apache.thrift.protocol.TField("path", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField REPLICATION_FIELD_DESC = new org.apache.thrift.protocol.TField("replication", org.apache.thrift.protocol.TType.I16, (short)2);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     /**
@@ -16067,7 +16632,7 @@ public class Namenode {
     public short replication;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx"),
       /**
        * Path of the file.
@@ -16140,17 +16705,17 @@ public class Namenode {
     private static final int __REPLICATION_ISSET_ID = 0;
     private BitSet __isset_bit_vector = new BitSet(1);
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.PATH, new FieldMetaData("path", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRING)));
-      tmpMap.put(_Fields.REPLICATION, new FieldMetaData("replication", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.I16)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.PATH, new org.apache.thrift.meta_data.FieldMetaData("path", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.REPLICATION, new org.apache.thrift.meta_data.FieldMetaData("replication", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I16)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(setReplication_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(setReplication_args.class, metaDataMap);
     }
 
     public setReplication_args() {
@@ -16208,7 +16773,7 @@ public class Namenode {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -16238,7 +16803,7 @@ public class Namenode {
       this.path = null;
     }
 
-    /** Returns true if field path is set (has been asigned a value) and false otherwise */
+    /** Returns true if field path is set (has been assigned a value) and false otherwise */
     public boolean isSetPath() {
       return this.path != null;
     }
@@ -16269,7 +16834,7 @@ public class Namenode {
       __isset_bit_vector.clear(__REPLICATION_ISSET_ID);
     }
 
-    /** Returns true if field replication is set (has been asigned a value) and false otherwise */
+    /** Returns true if field replication is set (has been assigned a value) and false otherwise */
     public boolean isSetReplication() {
       return __isset_bit_vector.get(__REPLICATION_ISSET_ID);
     }
@@ -16322,7 +16887,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -16417,7 +16982,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -16427,7 +16992,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetPath()) {
-        lastComparison = TBaseHelper.compareTo(this.path, typedOther.path);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.path, typedOther.path);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -16437,7 +17002,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetReplication()) {
-        lastComparison = TBaseHelper.compareTo(this.replication, typedOther.replication);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.replication, typedOther.replication);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -16449,41 +17014,41 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // PATH
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.path = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 2: // REPLICATION
-            if (field.type == TType.I16) {
+            if (field.type == org.apache.thrift.protocol.TType.I16) {
               this.replication = iprot.readI16();
               setReplicationIsSet(true);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -16493,7 +17058,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -16542,23 +17107,39 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class setReplication_result implements TBase<setReplication_result, setReplication_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("setReplication_result");
+  public static class setReplication_result implements org.apache.thrift.TBase<setReplication_result, setReplication_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("setReplication_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.BOOL, (short)0);
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.BOOL, (short)0);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public boolean success;
     public org.apache.hadoop.thriftfs.api.IOException err;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success"),
       ERR((short)1, "err");
 
@@ -16622,15 +17203,15 @@ public class Namenode {
     private static final int __SUCCESS_ISSET_ID = 0;
     private BitSet __isset_bit_vector = new BitSet(1);
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.BOOL)));
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(setReplication_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(setReplication_result.class, metaDataMap);
     }
 
     public setReplication_result() {
@@ -16683,7 +17264,7 @@ public class Namenode {
       __isset_bit_vector.clear(__SUCCESS_ISSET_ID);
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return __isset_bit_vector.get(__SUCCESS_ISSET_ID);
     }
@@ -16705,7 +17286,7 @@ public class Namenode {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -16749,7 +17330,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -16828,7 +17409,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -16838,7 +17419,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -16850,34 +17431,34 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.BOOL) {
+            if (field.type == org.apache.thrift.protocol.TType.BOOL) {
               this.success = iprot.readBool();
               setSuccessIsSet(true);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new org.apache.hadoop.thriftfs.api.IOException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -16887,7 +17468,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -16923,18 +17504,34 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class unlink_args implements TBase<unlink_args, unlink_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("unlink_args");
+  public static class unlink_args implements org.apache.thrift.TBase<unlink_args, unlink_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("unlink_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
-    private static final TField PATH_FIELD_DESC = new TField("path", TType.STRING, (short)1);
-    private static final TField RECURSIVE_FIELD_DESC = new TField("recursive", TType.BOOL, (short)2);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField PATH_FIELD_DESC = new org.apache.thrift.protocol.TField("path", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField RECURSIVE_FIELD_DESC = new org.apache.thrift.protocol.TField("recursive", org.apache.thrift.protocol.TType.BOOL, (short)2);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     /**
@@ -16947,7 +17544,7 @@ public class Namenode {
     public boolean recursive;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx"),
       /**
        * Path of the file or directory.
@@ -17020,17 +17617,17 @@ public class Namenode {
     private static final int __RECURSIVE_ISSET_ID = 0;
     private BitSet __isset_bit_vector = new BitSet(1);
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.PATH, new FieldMetaData("path", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRING)));
-      tmpMap.put(_Fields.RECURSIVE, new FieldMetaData("recursive", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.BOOL)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.PATH, new org.apache.thrift.meta_data.FieldMetaData("path", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.RECURSIVE, new org.apache.thrift.meta_data.FieldMetaData("recursive", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(unlink_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(unlink_args.class, metaDataMap);
     }
 
     public unlink_args() {
@@ -17088,7 +17685,7 @@ public class Namenode {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -17118,7 +17715,7 @@ public class Namenode {
       this.path = null;
     }
 
-    /** Returns true if field path is set (has been asigned a value) and false otherwise */
+    /** Returns true if field path is set (has been assigned a value) and false otherwise */
     public boolean isSetPath() {
       return this.path != null;
     }
@@ -17149,7 +17746,7 @@ public class Namenode {
       __isset_bit_vector.clear(__RECURSIVE_ISSET_ID);
     }
 
-    /** Returns true if field recursive is set (has been asigned a value) and false otherwise */
+    /** Returns true if field recursive is set (has been assigned a value) and false otherwise */
     public boolean isSetRecursive() {
       return __isset_bit_vector.get(__RECURSIVE_ISSET_ID);
     }
@@ -17202,7 +17799,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -17297,7 +17894,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -17307,7 +17904,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetPath()) {
-        lastComparison = TBaseHelper.compareTo(this.path, typedOther.path);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.path, typedOther.path);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -17317,7 +17914,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetRecursive()) {
-        lastComparison = TBaseHelper.compareTo(this.recursive, typedOther.recursive);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.recursive, typedOther.recursive);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -17329,41 +17926,41 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // PATH
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.path = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 2: // RECURSIVE
-            if (field.type == TType.BOOL) {
+            if (field.type == org.apache.thrift.protocol.TType.BOOL) {
               this.recursive = iprot.readBool();
               setRecursiveIsSet(true);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -17373,7 +17970,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -17422,23 +18019,39 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class unlink_result implements TBase<unlink_result, unlink_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("unlink_result");
+  public static class unlink_result implements org.apache.thrift.TBase<unlink_result, unlink_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("unlink_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.BOOL, (short)0);
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.BOOL, (short)0);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public boolean success;
     public org.apache.hadoop.thriftfs.api.IOException err;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success"),
       ERR((short)1, "err");
 
@@ -17502,15 +18115,15 @@ public class Namenode {
     private static final int __SUCCESS_ISSET_ID = 0;
     private BitSet __isset_bit_vector = new BitSet(1);
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.BOOL)));
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(unlink_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(unlink_result.class, metaDataMap);
     }
 
     public unlink_result() {
@@ -17563,7 +18176,7 @@ public class Namenode {
       __isset_bit_vector.clear(__SUCCESS_ISSET_ID);
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return __isset_bit_vector.get(__SUCCESS_ISSET_ID);
     }
@@ -17585,7 +18198,7 @@ public class Namenode {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -17629,7 +18242,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -17708,7 +18321,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -17718,7 +18331,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -17730,34 +18343,34 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.BOOL) {
+            if (field.type == org.apache.thrift.protocol.TType.BOOL) {
               this.success = iprot.readBool();
               setSuccessIsSet(true);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new org.apache.hadoop.thriftfs.api.IOException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -17767,7 +18380,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -17803,19 +18416,35 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class utime_args implements TBase<utime_args, utime_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("utime_args");
+  public static class utime_args implements org.apache.thrift.TBase<utime_args, utime_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("utime_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
-    private static final TField PATH_FIELD_DESC = new TField("path", TType.STRING, (short)1);
-    private static final TField ATIME_FIELD_DESC = new TField("atime", TType.I64, (short)2);
-    private static final TField MTIME_FIELD_DESC = new TField("mtime", TType.I64, (short)3);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField PATH_FIELD_DESC = new org.apache.thrift.protocol.TField("path", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField ATIME_FIELD_DESC = new org.apache.thrift.protocol.TField("atime", org.apache.thrift.protocol.TType.I64, (short)2);
+    private static final org.apache.thrift.protocol.TField MTIME_FIELD_DESC = new org.apache.thrift.protocol.TField("mtime", org.apache.thrift.protocol.TType.I64, (short)3);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     /**
@@ -17832,7 +18461,7 @@ public class Namenode {
     public long mtime;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx"),
       /**
        * Path of the file or directory.
@@ -17912,19 +18541,19 @@ public class Namenode {
     private static final int __MTIME_ISSET_ID = 1;
     private BitSet __isset_bit_vector = new BitSet(2);
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.PATH, new FieldMetaData("path", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRING)));
-      tmpMap.put(_Fields.ATIME, new FieldMetaData("atime", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.I64)));
-      tmpMap.put(_Fields.MTIME, new FieldMetaData("mtime", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.I64)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.PATH, new org.apache.thrift.meta_data.FieldMetaData("path", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.ATIME, new org.apache.thrift.meta_data.FieldMetaData("atime", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+      tmpMap.put(_Fields.MTIME, new org.apache.thrift.meta_data.FieldMetaData("mtime", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(utime_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(utime_args.class, metaDataMap);
     }
 
     public utime_args() {
@@ -17988,7 +18617,7 @@ public class Namenode {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -18018,7 +18647,7 @@ public class Namenode {
       this.path = null;
     }
 
-    /** Returns true if field path is set (has been asigned a value) and false otherwise */
+    /** Returns true if field path is set (has been assigned a value) and false otherwise */
     public boolean isSetPath() {
       return this.path != null;
     }
@@ -18049,7 +18678,7 @@ public class Namenode {
       __isset_bit_vector.clear(__ATIME_ISSET_ID);
     }
 
-    /** Returns true if field atime is set (has been asigned a value) and false otherwise */
+    /** Returns true if field atime is set (has been assigned a value) and false otherwise */
     public boolean isSetAtime() {
       return __isset_bit_vector.get(__ATIME_ISSET_ID);
     }
@@ -18078,7 +18707,7 @@ public class Namenode {
       __isset_bit_vector.clear(__MTIME_ISSET_ID);
     }
 
-    /** Returns true if field mtime is set (has been asigned a value) and false otherwise */
+    /** Returns true if field mtime is set (has been assigned a value) and false otherwise */
     public boolean isSetMtime() {
       return __isset_bit_vector.get(__MTIME_ISSET_ID);
     }
@@ -18142,7 +18771,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -18253,7 +18882,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -18263,7 +18892,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetPath()) {
-        lastComparison = TBaseHelper.compareTo(this.path, typedOther.path);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.path, typedOther.path);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -18273,7 +18902,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetAtime()) {
-        lastComparison = TBaseHelper.compareTo(this.atime, typedOther.atime);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.atime, typedOther.atime);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -18283,7 +18912,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetMtime()) {
-        lastComparison = TBaseHelper.compareTo(this.mtime, typedOther.mtime);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.mtime, typedOther.mtime);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -18295,49 +18924,49 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // PATH
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.path = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 2: // ATIME
-            if (field.type == TType.I64) {
+            if (field.type == org.apache.thrift.protocol.TType.I64) {
               this.atime = iprot.readI64();
               setAtimeIsSet(true);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 3: // MTIME
-            if (field.type == TType.I64) {
+            if (field.type == org.apache.thrift.protocol.TType.I64) {
               this.mtime = iprot.readI64();
               setMtimeIsSet(true);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -18347,7 +18976,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -18403,21 +19032,37 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class utime_result implements TBase<utime_result, utime_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("utime_result");
+  public static class utime_result implements org.apache.thrift.TBase<utime_result, utime_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("utime_result");
 
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public org.apache.hadoop.thriftfs.api.IOException err;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       ERR((short)1, "err");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -18476,13 +19121,13 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(utime_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(utime_result.class, metaDataMap);
     }
 
     public utime_result() {
@@ -18526,7 +19171,7 @@ public class Namenode {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -18559,7 +19204,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -18622,7 +19267,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -18634,26 +19279,26 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new org.apache.hadoop.thriftfs.api.IOException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -18663,7 +19308,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetErr()) {
@@ -18691,18 +19336,34 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class datanodeUp_args implements TBase<datanodeUp_args, datanodeUp_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("datanodeUp_args");
+  public static class datanodeUp_args implements org.apache.thrift.TBase<datanodeUp_args, datanodeUp_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("datanodeUp_args");
 
-    private static final TField NAME_FIELD_DESC = new TField("name", TType.STRING, (short)1);
-    private static final TField STORAGE_FIELD_DESC = new TField("storage", TType.STRING, (short)2);
-    private static final TField THRIFT_PORT_FIELD_DESC = new TField("thriftPort", TType.I32, (short)3);
+    private static final org.apache.thrift.protocol.TField NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("name", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField STORAGE_FIELD_DESC = new org.apache.thrift.protocol.TField("storage", org.apache.thrift.protocol.TType.STRING, (short)2);
+    private static final org.apache.thrift.protocol.TField THRIFT_PORT_FIELD_DESC = new org.apache.thrift.protocol.TField("thriftPort", org.apache.thrift.protocol.TType.I32, (short)3);
 
     /**
      * <host name>:<port number> of the datanode
@@ -18718,7 +19379,7 @@ public class Namenode {
     public int thriftPort;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       /**
        * <host name>:<port number> of the datanode
        */
@@ -18794,17 +19455,17 @@ public class Namenode {
     private static final int __THRIFTPORT_ISSET_ID = 0;
     private BitSet __isset_bit_vector = new BitSet(1);
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.NAME, new FieldMetaData("name", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRING)));
-      tmpMap.put(_Fields.STORAGE, new FieldMetaData("storage", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRING)));
-      tmpMap.put(_Fields.THRIFT_PORT, new FieldMetaData("thriftPort", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.I32)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.NAME, new org.apache.thrift.meta_data.FieldMetaData("name", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.STORAGE, new org.apache.thrift.meta_data.FieldMetaData("storage", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.THRIFT_PORT, new org.apache.thrift.meta_data.FieldMetaData("thriftPort", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(datanodeUp_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(datanodeUp_args.class, metaDataMap);
     }
 
     public datanodeUp_args() {
@@ -18868,7 +19529,7 @@ public class Namenode {
       this.name = null;
     }
 
-    /** Returns true if field name is set (has been asigned a value) and false otherwise */
+    /** Returns true if field name is set (has been assigned a value) and false otherwise */
     public boolean isSetName() {
       return this.name != null;
     }
@@ -18898,7 +19559,7 @@ public class Namenode {
       this.storage = null;
     }
 
-    /** Returns true if field storage is set (has been asigned a value) and false otherwise */
+    /** Returns true if field storage is set (has been assigned a value) and false otherwise */
     public boolean isSetStorage() {
       return this.storage != null;
     }
@@ -18929,7 +19590,7 @@ public class Namenode {
       __isset_bit_vector.clear(__THRIFTPORT_ISSET_ID);
     }
 
-    /** Returns true if field thriftPort is set (has been asigned a value) and false otherwise */
+    /** Returns true if field thriftPort is set (has been assigned a value) and false otherwise */
     public boolean isSetThriftPort() {
       return __isset_bit_vector.get(__THRIFTPORT_ISSET_ID);
     }
@@ -18982,7 +19643,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -19077,7 +19738,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetName()) {
-        lastComparison = TBaseHelper.compareTo(this.name, typedOther.name);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.name, typedOther.name);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -19087,7 +19748,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetStorage()) {
-        lastComparison = TBaseHelper.compareTo(this.storage, typedOther.storage);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.storage, typedOther.storage);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -19097,7 +19758,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetThriftPort()) {
-        lastComparison = TBaseHelper.compareTo(this.thriftPort, typedOther.thriftPort);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.thriftPort, typedOther.thriftPort);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -19109,40 +19770,40 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 1: // NAME
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.name = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 2: // STORAGE
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.storage = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 3: // THRIFT_PORT
-            if (field.type == TType.I32) {
+            if (field.type == org.apache.thrift.protocol.TType.I32) {
               this.thriftPort = iprot.readI32();
               setThriftPortIsSet(true);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -19152,7 +19813,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -19201,19 +19862,37 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bit_vector = new BitSet(1);
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class datanodeUp_result implements TBase<datanodeUp_result, datanodeUp_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("datanodeUp_result");
+  public static class datanodeUp_result implements org.apache.thrift.TBase<datanodeUp_result, datanodeUp_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("datanodeUp_result");
 
 
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
 ;
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -19267,11 +19946,11 @@ public class Namenode {
         return _fieldName;
       }
     }
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(datanodeUp_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(datanodeUp_result.class, metaDataMap);
     }
 
     public datanodeUp_result() {
@@ -19302,7 +19981,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -19351,18 +20030,18 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -19372,7 +20051,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       oprot.writeFieldStop();
@@ -19388,18 +20067,34 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class datanodeDown_args implements TBase<datanodeDown_args, datanodeDown_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("datanodeDown_args");
+  public static class datanodeDown_args implements org.apache.thrift.TBase<datanodeDown_args, datanodeDown_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("datanodeDown_args");
 
-    private static final TField NAME_FIELD_DESC = new TField("name", TType.STRING, (short)1);
-    private static final TField STORAGE_FIELD_DESC = new TField("storage", TType.STRING, (short)2);
-    private static final TField THRIFT_PORT_FIELD_DESC = new TField("thriftPort", TType.I32, (short)3);
+    private static final org.apache.thrift.protocol.TField NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("name", org.apache.thrift.protocol.TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField STORAGE_FIELD_DESC = new org.apache.thrift.protocol.TField("storage", org.apache.thrift.protocol.TType.STRING, (short)2);
+    private static final org.apache.thrift.protocol.TField THRIFT_PORT_FIELD_DESC = new org.apache.thrift.protocol.TField("thriftPort", org.apache.thrift.protocol.TType.I32, (short)3);
 
     /**
      * <host name>:<port number> of the datanode
@@ -19415,7 +20110,7 @@ public class Namenode {
     public int thriftPort;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       /**
        * <host name>:<port number> of the datanode
        */
@@ -19491,17 +20186,17 @@ public class Namenode {
     private static final int __THRIFTPORT_ISSET_ID = 0;
     private BitSet __isset_bit_vector = new BitSet(1);
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.NAME, new FieldMetaData("name", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRING)));
-      tmpMap.put(_Fields.STORAGE, new FieldMetaData("storage", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRING)));
-      tmpMap.put(_Fields.THRIFT_PORT, new FieldMetaData("thriftPort", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.I32)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.NAME, new org.apache.thrift.meta_data.FieldMetaData("name", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.STORAGE, new org.apache.thrift.meta_data.FieldMetaData("storage", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.THRIFT_PORT, new org.apache.thrift.meta_data.FieldMetaData("thriftPort", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(datanodeDown_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(datanodeDown_args.class, metaDataMap);
     }
 
     public datanodeDown_args() {
@@ -19565,7 +20260,7 @@ public class Namenode {
       this.name = null;
     }
 
-    /** Returns true if field name is set (has been asigned a value) and false otherwise */
+    /** Returns true if field name is set (has been assigned a value) and false otherwise */
     public boolean isSetName() {
       return this.name != null;
     }
@@ -19595,7 +20290,7 @@ public class Namenode {
       this.storage = null;
     }
 
-    /** Returns true if field storage is set (has been asigned a value) and false otherwise */
+    /** Returns true if field storage is set (has been assigned a value) and false otherwise */
     public boolean isSetStorage() {
       return this.storage != null;
     }
@@ -19626,7 +20321,7 @@ public class Namenode {
       __isset_bit_vector.clear(__THRIFTPORT_ISSET_ID);
     }
 
-    /** Returns true if field thriftPort is set (has been asigned a value) and false otherwise */
+    /** Returns true if field thriftPort is set (has been assigned a value) and false otherwise */
     public boolean isSetThriftPort() {
       return __isset_bit_vector.get(__THRIFTPORT_ISSET_ID);
     }
@@ -19679,7 +20374,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -19774,7 +20469,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetName()) {
-        lastComparison = TBaseHelper.compareTo(this.name, typedOther.name);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.name, typedOther.name);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -19784,7 +20479,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetStorage()) {
-        lastComparison = TBaseHelper.compareTo(this.storage, typedOther.storage);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.storage, typedOther.storage);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -19794,7 +20489,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetThriftPort()) {
-        lastComparison = TBaseHelper.compareTo(this.thriftPort, typedOther.thriftPort);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.thriftPort, typedOther.thriftPort);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -19806,40 +20501,40 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 1: // NAME
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.name = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 2: // STORAGE
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.storage = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 3: // THRIFT_PORT
-            if (field.type == TType.I32) {
+            if (field.type == org.apache.thrift.protocol.TType.I32) {
               this.thriftPort = iprot.readI32();
               setThriftPortIsSet(true);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -19849,7 +20544,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -19898,19 +20593,37 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bit_vector = new BitSet(1);
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class datanodeDown_result implements TBase<datanodeDown_result, datanodeDown_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("datanodeDown_result");
+  public static class datanodeDown_result implements org.apache.thrift.TBase<datanodeDown_result, datanodeDown_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("datanodeDown_result");
 
 
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
 ;
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -19964,11 +20677,11 @@ public class Namenode {
         return _fieldName;
       }
     }
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(datanodeDown_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(datanodeDown_result.class, metaDataMap);
     }
 
     public datanodeDown_result() {
@@ -19999,7 +20712,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -20048,18 +20761,18 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -20069,7 +20782,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       oprot.writeFieldStop();
@@ -20085,23 +20798,39 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getDelegationToken_args implements TBase<getDelegationToken_args, getDelegationToken_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getDelegationToken_args");
+  public static class getDelegationToken_args implements org.apache.thrift.TBase<getDelegationToken_args, getDelegationToken_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getDelegationToken_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
-    private static final TField RENEWER_FIELD_DESC = new TField("renewer", TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField RENEWER_FIELD_DESC = new org.apache.thrift.protocol.TField("renewer", org.apache.thrift.protocol.TType.STRING, (short)1);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     public String renewer;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx"),
       RENEWER((short)1, "renewer");
 
@@ -20163,15 +20892,15 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.RENEWER, new FieldMetaData("renewer", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRING)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.RENEWER, new org.apache.thrift.meta_data.FieldMetaData("renewer", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getDelegationToken_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getDelegationToken_args.class, metaDataMap);
     }
 
     public getDelegationToken_args() {
@@ -20221,7 +20950,7 @@ public class Namenode {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -20245,7 +20974,7 @@ public class Namenode {
       this.renewer = null;
     }
 
-    /** Returns true if field renewer is set (has been asigned a value) and false otherwise */
+    /** Returns true if field renewer is set (has been assigned a value) and false otherwise */
     public boolean isSetRenewer() {
       return this.renewer != null;
     }
@@ -20289,7 +21018,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -20368,7 +21097,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -20378,7 +21107,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetRenewer()) {
-        lastComparison = TBaseHelper.compareTo(this.renewer, typedOther.renewer);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.renewer, typedOther.renewer);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -20390,33 +21119,33 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // RENEWER
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.renewer = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -20426,7 +21155,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -20468,23 +21197,39 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getDelegationToken_result implements TBase<getDelegationToken_result, getDelegationToken_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getDelegationToken_result");
+  public static class getDelegationToken_result implements org.apache.thrift.TBase<getDelegationToken_result, getDelegationToken_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getDelegationToken_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.STRUCT, (short)0);
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public org.apache.hadoop.thriftfs.api.ThriftDelegationToken success;
     public org.apache.hadoop.thriftfs.api.IOException err;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success"),
       ERR((short)1, "err");
 
@@ -20546,15 +21291,15 @@ public class Namenode {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.ThriftDelegationToken.class)));
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.ThriftDelegationToken.class)));
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getDelegationToken_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getDelegationToken_result.class, metaDataMap);
     }
 
     public getDelegationToken_result() {
@@ -20604,7 +21349,7 @@ public class Namenode {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -20628,7 +21373,7 @@ public class Namenode {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -20672,7 +21417,7 @@ public class Namenode {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -20751,7 +21496,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -20761,7 +21506,7 @@ public class Namenode {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -20773,34 +21518,34 @@ public class Namenode {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.success = new org.apache.hadoop.thriftfs.api.ThriftDelegationToken();
               this.success.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new org.apache.hadoop.thriftfs.api.IOException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -20810,7 +21555,7 @@ public class Namenode {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -20850,8 +21595,24 @@ public class Namenode {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }

@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.HashMap;
 import org.apache.thrift.TEnum;
 
-public enum ThriftTaskState implements TEnum {
+public enum ThriftTaskState implements org.apache.thrift.TEnum {
   RUNNING(0),
   SUCCEEDED(1),
   FAILED(2),

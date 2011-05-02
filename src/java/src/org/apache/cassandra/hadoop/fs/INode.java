@@ -82,6 +82,7 @@ public class INode
 
     public ByteBuffer serialize() throws IOException
     {
+    	// Write INode header
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         DataOutputStream out = new DataOutputStream(bytes);
         out.writeInt(user.getBytes().length);  out.writeBytes(user);
@@ -89,7 +90,8 @@ public class INode
         out.writeShort(perms.toShort());
         out.writeByte(fileType.ordinal());
         if (isFile())
-        {
+        {  
+            // Write blocks
             out.writeInt(blocks.length);
             for (int i = 0; i < blocks.length; i++)
             {
@@ -98,6 +100,16 @@ public class INode
 
                 out.writeLong(blocks[i].offset);
                 out.writeLong(blocks[i].length);
+                
+                // Write SubBlocks for this block
+                out.writeInt(blocks[i].subBlocks.length);
+                for (SubBlock subb : blocks[i].subBlocks)
+                {
+                    out.writeLong(subb.id.getMostSignificantBits());
+                    out.writeLong(subb.id.getLeastSignificantBits());
+                    out.writeLong(subb.offset);
+                    out.writeLong(subb.length);
+                }
             }
         }
         out.close();
@@ -134,10 +146,22 @@ public class INode
             {
                 long mostSigBits = dataIn.readLong();
                 long leastSigBits = dataIn.readLong();
-
                 long offset = dataIn.readLong();
                 long length = dataIn.readLong();
-                blocks[i] = new Block(new UUID(mostSigBits,leastSigBits), offset, length);
+                
+                // Deserialize SubBlocks for this block
+                int numSubBlocks = dataIn.readInt();
+                SubBlock[] subBlocks = new SubBlock[numSubBlocks];
+                for (int j = 0; j < numSubBlocks; j++)
+                {
+                    long subMostSigBits = dataIn.readLong();
+                    long subLeastSigBits = dataIn.readLong();
+                    long subOffset = dataIn.readLong();
+                    long subLength = dataIn.readLong();
+                    subBlocks[j] = new SubBlock(new UUID(subMostSigBits,subLeastSigBits), subOffset, subLength);
+                }
+                
+                blocks[i] = new Block(new UUID(mostSigBits,leastSigBits), offset, length, subBlocks);
             }
             in.close();
             return new INode(new String(ubuf), new String(gbuf), perms, fileType, blocks, ts);

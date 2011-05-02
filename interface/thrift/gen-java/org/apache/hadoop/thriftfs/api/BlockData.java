@@ -21,21 +21,15 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.apache.thrift.*;
-import org.apache.thrift.async.*;
-import org.apache.thrift.meta_data.*;
-import org.apache.thrift.transport.*;
-import org.apache.thrift.protocol.*;
-
 /**
  * Encapsulates a block data transfer with its CRC
  */
-public class BlockData implements TBase<BlockData, BlockData._Fields>, java.io.Serializable, Cloneable {
-  private static final TStruct STRUCT_DESC = new TStruct("BlockData");
+public class BlockData implements org.apache.thrift.TBase<BlockData, BlockData._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("BlockData");
 
-  private static final TField CRC_FIELD_DESC = new TField("crc", TType.I32, (short)1);
-  private static final TField LENGTH_FIELD_DESC = new TField("length", TType.I32, (short)2);
-  private static final TField DATA_FIELD_DESC = new TField("data", TType.STRING, (short)3);
+  private static final org.apache.thrift.protocol.TField CRC_FIELD_DESC = new org.apache.thrift.protocol.TField("crc", org.apache.thrift.protocol.TType.I32, (short)1);
+  private static final org.apache.thrift.protocol.TField LENGTH_FIELD_DESC = new org.apache.thrift.protocol.TField("length", org.apache.thrift.protocol.TType.I32, (short)2);
+  private static final org.apache.thrift.protocol.TField DATA_FIELD_DESC = new org.apache.thrift.protocol.TField("data", org.apache.thrift.protocol.TType.STRING, (short)3);
 
   /**
    * CRC32 of the data being transfered
@@ -51,7 +45,7 @@ public class BlockData implements TBase<BlockData, BlockData._Fields>, java.io.S
   public ByteBuffer data;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements TFieldIdEnum {
+  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     /**
      * CRC32 of the data being transfered
      */
@@ -128,17 +122,17 @@ public class BlockData implements TBase<BlockData, BlockData._Fields>, java.io.S
   private static final int __LENGTH_ISSET_ID = 1;
   private BitSet __isset_bit_vector = new BitSet(2);
 
-  public static final Map<_Fields, FieldMetaData> metaDataMap;
+  public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.CRC, new FieldMetaData("crc", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I32)));
-    tmpMap.put(_Fields.LENGTH, new FieldMetaData("length", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I32)));
-    tmpMap.put(_Fields.DATA, new FieldMetaData("data", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.STRING)));
+    Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.CRC, new org.apache.thrift.meta_data.FieldMetaData("crc", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+    tmpMap.put(_Fields.LENGTH, new org.apache.thrift.meta_data.FieldMetaData("length", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+    tmpMap.put(_Fields.DATA, new org.apache.thrift.meta_data.FieldMetaData("data", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , true)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    FieldMetaData.addStructMetaDataMap(BlockData.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(BlockData.class, metaDataMap);
   }
 
   public BlockData() {
@@ -166,7 +160,7 @@ public class BlockData implements TBase<BlockData, BlockData._Fields>, java.io.S
     this.crc = other.crc;
     this.length = other.length;
     if (other.isSetData()) {
-      this.data = TBaseHelper.copyBinary(other.data);
+      this.data = org.apache.thrift.TBaseHelper.copyBinary(other.data);
 ;
     }
   }
@@ -204,7 +198,7 @@ public class BlockData implements TBase<BlockData, BlockData._Fields>, java.io.S
     __isset_bit_vector.clear(__CRC_ISSET_ID);
   }
 
-  /** Returns true if field crc is set (has been asigned a value) and false otherwise */
+  /** Returns true if field crc is set (has been assigned a value) and false otherwise */
   public boolean isSetCrc() {
     return __isset_bit_vector.get(__CRC_ISSET_ID);
   }
@@ -233,7 +227,7 @@ public class BlockData implements TBase<BlockData, BlockData._Fields>, java.io.S
     __isset_bit_vector.clear(__LENGTH_ISSET_ID);
   }
 
-  /** Returns true if field length is set (has been asigned a value) and false otherwise */
+  /** Returns true if field length is set (has been assigned a value) and false otherwise */
   public boolean isSetLength() {
     return __isset_bit_vector.get(__LENGTH_ISSET_ID);
   }
@@ -246,11 +240,11 @@ public class BlockData implements TBase<BlockData, BlockData._Fields>, java.io.S
    * The data itsef
    */
   public byte[] getData() {
-    setData(TBaseHelper.rightSize(data));
-    return data.array();
+    setData(org.apache.thrift.TBaseHelper.rightSize(data));
+    return data == null ? null : data.array();
   }
 
-  public ByteBuffer BufferForData() {
+  public ByteBuffer bufferForData() {
     return data;
   }
 
@@ -258,7 +252,7 @@ public class BlockData implements TBase<BlockData, BlockData._Fields>, java.io.S
    * The data itsef
    */
   public BlockData setData(byte[] data) {
-    setData(ByteBuffer.wrap(data));
+    setData(data == null ? (ByteBuffer)null : ByteBuffer.wrap(data));
     return this;
   }
 
@@ -271,7 +265,7 @@ public class BlockData implements TBase<BlockData, BlockData._Fields>, java.io.S
     this.data = null;
   }
 
-  /** Returns true if field data is set (has been asigned a value) and false otherwise */
+  /** Returns true if field data is set (has been assigned a value) and false otherwise */
   public boolean isSetData() {
     return this.data != null;
   }
@@ -326,7 +320,7 @@ public class BlockData implements TBase<BlockData, BlockData._Fields>, java.io.S
     throw new IllegalStateException();
   }
 
-  /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
     if (field == null) {
       throw new IllegalArgumentException();
@@ -421,7 +415,7 @@ public class BlockData implements TBase<BlockData, BlockData._Fields>, java.io.S
       return lastComparison;
     }
     if (isSetCrc()) {
-      lastComparison = TBaseHelper.compareTo(this.crc, typedOther.crc);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.crc, typedOther.crc);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -431,7 +425,7 @@ public class BlockData implements TBase<BlockData, BlockData._Fields>, java.io.S
       return lastComparison;
     }
     if (isSetLength()) {
-      lastComparison = TBaseHelper.compareTo(this.length, typedOther.length);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.length, typedOther.length);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -441,7 +435,7 @@ public class BlockData implements TBase<BlockData, BlockData._Fields>, java.io.S
       return lastComparison;
     }
     if (isSetData()) {
-      lastComparison = TBaseHelper.compareTo(this.data, typedOther.data);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.data, typedOther.data);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -453,41 +447,41 @@ public class BlockData implements TBase<BlockData, BlockData._Fields>, java.io.S
     return _Fields.findByThriftId(fieldId);
   }
 
-  public void read(TProtocol iprot) throws TException {
-    TField field;
+  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+    org.apache.thrift.protocol.TField field;
     iprot.readStructBegin();
     while (true)
     {
       field = iprot.readFieldBegin();
-      if (field.type == TType.STOP) { 
+      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
         break;
       }
       switch (field.id) {
         case 1: // CRC
-          if (field.type == TType.I32) {
+          if (field.type == org.apache.thrift.protocol.TType.I32) {
             this.crc = iprot.readI32();
             setCrcIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 2: // LENGTH
-          if (field.type == TType.I32) {
+          if (field.type == org.apache.thrift.protocol.TType.I32) {
             this.length = iprot.readI32();
             setLengthIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 3: // DATA
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.data = iprot.readBinary();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         default:
-          TProtocolUtil.skip(iprot, field.type);
+          org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
       }
       iprot.readFieldEnd();
     }
@@ -497,7 +491,7 @@ public class BlockData implements TBase<BlockData, BlockData._Fields>, java.io.S
     validate();
   }
 
-  public void write(TProtocol oprot) throws TException {
+  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
@@ -533,15 +527,33 @@ public class BlockData implements TBase<BlockData, BlockData._Fields>, java.io.S
     if (this.data == null) {
       sb.append("null");
     } else {
-      TBaseHelper.toString(this.data, sb);
+      org.apache.thrift.TBaseHelper.toString(this.data, sb);
     }
     first = false;
     sb.append(")");
     return sb.toString();
   }
 
-  public void validate() throws TException {
+  public void validate() throws org.apache.thrift.TException {
     // check for required fields
+  }
+
+  private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+    try {
+      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
+  }
+
+  private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+    try {
+      // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+      __isset_bit_vector = new BitSet(1);
+      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
   }
 
 }

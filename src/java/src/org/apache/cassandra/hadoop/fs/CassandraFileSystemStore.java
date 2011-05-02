@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.BlockLocation;
@@ -40,15 +41,45 @@ public interface CassandraFileSystemStore
 
     void storeINode(Path path, INode inode) throws IOException;
 
-    void storeBlock(Block block, ByteArrayOutputStream file) throws IOException;
+    /**
+     * Stores a SubBlock.
+     * 
+     * @param currentBlockUUID parent UUID used as row key for the subBlock row.
+     * @param subBlock sub Block to be written 
+     * @param file content of the subBLock
+     * @throws IOException if an error occur
+     */
+    void storeSubBlock(UUID currentBlockUUID, SubBlock subBlock, ByteArrayOutputStream file) throws IOException;
 
     INode retrieveINode(Path path) throws IOException;
 
     InputStream retrieveBlock(Block block, long byteRangeStart) throws IOException;
+    
+    /**
+     * Retrieves an inputStream associated to the SubBlock content.
+     * 
+     * @param block parent block of the subBlock to retrieve
+     * @param subBlock the subBLock to retrieve
+     * @param byteRangeStart the offset where to stream the data from.
+     * @return an inputStream to retrieve the content of the subBlock
+     * @throws IOException if an error occurs
+     */
+    InputStream retrieveSubBlock(Block block, SubBlock subBlock, long byteRangeStart) throws IOException;
 
+    /**
+     * Delete an inode from the persistent layer.
+     * 
+     * @param path inode path
+     * @throws IOException if an error occurs
+     */
     void deleteINode(Path path) throws IOException;
 
-    void deleteBlock(Block block) throws IOException;
+    /**
+     * Deletes all subBlocks for the inode.
+     * @param inode parent inode of these subBlocks
+     * @throws IOException if an error occurs
+     */
+    void deleteSubBlocks(INode inode) throws IOException;
 
     Set<Path> listSubPaths(Path path) throws IOException;
 

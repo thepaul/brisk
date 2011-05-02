@@ -43,26 +43,44 @@ import org.apache.hadoop.fs.Path;
 import org.apache.log4j.Logger;
 import org.apache.thrift.TException;
 
+/**
+ * 
+ * CFs schema:
+ * 
+ * Column Families:
+ * - inode
+ * - sblocks
+ * 
+ * -------------------
+ * |      inode       |
+ * -------------------
+ *  {key : [<path>: <  > ], [<sentinel>: <   >], [ <datacol> : < all blocks with its subBlocks serialized>] }
+ *  
+ *  ------------------
+ * |     sblocks      |
+ *  ------------------
+ *  { key(Block UUID): [<subBlockUUID> : <data>>], [<subBlockUUID> : <data>>], .......[<subBlockUUID> : <data>>] }
+ */
 public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 {
     private final static Logger         logger        = Logger.getLogger(CassandraFileSystemThriftStore.class);
 
     private static final String         keySpace      = "cfs";
     private static final String         inodeCf       = "inode";
-    private static final String         blockCf       = "blocks";
+    private static final String         sblockCf       = "sblocks";
 
     private static final ByteBuffer     dataCol       = ByteBufferUtil.bytes("data");
     private static final ByteBuffer     pathCol       = ByteBufferUtil.bytes("path");
     private static final ByteBuffer     sentCol       = ByteBufferUtil.bytes("sentinel");
 
-    private static final ColumnPath     blockPath     = new ColumnPath(blockCf);
-    private static final ColumnParent   blockParent   = new ColumnParent(blockCf);
+    private static final ColumnPath     sblockPath     = new ColumnPath(sblockCf);
+    private static final ColumnParent   sblockParent   = new ColumnParent(sblockCf);
 
     private static final ColumnPath     inodePath     = new ColumnPath(inodeCf);
     private static final ColumnParent   inodeParent   = new ColumnParent(inodeCf);
 
     private static final ColumnPath     inodeDataPath = new ColumnPath(inodeCf).setColumn(dataCol);
-    private static final ColumnPath     blockDataPath = new ColumnPath(blockCf).setColumn(dataCol);
+    private static final ColumnPath     sblockDataPath = new ColumnPath(sblockCf).setColumn(dataCol);
 
     private static final SlicePredicate pathPredicate = new SlicePredicate().setColumn_names(Arrays.asList(pathCol));
 
@@ -190,7 +208,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
             cfs.add(cf);
 
             cf = new CfDef();
-            cf.setName(blockCf);
+            cf.setName(sblockCf);
             cf.setComparator_type("BytesType");
             cf.setKey_cache_size(0);
             cf.setRow_cache_size(0);
@@ -222,14 +240,20 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
     public InputStream retrieveBlock(Block block, long byteRangeStart) throws IOException
     {
-        ByteBuffer blockId = getBlockKey(block.id);
+    	return new CassandraSubBlockInputStream(this, block, byteRangeStart);
+    }
+    
+    public InputStream retrieveSubBlock(Block block, SubBlock subBlock, long byteRangeStart) throws IOException
+    {
+    	ByteBuffer blockId = uuidToByteBuffer(block.id);
+        ByteBuffer subBlockId = uuidToByteBuffer(subBlock.id);
 
         LocalOrRemoteBlock blockData = null;
 
         try
         {
-            blockData = ((Brisk.Iface) client).get_cfs_block(FBUtilities.getLocalAddress().getHostName(), blockId,
-                    (int) byteRangeStart);
+            blockData = ((Brisk.Iface) client).get_cfs_sblock(FBUtilities.getLocalAddress().getHostName(), 
+            		blockId, subBlockId, (int) byteRangeStart);
         }
         catch (Exception e)
         {
@@ -237,7 +261,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         }
 
         if (blockData == null)
-            throw new IOException("Missing block: " + block.id);
+            throw new IOException("Missing block: " + subBlock.id);
 
         InputStream is = null;
         if (blockData.remote_block != null)
@@ -307,20 +331,33 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         return INode.deserialize(ByteBufferUtil.inputStream(pathInfo.column.value), pathInfo.column.getTimestamp());
     }
 
-    public void storeBlock(Block block, ByteArrayOutputStream os) throws IOException
+    /**
+     * {@inheritDoc}
+     */
+    public void storeSubBlock(UUID parentBlockUUID, SubBlock sblock, ByteArrayOutputStream os) throws IOException
     {
-        ByteBuffer blockId = getBlockKey(block.id);
+    	assert parentBlockUUID != null;
+    	
+    	// Row key is the Block id to which this SubBLock belongs to.
+        ByteBuffer parentBlockId = uuidToByteBuffer(parentBlockUUID);
 
         ByteBuffer data = ByteBuffer.wrap(os.toByteArray());
         
         if (logger.isDebugEnabled()) {
-        	logger.debug("Storing " + block);
+        	logger.debug("Storing " + sblock);
         }
+        
+        // Row Key: UUID of SubBLock Block parent
+        // Column name: Sub Block UUID
+        // Column value: Sub Block Data.
 
         try
         {
-            client.insert(blockId, blockParent, new Column().setName(dataCol).setValue(data).setTimestamp(
-                    System.currentTimeMillis()), consistencyLevelWrite);
+            client.insert(
+                parentBlockId, 
+                sblockParent, 
+                new Column().setName(uuidToByteBuffer(sblock.id)).setValue(data).setTimestamp(System.currentTimeMillis()), 
+                consistencyLevelWrite);
         }
         catch (Exception e)
         {
@@ -336,6 +373,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         	printBlocksDebug(inode.getBlocks());
         }
 
+        // Inode row key
         ByteBuffer pathKey = getPathKey(path);
 
         ByteBuffer data = inode.serialize();
@@ -388,26 +426,49 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
                 .toString(16));
     }
 
-    ByteBuffer getBlockKey(UUID id)
+
+    ByteBuffer uuidToByteBuffer(UUID id)
     {
         return ByteBufferUtil.bytes(FBUtilities.bytesToHex(UUIDGen.decompose(id)));
     }
 
-    public void deleteBlock(Block block) throws IOException
+    /**
+     * {@inheritDoc}
+     */
+    public void deleteSubBlocks(INode inode) throws IOException
     {
-
+        // Get all the SubBlock keys to delete.
+        List<UUID> subBlockKeys = getListOfBlockIds(inode.getBlocks());
         try
         {
-            client.remove(ByteBuffer.wrap(UUIDGen.decompose(block.id)), blockPath, System.currentTimeMillis(),
-                    consistencyLevelWrite);
+            // TODO (patricioe) can we send one big batch mutation  here ?
+            for (UUID subBlocksKey : subBlockKeys) {
+                client.remove(ByteBuffer.wrap(UUIDGen.decompose(subBlocksKey)), sblockPath, System.currentTimeMillis(),
+                        consistencyLevelWrite);
+            }
         }
         catch (Exception e)
         {
             throw new IOException(e);
         }
-
     }
+    
+    /**
+     * Retrieves a list of UUIDs
+     * @param blocks list of blocks
+     * @return a list of UUID
+     */
+    private List<UUID> getListOfBlockIds(Block[] blocks) {
+		List<UUID> blockIds = new ArrayList<UUID>(blocks.length);
+		for (Block aBlock : blocks) {
+			blockIds.add(aBlock.id);
+		}
+		return blockIds;
+	}
 
+    /**
+     * {@inheritDoc}
+     */
     public void deleteINode(Path path) throws IOException
     {
         try
@@ -490,7 +551,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         List<ByteBuffer> blockKeys = new ArrayList<ByteBuffer>(blocks.size());
 
         for (Block b : blocks)
-            blockKeys.add(getBlockKey(b.id));
+            blockKeys.add(uuidToByteBuffer(b.id));
 
         BlockLocation[] locations = new BlockLocation[blocks.size()];
 

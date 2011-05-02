@@ -23,6 +23,7 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.*;
@@ -41,6 +42,8 @@ public class CassandraFileSystem extends FileSystem
     public final CassandraFileSystemStore store;
 
     private Path                          workingDir;
+    
+    private long                          subBlockSize;
 
     public CassandraFileSystem()
     {
@@ -57,6 +60,7 @@ public class CassandraFileSystem extends FileSystem
         this.workingDir = new Path("/user", System.getProperty("user.name")).makeQualified(this);
 
         store.initialize(this.uri, conf);
+        subBlockSize = conf.getLong("fs.local.subblock.size", 256L * 1024L);
     }
 
     @Override
@@ -213,7 +217,7 @@ public class CassandraFileSystem extends FileSystem
             }
         }
         return new FSDataOutputStream(new CassandraOutputStream(getConf(), store, makeAbsolute(file), permission,
-                blockSize, progress, bufferSize), statistics);
+                blockSize, subBlockSize, progress, bufferSize), statistics);
     }
 
     @Override
@@ -305,10 +309,7 @@ public class CassandraFileSystem extends FileSystem
         if (inode.isFile())
         {
             store.deleteINode(absolutePath);
-            for (Block block : inode.getBlocks())
-            {
-                store.deleteBlock(block);
-            }
+            store.deleteSubBlocks(inode);
         }
         else
         {
@@ -333,7 +334,8 @@ public class CassandraFileSystem extends FileSystem
         return true;
     }
 
-    @Override
+
+	@Override
     @Deprecated
     public boolean delete(Path path) throws IOException
     {

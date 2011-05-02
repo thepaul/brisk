@@ -21,12 +21,6 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.apache.thrift.*;
-import org.apache.thrift.async.*;
-import org.apache.thrift.meta_data.*;
-import org.apache.thrift.transport.*;
-import org.apache.thrift.protocol.*;
-
 public class Jobtracker {
 
   /**
@@ -39,21 +33,21 @@ public class Jobtracker {
      * 
      * @param ctx
      */
-    public String getJobTrackerName(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException;
+    public String getJobTrackerName(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException;
 
     /**
      * Get the current cluster status
      * 
      * @param ctx
      */
-    public ThriftClusterStatus getClusterStatus(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException;
+    public ThriftClusterStatus getClusterStatus(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException;
 
     /**
      * Get a list of job queues managed by this tracker
      * 
      * @param ctx
      */
-    public ThriftJobQueueList getQueues(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.hadoop.thriftfs.api.IOException, TException;
+    public ThriftJobQueueList getQueues(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException;
 
     /**
      * Get a job by ID
@@ -61,42 +55,42 @@ public class Jobtracker {
      * @param ctx
      * @param jobID
      */
-    public ThriftJobInProgress getJob(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws JobNotFoundException, TException;
+    public ThriftJobInProgress getJob(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws JobNotFoundException, org.apache.thrift.TException;
 
     /**
      * Get a list of currently running jobs
      * 
      * @param ctx
      */
-    public ThriftJobList getRunningJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException;
+    public ThriftJobList getRunningJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException;
 
     /**
      * Get a list of completed jobs
      * 
      * @param ctx
      */
-    public ThriftJobList getCompletedJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException;
+    public ThriftJobList getCompletedJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException;
 
     /**
      * Get a list of failed (due to error, not killed) jobs
      * 
      * @param ctx
      */
-    public ThriftJobList getFailedJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException;
+    public ThriftJobList getFailedJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException;
 
     /**
      * Get a list of killed jobs
      * 
      * @param ctx
      */
-    public ThriftJobList getKilledJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException;
+    public ThriftJobList getKilledJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException;
 
     /**
      * Get a list of all failed, completed and running jobs (could be expensive!)
      * 
      * @param ctx
      */
-    public ThriftJobList getAllJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException;
+    public ThriftJobList getAllJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException;
 
     /**
      * Get the count of jobs by status for a given user
@@ -104,7 +98,7 @@ public class Jobtracker {
      * @param ctx
      * @param user
      */
-    public ThriftUserJobCounts getUserJobCounts(org.apache.hadoop.thriftfs.api.RequestContext ctx, String user) throws TException;
+    public ThriftUserJobCounts getUserJobCounts(org.apache.hadoop.thriftfs.api.RequestContext ctx, String user) throws org.apache.thrift.TException;
 
     /**
      * Get a (possibly incomplete) list of tasks
@@ -117,7 +111,7 @@ public class Jobtracker {
      * @param count
      * @param offset
      */
-    public ThriftTaskInProgressList getTaskList(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, Set<ThriftTaskType> types, Set<ThriftTaskQueryState> states, String text, int count, int offset) throws JobNotFoundException, TException;
+    public ThriftTaskInProgressList getTaskList(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, Set<ThriftTaskType> types, Set<ThriftTaskQueryState> states, String text, int count, int offset) throws JobNotFoundException, org.apache.thrift.TException;
 
     /**
      * Get details of a task
@@ -125,7 +119,7 @@ public class Jobtracker {
      * @param ctx
      * @param taskID
      */
-    public ThriftTaskInProgress getTask(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftTaskID taskID) throws JobNotFoundException, TaskNotFoundException, TException;
+    public ThriftTaskInProgress getTask(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftTaskID taskID) throws JobNotFoundException, TaskNotFoundException, org.apache.thrift.TException;
 
     /**
      * Get a list of groups of counters attached to the job with provided id.
@@ -135,7 +129,7 @@ public class Jobtracker {
      * @param ctx
      * @param jobID
      */
-    public ThriftGroupList getJobCounters(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws JobNotFoundException, TException;
+    public ThriftGroupList getJobCounters(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws JobNotFoundException, org.apache.thrift.TException;
 
     /**
      * Return job counters rolled up by map, reduce, and total
@@ -143,28 +137,28 @@ public class Jobtracker {
      * @param ctx
      * @param jobID
      */
-    public ThriftJobCounterRollups getJobCounterRollups(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws JobNotFoundException, TException;
+    public ThriftJobCounterRollups getJobCounterRollups(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws JobNotFoundException, org.apache.thrift.TException;
 
     /**
      * Get all active trackers
      * 
      * @param ctx
      */
-    public ThriftTaskTrackerStatusList getActiveTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException;
+    public ThriftTaskTrackerStatusList getActiveTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException;
 
     /**
      * Get all blacklisted trackers
      * 
      * @param ctx
      */
-    public ThriftTaskTrackerStatusList getBlacklistedTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException;
+    public ThriftTaskTrackerStatusList getBlacklistedTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException;
 
     /**
      * Get all trackers
      * 
      * @param ctx
      */
-    public ThriftTaskTrackerStatusList getAllTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException;
+    public ThriftTaskTrackerStatusList getAllTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException;
 
     /**
      * Get a single task tracker by name
@@ -172,14 +166,14 @@ public class Jobtracker {
      * @param ctx
      * @param name
      */
-    public ThriftTaskTrackerStatus getTracker(org.apache.hadoop.thriftfs.api.RequestContext ctx, String name) throws TaskTrackerNotFoundException, TException;
+    public ThriftTaskTrackerStatus getTracker(org.apache.hadoop.thriftfs.api.RequestContext ctx, String name) throws TaskTrackerNotFoundException, org.apache.thrift.TException;
 
     /**
      * Get the current time in ms according to the JT
      * 
      * @param ctx
      */
-    public long getCurrentTime(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException;
+    public long getCurrentTime(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException;
 
     /**
      * Get the xml for a job's configuration, serialised from the local filesystem on the JT
@@ -187,7 +181,7 @@ public class Jobtracker {
      * @param ctx
      * @param jobID
      */
-    public String getJobConfXML(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws org.apache.hadoop.thriftfs.api.IOException, TException;
+    public String getJobConfXML(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException;
 
     /**
      * Kill a job
@@ -195,7 +189,7 @@ public class Jobtracker {
      * @param ctx
      * @param jobID
      */
-    public void killJob(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws org.apache.hadoop.thriftfs.api.IOException, JobNotFoundException, TException;
+    public void killJob(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws org.apache.hadoop.thriftfs.api.IOException, JobNotFoundException, org.apache.thrift.TException;
 
     /**
      * Kill a task attempt
@@ -203,7 +197,7 @@ public class Jobtracker {
      * @param ctx
      * @param attemptID
      */
-    public void killTaskAttempt(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftTaskAttemptID attemptID) throws org.apache.hadoop.thriftfs.api.IOException, TaskAttemptNotFoundException, JobNotFoundException, TException;
+    public void killTaskAttempt(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftTaskAttemptID attemptID) throws org.apache.hadoop.thriftfs.api.IOException, TaskAttemptNotFoundException, JobNotFoundException, org.apache.thrift.TException;
 
     /**
      * Set a job's priority
@@ -212,7 +206,7 @@ public class Jobtracker {
      * @param jobID
      * @param priority
      */
-    public void setJobPriority(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, ThriftJobPriority priority) throws org.apache.hadoop.thriftfs.api.IOException, JobNotFoundException, TException;
+    public void setJobPriority(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, ThriftJobPriority priority) throws org.apache.hadoop.thriftfs.api.IOException, JobNotFoundException, org.apache.thrift.TException;
 
     /**
      * Get an MR delegation token.
@@ -220,92 +214,92 @@ public class Jobtracker {
      * @param ctx
      * @param renewer
      */
-    public org.apache.hadoop.thriftfs.api.ThriftDelegationToken getDelegationToken(org.apache.hadoop.thriftfs.api.RequestContext ctx, String renewer) throws org.apache.hadoop.thriftfs.api.IOException, TException;
+    public org.apache.hadoop.thriftfs.api.ThriftDelegationToken getDelegationToken(org.apache.hadoop.thriftfs.api.RequestContext ctx, String renewer) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException;
 
   }
 
   public interface AsyncIface extends org.apache.hadoop.thriftfs.api.HadoopServiceBase .AsyncIface {
 
-    public void getJobTrackerName(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<AsyncClient.getJobTrackerName_call> resultHandler) throws TException;
+    public void getJobTrackerName(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getJobTrackerName_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getClusterStatus(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<AsyncClient.getClusterStatus_call> resultHandler) throws TException;
+    public void getClusterStatus(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getClusterStatus_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getQueues(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<AsyncClient.getQueues_call> resultHandler) throws TException;
+    public void getQueues(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getQueues_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getJob(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, AsyncMethodCallback<AsyncClient.getJob_call> resultHandler) throws TException;
+    public void getJob(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getJob_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getRunningJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<AsyncClient.getRunningJobs_call> resultHandler) throws TException;
+    public void getRunningJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getRunningJobs_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getCompletedJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<AsyncClient.getCompletedJobs_call> resultHandler) throws TException;
+    public void getCompletedJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getCompletedJobs_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getFailedJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<AsyncClient.getFailedJobs_call> resultHandler) throws TException;
+    public void getFailedJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getFailedJobs_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getKilledJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<AsyncClient.getKilledJobs_call> resultHandler) throws TException;
+    public void getKilledJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getKilledJobs_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getAllJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<AsyncClient.getAllJobs_call> resultHandler) throws TException;
+    public void getAllJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getAllJobs_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getUserJobCounts(org.apache.hadoop.thriftfs.api.RequestContext ctx, String user, AsyncMethodCallback<AsyncClient.getUserJobCounts_call> resultHandler) throws TException;
+    public void getUserJobCounts(org.apache.hadoop.thriftfs.api.RequestContext ctx, String user, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getUserJobCounts_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getTaskList(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, Set<ThriftTaskType> types, Set<ThriftTaskQueryState> states, String text, int count, int offset, AsyncMethodCallback<AsyncClient.getTaskList_call> resultHandler) throws TException;
+    public void getTaskList(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, Set<ThriftTaskType> types, Set<ThriftTaskQueryState> states, String text, int count, int offset, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getTaskList_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getTask(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftTaskID taskID, AsyncMethodCallback<AsyncClient.getTask_call> resultHandler) throws TException;
+    public void getTask(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftTaskID taskID, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getTask_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getJobCounters(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, AsyncMethodCallback<AsyncClient.getJobCounters_call> resultHandler) throws TException;
+    public void getJobCounters(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getJobCounters_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getJobCounterRollups(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, AsyncMethodCallback<AsyncClient.getJobCounterRollups_call> resultHandler) throws TException;
+    public void getJobCounterRollups(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getJobCounterRollups_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getActiveTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<AsyncClient.getActiveTrackers_call> resultHandler) throws TException;
+    public void getActiveTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getActiveTrackers_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getBlacklistedTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<AsyncClient.getBlacklistedTrackers_call> resultHandler) throws TException;
+    public void getBlacklistedTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getBlacklistedTrackers_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getAllTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<AsyncClient.getAllTrackers_call> resultHandler) throws TException;
+    public void getAllTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getAllTrackers_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getTracker(org.apache.hadoop.thriftfs.api.RequestContext ctx, String name, AsyncMethodCallback<AsyncClient.getTracker_call> resultHandler) throws TException;
+    public void getTracker(org.apache.hadoop.thriftfs.api.RequestContext ctx, String name, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getTracker_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getCurrentTime(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<AsyncClient.getCurrentTime_call> resultHandler) throws TException;
+    public void getCurrentTime(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getCurrentTime_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getJobConfXML(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, AsyncMethodCallback<AsyncClient.getJobConfXML_call> resultHandler) throws TException;
+    public void getJobConfXML(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getJobConfXML_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void killJob(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, AsyncMethodCallback<AsyncClient.killJob_call> resultHandler) throws TException;
+    public void killJob(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.killJob_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void killTaskAttempt(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftTaskAttemptID attemptID, AsyncMethodCallback<AsyncClient.killTaskAttempt_call> resultHandler) throws TException;
+    public void killTaskAttempt(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftTaskAttemptID attemptID, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.killTaskAttempt_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void setJobPriority(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, ThriftJobPriority priority, AsyncMethodCallback<AsyncClient.setJobPriority_call> resultHandler) throws TException;
+    public void setJobPriority(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, ThriftJobPriority priority, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.setJobPriority_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void getDelegationToken(org.apache.hadoop.thriftfs.api.RequestContext ctx, String renewer, AsyncMethodCallback<AsyncClient.getDelegationToken_call> resultHandler) throws TException;
+    public void getDelegationToken(org.apache.hadoop.thriftfs.api.RequestContext ctx, String renewer, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getDelegationToken_call> resultHandler) throws org.apache.thrift.TException;
 
   }
 
-  public static class Client extends org.apache.hadoop.thriftfs.api.HadoopServiceBase.Client implements TServiceClient, Iface {
-    public static class Factory implements TServiceClientFactory<Client> {
+  public static class Client extends org.apache.hadoop.thriftfs.api.HadoopServiceBase.Client implements org.apache.thrift.TServiceClient, Iface {
+    public static class Factory implements org.apache.thrift.TServiceClientFactory<Client> {
       public Factory() {}
-      public Client getClient(TProtocol prot) {
+      public Client getClient(org.apache.thrift.protocol.TProtocol prot) {
         return new Client(prot);
       }
-      public Client getClient(TProtocol iprot, TProtocol oprot) {
+      public Client getClient(org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) {
         return new Client(iprot, oprot);
       }
     }
 
-    public Client(TProtocol prot)
+    public Client(org.apache.thrift.protocol.TProtocol prot)
     {
       this(prot, prot);
     }
 
-    public Client(TProtocol iprot, TProtocol oprot)
+    public Client(org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot)
     {
       super(iprot, oprot);
     }
 
-    public String getJobTrackerName(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public String getJobTrackerName(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
       send_getJobTrackerName(ctx);
       return recv_getJobTrackerName();
     }
 
-    public void send_getJobTrackerName(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public void send_getJobTrackerName(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("getJobTrackerName", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getJobTrackerName", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getJobTrackerName_args args = new getJobTrackerName_args();
       args.setCtx(ctx);
       args.write(oprot_);
@@ -313,16 +307,16 @@ public class Jobtracker {
       oprot_.getTransport().flush();
     }
 
-    public String recv_getJobTrackerName() throws TException
+    public String recv_getJobTrackerName() throws org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "getJobTrackerName failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "getJobTrackerName failed: out of sequence response");
       }
       getJobTrackerName_result result = new getJobTrackerName_result();
       result.read(iprot_);
@@ -330,18 +324,18 @@ public class Jobtracker {
       if (result.isSetSuccess()) {
         return result.success;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "getJobTrackerName failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getJobTrackerName failed: unknown result");
     }
 
-    public ThriftClusterStatus getClusterStatus(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public ThriftClusterStatus getClusterStatus(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
       send_getClusterStatus(ctx);
       return recv_getClusterStatus();
     }
 
-    public void send_getClusterStatus(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public void send_getClusterStatus(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("getClusterStatus", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getClusterStatus", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getClusterStatus_args args = new getClusterStatus_args();
       args.setCtx(ctx);
       args.write(oprot_);
@@ -349,16 +343,16 @@ public class Jobtracker {
       oprot_.getTransport().flush();
     }
 
-    public ThriftClusterStatus recv_getClusterStatus() throws TException
+    public ThriftClusterStatus recv_getClusterStatus() throws org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "getClusterStatus failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "getClusterStatus failed: out of sequence response");
       }
       getClusterStatus_result result = new getClusterStatus_result();
       result.read(iprot_);
@@ -366,18 +360,18 @@ public class Jobtracker {
       if (result.isSetSuccess()) {
         return result.success;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "getClusterStatus failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getClusterStatus failed: unknown result");
     }
 
-    public ThriftJobQueueList getQueues(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public ThriftJobQueueList getQueues(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
       send_getQueues(ctx);
       return recv_getQueues();
     }
 
-    public void send_getQueues(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public void send_getQueues(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("getQueues", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getQueues", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getQueues_args args = new getQueues_args();
       args.setCtx(ctx);
       args.write(oprot_);
@@ -385,16 +379,16 @@ public class Jobtracker {
       oprot_.getTransport().flush();
     }
 
-    public ThriftJobQueueList recv_getQueues() throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public ThriftJobQueueList recv_getQueues() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "getQueues failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "getQueues failed: out of sequence response");
       }
       getQueues_result result = new getQueues_result();
       result.read(iprot_);
@@ -405,18 +399,18 @@ public class Jobtracker {
       if (result.err != null) {
         throw result.err;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "getQueues failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getQueues failed: unknown result");
     }
 
-    public ThriftJobInProgress getJob(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws JobNotFoundException, TException
+    public ThriftJobInProgress getJob(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws JobNotFoundException, org.apache.thrift.TException
     {
       send_getJob(ctx, jobID);
       return recv_getJob();
     }
 
-    public void send_getJob(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws TException
+    public void send_getJob(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("getJob", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getJob", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getJob_args args = new getJob_args();
       args.setCtx(ctx);
       args.setJobID(jobID);
@@ -425,16 +419,16 @@ public class Jobtracker {
       oprot_.getTransport().flush();
     }
 
-    public ThriftJobInProgress recv_getJob() throws JobNotFoundException, TException
+    public ThriftJobInProgress recv_getJob() throws JobNotFoundException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "getJob failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "getJob failed: out of sequence response");
       }
       getJob_result result = new getJob_result();
       result.read(iprot_);
@@ -445,18 +439,18 @@ public class Jobtracker {
       if (result.err != null) {
         throw result.err;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "getJob failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getJob failed: unknown result");
     }
 
-    public ThriftJobList getRunningJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public ThriftJobList getRunningJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
       send_getRunningJobs(ctx);
       return recv_getRunningJobs();
     }
 
-    public void send_getRunningJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public void send_getRunningJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("getRunningJobs", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getRunningJobs", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getRunningJobs_args args = new getRunningJobs_args();
       args.setCtx(ctx);
       args.write(oprot_);
@@ -464,16 +458,16 @@ public class Jobtracker {
       oprot_.getTransport().flush();
     }
 
-    public ThriftJobList recv_getRunningJobs() throws TException
+    public ThriftJobList recv_getRunningJobs() throws org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "getRunningJobs failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "getRunningJobs failed: out of sequence response");
       }
       getRunningJobs_result result = new getRunningJobs_result();
       result.read(iprot_);
@@ -481,18 +475,18 @@ public class Jobtracker {
       if (result.isSetSuccess()) {
         return result.success;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "getRunningJobs failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getRunningJobs failed: unknown result");
     }
 
-    public ThriftJobList getCompletedJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public ThriftJobList getCompletedJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
       send_getCompletedJobs(ctx);
       return recv_getCompletedJobs();
     }
 
-    public void send_getCompletedJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public void send_getCompletedJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("getCompletedJobs", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getCompletedJobs", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getCompletedJobs_args args = new getCompletedJobs_args();
       args.setCtx(ctx);
       args.write(oprot_);
@@ -500,16 +494,16 @@ public class Jobtracker {
       oprot_.getTransport().flush();
     }
 
-    public ThriftJobList recv_getCompletedJobs() throws TException
+    public ThriftJobList recv_getCompletedJobs() throws org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "getCompletedJobs failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "getCompletedJobs failed: out of sequence response");
       }
       getCompletedJobs_result result = new getCompletedJobs_result();
       result.read(iprot_);
@@ -517,18 +511,18 @@ public class Jobtracker {
       if (result.isSetSuccess()) {
         return result.success;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "getCompletedJobs failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getCompletedJobs failed: unknown result");
     }
 
-    public ThriftJobList getFailedJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public ThriftJobList getFailedJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
       send_getFailedJobs(ctx);
       return recv_getFailedJobs();
     }
 
-    public void send_getFailedJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public void send_getFailedJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("getFailedJobs", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getFailedJobs", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getFailedJobs_args args = new getFailedJobs_args();
       args.setCtx(ctx);
       args.write(oprot_);
@@ -536,16 +530,16 @@ public class Jobtracker {
       oprot_.getTransport().flush();
     }
 
-    public ThriftJobList recv_getFailedJobs() throws TException
+    public ThriftJobList recv_getFailedJobs() throws org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "getFailedJobs failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "getFailedJobs failed: out of sequence response");
       }
       getFailedJobs_result result = new getFailedJobs_result();
       result.read(iprot_);
@@ -553,18 +547,18 @@ public class Jobtracker {
       if (result.isSetSuccess()) {
         return result.success;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "getFailedJobs failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getFailedJobs failed: unknown result");
     }
 
-    public ThriftJobList getKilledJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public ThriftJobList getKilledJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
       send_getKilledJobs(ctx);
       return recv_getKilledJobs();
     }
 
-    public void send_getKilledJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public void send_getKilledJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("getKilledJobs", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getKilledJobs", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getKilledJobs_args args = new getKilledJobs_args();
       args.setCtx(ctx);
       args.write(oprot_);
@@ -572,16 +566,16 @@ public class Jobtracker {
       oprot_.getTransport().flush();
     }
 
-    public ThriftJobList recv_getKilledJobs() throws TException
+    public ThriftJobList recv_getKilledJobs() throws org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "getKilledJobs failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "getKilledJobs failed: out of sequence response");
       }
       getKilledJobs_result result = new getKilledJobs_result();
       result.read(iprot_);
@@ -589,18 +583,18 @@ public class Jobtracker {
       if (result.isSetSuccess()) {
         return result.success;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "getKilledJobs failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getKilledJobs failed: unknown result");
     }
 
-    public ThriftJobList getAllJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public ThriftJobList getAllJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
       send_getAllJobs(ctx);
       return recv_getAllJobs();
     }
 
-    public void send_getAllJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public void send_getAllJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("getAllJobs", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getAllJobs", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getAllJobs_args args = new getAllJobs_args();
       args.setCtx(ctx);
       args.write(oprot_);
@@ -608,16 +602,16 @@ public class Jobtracker {
       oprot_.getTransport().flush();
     }
 
-    public ThriftJobList recv_getAllJobs() throws TException
+    public ThriftJobList recv_getAllJobs() throws org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "getAllJobs failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "getAllJobs failed: out of sequence response");
       }
       getAllJobs_result result = new getAllJobs_result();
       result.read(iprot_);
@@ -625,18 +619,18 @@ public class Jobtracker {
       if (result.isSetSuccess()) {
         return result.success;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "getAllJobs failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getAllJobs failed: unknown result");
     }
 
-    public ThriftUserJobCounts getUserJobCounts(org.apache.hadoop.thriftfs.api.RequestContext ctx, String user) throws TException
+    public ThriftUserJobCounts getUserJobCounts(org.apache.hadoop.thriftfs.api.RequestContext ctx, String user) throws org.apache.thrift.TException
     {
       send_getUserJobCounts(ctx, user);
       return recv_getUserJobCounts();
     }
 
-    public void send_getUserJobCounts(org.apache.hadoop.thriftfs.api.RequestContext ctx, String user) throws TException
+    public void send_getUserJobCounts(org.apache.hadoop.thriftfs.api.RequestContext ctx, String user) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("getUserJobCounts", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getUserJobCounts", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getUserJobCounts_args args = new getUserJobCounts_args();
       args.setCtx(ctx);
       args.setUser(user);
@@ -645,16 +639,16 @@ public class Jobtracker {
       oprot_.getTransport().flush();
     }
 
-    public ThriftUserJobCounts recv_getUserJobCounts() throws TException
+    public ThriftUserJobCounts recv_getUserJobCounts() throws org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "getUserJobCounts failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "getUserJobCounts failed: out of sequence response");
       }
       getUserJobCounts_result result = new getUserJobCounts_result();
       result.read(iprot_);
@@ -662,18 +656,18 @@ public class Jobtracker {
       if (result.isSetSuccess()) {
         return result.success;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "getUserJobCounts failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getUserJobCounts failed: unknown result");
     }
 
-    public ThriftTaskInProgressList getTaskList(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, Set<ThriftTaskType> types, Set<ThriftTaskQueryState> states, String text, int count, int offset) throws JobNotFoundException, TException
+    public ThriftTaskInProgressList getTaskList(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, Set<ThriftTaskType> types, Set<ThriftTaskQueryState> states, String text, int count, int offset) throws JobNotFoundException, org.apache.thrift.TException
     {
       send_getTaskList(ctx, jobID, types, states, text, count, offset);
       return recv_getTaskList();
     }
 
-    public void send_getTaskList(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, Set<ThriftTaskType> types, Set<ThriftTaskQueryState> states, String text, int count, int offset) throws TException
+    public void send_getTaskList(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, Set<ThriftTaskType> types, Set<ThriftTaskQueryState> states, String text, int count, int offset) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("getTaskList", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getTaskList", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getTaskList_args args = new getTaskList_args();
       args.setCtx(ctx);
       args.setJobID(jobID);
@@ -687,16 +681,16 @@ public class Jobtracker {
       oprot_.getTransport().flush();
     }
 
-    public ThriftTaskInProgressList recv_getTaskList() throws JobNotFoundException, TException
+    public ThriftTaskInProgressList recv_getTaskList() throws JobNotFoundException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "getTaskList failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "getTaskList failed: out of sequence response");
       }
       getTaskList_result result = new getTaskList_result();
       result.read(iprot_);
@@ -707,18 +701,18 @@ public class Jobtracker {
       if (result.err != null) {
         throw result.err;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "getTaskList failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getTaskList failed: unknown result");
     }
 
-    public ThriftTaskInProgress getTask(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftTaskID taskID) throws JobNotFoundException, TaskNotFoundException, TException
+    public ThriftTaskInProgress getTask(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftTaskID taskID) throws JobNotFoundException, TaskNotFoundException, org.apache.thrift.TException
     {
       send_getTask(ctx, taskID);
       return recv_getTask();
     }
 
-    public void send_getTask(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftTaskID taskID) throws TException
+    public void send_getTask(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftTaskID taskID) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("getTask", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getTask", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getTask_args args = new getTask_args();
       args.setCtx(ctx);
       args.setTaskID(taskID);
@@ -727,16 +721,16 @@ public class Jobtracker {
       oprot_.getTransport().flush();
     }
 
-    public ThriftTaskInProgress recv_getTask() throws JobNotFoundException, TaskNotFoundException, TException
+    public ThriftTaskInProgress recv_getTask() throws JobNotFoundException, TaskNotFoundException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "getTask failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "getTask failed: out of sequence response");
       }
       getTask_result result = new getTask_result();
       result.read(iprot_);
@@ -750,18 +744,18 @@ public class Jobtracker {
       if (result.tnf != null) {
         throw result.tnf;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "getTask failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getTask failed: unknown result");
     }
 
-    public ThriftGroupList getJobCounters(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws JobNotFoundException, TException
+    public ThriftGroupList getJobCounters(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws JobNotFoundException, org.apache.thrift.TException
     {
       send_getJobCounters(ctx, jobID);
       return recv_getJobCounters();
     }
 
-    public void send_getJobCounters(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws TException
+    public void send_getJobCounters(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("getJobCounters", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getJobCounters", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getJobCounters_args args = new getJobCounters_args();
       args.setCtx(ctx);
       args.setJobID(jobID);
@@ -770,16 +764,16 @@ public class Jobtracker {
       oprot_.getTransport().flush();
     }
 
-    public ThriftGroupList recv_getJobCounters() throws JobNotFoundException, TException
+    public ThriftGroupList recv_getJobCounters() throws JobNotFoundException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "getJobCounters failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "getJobCounters failed: out of sequence response");
       }
       getJobCounters_result result = new getJobCounters_result();
       result.read(iprot_);
@@ -790,18 +784,18 @@ public class Jobtracker {
       if (result.err != null) {
         throw result.err;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "getJobCounters failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getJobCounters failed: unknown result");
     }
 
-    public ThriftJobCounterRollups getJobCounterRollups(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws JobNotFoundException, TException
+    public ThriftJobCounterRollups getJobCounterRollups(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws JobNotFoundException, org.apache.thrift.TException
     {
       send_getJobCounterRollups(ctx, jobID);
       return recv_getJobCounterRollups();
     }
 
-    public void send_getJobCounterRollups(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws TException
+    public void send_getJobCounterRollups(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("getJobCounterRollups", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getJobCounterRollups", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getJobCounterRollups_args args = new getJobCounterRollups_args();
       args.setCtx(ctx);
       args.setJobID(jobID);
@@ -810,16 +804,16 @@ public class Jobtracker {
       oprot_.getTransport().flush();
     }
 
-    public ThriftJobCounterRollups recv_getJobCounterRollups() throws JobNotFoundException, TException
+    public ThriftJobCounterRollups recv_getJobCounterRollups() throws JobNotFoundException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "getJobCounterRollups failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "getJobCounterRollups failed: out of sequence response");
       }
       getJobCounterRollups_result result = new getJobCounterRollups_result();
       result.read(iprot_);
@@ -830,18 +824,18 @@ public class Jobtracker {
       if (result.err != null) {
         throw result.err;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "getJobCounterRollups failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getJobCounterRollups failed: unknown result");
     }
 
-    public ThriftTaskTrackerStatusList getActiveTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public ThriftTaskTrackerStatusList getActiveTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
       send_getActiveTrackers(ctx);
       return recv_getActiveTrackers();
     }
 
-    public void send_getActiveTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public void send_getActiveTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("getActiveTrackers", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getActiveTrackers", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getActiveTrackers_args args = new getActiveTrackers_args();
       args.setCtx(ctx);
       args.write(oprot_);
@@ -849,16 +843,16 @@ public class Jobtracker {
       oprot_.getTransport().flush();
     }
 
-    public ThriftTaskTrackerStatusList recv_getActiveTrackers() throws TException
+    public ThriftTaskTrackerStatusList recv_getActiveTrackers() throws org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "getActiveTrackers failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "getActiveTrackers failed: out of sequence response");
       }
       getActiveTrackers_result result = new getActiveTrackers_result();
       result.read(iprot_);
@@ -866,18 +860,18 @@ public class Jobtracker {
       if (result.isSetSuccess()) {
         return result.success;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "getActiveTrackers failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getActiveTrackers failed: unknown result");
     }
 
-    public ThriftTaskTrackerStatusList getBlacklistedTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public ThriftTaskTrackerStatusList getBlacklistedTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
       send_getBlacklistedTrackers(ctx);
       return recv_getBlacklistedTrackers();
     }
 
-    public void send_getBlacklistedTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public void send_getBlacklistedTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("getBlacklistedTrackers", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getBlacklistedTrackers", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getBlacklistedTrackers_args args = new getBlacklistedTrackers_args();
       args.setCtx(ctx);
       args.write(oprot_);
@@ -885,16 +879,16 @@ public class Jobtracker {
       oprot_.getTransport().flush();
     }
 
-    public ThriftTaskTrackerStatusList recv_getBlacklistedTrackers() throws TException
+    public ThriftTaskTrackerStatusList recv_getBlacklistedTrackers() throws org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "getBlacklistedTrackers failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "getBlacklistedTrackers failed: out of sequence response");
       }
       getBlacklistedTrackers_result result = new getBlacklistedTrackers_result();
       result.read(iprot_);
@@ -902,18 +896,18 @@ public class Jobtracker {
       if (result.isSetSuccess()) {
         return result.success;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "getBlacklistedTrackers failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getBlacklistedTrackers failed: unknown result");
     }
 
-    public ThriftTaskTrackerStatusList getAllTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public ThriftTaskTrackerStatusList getAllTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
       send_getAllTrackers(ctx);
       return recv_getAllTrackers();
     }
 
-    public void send_getAllTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public void send_getAllTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("getAllTrackers", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getAllTrackers", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getAllTrackers_args args = new getAllTrackers_args();
       args.setCtx(ctx);
       args.write(oprot_);
@@ -921,16 +915,16 @@ public class Jobtracker {
       oprot_.getTransport().flush();
     }
 
-    public ThriftTaskTrackerStatusList recv_getAllTrackers() throws TException
+    public ThriftTaskTrackerStatusList recv_getAllTrackers() throws org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "getAllTrackers failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "getAllTrackers failed: out of sequence response");
       }
       getAllTrackers_result result = new getAllTrackers_result();
       result.read(iprot_);
@@ -938,18 +932,18 @@ public class Jobtracker {
       if (result.isSetSuccess()) {
         return result.success;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "getAllTrackers failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getAllTrackers failed: unknown result");
     }
 
-    public ThriftTaskTrackerStatus getTracker(org.apache.hadoop.thriftfs.api.RequestContext ctx, String name) throws TaskTrackerNotFoundException, TException
+    public ThriftTaskTrackerStatus getTracker(org.apache.hadoop.thriftfs.api.RequestContext ctx, String name) throws TaskTrackerNotFoundException, org.apache.thrift.TException
     {
       send_getTracker(ctx, name);
       return recv_getTracker();
     }
 
-    public void send_getTracker(org.apache.hadoop.thriftfs.api.RequestContext ctx, String name) throws TException
+    public void send_getTracker(org.apache.hadoop.thriftfs.api.RequestContext ctx, String name) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("getTracker", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getTracker", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getTracker_args args = new getTracker_args();
       args.setCtx(ctx);
       args.setName(name);
@@ -958,16 +952,16 @@ public class Jobtracker {
       oprot_.getTransport().flush();
     }
 
-    public ThriftTaskTrackerStatus recv_getTracker() throws TaskTrackerNotFoundException, TException
+    public ThriftTaskTrackerStatus recv_getTracker() throws TaskTrackerNotFoundException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "getTracker failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "getTracker failed: out of sequence response");
       }
       getTracker_result result = new getTracker_result();
       result.read(iprot_);
@@ -978,18 +972,18 @@ public class Jobtracker {
       if (result.tne != null) {
         throw result.tne;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "getTracker failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getTracker failed: unknown result");
     }
 
-    public long getCurrentTime(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public long getCurrentTime(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
       send_getCurrentTime(ctx);
       return recv_getCurrentTime();
     }
 
-    public void send_getCurrentTime(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws TException
+    public void send_getCurrentTime(org.apache.hadoop.thriftfs.api.RequestContext ctx) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("getCurrentTime", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getCurrentTime", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getCurrentTime_args args = new getCurrentTime_args();
       args.setCtx(ctx);
       args.write(oprot_);
@@ -997,16 +991,16 @@ public class Jobtracker {
       oprot_.getTransport().flush();
     }
 
-    public long recv_getCurrentTime() throws TException
+    public long recv_getCurrentTime() throws org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "getCurrentTime failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "getCurrentTime failed: out of sequence response");
       }
       getCurrentTime_result result = new getCurrentTime_result();
       result.read(iprot_);
@@ -1014,18 +1008,18 @@ public class Jobtracker {
       if (result.isSetSuccess()) {
         return result.success;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "getCurrentTime failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getCurrentTime failed: unknown result");
     }
 
-    public String getJobConfXML(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public String getJobConfXML(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
       send_getJobConfXML(ctx, jobID);
       return recv_getJobConfXML();
     }
 
-    public void send_getJobConfXML(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws TException
+    public void send_getJobConfXML(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("getJobConfXML", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getJobConfXML", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getJobConfXML_args args = new getJobConfXML_args();
       args.setCtx(ctx);
       args.setJobID(jobID);
@@ -1034,16 +1028,16 @@ public class Jobtracker {
       oprot_.getTransport().flush();
     }
 
-    public String recv_getJobConfXML() throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public String recv_getJobConfXML() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "getJobConfXML failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "getJobConfXML failed: out of sequence response");
       }
       getJobConfXML_result result = new getJobConfXML_result();
       result.read(iprot_);
@@ -1054,18 +1048,18 @@ public class Jobtracker {
       if (result.err != null) {
         throw result.err;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "getJobConfXML failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getJobConfXML failed: unknown result");
     }
 
-    public void killJob(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws org.apache.hadoop.thriftfs.api.IOException, JobNotFoundException, TException
+    public void killJob(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws org.apache.hadoop.thriftfs.api.IOException, JobNotFoundException, org.apache.thrift.TException
     {
       send_killJob(ctx, jobID);
       recv_killJob();
     }
 
-    public void send_killJob(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws TException
+    public void send_killJob(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("killJob", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("killJob", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       killJob_args args = new killJob_args();
       args.setCtx(ctx);
       args.setJobID(jobID);
@@ -1074,16 +1068,16 @@ public class Jobtracker {
       oprot_.getTransport().flush();
     }
 
-    public void recv_killJob() throws org.apache.hadoop.thriftfs.api.IOException, JobNotFoundException, TException
+    public void recv_killJob() throws org.apache.hadoop.thriftfs.api.IOException, JobNotFoundException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "killJob failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "killJob failed: out of sequence response");
       }
       killJob_result result = new killJob_result();
       result.read(iprot_);
@@ -1097,15 +1091,15 @@ public class Jobtracker {
       return;
     }
 
-    public void killTaskAttempt(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftTaskAttemptID attemptID) throws org.apache.hadoop.thriftfs.api.IOException, TaskAttemptNotFoundException, JobNotFoundException, TException
+    public void killTaskAttempt(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftTaskAttemptID attemptID) throws org.apache.hadoop.thriftfs.api.IOException, TaskAttemptNotFoundException, JobNotFoundException, org.apache.thrift.TException
     {
       send_killTaskAttempt(ctx, attemptID);
       recv_killTaskAttempt();
     }
 
-    public void send_killTaskAttempt(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftTaskAttemptID attemptID) throws TException
+    public void send_killTaskAttempt(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftTaskAttemptID attemptID) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("killTaskAttempt", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("killTaskAttempt", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       killTaskAttempt_args args = new killTaskAttempt_args();
       args.setCtx(ctx);
       args.setAttemptID(attemptID);
@@ -1114,16 +1108,16 @@ public class Jobtracker {
       oprot_.getTransport().flush();
     }
 
-    public void recv_killTaskAttempt() throws org.apache.hadoop.thriftfs.api.IOException, TaskAttemptNotFoundException, JobNotFoundException, TException
+    public void recv_killTaskAttempt() throws org.apache.hadoop.thriftfs.api.IOException, TaskAttemptNotFoundException, JobNotFoundException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "killTaskAttempt failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "killTaskAttempt failed: out of sequence response");
       }
       killTaskAttempt_result result = new killTaskAttempt_result();
       result.read(iprot_);
@@ -1140,15 +1134,15 @@ public class Jobtracker {
       return;
     }
 
-    public void setJobPriority(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, ThriftJobPriority priority) throws org.apache.hadoop.thriftfs.api.IOException, JobNotFoundException, TException
+    public void setJobPriority(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, ThriftJobPriority priority) throws org.apache.hadoop.thriftfs.api.IOException, JobNotFoundException, org.apache.thrift.TException
     {
       send_setJobPriority(ctx, jobID, priority);
       recv_setJobPriority();
     }
 
-    public void send_setJobPriority(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, ThriftJobPriority priority) throws TException
+    public void send_setJobPriority(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, ThriftJobPriority priority) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("setJobPriority", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("setJobPriority", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       setJobPriority_args args = new setJobPriority_args();
       args.setCtx(ctx);
       args.setJobID(jobID);
@@ -1158,16 +1152,16 @@ public class Jobtracker {
       oprot_.getTransport().flush();
     }
 
-    public void recv_setJobPriority() throws org.apache.hadoop.thriftfs.api.IOException, JobNotFoundException, TException
+    public void recv_setJobPriority() throws org.apache.hadoop.thriftfs.api.IOException, JobNotFoundException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "setJobPriority failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "setJobPriority failed: out of sequence response");
       }
       setJobPriority_result result = new setJobPriority_result();
       result.read(iprot_);
@@ -1181,15 +1175,15 @@ public class Jobtracker {
       return;
     }
 
-    public org.apache.hadoop.thriftfs.api.ThriftDelegationToken getDelegationToken(org.apache.hadoop.thriftfs.api.RequestContext ctx, String renewer) throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public org.apache.hadoop.thriftfs.api.ThriftDelegationToken getDelegationToken(org.apache.hadoop.thriftfs.api.RequestContext ctx, String renewer) throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
       send_getDelegationToken(ctx, renewer);
       return recv_getDelegationToken();
     }
 
-    public void send_getDelegationToken(org.apache.hadoop.thriftfs.api.RequestContext ctx, String renewer) throws TException
+    public void send_getDelegationToken(org.apache.hadoop.thriftfs.api.RequestContext ctx, String renewer) throws org.apache.thrift.TException
     {
-      oprot_.writeMessageBegin(new TMessage("getDelegationToken", TMessageType.CALL, ++seqid_));
+      oprot_.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getDelegationToken", org.apache.thrift.protocol.TMessageType.CALL, ++seqid_));
       getDelegationToken_args args = new getDelegationToken_args();
       args.setCtx(ctx);
       args.setRenewer(renewer);
@@ -1198,16 +1192,16 @@ public class Jobtracker {
       oprot_.getTransport().flush();
     }
 
-    public org.apache.hadoop.thriftfs.api.ThriftDelegationToken recv_getDelegationToken() throws org.apache.hadoop.thriftfs.api.IOException, TException
+    public org.apache.hadoop.thriftfs.api.ThriftDelegationToken recv_getDelegationToken() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException
     {
-      TMessage msg = iprot_.readMessageBegin();
-      if (msg.type == TMessageType.EXCEPTION) {
-        TApplicationException x = TApplicationException.read(iprot_);
+      org.apache.thrift.protocol.TMessage msg = iprot_.readMessageBegin();
+      if (msg.type == org.apache.thrift.protocol.TMessageType.EXCEPTION) {
+        org.apache.thrift.TApplicationException x = org.apache.thrift.TApplicationException.read(iprot_);
         iprot_.readMessageEnd();
         throw x;
       }
       if (msg.seqid != seqid_) {
-        throw new TApplicationException(TApplicationException.BAD_SEQUENCE_ID, "getDelegationToken failed: out of sequence response");
+        throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.BAD_SEQUENCE_ID, "getDelegationToken failed: out of sequence response");
       }
       getDelegationToken_result result = new getDelegationToken_result();
       result.read(iprot_);
@@ -1218,137 +1212,141 @@ public class Jobtracker {
       if (result.err != null) {
         throw result.err;
       }
-      throw new TApplicationException(TApplicationException.MISSING_RESULT, "getDelegationToken failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "getDelegationToken failed: unknown result");
     }
 
   }
   public static class AsyncClient extends org.apache.hadoop.thriftfs.api.HadoopServiceBase.AsyncClient implements AsyncIface {
-    public static class Factory implements TAsyncClientFactory<AsyncClient> {
-      private TAsyncClientManager clientManager;
-      private TProtocolFactory protocolFactory;
-      public Factory(TAsyncClientManager clientManager, TProtocolFactory protocolFactory) {
+    public static class Factory implements org.apache.thrift.async.TAsyncClientFactory<AsyncClient> {
+      private org.apache.thrift.async.TAsyncClientManager clientManager;
+      private org.apache.thrift.protocol.TProtocolFactory protocolFactory;
+      public Factory(org.apache.thrift.async.TAsyncClientManager clientManager, org.apache.thrift.protocol.TProtocolFactory protocolFactory) {
         this.clientManager = clientManager;
         this.protocolFactory = protocolFactory;
       }
-      public AsyncClient getAsyncClient(TNonblockingTransport transport) {
+      public AsyncClient getAsyncClient(org.apache.thrift.transport.TNonblockingTransport transport) {
         return new AsyncClient(protocolFactory, clientManager, transport);
       }
     }
 
-    public AsyncClient(TProtocolFactory protocolFactory, TAsyncClientManager clientManager, TNonblockingTransport transport) {
+    public AsyncClient(org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.async.TAsyncClientManager clientManager, org.apache.thrift.transport.TNonblockingTransport transport) {
       super(protocolFactory, clientManager, transport);
     }
 
-    public void getJobTrackerName(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<getJobTrackerName_call> resultHandler) throws TException {
+    public void getJobTrackerName(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<getJobTrackerName_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getJobTrackerName_call method_call = new getJobTrackerName_call(ctx, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class getJobTrackerName_call extends TAsyncMethodCall {
+    public static class getJobTrackerName_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
-      public getJobTrackerName_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<getJobTrackerName_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public getJobTrackerName_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<getJobTrackerName_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("getJobTrackerName", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getJobTrackerName", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getJobTrackerName_args args = new getJobTrackerName_args();
         args.setCtx(ctx);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public String getResult() throws TException {
-        if (getState() != State.RESPONSE_READ) {
+      public String getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_getJobTrackerName();
       }
     }
 
-    public void getClusterStatus(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<getClusterStatus_call> resultHandler) throws TException {
+    public void getClusterStatus(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<getClusterStatus_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getClusterStatus_call method_call = new getClusterStatus_call(ctx, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class getClusterStatus_call extends TAsyncMethodCall {
+    public static class getClusterStatus_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
-      public getClusterStatus_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<getClusterStatus_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public getClusterStatus_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<getClusterStatus_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("getClusterStatus", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getClusterStatus", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getClusterStatus_args args = new getClusterStatus_args();
         args.setCtx(ctx);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public ThriftClusterStatus getResult() throws TException {
-        if (getState() != State.RESPONSE_READ) {
+      public ThriftClusterStatus getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_getClusterStatus();
       }
     }
 
-    public void getQueues(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<getQueues_call> resultHandler) throws TException {
+    public void getQueues(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<getQueues_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getQueues_call method_call = new getQueues_call(ctx, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class getQueues_call extends TAsyncMethodCall {
+    public static class getQueues_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
-      public getQueues_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<getQueues_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public getQueues_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<getQueues_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("getQueues", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getQueues", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getQueues_args args = new getQueues_args();
         args.setCtx(ctx);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public ThriftJobQueueList getResult() throws org.apache.hadoop.thriftfs.api.IOException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public ThriftJobQueueList getResult() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_getQueues();
       }
     }
 
-    public void getJob(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, AsyncMethodCallback<getJob_call> resultHandler) throws TException {
+    public void getJob(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, org.apache.thrift.async.AsyncMethodCallback<getJob_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getJob_call method_call = new getJob_call(ctx, jobID, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class getJob_call extends TAsyncMethodCall {
+    public static class getJob_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private ThriftJobID jobID;
-      public getJob_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, AsyncMethodCallback<getJob_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public getJob_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, org.apache.thrift.async.AsyncMethodCallback<getJob_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.jobID = jobID;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("getJob", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getJob", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getJob_args args = new getJob_args();
         args.setCtx(ctx);
         args.setJobID(jobID);
@@ -1356,188 +1354,194 @@ public class Jobtracker {
         prot.writeMessageEnd();
       }
 
-      public ThriftJobInProgress getResult() throws JobNotFoundException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public ThriftJobInProgress getResult() throws JobNotFoundException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_getJob();
       }
     }
 
-    public void getRunningJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<getRunningJobs_call> resultHandler) throws TException {
+    public void getRunningJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<getRunningJobs_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getRunningJobs_call method_call = new getRunningJobs_call(ctx, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class getRunningJobs_call extends TAsyncMethodCall {
+    public static class getRunningJobs_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
-      public getRunningJobs_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<getRunningJobs_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public getRunningJobs_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<getRunningJobs_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("getRunningJobs", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getRunningJobs", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getRunningJobs_args args = new getRunningJobs_args();
         args.setCtx(ctx);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public ThriftJobList getResult() throws TException {
-        if (getState() != State.RESPONSE_READ) {
+      public ThriftJobList getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_getRunningJobs();
       }
     }
 
-    public void getCompletedJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<getCompletedJobs_call> resultHandler) throws TException {
+    public void getCompletedJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<getCompletedJobs_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getCompletedJobs_call method_call = new getCompletedJobs_call(ctx, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class getCompletedJobs_call extends TAsyncMethodCall {
+    public static class getCompletedJobs_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
-      public getCompletedJobs_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<getCompletedJobs_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public getCompletedJobs_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<getCompletedJobs_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("getCompletedJobs", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getCompletedJobs", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getCompletedJobs_args args = new getCompletedJobs_args();
         args.setCtx(ctx);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public ThriftJobList getResult() throws TException {
-        if (getState() != State.RESPONSE_READ) {
+      public ThriftJobList getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_getCompletedJobs();
       }
     }
 
-    public void getFailedJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<getFailedJobs_call> resultHandler) throws TException {
+    public void getFailedJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<getFailedJobs_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getFailedJobs_call method_call = new getFailedJobs_call(ctx, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class getFailedJobs_call extends TAsyncMethodCall {
+    public static class getFailedJobs_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
-      public getFailedJobs_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<getFailedJobs_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public getFailedJobs_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<getFailedJobs_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("getFailedJobs", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getFailedJobs", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getFailedJobs_args args = new getFailedJobs_args();
         args.setCtx(ctx);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public ThriftJobList getResult() throws TException {
-        if (getState() != State.RESPONSE_READ) {
+      public ThriftJobList getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_getFailedJobs();
       }
     }
 
-    public void getKilledJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<getKilledJobs_call> resultHandler) throws TException {
+    public void getKilledJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<getKilledJobs_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getKilledJobs_call method_call = new getKilledJobs_call(ctx, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class getKilledJobs_call extends TAsyncMethodCall {
+    public static class getKilledJobs_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
-      public getKilledJobs_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<getKilledJobs_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public getKilledJobs_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<getKilledJobs_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("getKilledJobs", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getKilledJobs", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getKilledJobs_args args = new getKilledJobs_args();
         args.setCtx(ctx);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public ThriftJobList getResult() throws TException {
-        if (getState() != State.RESPONSE_READ) {
+      public ThriftJobList getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_getKilledJobs();
       }
     }
 
-    public void getAllJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<getAllJobs_call> resultHandler) throws TException {
+    public void getAllJobs(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<getAllJobs_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getAllJobs_call method_call = new getAllJobs_call(ctx, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class getAllJobs_call extends TAsyncMethodCall {
+    public static class getAllJobs_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
-      public getAllJobs_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<getAllJobs_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public getAllJobs_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<getAllJobs_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("getAllJobs", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getAllJobs", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getAllJobs_args args = new getAllJobs_args();
         args.setCtx(ctx);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public ThriftJobList getResult() throws TException {
-        if (getState() != State.RESPONSE_READ) {
+      public ThriftJobList getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_getAllJobs();
       }
     }
 
-    public void getUserJobCounts(org.apache.hadoop.thriftfs.api.RequestContext ctx, String user, AsyncMethodCallback<getUserJobCounts_call> resultHandler) throws TException {
+    public void getUserJobCounts(org.apache.hadoop.thriftfs.api.RequestContext ctx, String user, org.apache.thrift.async.AsyncMethodCallback<getUserJobCounts_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getUserJobCounts_call method_call = new getUserJobCounts_call(ctx, user, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class getUserJobCounts_call extends TAsyncMethodCall {
+    public static class getUserJobCounts_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private String user;
-      public getUserJobCounts_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String user, AsyncMethodCallback<getUserJobCounts_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public getUserJobCounts_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String user, org.apache.thrift.async.AsyncMethodCallback<getUserJobCounts_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.user = user;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("getUserJobCounts", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getUserJobCounts", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getUserJobCounts_args args = new getUserJobCounts_args();
         args.setCtx(ctx);
         args.setUser(user);
@@ -1545,23 +1549,24 @@ public class Jobtracker {
         prot.writeMessageEnd();
       }
 
-      public ThriftUserJobCounts getResult() throws TException {
-        if (getState() != State.RESPONSE_READ) {
+      public ThriftUserJobCounts getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_getUserJobCounts();
       }
     }
 
-    public void getTaskList(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, Set<ThriftTaskType> types, Set<ThriftTaskQueryState> states, String text, int count, int offset, AsyncMethodCallback<getTaskList_call> resultHandler) throws TException {
+    public void getTaskList(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, Set<ThriftTaskType> types, Set<ThriftTaskQueryState> states, String text, int count, int offset, org.apache.thrift.async.AsyncMethodCallback<getTaskList_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getTaskList_call method_call = new getTaskList_call(ctx, jobID, types, states, text, count, offset, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class getTaskList_call extends TAsyncMethodCall {
+    public static class getTaskList_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private ThriftJobID jobID;
       private Set<ThriftTaskType> types;
@@ -1569,7 +1574,7 @@ public class Jobtracker {
       private String text;
       private int count;
       private int offset;
-      public getTaskList_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, Set<ThriftTaskType> types, Set<ThriftTaskQueryState> states, String text, int count, int offset, AsyncMethodCallback<getTaskList_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public getTaskList_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, Set<ThriftTaskType> types, Set<ThriftTaskQueryState> states, String text, int count, int offset, org.apache.thrift.async.AsyncMethodCallback<getTaskList_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.jobID = jobID;
@@ -1580,8 +1585,8 @@ public class Jobtracker {
         this.offset = offset;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("getTaskList", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getTaskList", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getTaskList_args args = new getTaskList_args();
         args.setCtx(ctx);
         args.setJobID(jobID);
@@ -1594,33 +1599,34 @@ public class Jobtracker {
         prot.writeMessageEnd();
       }
 
-      public ThriftTaskInProgressList getResult() throws JobNotFoundException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public ThriftTaskInProgressList getResult() throws JobNotFoundException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_getTaskList();
       }
     }
 
-    public void getTask(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftTaskID taskID, AsyncMethodCallback<getTask_call> resultHandler) throws TException {
+    public void getTask(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftTaskID taskID, org.apache.thrift.async.AsyncMethodCallback<getTask_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getTask_call method_call = new getTask_call(ctx, taskID, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class getTask_call extends TAsyncMethodCall {
+    public static class getTask_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private ThriftTaskID taskID;
-      public getTask_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftTaskID taskID, AsyncMethodCallback<getTask_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public getTask_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftTaskID taskID, org.apache.thrift.async.AsyncMethodCallback<getTask_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.taskID = taskID;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("getTask", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getTask", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getTask_args args = new getTask_args();
         args.setCtx(ctx);
         args.setTaskID(taskID);
@@ -1628,33 +1634,34 @@ public class Jobtracker {
         prot.writeMessageEnd();
       }
 
-      public ThriftTaskInProgress getResult() throws JobNotFoundException, TaskNotFoundException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public ThriftTaskInProgress getResult() throws JobNotFoundException, TaskNotFoundException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_getTask();
       }
     }
 
-    public void getJobCounters(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, AsyncMethodCallback<getJobCounters_call> resultHandler) throws TException {
+    public void getJobCounters(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, org.apache.thrift.async.AsyncMethodCallback<getJobCounters_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getJobCounters_call method_call = new getJobCounters_call(ctx, jobID, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class getJobCounters_call extends TAsyncMethodCall {
+    public static class getJobCounters_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private ThriftJobID jobID;
-      public getJobCounters_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, AsyncMethodCallback<getJobCounters_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public getJobCounters_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, org.apache.thrift.async.AsyncMethodCallback<getJobCounters_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.jobID = jobID;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("getJobCounters", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getJobCounters", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getJobCounters_args args = new getJobCounters_args();
         args.setCtx(ctx);
         args.setJobID(jobID);
@@ -1662,33 +1669,34 @@ public class Jobtracker {
         prot.writeMessageEnd();
       }
 
-      public ThriftGroupList getResult() throws JobNotFoundException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public ThriftGroupList getResult() throws JobNotFoundException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_getJobCounters();
       }
     }
 
-    public void getJobCounterRollups(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, AsyncMethodCallback<getJobCounterRollups_call> resultHandler) throws TException {
+    public void getJobCounterRollups(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, org.apache.thrift.async.AsyncMethodCallback<getJobCounterRollups_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getJobCounterRollups_call method_call = new getJobCounterRollups_call(ctx, jobID, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class getJobCounterRollups_call extends TAsyncMethodCall {
+    public static class getJobCounterRollups_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private ThriftJobID jobID;
-      public getJobCounterRollups_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, AsyncMethodCallback<getJobCounterRollups_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public getJobCounterRollups_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, org.apache.thrift.async.AsyncMethodCallback<getJobCounterRollups_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.jobID = jobID;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("getJobCounterRollups", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getJobCounterRollups", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getJobCounterRollups_args args = new getJobCounterRollups_args();
         args.setCtx(ctx);
         args.setJobID(jobID);
@@ -1696,126 +1704,130 @@ public class Jobtracker {
         prot.writeMessageEnd();
       }
 
-      public ThriftJobCounterRollups getResult() throws JobNotFoundException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public ThriftJobCounterRollups getResult() throws JobNotFoundException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_getJobCounterRollups();
       }
     }
 
-    public void getActiveTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<getActiveTrackers_call> resultHandler) throws TException {
+    public void getActiveTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<getActiveTrackers_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getActiveTrackers_call method_call = new getActiveTrackers_call(ctx, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class getActiveTrackers_call extends TAsyncMethodCall {
+    public static class getActiveTrackers_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
-      public getActiveTrackers_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<getActiveTrackers_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public getActiveTrackers_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<getActiveTrackers_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("getActiveTrackers", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getActiveTrackers", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getActiveTrackers_args args = new getActiveTrackers_args();
         args.setCtx(ctx);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public ThriftTaskTrackerStatusList getResult() throws TException {
-        if (getState() != State.RESPONSE_READ) {
+      public ThriftTaskTrackerStatusList getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_getActiveTrackers();
       }
     }
 
-    public void getBlacklistedTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<getBlacklistedTrackers_call> resultHandler) throws TException {
+    public void getBlacklistedTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<getBlacklistedTrackers_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getBlacklistedTrackers_call method_call = new getBlacklistedTrackers_call(ctx, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class getBlacklistedTrackers_call extends TAsyncMethodCall {
+    public static class getBlacklistedTrackers_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
-      public getBlacklistedTrackers_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<getBlacklistedTrackers_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public getBlacklistedTrackers_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<getBlacklistedTrackers_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("getBlacklistedTrackers", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getBlacklistedTrackers", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getBlacklistedTrackers_args args = new getBlacklistedTrackers_args();
         args.setCtx(ctx);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public ThriftTaskTrackerStatusList getResult() throws TException {
-        if (getState() != State.RESPONSE_READ) {
+      public ThriftTaskTrackerStatusList getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_getBlacklistedTrackers();
       }
     }
 
-    public void getAllTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<getAllTrackers_call> resultHandler) throws TException {
+    public void getAllTrackers(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<getAllTrackers_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getAllTrackers_call method_call = new getAllTrackers_call(ctx, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class getAllTrackers_call extends TAsyncMethodCall {
+    public static class getAllTrackers_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
-      public getAllTrackers_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<getAllTrackers_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public getAllTrackers_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<getAllTrackers_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("getAllTrackers", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getAllTrackers", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getAllTrackers_args args = new getAllTrackers_args();
         args.setCtx(ctx);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public ThriftTaskTrackerStatusList getResult() throws TException {
-        if (getState() != State.RESPONSE_READ) {
+      public ThriftTaskTrackerStatusList getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_getAllTrackers();
       }
     }
 
-    public void getTracker(org.apache.hadoop.thriftfs.api.RequestContext ctx, String name, AsyncMethodCallback<getTracker_call> resultHandler) throws TException {
+    public void getTracker(org.apache.hadoop.thriftfs.api.RequestContext ctx, String name, org.apache.thrift.async.AsyncMethodCallback<getTracker_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getTracker_call method_call = new getTracker_call(ctx, name, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class getTracker_call extends TAsyncMethodCall {
+    public static class getTracker_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private String name;
-      public getTracker_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String name, AsyncMethodCallback<getTracker_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public getTracker_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String name, org.apache.thrift.async.AsyncMethodCallback<getTracker_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.name = name;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("getTracker", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getTracker", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getTracker_args args = new getTracker_args();
         args.setCtx(ctx);
         args.setName(name);
@@ -1823,64 +1835,66 @@ public class Jobtracker {
         prot.writeMessageEnd();
       }
 
-      public ThriftTaskTrackerStatus getResult() throws TaskTrackerNotFoundException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public ThriftTaskTrackerStatus getResult() throws TaskTrackerNotFoundException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_getTracker();
       }
     }
 
-    public void getCurrentTime(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<getCurrentTime_call> resultHandler) throws TException {
+    public void getCurrentTime(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<getCurrentTime_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getCurrentTime_call method_call = new getCurrentTime_call(ctx, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class getCurrentTime_call extends TAsyncMethodCall {
+    public static class getCurrentTime_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
-      public getCurrentTime_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, AsyncMethodCallback<getCurrentTime_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public getCurrentTime_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, org.apache.thrift.async.AsyncMethodCallback<getCurrentTime_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("getCurrentTime", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getCurrentTime", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getCurrentTime_args args = new getCurrentTime_args();
         args.setCtx(ctx);
         args.write(prot);
         prot.writeMessageEnd();
       }
 
-      public long getResult() throws TException {
-        if (getState() != State.RESPONSE_READ) {
+      public long getResult() throws org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_getCurrentTime();
       }
     }
 
-    public void getJobConfXML(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, AsyncMethodCallback<getJobConfXML_call> resultHandler) throws TException {
+    public void getJobConfXML(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, org.apache.thrift.async.AsyncMethodCallback<getJobConfXML_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getJobConfXML_call method_call = new getJobConfXML_call(ctx, jobID, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class getJobConfXML_call extends TAsyncMethodCall {
+    public static class getJobConfXML_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private ThriftJobID jobID;
-      public getJobConfXML_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, AsyncMethodCallback<getJobConfXML_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public getJobConfXML_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, org.apache.thrift.async.AsyncMethodCallback<getJobConfXML_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.jobID = jobID;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("getJobConfXML", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getJobConfXML", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getJobConfXML_args args = new getJobConfXML_args();
         args.setCtx(ctx);
         args.setJobID(jobID);
@@ -1888,33 +1902,34 @@ public class Jobtracker {
         prot.writeMessageEnd();
       }
 
-      public String getResult() throws org.apache.hadoop.thriftfs.api.IOException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public String getResult() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_getJobConfXML();
       }
     }
 
-    public void killJob(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, AsyncMethodCallback<killJob_call> resultHandler) throws TException {
+    public void killJob(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, org.apache.thrift.async.AsyncMethodCallback<killJob_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       killJob_call method_call = new killJob_call(ctx, jobID, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class killJob_call extends TAsyncMethodCall {
+    public static class killJob_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private ThriftJobID jobID;
-      public killJob_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, AsyncMethodCallback<killJob_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public killJob_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, org.apache.thrift.async.AsyncMethodCallback<killJob_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.jobID = jobID;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("killJob", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("killJob", org.apache.thrift.protocol.TMessageType.CALL, 0));
         killJob_args args = new killJob_args();
         args.setCtx(ctx);
         args.setJobID(jobID);
@@ -1922,33 +1937,34 @@ public class Jobtracker {
         prot.writeMessageEnd();
       }
 
-      public void getResult() throws org.apache.hadoop.thriftfs.api.IOException, JobNotFoundException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public void getResult() throws org.apache.hadoop.thriftfs.api.IOException, JobNotFoundException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         (new Client(prot)).recv_killJob();
       }
     }
 
-    public void killTaskAttempt(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftTaskAttemptID attemptID, AsyncMethodCallback<killTaskAttempt_call> resultHandler) throws TException {
+    public void killTaskAttempt(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftTaskAttemptID attemptID, org.apache.thrift.async.AsyncMethodCallback<killTaskAttempt_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       killTaskAttempt_call method_call = new killTaskAttempt_call(ctx, attemptID, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class killTaskAttempt_call extends TAsyncMethodCall {
+    public static class killTaskAttempt_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private ThriftTaskAttemptID attemptID;
-      public killTaskAttempt_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftTaskAttemptID attemptID, AsyncMethodCallback<killTaskAttempt_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public killTaskAttempt_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftTaskAttemptID attemptID, org.apache.thrift.async.AsyncMethodCallback<killTaskAttempt_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.attemptID = attemptID;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("killTaskAttempt", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("killTaskAttempt", org.apache.thrift.protocol.TMessageType.CALL, 0));
         killTaskAttempt_args args = new killTaskAttempt_args();
         args.setCtx(ctx);
         args.setAttemptID(attemptID);
@@ -1956,35 +1972,36 @@ public class Jobtracker {
         prot.writeMessageEnd();
       }
 
-      public void getResult() throws org.apache.hadoop.thriftfs.api.IOException, TaskAttemptNotFoundException, JobNotFoundException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public void getResult() throws org.apache.hadoop.thriftfs.api.IOException, TaskAttemptNotFoundException, JobNotFoundException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         (new Client(prot)).recv_killTaskAttempt();
       }
     }
 
-    public void setJobPriority(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, ThriftJobPriority priority, AsyncMethodCallback<setJobPriority_call> resultHandler) throws TException {
+    public void setJobPriority(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, ThriftJobPriority priority, org.apache.thrift.async.AsyncMethodCallback<setJobPriority_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       setJobPriority_call method_call = new setJobPriority_call(ctx, jobID, priority, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class setJobPriority_call extends TAsyncMethodCall {
+    public static class setJobPriority_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private ThriftJobID jobID;
       private ThriftJobPriority priority;
-      public setJobPriority_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, ThriftJobPriority priority, AsyncMethodCallback<setJobPriority_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public setJobPriority_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, ThriftJobID jobID, ThriftJobPriority priority, org.apache.thrift.async.AsyncMethodCallback<setJobPriority_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.jobID = jobID;
         this.priority = priority;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("setJobPriority", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("setJobPriority", org.apache.thrift.protocol.TMessageType.CALL, 0));
         setJobPriority_args args = new setJobPriority_args();
         args.setCtx(ctx);
         args.setJobID(jobID);
@@ -1993,33 +2010,34 @@ public class Jobtracker {
         prot.writeMessageEnd();
       }
 
-      public void getResult() throws org.apache.hadoop.thriftfs.api.IOException, JobNotFoundException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public void getResult() throws org.apache.hadoop.thriftfs.api.IOException, JobNotFoundException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         (new Client(prot)).recv_setJobPriority();
       }
     }
 
-    public void getDelegationToken(org.apache.hadoop.thriftfs.api.RequestContext ctx, String renewer, AsyncMethodCallback<getDelegationToken_call> resultHandler) throws TException {
+    public void getDelegationToken(org.apache.hadoop.thriftfs.api.RequestContext ctx, String renewer, org.apache.thrift.async.AsyncMethodCallback<getDelegationToken_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       getDelegationToken_call method_call = new getDelegationToken_call(ctx, renewer, resultHandler, this, protocolFactory, transport);
+      this.currentMethod = method_call;
       manager.call(method_call);
     }
 
-    public static class getDelegationToken_call extends TAsyncMethodCall {
+    public static class getDelegationToken_call extends org.apache.thrift.async.TAsyncMethodCall {
       private org.apache.hadoop.thriftfs.api.RequestContext ctx;
       private String renewer;
-      public getDelegationToken_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String renewer, AsyncMethodCallback<getDelegationToken_call> resultHandler, TAsyncClient client, TProtocolFactory protocolFactory, TNonblockingTransport transport) throws TException {
+      public getDelegationToken_call(org.apache.hadoop.thriftfs.api.RequestContext ctx, String renewer, org.apache.thrift.async.AsyncMethodCallback<getDelegationToken_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.ctx = ctx;
         this.renewer = renewer;
       }
 
-      public void write_args(TProtocol prot) throws TException {
-        prot.writeMessageBegin(new TMessage("getDelegationToken", TMessageType.CALL, 0));
+      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getDelegationToken", org.apache.thrift.protocol.TMessageType.CALL, 0));
         getDelegationToken_args args = new getDelegationToken_args();
         args.setCtx(ctx);
         args.setRenewer(renewer);
@@ -2027,19 +2045,19 @@ public class Jobtracker {
         prot.writeMessageEnd();
       }
 
-      public org.apache.hadoop.thriftfs.api.ThriftDelegationToken getResult() throws org.apache.hadoop.thriftfs.api.IOException, TException {
-        if (getState() != State.RESPONSE_READ) {
+      public org.apache.hadoop.thriftfs.api.ThriftDelegationToken getResult() throws org.apache.hadoop.thriftfs.api.IOException, org.apache.thrift.TException {
+        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
-        TMemoryInputTransport memoryTransport = new TMemoryInputTransport(getFrameBuffer().array());
-        TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
+        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
+        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
         return (new Client(prot)).recv_getDelegationToken();
       }
     }
 
   }
 
-  public static class Processor extends org.apache.hadoop.thriftfs.api.HadoopServiceBase.Processor implements TProcessor {
+  public static class Processor extends org.apache.hadoop.thriftfs.api.HadoopServiceBase.Processor implements org.apache.thrift.TProcessor {
     private static final Logger LOGGER = LoggerFactory.getLogger(Processor.class.getName());
     public Processor(Iface iface)
     {
@@ -2073,15 +2091,15 @@ public class Jobtracker {
 
     private Iface iface_;
 
-    public boolean process(TProtocol iprot, TProtocol oprot) throws TException
+    public boolean process(org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
     {
-      TMessage msg = iprot.readMessageBegin();
+      org.apache.thrift.protocol.TMessage msg = iprot.readMessageBegin();
       ProcessFunction fn = processMap_.get(msg.name);
       if (fn == null) {
-        TProtocolUtil.skip(iprot, TType.STRUCT);
+        org.apache.thrift.protocol.TProtocolUtil.skip(iprot, org.apache.thrift.protocol.TType.STRUCT);
         iprot.readMessageEnd();
-        TApplicationException x = new TApplicationException(TApplicationException.UNKNOWN_METHOD, "Invalid method name: '"+msg.name+"'");
-        oprot.writeMessageBegin(new TMessage(msg.name, TMessageType.EXCEPTION, msg.seqid));
+        org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.UNKNOWN_METHOD, "Invalid method name: '"+msg.name+"'");
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage(msg.name, org.apache.thrift.protocol.TMessageType.EXCEPTION, msg.seqid));
         x.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2092,15 +2110,15 @@ public class Jobtracker {
     }
 
     private class getJobTrackerName implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         getJobTrackerName_args args = new getJobTrackerName_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("getJobTrackerName", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getJobTrackerName", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2109,7 +2127,7 @@ public class Jobtracker {
         iprot.readMessageEnd();
         getJobTrackerName_result result = new getJobTrackerName_result();
         result.success = iface_.getJobTrackerName(args.ctx);
-        oprot.writeMessageBegin(new TMessage("getJobTrackerName", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getJobTrackerName", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2118,15 +2136,15 @@ public class Jobtracker {
     }
 
     private class getClusterStatus implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         getClusterStatus_args args = new getClusterStatus_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("getClusterStatus", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getClusterStatus", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2135,7 +2153,7 @@ public class Jobtracker {
         iprot.readMessageEnd();
         getClusterStatus_result result = new getClusterStatus_result();
         result.success = iface_.getClusterStatus(args.ctx);
-        oprot.writeMessageBegin(new TMessage("getClusterStatus", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getClusterStatus", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2144,15 +2162,15 @@ public class Jobtracker {
     }
 
     private class getQueues implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         getQueues_args args = new getQueues_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("getQueues", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getQueues", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2166,14 +2184,14 @@ public class Jobtracker {
           result.err = err;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing getQueues", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing getQueues");
-          oprot.writeMessageBegin(new TMessage("getQueues", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing getQueues");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getQueues", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("getQueues", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getQueues", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2182,15 +2200,15 @@ public class Jobtracker {
     }
 
     private class getJob implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         getJob_args args = new getJob_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("getJob", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getJob", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2204,14 +2222,14 @@ public class Jobtracker {
           result.err = err;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing getJob", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing getJob");
-          oprot.writeMessageBegin(new TMessage("getJob", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing getJob");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getJob", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("getJob", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getJob", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2220,15 +2238,15 @@ public class Jobtracker {
     }
 
     private class getRunningJobs implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         getRunningJobs_args args = new getRunningJobs_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("getRunningJobs", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getRunningJobs", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2237,7 +2255,7 @@ public class Jobtracker {
         iprot.readMessageEnd();
         getRunningJobs_result result = new getRunningJobs_result();
         result.success = iface_.getRunningJobs(args.ctx);
-        oprot.writeMessageBegin(new TMessage("getRunningJobs", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getRunningJobs", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2246,15 +2264,15 @@ public class Jobtracker {
     }
 
     private class getCompletedJobs implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         getCompletedJobs_args args = new getCompletedJobs_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("getCompletedJobs", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getCompletedJobs", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2263,7 +2281,7 @@ public class Jobtracker {
         iprot.readMessageEnd();
         getCompletedJobs_result result = new getCompletedJobs_result();
         result.success = iface_.getCompletedJobs(args.ctx);
-        oprot.writeMessageBegin(new TMessage("getCompletedJobs", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getCompletedJobs", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2272,15 +2290,15 @@ public class Jobtracker {
     }
 
     private class getFailedJobs implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         getFailedJobs_args args = new getFailedJobs_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("getFailedJobs", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getFailedJobs", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2289,7 +2307,7 @@ public class Jobtracker {
         iprot.readMessageEnd();
         getFailedJobs_result result = new getFailedJobs_result();
         result.success = iface_.getFailedJobs(args.ctx);
-        oprot.writeMessageBegin(new TMessage("getFailedJobs", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getFailedJobs", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2298,15 +2316,15 @@ public class Jobtracker {
     }
 
     private class getKilledJobs implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         getKilledJobs_args args = new getKilledJobs_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("getKilledJobs", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getKilledJobs", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2315,7 +2333,7 @@ public class Jobtracker {
         iprot.readMessageEnd();
         getKilledJobs_result result = new getKilledJobs_result();
         result.success = iface_.getKilledJobs(args.ctx);
-        oprot.writeMessageBegin(new TMessage("getKilledJobs", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getKilledJobs", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2324,15 +2342,15 @@ public class Jobtracker {
     }
 
     private class getAllJobs implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         getAllJobs_args args = new getAllJobs_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("getAllJobs", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getAllJobs", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2341,7 +2359,7 @@ public class Jobtracker {
         iprot.readMessageEnd();
         getAllJobs_result result = new getAllJobs_result();
         result.success = iface_.getAllJobs(args.ctx);
-        oprot.writeMessageBegin(new TMessage("getAllJobs", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getAllJobs", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2350,15 +2368,15 @@ public class Jobtracker {
     }
 
     private class getUserJobCounts implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         getUserJobCounts_args args = new getUserJobCounts_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("getUserJobCounts", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getUserJobCounts", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2367,7 +2385,7 @@ public class Jobtracker {
         iprot.readMessageEnd();
         getUserJobCounts_result result = new getUserJobCounts_result();
         result.success = iface_.getUserJobCounts(args.ctx, args.user);
-        oprot.writeMessageBegin(new TMessage("getUserJobCounts", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getUserJobCounts", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2376,15 +2394,15 @@ public class Jobtracker {
     }
 
     private class getTaskList implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         getTaskList_args args = new getTaskList_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("getTaskList", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getTaskList", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2398,14 +2416,14 @@ public class Jobtracker {
           result.err = err;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing getTaskList", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing getTaskList");
-          oprot.writeMessageBegin(new TMessage("getTaskList", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing getTaskList");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getTaskList", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("getTaskList", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getTaskList", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2414,15 +2432,15 @@ public class Jobtracker {
     }
 
     private class getTask implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         getTask_args args = new getTask_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("getTask", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getTask", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2438,14 +2456,14 @@ public class Jobtracker {
           result.tnf = tnf;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing getTask", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing getTask");
-          oprot.writeMessageBegin(new TMessage("getTask", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing getTask");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getTask", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("getTask", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getTask", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2454,15 +2472,15 @@ public class Jobtracker {
     }
 
     private class getJobCounters implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         getJobCounters_args args = new getJobCounters_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("getJobCounters", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getJobCounters", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2476,14 +2494,14 @@ public class Jobtracker {
           result.err = err;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing getJobCounters", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing getJobCounters");
-          oprot.writeMessageBegin(new TMessage("getJobCounters", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing getJobCounters");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getJobCounters", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("getJobCounters", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getJobCounters", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2492,15 +2510,15 @@ public class Jobtracker {
     }
 
     private class getJobCounterRollups implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         getJobCounterRollups_args args = new getJobCounterRollups_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("getJobCounterRollups", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getJobCounterRollups", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2514,14 +2532,14 @@ public class Jobtracker {
           result.err = err;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing getJobCounterRollups", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing getJobCounterRollups");
-          oprot.writeMessageBegin(new TMessage("getJobCounterRollups", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing getJobCounterRollups");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getJobCounterRollups", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("getJobCounterRollups", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getJobCounterRollups", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2530,15 +2548,15 @@ public class Jobtracker {
     }
 
     private class getActiveTrackers implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         getActiveTrackers_args args = new getActiveTrackers_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("getActiveTrackers", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getActiveTrackers", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2547,7 +2565,7 @@ public class Jobtracker {
         iprot.readMessageEnd();
         getActiveTrackers_result result = new getActiveTrackers_result();
         result.success = iface_.getActiveTrackers(args.ctx);
-        oprot.writeMessageBegin(new TMessage("getActiveTrackers", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getActiveTrackers", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2556,15 +2574,15 @@ public class Jobtracker {
     }
 
     private class getBlacklistedTrackers implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         getBlacklistedTrackers_args args = new getBlacklistedTrackers_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("getBlacklistedTrackers", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getBlacklistedTrackers", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2573,7 +2591,7 @@ public class Jobtracker {
         iprot.readMessageEnd();
         getBlacklistedTrackers_result result = new getBlacklistedTrackers_result();
         result.success = iface_.getBlacklistedTrackers(args.ctx);
-        oprot.writeMessageBegin(new TMessage("getBlacklistedTrackers", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getBlacklistedTrackers", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2582,15 +2600,15 @@ public class Jobtracker {
     }
 
     private class getAllTrackers implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         getAllTrackers_args args = new getAllTrackers_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("getAllTrackers", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getAllTrackers", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2599,7 +2617,7 @@ public class Jobtracker {
         iprot.readMessageEnd();
         getAllTrackers_result result = new getAllTrackers_result();
         result.success = iface_.getAllTrackers(args.ctx);
-        oprot.writeMessageBegin(new TMessage("getAllTrackers", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getAllTrackers", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2608,15 +2626,15 @@ public class Jobtracker {
     }
 
     private class getTracker implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         getTracker_args args = new getTracker_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("getTracker", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getTracker", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2630,14 +2648,14 @@ public class Jobtracker {
           result.tne = tne;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing getTracker", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing getTracker");
-          oprot.writeMessageBegin(new TMessage("getTracker", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing getTracker");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getTracker", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("getTracker", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getTracker", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2646,15 +2664,15 @@ public class Jobtracker {
     }
 
     private class getCurrentTime implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         getCurrentTime_args args = new getCurrentTime_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("getCurrentTime", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getCurrentTime", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2664,7 +2682,7 @@ public class Jobtracker {
         getCurrentTime_result result = new getCurrentTime_result();
         result.success = iface_.getCurrentTime(args.ctx);
         result.setSuccessIsSet(true);
-        oprot.writeMessageBegin(new TMessage("getCurrentTime", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getCurrentTime", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2673,15 +2691,15 @@ public class Jobtracker {
     }
 
     private class getJobConfXML implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         getJobConfXML_args args = new getJobConfXML_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("getJobConfXML", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getJobConfXML", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2695,14 +2713,14 @@ public class Jobtracker {
           result.err = err;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing getJobConfXML", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing getJobConfXML");
-          oprot.writeMessageBegin(new TMessage("getJobConfXML", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing getJobConfXML");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getJobConfXML", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("getJobConfXML", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getJobConfXML", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2711,15 +2729,15 @@ public class Jobtracker {
     }
 
     private class killJob implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         killJob_args args = new killJob_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("killJob", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("killJob", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2735,14 +2753,14 @@ public class Jobtracker {
           result.jne = jne;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing killJob", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing killJob");
-          oprot.writeMessageBegin(new TMessage("killJob", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing killJob");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("killJob", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("killJob", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("killJob", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2751,15 +2769,15 @@ public class Jobtracker {
     }
 
     private class killTaskAttempt implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         killTaskAttempt_args args = new killTaskAttempt_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("killTaskAttempt", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("killTaskAttempt", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2777,14 +2795,14 @@ public class Jobtracker {
           result.jne = jne;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing killTaskAttempt", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing killTaskAttempt");
-          oprot.writeMessageBegin(new TMessage("killTaskAttempt", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing killTaskAttempt");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("killTaskAttempt", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("killTaskAttempt", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("killTaskAttempt", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2793,15 +2811,15 @@ public class Jobtracker {
     }
 
     private class setJobPriority implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         setJobPriority_args args = new setJobPriority_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("setJobPriority", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("setJobPriority", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2817,14 +2835,14 @@ public class Jobtracker {
           result.jne = jne;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing setJobPriority", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing setJobPriority");
-          oprot.writeMessageBegin(new TMessage("setJobPriority", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing setJobPriority");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("setJobPriority", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("setJobPriority", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("setJobPriority", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2833,15 +2851,15 @@ public class Jobtracker {
     }
 
     private class getDelegationToken implements ProcessFunction {
-      public void process(int seqid, TProtocol iprot, TProtocol oprot) throws TException
+      public void process(int seqid, org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException
       {
         getDelegationToken_args args = new getDelegationToken_args();
         try {
           args.read(iprot);
-        } catch (TProtocolException e) {
+        } catch (org.apache.thrift.protocol.TProtocolException e) {
           iprot.readMessageEnd();
-          TApplicationException x = new TApplicationException(TApplicationException.PROTOCOL_ERROR, e.getMessage());
-          oprot.writeMessageBegin(new TMessage("getDelegationToken", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.PROTOCOL_ERROR, e.getMessage());
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getDelegationToken", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
@@ -2855,14 +2873,14 @@ public class Jobtracker {
           result.err = err;
         } catch (Throwable th) {
           LOGGER.error("Internal error processing getDelegationToken", th);
-          TApplicationException x = new TApplicationException(TApplicationException.INTERNAL_ERROR, "Internal error processing getDelegationToken");
-          oprot.writeMessageBegin(new TMessage("getDelegationToken", TMessageType.EXCEPTION, seqid));
+          org.apache.thrift.TApplicationException x = new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.INTERNAL_ERROR, "Internal error processing getDelegationToken");
+          oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getDelegationToken", org.apache.thrift.protocol.TMessageType.EXCEPTION, seqid));
           x.write(oprot);
           oprot.writeMessageEnd();
           oprot.getTransport().flush();
           return;
         }
-        oprot.writeMessageBegin(new TMessage("getDelegationToken", TMessageType.REPLY, seqid));
+        oprot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("getDelegationToken", org.apache.thrift.protocol.TMessageType.REPLY, seqid));
         result.write(oprot);
         oprot.writeMessageEnd();
         oprot.getTransport().flush();
@@ -2872,15 +2890,15 @@ public class Jobtracker {
 
   }
 
-  public static class getJobTrackerName_args implements TBase<getJobTrackerName_args, getJobTrackerName_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getJobTrackerName_args");
+  public static class getJobTrackerName_args implements org.apache.thrift.TBase<getJobTrackerName_args, getJobTrackerName_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getJobTrackerName_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -2939,13 +2957,13 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getJobTrackerName_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getJobTrackerName_args.class, metaDataMap);
     }
 
     public getJobTrackerName_args() {
@@ -2989,7 +3007,7 @@ public class Jobtracker {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -3022,7 +3040,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -3085,7 +3103,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -3097,26 +3115,26 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -3126,7 +3144,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -3155,21 +3173,37 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getJobTrackerName_result implements TBase<getJobTrackerName_result, getJobTrackerName_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getJobTrackerName_result");
+  public static class getJobTrackerName_result implements org.apache.thrift.TBase<getJobTrackerName_result, getJobTrackerName_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getJobTrackerName_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.STRING, (short)0);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRING, (short)0);
 
     public String success;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -3228,13 +3262,13 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRING)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getJobTrackerName_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getJobTrackerName_result.class, metaDataMap);
     }
 
     public getJobTrackerName_result() {
@@ -3278,7 +3312,7 @@ public class Jobtracker {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -3311,7 +3345,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -3374,7 +3408,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -3386,25 +3420,25 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.success = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -3414,7 +3448,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -3442,21 +3476,37 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getClusterStatus_args implements TBase<getClusterStatus_args, getClusterStatus_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getClusterStatus_args");
+  public static class getClusterStatus_args implements org.apache.thrift.TBase<getClusterStatus_args, getClusterStatus_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getClusterStatus_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -3515,13 +3565,13 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getClusterStatus_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getClusterStatus_args.class, metaDataMap);
     }
 
     public getClusterStatus_args() {
@@ -3565,7 +3615,7 @@ public class Jobtracker {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -3598,7 +3648,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -3661,7 +3711,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -3673,26 +3723,26 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -3702,7 +3752,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -3731,21 +3781,37 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getClusterStatus_result implements TBase<getClusterStatus_result, getClusterStatus_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getClusterStatus_result");
+  public static class getClusterStatus_result implements org.apache.thrift.TBase<getClusterStatus_result, getClusterStatus_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getClusterStatus_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
 
     public ThriftClusterStatus success;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -3804,13 +3870,13 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, ThriftClusterStatus.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftClusterStatus.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getClusterStatus_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getClusterStatus_result.class, metaDataMap);
     }
 
     public getClusterStatus_result() {
@@ -3854,7 +3920,7 @@ public class Jobtracker {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -3887,7 +3953,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -3950,7 +4016,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -3962,26 +4028,26 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.success = new ThriftClusterStatus();
               this.success.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -3991,7 +4057,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -4019,21 +4085,37 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getQueues_args implements TBase<getQueues_args, getQueues_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getQueues_args");
+  public static class getQueues_args implements org.apache.thrift.TBase<getQueues_args, getQueues_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getQueues_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -4092,13 +4174,13 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getQueues_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getQueues_args.class, metaDataMap);
     }
 
     public getQueues_args() {
@@ -4142,7 +4224,7 @@ public class Jobtracker {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -4175,7 +4257,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -4238,7 +4320,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -4250,26 +4332,26 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -4279,7 +4361,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -4308,23 +4390,39 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getQueues_result implements TBase<getQueues_result, getQueues_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getQueues_result");
+  public static class getQueues_result implements org.apache.thrift.TBase<getQueues_result, getQueues_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getQueues_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.STRUCT, (short)0);
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public ThriftJobQueueList success;
     public org.apache.hadoop.thriftfs.api.IOException err;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success"),
       ERR((short)1, "err");
 
@@ -4386,15 +4484,15 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, ThriftJobQueueList.class)));
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftJobQueueList.class)));
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getQueues_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getQueues_result.class, metaDataMap);
     }
 
     public getQueues_result() {
@@ -4444,7 +4542,7 @@ public class Jobtracker {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -4468,7 +4566,7 @@ public class Jobtracker {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -4512,7 +4610,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -4591,7 +4689,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -4601,7 +4699,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -4613,34 +4711,34 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.success = new ThriftJobQueueList();
               this.success.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new org.apache.hadoop.thriftfs.api.IOException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -4650,7 +4748,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -4690,23 +4788,39 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getJob_args implements TBase<getJob_args, getJob_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getJob_args");
+  public static class getJob_args implements org.apache.thrift.TBase<getJob_args, getJob_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getJob_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
-    private static final TField JOB_ID_FIELD_DESC = new TField("jobID", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField JOB_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("jobID", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     public ThriftJobID jobID;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx"),
       JOB_ID((short)1, "jobID");
 
@@ -4768,15 +4882,15 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.JOB_ID, new FieldMetaData("jobID", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, ThriftJobID.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.JOB_ID, new org.apache.thrift.meta_data.FieldMetaData("jobID", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftJobID.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getJob_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getJob_args.class, metaDataMap);
     }
 
     public getJob_args() {
@@ -4826,7 +4940,7 @@ public class Jobtracker {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -4850,7 +4964,7 @@ public class Jobtracker {
       this.jobID = null;
     }
 
-    /** Returns true if field jobID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field jobID is set (has been assigned a value) and false otherwise */
     public boolean isSetJobID() {
       return this.jobID != null;
     }
@@ -4894,7 +5008,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -4973,7 +5087,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -4983,7 +5097,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetJobID()) {
-        lastComparison = TBaseHelper.compareTo(this.jobID, typedOther.jobID);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.jobID, typedOther.jobID);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -4995,34 +5109,34 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // JOB_ID
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.jobID = new ThriftJobID();
               this.jobID.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -5032,7 +5146,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -5074,23 +5188,39 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getJob_result implements TBase<getJob_result, getJob_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getJob_result");
+  public static class getJob_result implements org.apache.thrift.TBase<getJob_result, getJob_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getJob_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.STRUCT, (short)0);
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public ThriftJobInProgress success;
     public JobNotFoundException err;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success"),
       ERR((short)1, "err");
 
@@ -5152,15 +5282,15 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, ThriftJobInProgress.class)));
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftJobInProgress.class)));
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getJob_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getJob_result.class, metaDataMap);
     }
 
     public getJob_result() {
@@ -5210,7 +5340,7 @@ public class Jobtracker {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -5234,7 +5364,7 @@ public class Jobtracker {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -5278,7 +5408,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -5357,7 +5487,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -5367,7 +5497,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -5379,34 +5509,34 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.success = new ThriftJobInProgress();
               this.success.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new JobNotFoundException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -5416,7 +5546,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -5456,21 +5586,37 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getRunningJobs_args implements TBase<getRunningJobs_args, getRunningJobs_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getRunningJobs_args");
+  public static class getRunningJobs_args implements org.apache.thrift.TBase<getRunningJobs_args, getRunningJobs_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getRunningJobs_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -5529,13 +5675,13 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getRunningJobs_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getRunningJobs_args.class, metaDataMap);
     }
 
     public getRunningJobs_args() {
@@ -5579,7 +5725,7 @@ public class Jobtracker {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -5612,7 +5758,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -5675,7 +5821,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -5687,26 +5833,26 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -5716,7 +5862,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -5745,21 +5891,37 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getRunningJobs_result implements TBase<getRunningJobs_result, getRunningJobs_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getRunningJobs_result");
+  public static class getRunningJobs_result implements org.apache.thrift.TBase<getRunningJobs_result, getRunningJobs_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getRunningJobs_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
 
     public ThriftJobList success;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -5818,13 +5980,13 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, ThriftJobList.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftJobList.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getRunningJobs_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getRunningJobs_result.class, metaDataMap);
     }
 
     public getRunningJobs_result() {
@@ -5868,7 +6030,7 @@ public class Jobtracker {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -5901,7 +6063,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -5964,7 +6126,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -5976,26 +6138,26 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.success = new ThriftJobList();
               this.success.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -6005,7 +6167,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -6033,21 +6195,37 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getCompletedJobs_args implements TBase<getCompletedJobs_args, getCompletedJobs_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getCompletedJobs_args");
+  public static class getCompletedJobs_args implements org.apache.thrift.TBase<getCompletedJobs_args, getCompletedJobs_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getCompletedJobs_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -6106,13 +6284,13 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getCompletedJobs_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getCompletedJobs_args.class, metaDataMap);
     }
 
     public getCompletedJobs_args() {
@@ -6156,7 +6334,7 @@ public class Jobtracker {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -6189,7 +6367,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -6252,7 +6430,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -6264,26 +6442,26 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -6293,7 +6471,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -6322,21 +6500,37 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getCompletedJobs_result implements TBase<getCompletedJobs_result, getCompletedJobs_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getCompletedJobs_result");
+  public static class getCompletedJobs_result implements org.apache.thrift.TBase<getCompletedJobs_result, getCompletedJobs_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getCompletedJobs_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
 
     public ThriftJobList success;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -6395,13 +6589,13 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, ThriftJobList.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftJobList.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getCompletedJobs_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getCompletedJobs_result.class, metaDataMap);
     }
 
     public getCompletedJobs_result() {
@@ -6445,7 +6639,7 @@ public class Jobtracker {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -6478,7 +6672,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -6541,7 +6735,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -6553,26 +6747,26 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.success = new ThriftJobList();
               this.success.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -6582,7 +6776,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -6610,21 +6804,37 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getFailedJobs_args implements TBase<getFailedJobs_args, getFailedJobs_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getFailedJobs_args");
+  public static class getFailedJobs_args implements org.apache.thrift.TBase<getFailedJobs_args, getFailedJobs_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getFailedJobs_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -6683,13 +6893,13 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getFailedJobs_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getFailedJobs_args.class, metaDataMap);
     }
 
     public getFailedJobs_args() {
@@ -6733,7 +6943,7 @@ public class Jobtracker {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -6766,7 +6976,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -6829,7 +7039,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -6841,26 +7051,26 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -6870,7 +7080,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -6899,21 +7109,37 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getFailedJobs_result implements TBase<getFailedJobs_result, getFailedJobs_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getFailedJobs_result");
+  public static class getFailedJobs_result implements org.apache.thrift.TBase<getFailedJobs_result, getFailedJobs_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getFailedJobs_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
 
     public ThriftJobList success;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -6972,13 +7198,13 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, ThriftJobList.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftJobList.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getFailedJobs_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getFailedJobs_result.class, metaDataMap);
     }
 
     public getFailedJobs_result() {
@@ -7022,7 +7248,7 @@ public class Jobtracker {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -7055,7 +7281,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -7118,7 +7344,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -7130,26 +7356,26 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.success = new ThriftJobList();
               this.success.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -7159,7 +7385,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -7187,21 +7413,37 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getKilledJobs_args implements TBase<getKilledJobs_args, getKilledJobs_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getKilledJobs_args");
+  public static class getKilledJobs_args implements org.apache.thrift.TBase<getKilledJobs_args, getKilledJobs_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getKilledJobs_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -7260,13 +7502,13 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getKilledJobs_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getKilledJobs_args.class, metaDataMap);
     }
 
     public getKilledJobs_args() {
@@ -7310,7 +7552,7 @@ public class Jobtracker {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -7343,7 +7585,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -7406,7 +7648,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -7418,26 +7660,26 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -7447,7 +7689,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -7476,21 +7718,37 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getKilledJobs_result implements TBase<getKilledJobs_result, getKilledJobs_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getKilledJobs_result");
+  public static class getKilledJobs_result implements org.apache.thrift.TBase<getKilledJobs_result, getKilledJobs_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getKilledJobs_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
 
     public ThriftJobList success;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -7549,13 +7807,13 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, ThriftJobList.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftJobList.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getKilledJobs_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getKilledJobs_result.class, metaDataMap);
     }
 
     public getKilledJobs_result() {
@@ -7599,7 +7857,7 @@ public class Jobtracker {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -7632,7 +7890,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -7695,7 +7953,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -7707,26 +7965,26 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.success = new ThriftJobList();
               this.success.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -7736,7 +7994,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -7764,21 +8022,37 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getAllJobs_args implements TBase<getAllJobs_args, getAllJobs_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getAllJobs_args");
+  public static class getAllJobs_args implements org.apache.thrift.TBase<getAllJobs_args, getAllJobs_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getAllJobs_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -7837,13 +8111,13 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getAllJobs_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getAllJobs_args.class, metaDataMap);
     }
 
     public getAllJobs_args() {
@@ -7887,7 +8161,7 @@ public class Jobtracker {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -7920,7 +8194,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -7983,7 +8257,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -7995,26 +8269,26 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -8024,7 +8298,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -8053,21 +8327,37 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getAllJobs_result implements TBase<getAllJobs_result, getAllJobs_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getAllJobs_result");
+  public static class getAllJobs_result implements org.apache.thrift.TBase<getAllJobs_result, getAllJobs_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getAllJobs_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
 
     public ThriftJobList success;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -8126,13 +8416,13 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, ThriftJobList.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftJobList.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getAllJobs_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getAllJobs_result.class, metaDataMap);
     }
 
     public getAllJobs_result() {
@@ -8176,7 +8466,7 @@ public class Jobtracker {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -8209,7 +8499,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -8272,7 +8562,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -8284,26 +8574,26 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.success = new ThriftJobList();
               this.success.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -8313,7 +8603,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -8341,23 +8631,39 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getUserJobCounts_args implements TBase<getUserJobCounts_args, getUserJobCounts_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getUserJobCounts_args");
+  public static class getUserJobCounts_args implements org.apache.thrift.TBase<getUserJobCounts_args, getUserJobCounts_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getUserJobCounts_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)1);
-    private static final TField USER_FIELD_DESC = new TField("user", TType.STRING, (short)2);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField USER_FIELD_DESC = new org.apache.thrift.protocol.TField("user", org.apache.thrift.protocol.TType.STRING, (short)2);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     public String user;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)1, "ctx"),
       USER((short)2, "user");
 
@@ -8419,15 +8725,15 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.USER, new FieldMetaData("user", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRING)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.USER, new org.apache.thrift.meta_data.FieldMetaData("user", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getUserJobCounts_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getUserJobCounts_args.class, metaDataMap);
     }
 
     public getUserJobCounts_args() {
@@ -8477,7 +8783,7 @@ public class Jobtracker {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -8501,7 +8807,7 @@ public class Jobtracker {
       this.user = null;
     }
 
-    /** Returns true if field user is set (has been asigned a value) and false otherwise */
+    /** Returns true if field user is set (has been assigned a value) and false otherwise */
     public boolean isSetUser() {
       return this.user != null;
     }
@@ -8545,7 +8851,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -8624,7 +8930,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -8634,7 +8940,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetUser()) {
-        lastComparison = TBaseHelper.compareTo(this.user, typedOther.user);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.user, typedOther.user);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -8646,33 +8952,33 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 1: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 2: // USER
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.user = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -8682,7 +8988,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -8724,21 +9030,37 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getUserJobCounts_result implements TBase<getUserJobCounts_result, getUserJobCounts_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getUserJobCounts_result");
+  public static class getUserJobCounts_result implements org.apache.thrift.TBase<getUserJobCounts_result, getUserJobCounts_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getUserJobCounts_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
 
     public ThriftUserJobCounts success;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -8797,13 +9119,13 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, ThriftUserJobCounts.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftUserJobCounts.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getUserJobCounts_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getUserJobCounts_result.class, metaDataMap);
     }
 
     public getUserJobCounts_result() {
@@ -8847,7 +9169,7 @@ public class Jobtracker {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -8880,7 +9202,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -8943,7 +9265,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -8955,26 +9277,26 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.success = new ThriftUserJobCounts();
               this.success.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -8984,7 +9306,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -9012,22 +9334,38 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getTaskList_args implements TBase<getTaskList_args, getTaskList_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getTaskList_args");
+  public static class getTaskList_args implements org.apache.thrift.TBase<getTaskList_args, getTaskList_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getTaskList_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)1);
-    private static final TField JOB_ID_FIELD_DESC = new TField("jobID", TType.STRUCT, (short)2);
-    private static final TField TYPES_FIELD_DESC = new TField("types", TType.SET, (short)3);
-    private static final TField STATES_FIELD_DESC = new TField("states", TType.SET, (short)4);
-    private static final TField TEXT_FIELD_DESC = new TField("text", TType.STRING, (short)5);
-    private static final TField COUNT_FIELD_DESC = new TField("count", TType.I32, (short)6);
-    private static final TField OFFSET_FIELD_DESC = new TField("offset", TType.I32, (short)7);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField JOB_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("jobID", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField TYPES_FIELD_DESC = new org.apache.thrift.protocol.TField("types", org.apache.thrift.protocol.TType.SET, (short)3);
+    private static final org.apache.thrift.protocol.TField STATES_FIELD_DESC = new org.apache.thrift.protocol.TField("states", org.apache.thrift.protocol.TType.SET, (short)4);
+    private static final org.apache.thrift.protocol.TField TEXT_FIELD_DESC = new org.apache.thrift.protocol.TField("text", org.apache.thrift.protocol.TType.STRING, (short)5);
+    private static final org.apache.thrift.protocol.TField COUNT_FIELD_DESC = new org.apache.thrift.protocol.TField("count", org.apache.thrift.protocol.TType.I32, (short)6);
+    private static final org.apache.thrift.protocol.TField OFFSET_FIELD_DESC = new org.apache.thrift.protocol.TField("offset", org.apache.thrift.protocol.TType.I32, (short)7);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     public ThriftJobID jobID;
@@ -9038,7 +9376,7 @@ public class Jobtracker {
     public int offset;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)1, "ctx"),
       JOB_ID((short)2, "jobID"),
       TYPES((short)3, "types"),
@@ -9118,27 +9456,27 @@ public class Jobtracker {
     private static final int __OFFSET_ISSET_ID = 1;
     private BitSet __isset_bit_vector = new BitSet(2);
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.JOB_ID, new FieldMetaData("jobID", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, ThriftJobID.class)));
-      tmpMap.put(_Fields.TYPES, new FieldMetaData("types", TFieldRequirementType.DEFAULT, 
-          new SetMetaData(TType.SET, 
-              new EnumMetaData(TType.ENUM, ThriftTaskType.class))));
-      tmpMap.put(_Fields.STATES, new FieldMetaData("states", TFieldRequirementType.DEFAULT, 
-          new SetMetaData(TType.SET, 
-              new EnumMetaData(TType.ENUM, ThriftTaskQueryState.class))));
-      tmpMap.put(_Fields.TEXT, new FieldMetaData("text", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRING)));
-      tmpMap.put(_Fields.COUNT, new FieldMetaData("count", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.I32)));
-      tmpMap.put(_Fields.OFFSET, new FieldMetaData("offset", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.I32)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.JOB_ID, new org.apache.thrift.meta_data.FieldMetaData("jobID", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftJobID.class)));
+      tmpMap.put(_Fields.TYPES, new org.apache.thrift.meta_data.FieldMetaData("types", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.SetMetaData(org.apache.thrift.protocol.TType.SET, 
+              new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, ThriftTaskType.class))));
+      tmpMap.put(_Fields.STATES, new org.apache.thrift.meta_data.FieldMetaData("states", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.SetMetaData(org.apache.thrift.protocol.TType.SET, 
+              new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, ThriftTaskQueryState.class))));
+      tmpMap.put(_Fields.TEXT, new org.apache.thrift.meta_data.FieldMetaData("text", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.COUNT, new org.apache.thrift.meta_data.FieldMetaData("count", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.OFFSET, new org.apache.thrift.meta_data.FieldMetaData("offset", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getTaskList_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getTaskList_args.class, metaDataMap);
     }
 
     public getTaskList_args() {
@@ -9228,7 +9566,7 @@ public class Jobtracker {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -9252,7 +9590,7 @@ public class Jobtracker {
       this.jobID = null;
     }
 
-    /** Returns true if field jobID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field jobID is set (has been assigned a value) and false otherwise */
     public boolean isSetJobID() {
       return this.jobID != null;
     }
@@ -9291,7 +9629,7 @@ public class Jobtracker {
       this.types = null;
     }
 
-    /** Returns true if field types is set (has been asigned a value) and false otherwise */
+    /** Returns true if field types is set (has been assigned a value) and false otherwise */
     public boolean isSetTypes() {
       return this.types != null;
     }
@@ -9330,7 +9668,7 @@ public class Jobtracker {
       this.states = null;
     }
 
-    /** Returns true if field states is set (has been asigned a value) and false otherwise */
+    /** Returns true if field states is set (has been assigned a value) and false otherwise */
     public boolean isSetStates() {
       return this.states != null;
     }
@@ -9354,7 +9692,7 @@ public class Jobtracker {
       this.text = null;
     }
 
-    /** Returns true if field text is set (has been asigned a value) and false otherwise */
+    /** Returns true if field text is set (has been assigned a value) and false otherwise */
     public boolean isSetText() {
       return this.text != null;
     }
@@ -9379,7 +9717,7 @@ public class Jobtracker {
       __isset_bit_vector.clear(__COUNT_ISSET_ID);
     }
 
-    /** Returns true if field count is set (has been asigned a value) and false otherwise */
+    /** Returns true if field count is set (has been assigned a value) and false otherwise */
     public boolean isSetCount() {
       return __isset_bit_vector.get(__COUNT_ISSET_ID);
     }
@@ -9402,7 +9740,7 @@ public class Jobtracker {
       __isset_bit_vector.clear(__OFFSET_ISSET_ID);
     }
 
-    /** Returns true if field offset is set (has been asigned a value) and false otherwise */
+    /** Returns true if field offset is set (has been assigned a value) and false otherwise */
     public boolean isSetOffset() {
       return __isset_bit_vector.get(__OFFSET_ISSET_ID);
     }
@@ -9499,7 +9837,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -9658,7 +9996,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -9668,7 +10006,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetJobID()) {
-        lastComparison = TBaseHelper.compareTo(this.jobID, typedOther.jobID);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.jobID, typedOther.jobID);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -9678,7 +10016,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetTypes()) {
-        lastComparison = TBaseHelper.compareTo(this.types, typedOther.types);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.types, typedOther.types);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -9688,7 +10026,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetStates()) {
-        lastComparison = TBaseHelper.compareTo(this.states, typedOther.states);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.states, typedOther.states);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -9698,7 +10036,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetText()) {
-        lastComparison = TBaseHelper.compareTo(this.text, typedOther.text);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.text, typedOther.text);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -9708,7 +10046,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetCount()) {
-        lastComparison = TBaseHelper.compareTo(this.count, typedOther.count);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.count, typedOther.count);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -9718,7 +10056,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetOffset()) {
-        lastComparison = TBaseHelper.compareTo(this.offset, typedOther.offset);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.offset, typedOther.offset);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -9730,36 +10068,36 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 1: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 2: // JOB_ID
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.jobID = new ThriftJobID();
               this.jobID.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 3: // TYPES
-            if (field.type == TType.SET) {
+            if (field.type == org.apache.thrift.protocol.TType.SET) {
               {
-                TSet _set59 = iprot.readSetBegin();
+                org.apache.thrift.protocol.TSet _set59 = iprot.readSetBegin();
                 this.types = new HashSet<ThriftTaskType>(2*_set59.size);
                 for (int _i60 = 0; _i60 < _set59.size; ++_i60)
                 {
@@ -9770,13 +10108,13 @@ public class Jobtracker {
                 iprot.readSetEnd();
               }
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 4: // STATES
-            if (field.type == TType.SET) {
+            if (field.type == org.apache.thrift.protocol.TType.SET) {
               {
-                TSet _set62 = iprot.readSetBegin();
+                org.apache.thrift.protocol.TSet _set62 = iprot.readSetBegin();
                 this.states = new HashSet<ThriftTaskQueryState>(2*_set62.size);
                 for (int _i63 = 0; _i63 < _set62.size; ++_i63)
                 {
@@ -9787,34 +10125,34 @@ public class Jobtracker {
                 iprot.readSetEnd();
               }
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 5: // TEXT
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.text = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 6: // COUNT
-            if (field.type == TType.I32) {
+            if (field.type == org.apache.thrift.protocol.TType.I32) {
               this.count = iprot.readI32();
               setCountIsSet(true);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 7: // OFFSET
-            if (field.type == TType.I32) {
+            if (field.type == org.apache.thrift.protocol.TType.I32) {
               this.offset = iprot.readI32();
               setOffsetIsSet(true);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -9824,7 +10162,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -9841,7 +10179,7 @@ public class Jobtracker {
       if (this.types != null) {
         oprot.writeFieldBegin(TYPES_FIELD_DESC);
         {
-          oprot.writeSetBegin(new TSet(TType.I32, this.types.size()));
+          oprot.writeSetBegin(new org.apache.thrift.protocol.TSet(org.apache.thrift.protocol.TType.I32, this.types.size()));
           for (ThriftTaskType _iter65 : this.types)
           {
             oprot.writeI32(_iter65.getValue());
@@ -9853,7 +10191,7 @@ public class Jobtracker {
       if (this.states != null) {
         oprot.writeFieldBegin(STATES_FIELD_DESC);
         {
-          oprot.writeSetBegin(new TSet(TType.I32, this.states.size()));
+          oprot.writeSetBegin(new org.apache.thrift.protocol.TSet(org.apache.thrift.protocol.TType.I32, this.states.size()));
           for (ThriftTaskQueryState _iter66 : this.states)
           {
             oprot.writeI32(_iter66.getValue());
@@ -9933,23 +10271,41 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bit_vector = new BitSet(1);
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getTaskList_result implements TBase<getTaskList_result, getTaskList_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getTaskList_result");
+  public static class getTaskList_result implements org.apache.thrift.TBase<getTaskList_result, getTaskList_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getTaskList_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.STRUCT, (short)0);
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public ThriftTaskInProgressList success;
     public JobNotFoundException err;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success"),
       ERR((short)1, "err");
 
@@ -10011,15 +10367,15 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, ThriftTaskInProgressList.class)));
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftTaskInProgressList.class)));
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getTaskList_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getTaskList_result.class, metaDataMap);
     }
 
     public getTaskList_result() {
@@ -10069,7 +10425,7 @@ public class Jobtracker {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -10093,7 +10449,7 @@ public class Jobtracker {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -10137,7 +10493,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -10216,7 +10572,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -10226,7 +10582,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -10238,34 +10594,34 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.success = new ThriftTaskInProgressList();
               this.success.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new JobNotFoundException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -10275,7 +10631,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -10315,23 +10671,39 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getTask_args implements TBase<getTask_args, getTask_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getTask_args");
+  public static class getTask_args implements org.apache.thrift.TBase<getTask_args, getTask_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getTask_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)1);
-    private static final TField TASK_ID_FIELD_DESC = new TField("taskID", TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField TASK_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("taskID", org.apache.thrift.protocol.TType.STRUCT, (short)2);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     public ThriftTaskID taskID;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)1, "ctx"),
       TASK_ID((short)2, "taskID");
 
@@ -10393,15 +10765,15 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.TASK_ID, new FieldMetaData("taskID", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, ThriftTaskID.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.TASK_ID, new org.apache.thrift.meta_data.FieldMetaData("taskID", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftTaskID.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getTask_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getTask_args.class, metaDataMap);
     }
 
     public getTask_args() {
@@ -10451,7 +10823,7 @@ public class Jobtracker {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -10475,7 +10847,7 @@ public class Jobtracker {
       this.taskID = null;
     }
 
-    /** Returns true if field taskID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field taskID is set (has been assigned a value) and false otherwise */
     public boolean isSetTaskID() {
       return this.taskID != null;
     }
@@ -10519,7 +10891,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -10598,7 +10970,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -10608,7 +10980,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetTaskID()) {
-        lastComparison = TBaseHelper.compareTo(this.taskID, typedOther.taskID);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.taskID, typedOther.taskID);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -10620,34 +10992,34 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 1: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 2: // TASK_ID
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.taskID = new ThriftTaskID();
               this.taskID.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -10657,7 +11029,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -10699,25 +11071,41 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getTask_result implements TBase<getTask_result, getTask_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getTask_result");
+  public static class getTask_result implements org.apache.thrift.TBase<getTask_result, getTask_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getTask_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.STRUCT, (short)0);
-    private static final TField JNF_FIELD_DESC = new TField("jnf", TType.STRUCT, (short)1);
-    private static final TField TNF_FIELD_DESC = new TField("tnf", TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField JNF_FIELD_DESC = new org.apache.thrift.protocol.TField("jnf", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField TNF_FIELD_DESC = new org.apache.thrift.protocol.TField("tnf", org.apache.thrift.protocol.TType.STRUCT, (short)2);
 
     public ThriftTaskInProgress success;
     public JobNotFoundException jnf;
     public TaskNotFoundException tnf;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success"),
       JNF((short)1, "jnf"),
       TNF((short)2, "tnf");
@@ -10782,17 +11170,17 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, ThriftTaskInProgress.class)));
-      tmpMap.put(_Fields.JNF, new FieldMetaData("jnf", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
-      tmpMap.put(_Fields.TNF, new FieldMetaData("tnf", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftTaskInProgress.class)));
+      tmpMap.put(_Fields.JNF, new org.apache.thrift.meta_data.FieldMetaData("jnf", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.TNF, new org.apache.thrift.meta_data.FieldMetaData("tnf", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getTask_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getTask_result.class, metaDataMap);
     }
 
     public getTask_result() {
@@ -10848,7 +11236,7 @@ public class Jobtracker {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -10872,7 +11260,7 @@ public class Jobtracker {
       this.jnf = null;
     }
 
-    /** Returns true if field jnf is set (has been asigned a value) and false otherwise */
+    /** Returns true if field jnf is set (has been assigned a value) and false otherwise */
     public boolean isSetJnf() {
       return this.jnf != null;
     }
@@ -10896,7 +11284,7 @@ public class Jobtracker {
       this.tnf = null;
     }
 
-    /** Returns true if field tnf is set (has been asigned a value) and false otherwise */
+    /** Returns true if field tnf is set (has been assigned a value) and false otherwise */
     public boolean isSetTnf() {
       return this.tnf != null;
     }
@@ -10951,7 +11339,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -11046,7 +11434,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -11056,7 +11444,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetJnf()) {
-        lastComparison = TBaseHelper.compareTo(this.jnf, typedOther.jnf);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.jnf, typedOther.jnf);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -11066,7 +11454,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetTnf()) {
-        lastComparison = TBaseHelper.compareTo(this.tnf, typedOther.tnf);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.tnf, typedOther.tnf);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -11078,42 +11466,42 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.success = new ThriftTaskInProgress();
               this.success.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // JNF
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.jnf = new JobNotFoundException();
               this.jnf.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 2: // TNF
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.tnf = new TaskNotFoundException();
               this.tnf.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -11123,7 +11511,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -11175,23 +11563,39 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getJobCounters_args implements TBase<getJobCounters_args, getJobCounters_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getJobCounters_args");
+  public static class getJobCounters_args implements org.apache.thrift.TBase<getJobCounters_args, getJobCounters_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getJobCounters_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
-    private static final TField JOB_ID_FIELD_DESC = new TField("jobID", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField JOB_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("jobID", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     public ThriftJobID jobID;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx"),
       JOB_ID((short)1, "jobID");
 
@@ -11253,15 +11657,15 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.JOB_ID, new FieldMetaData("jobID", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, ThriftJobID.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.JOB_ID, new org.apache.thrift.meta_data.FieldMetaData("jobID", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftJobID.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getJobCounters_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getJobCounters_args.class, metaDataMap);
     }
 
     public getJobCounters_args() {
@@ -11311,7 +11715,7 @@ public class Jobtracker {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -11335,7 +11739,7 @@ public class Jobtracker {
       this.jobID = null;
     }
 
-    /** Returns true if field jobID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field jobID is set (has been assigned a value) and false otherwise */
     public boolean isSetJobID() {
       return this.jobID != null;
     }
@@ -11379,7 +11783,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -11458,7 +11862,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -11468,7 +11872,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetJobID()) {
-        lastComparison = TBaseHelper.compareTo(this.jobID, typedOther.jobID);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.jobID, typedOther.jobID);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -11480,34 +11884,34 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // JOB_ID
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.jobID = new ThriftJobID();
               this.jobID.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -11517,7 +11921,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -11559,23 +11963,39 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getJobCounters_result implements TBase<getJobCounters_result, getJobCounters_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getJobCounters_result");
+  public static class getJobCounters_result implements org.apache.thrift.TBase<getJobCounters_result, getJobCounters_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getJobCounters_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.STRUCT, (short)0);
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public ThriftGroupList success;
     public JobNotFoundException err;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success"),
       ERR((short)1, "err");
 
@@ -11637,15 +12057,15 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, ThriftGroupList.class)));
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftGroupList.class)));
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getJobCounters_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getJobCounters_result.class, metaDataMap);
     }
 
     public getJobCounters_result() {
@@ -11695,7 +12115,7 @@ public class Jobtracker {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -11719,7 +12139,7 @@ public class Jobtracker {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -11763,7 +12183,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -11842,7 +12262,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -11852,7 +12272,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -11864,34 +12284,34 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.success = new ThriftGroupList();
               this.success.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new JobNotFoundException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -11901,7 +12321,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -11941,23 +12361,39 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getJobCounterRollups_args implements TBase<getJobCounterRollups_args, getJobCounterRollups_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getJobCounterRollups_args");
+  public static class getJobCounterRollups_args implements org.apache.thrift.TBase<getJobCounterRollups_args, getJobCounterRollups_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getJobCounterRollups_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
-    private static final TField JOB_ID_FIELD_DESC = new TField("jobID", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField JOB_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("jobID", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     public ThriftJobID jobID;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx"),
       JOB_ID((short)1, "jobID");
 
@@ -12019,15 +12455,15 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.JOB_ID, new FieldMetaData("jobID", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, ThriftJobID.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.JOB_ID, new org.apache.thrift.meta_data.FieldMetaData("jobID", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftJobID.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getJobCounterRollups_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getJobCounterRollups_args.class, metaDataMap);
     }
 
     public getJobCounterRollups_args() {
@@ -12077,7 +12513,7 @@ public class Jobtracker {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -12101,7 +12537,7 @@ public class Jobtracker {
       this.jobID = null;
     }
 
-    /** Returns true if field jobID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field jobID is set (has been assigned a value) and false otherwise */
     public boolean isSetJobID() {
       return this.jobID != null;
     }
@@ -12145,7 +12581,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -12224,7 +12660,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -12234,7 +12670,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetJobID()) {
-        lastComparison = TBaseHelper.compareTo(this.jobID, typedOther.jobID);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.jobID, typedOther.jobID);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -12246,34 +12682,34 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // JOB_ID
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.jobID = new ThriftJobID();
               this.jobID.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -12283,7 +12719,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -12325,23 +12761,39 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getJobCounterRollups_result implements TBase<getJobCounterRollups_result, getJobCounterRollups_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getJobCounterRollups_result");
+  public static class getJobCounterRollups_result implements org.apache.thrift.TBase<getJobCounterRollups_result, getJobCounterRollups_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getJobCounterRollups_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.STRUCT, (short)0);
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public ThriftJobCounterRollups success;
     public JobNotFoundException err;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success"),
       ERR((short)1, "err");
 
@@ -12403,15 +12855,15 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, ThriftJobCounterRollups.class)));
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftJobCounterRollups.class)));
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getJobCounterRollups_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getJobCounterRollups_result.class, metaDataMap);
     }
 
     public getJobCounterRollups_result() {
@@ -12461,7 +12913,7 @@ public class Jobtracker {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -12485,7 +12937,7 @@ public class Jobtracker {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -12529,7 +12981,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -12608,7 +13060,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -12618,7 +13070,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -12630,34 +13082,34 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.success = new ThriftJobCounterRollups();
               this.success.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new JobNotFoundException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -12667,7 +13119,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -12707,21 +13159,37 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getActiveTrackers_args implements TBase<getActiveTrackers_args, getActiveTrackers_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getActiveTrackers_args");
+  public static class getActiveTrackers_args implements org.apache.thrift.TBase<getActiveTrackers_args, getActiveTrackers_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getActiveTrackers_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -12780,13 +13248,13 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getActiveTrackers_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getActiveTrackers_args.class, metaDataMap);
     }
 
     public getActiveTrackers_args() {
@@ -12830,7 +13298,7 @@ public class Jobtracker {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -12863,7 +13331,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -12926,7 +13394,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -12938,26 +13406,26 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -12967,7 +13435,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -12996,21 +13464,37 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getActiveTrackers_result implements TBase<getActiveTrackers_result, getActiveTrackers_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getActiveTrackers_result");
+  public static class getActiveTrackers_result implements org.apache.thrift.TBase<getActiveTrackers_result, getActiveTrackers_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getActiveTrackers_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
 
     public ThriftTaskTrackerStatusList success;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -13069,13 +13553,13 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, ThriftTaskTrackerStatusList.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftTaskTrackerStatusList.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getActiveTrackers_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getActiveTrackers_result.class, metaDataMap);
     }
 
     public getActiveTrackers_result() {
@@ -13119,7 +13603,7 @@ public class Jobtracker {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -13152,7 +13636,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -13215,7 +13699,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -13227,26 +13711,26 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.success = new ThriftTaskTrackerStatusList();
               this.success.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -13256,7 +13740,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -13284,21 +13768,37 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getBlacklistedTrackers_args implements TBase<getBlacklistedTrackers_args, getBlacklistedTrackers_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getBlacklistedTrackers_args");
+  public static class getBlacklistedTrackers_args implements org.apache.thrift.TBase<getBlacklistedTrackers_args, getBlacklistedTrackers_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getBlacklistedTrackers_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -13357,13 +13857,13 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getBlacklistedTrackers_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getBlacklistedTrackers_args.class, metaDataMap);
     }
 
     public getBlacklistedTrackers_args() {
@@ -13407,7 +13907,7 @@ public class Jobtracker {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -13440,7 +13940,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -13503,7 +14003,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -13515,26 +14015,26 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -13544,7 +14044,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -13573,21 +14073,37 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getBlacklistedTrackers_result implements TBase<getBlacklistedTrackers_result, getBlacklistedTrackers_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getBlacklistedTrackers_result");
+  public static class getBlacklistedTrackers_result implements org.apache.thrift.TBase<getBlacklistedTrackers_result, getBlacklistedTrackers_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getBlacklistedTrackers_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
 
     public ThriftTaskTrackerStatusList success;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -13646,13 +14162,13 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, ThriftTaskTrackerStatusList.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftTaskTrackerStatusList.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getBlacklistedTrackers_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getBlacklistedTrackers_result.class, metaDataMap);
     }
 
     public getBlacklistedTrackers_result() {
@@ -13696,7 +14212,7 @@ public class Jobtracker {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -13729,7 +14245,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -13792,7 +14308,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -13804,26 +14320,26 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.success = new ThriftTaskTrackerStatusList();
               this.success.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -13833,7 +14349,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -13861,21 +14377,37 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getAllTrackers_args implements TBase<getAllTrackers_args, getAllTrackers_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getAllTrackers_args");
+  public static class getAllTrackers_args implements org.apache.thrift.TBase<getAllTrackers_args, getAllTrackers_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getAllTrackers_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -13934,13 +14466,13 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getAllTrackers_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getAllTrackers_args.class, metaDataMap);
     }
 
     public getAllTrackers_args() {
@@ -13984,7 +14516,7 @@ public class Jobtracker {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -14017,7 +14549,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -14080,7 +14612,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -14092,26 +14624,26 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -14121,7 +14653,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -14150,21 +14682,37 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getAllTrackers_result implements TBase<getAllTrackers_result, getAllTrackers_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getAllTrackers_result");
+  public static class getAllTrackers_result implements org.apache.thrift.TBase<getAllTrackers_result, getAllTrackers_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getAllTrackers_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
 
     public ThriftTaskTrackerStatusList success;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -14223,13 +14771,13 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, ThriftTaskTrackerStatusList.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftTaskTrackerStatusList.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getAllTrackers_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getAllTrackers_result.class, metaDataMap);
     }
 
     public getAllTrackers_result() {
@@ -14273,7 +14821,7 @@ public class Jobtracker {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -14306,7 +14854,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -14369,7 +14917,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -14381,26 +14929,26 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.success = new ThriftTaskTrackerStatusList();
               this.success.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -14410,7 +14958,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -14438,23 +14986,39 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getTracker_args implements TBase<getTracker_args, getTracker_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getTracker_args");
+  public static class getTracker_args implements org.apache.thrift.TBase<getTracker_args, getTracker_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getTracker_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
-    private static final TField NAME_FIELD_DESC = new TField("name", TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("name", org.apache.thrift.protocol.TType.STRING, (short)1);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     public String name;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx"),
       NAME((short)1, "name");
 
@@ -14516,15 +15080,15 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.NAME, new FieldMetaData("name", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRING)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.NAME, new org.apache.thrift.meta_data.FieldMetaData("name", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getTracker_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getTracker_args.class, metaDataMap);
     }
 
     public getTracker_args() {
@@ -14574,7 +15138,7 @@ public class Jobtracker {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -14598,7 +15162,7 @@ public class Jobtracker {
       this.name = null;
     }
 
-    /** Returns true if field name is set (has been asigned a value) and false otherwise */
+    /** Returns true if field name is set (has been assigned a value) and false otherwise */
     public boolean isSetName() {
       return this.name != null;
     }
@@ -14642,7 +15206,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -14721,7 +15285,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -14731,7 +15295,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetName()) {
-        lastComparison = TBaseHelper.compareTo(this.name, typedOther.name);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.name, typedOther.name);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -14743,33 +15307,33 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // NAME
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.name = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -14779,7 +15343,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -14821,23 +15385,39 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getTracker_result implements TBase<getTracker_result, getTracker_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getTracker_result");
+  public static class getTracker_result implements org.apache.thrift.TBase<getTracker_result, getTracker_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getTracker_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.STRUCT, (short)0);
-    private static final TField TNE_FIELD_DESC = new TField("tne", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField TNE_FIELD_DESC = new org.apache.thrift.protocol.TField("tne", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public ThriftTaskTrackerStatus success;
     public TaskTrackerNotFoundException tne;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success"),
       TNE((short)1, "tne");
 
@@ -14899,15 +15479,15 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, ThriftTaskTrackerStatus.class)));
-      tmpMap.put(_Fields.TNE, new FieldMetaData("tne", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftTaskTrackerStatus.class)));
+      tmpMap.put(_Fields.TNE, new org.apache.thrift.meta_data.FieldMetaData("tne", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getTracker_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getTracker_result.class, metaDataMap);
     }
 
     public getTracker_result() {
@@ -14957,7 +15537,7 @@ public class Jobtracker {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -14981,7 +15561,7 @@ public class Jobtracker {
       this.tne = null;
     }
 
-    /** Returns true if field tne is set (has been asigned a value) and false otherwise */
+    /** Returns true if field tne is set (has been assigned a value) and false otherwise */
     public boolean isSetTne() {
       return this.tne != null;
     }
@@ -15025,7 +15605,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -15104,7 +15684,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -15114,7 +15694,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetTne()) {
-        lastComparison = TBaseHelper.compareTo(this.tne, typedOther.tne);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.tne, typedOther.tne);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -15126,34 +15706,34 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.success = new ThriftTaskTrackerStatus();
               this.success.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // TNE
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.tne = new TaskTrackerNotFoundException();
               this.tne.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -15163,7 +15743,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -15203,21 +15783,37 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getCurrentTime_args implements TBase<getCurrentTime_args, getCurrentTime_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getCurrentTime_args");
+  public static class getCurrentTime_args implements org.apache.thrift.TBase<getCurrentTime_args, getCurrentTime_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getCurrentTime_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -15276,13 +15872,13 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getCurrentTime_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getCurrentTime_args.class, metaDataMap);
     }
 
     public getCurrentTime_args() {
@@ -15326,7 +15922,7 @@ public class Jobtracker {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -15359,7 +15955,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -15422,7 +16018,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -15434,26 +16030,26 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -15463,7 +16059,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -15492,21 +16088,37 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getCurrentTime_result implements TBase<getCurrentTime_result, getCurrentTime_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getCurrentTime_result");
+  public static class getCurrentTime_result implements org.apache.thrift.TBase<getCurrentTime_result, getCurrentTime_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getCurrentTime_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.I64, (short)0);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.I64, (short)0);
 
     public long success;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
@@ -15567,13 +16179,13 @@ public class Jobtracker {
     private static final int __SUCCESS_ISSET_ID = 0;
     private BitSet __isset_bit_vector = new BitSet(1);
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.I64)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getCurrentTime_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getCurrentTime_result.class, metaDataMap);
     }
 
     public getCurrentTime_result() {
@@ -15620,7 +16232,7 @@ public class Jobtracker {
       __isset_bit_vector.clear(__SUCCESS_ISSET_ID);
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return __isset_bit_vector.get(__SUCCESS_ISSET_ID);
     }
@@ -15651,7 +16263,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -15714,7 +16326,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -15726,26 +16338,26 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.I64) {
+            if (field.type == org.apache.thrift.protocol.TType.I64) {
               this.success = iprot.readI64();
               setSuccessIsSet(true);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -15755,7 +16367,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -15779,23 +16391,39 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getJobConfXML_args implements TBase<getJobConfXML_args, getJobConfXML_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getJobConfXML_args");
+  public static class getJobConfXML_args implements org.apache.thrift.TBase<getJobConfXML_args, getJobConfXML_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getJobConfXML_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
-    private static final TField JOB_ID_FIELD_DESC = new TField("jobID", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField JOB_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("jobID", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     public ThriftJobID jobID;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx"),
       JOB_ID((short)1, "jobID");
 
@@ -15857,15 +16485,15 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.JOB_ID, new FieldMetaData("jobID", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, ThriftJobID.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.JOB_ID, new org.apache.thrift.meta_data.FieldMetaData("jobID", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftJobID.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getJobConfXML_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getJobConfXML_args.class, metaDataMap);
     }
 
     public getJobConfXML_args() {
@@ -15915,7 +16543,7 @@ public class Jobtracker {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -15939,7 +16567,7 @@ public class Jobtracker {
       this.jobID = null;
     }
 
-    /** Returns true if field jobID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field jobID is set (has been assigned a value) and false otherwise */
     public boolean isSetJobID() {
       return this.jobID != null;
     }
@@ -15983,7 +16611,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -16062,7 +16690,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -16072,7 +16700,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetJobID()) {
-        lastComparison = TBaseHelper.compareTo(this.jobID, typedOther.jobID);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.jobID, typedOther.jobID);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -16084,34 +16712,34 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // JOB_ID
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.jobID = new ThriftJobID();
               this.jobID.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -16121,7 +16749,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -16163,23 +16791,39 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getJobConfXML_result implements TBase<getJobConfXML_result, getJobConfXML_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getJobConfXML_result");
+  public static class getJobConfXML_result implements org.apache.thrift.TBase<getJobConfXML_result, getJobConfXML_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getJobConfXML_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.STRING, (short)0);
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRING, (short)0);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public String success;
     public org.apache.hadoop.thriftfs.api.IOException err;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success"),
       ERR((short)1, "err");
 
@@ -16241,15 +16885,15 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRING)));
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getJobConfXML_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getJobConfXML_result.class, metaDataMap);
     }
 
     public getJobConfXML_result() {
@@ -16299,7 +16943,7 @@ public class Jobtracker {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -16323,7 +16967,7 @@ public class Jobtracker {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -16367,7 +17011,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -16446,7 +17090,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -16456,7 +17100,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -16468,33 +17112,33 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.success = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new org.apache.hadoop.thriftfs.api.IOException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -16504,7 +17148,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -16544,23 +17188,39 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class killJob_args implements TBase<killJob_args, killJob_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("killJob_args");
+  public static class killJob_args implements org.apache.thrift.TBase<killJob_args, killJob_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("killJob_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
-    private static final TField JOB_ID_FIELD_DESC = new TField("jobID", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField JOB_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("jobID", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     public ThriftJobID jobID;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx"),
       JOB_ID((short)1, "jobID");
 
@@ -16622,15 +17282,15 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.JOB_ID, new FieldMetaData("jobID", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, ThriftJobID.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.JOB_ID, new org.apache.thrift.meta_data.FieldMetaData("jobID", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftJobID.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(killJob_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(killJob_args.class, metaDataMap);
     }
 
     public killJob_args() {
@@ -16680,7 +17340,7 @@ public class Jobtracker {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -16704,7 +17364,7 @@ public class Jobtracker {
       this.jobID = null;
     }
 
-    /** Returns true if field jobID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field jobID is set (has been assigned a value) and false otherwise */
     public boolean isSetJobID() {
       return this.jobID != null;
     }
@@ -16748,7 +17408,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -16827,7 +17487,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -16837,7 +17497,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetJobID()) {
-        lastComparison = TBaseHelper.compareTo(this.jobID, typedOther.jobID);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.jobID, typedOther.jobID);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -16849,34 +17509,34 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // JOB_ID
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.jobID = new ThriftJobID();
               this.jobID.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -16886,7 +17546,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -16928,23 +17588,39 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class killJob_result implements TBase<killJob_result, killJob_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("killJob_result");
+  public static class killJob_result implements org.apache.thrift.TBase<killJob_result, killJob_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("killJob_result");
 
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
-    private static final TField JNE_FIELD_DESC = new TField("jne", TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField JNE_FIELD_DESC = new org.apache.thrift.protocol.TField("jne", org.apache.thrift.protocol.TType.STRUCT, (short)2);
 
     public org.apache.hadoop.thriftfs.api.IOException err;
     public JobNotFoundException jne;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       ERR((short)1, "err"),
       JNE((short)2, "jne");
 
@@ -17006,15 +17682,15 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
-      tmpMap.put(_Fields.JNE, new FieldMetaData("jne", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.JNE, new org.apache.thrift.meta_data.FieldMetaData("jne", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(killJob_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(killJob_result.class, metaDataMap);
     }
 
     public killJob_result() {
@@ -17064,7 +17740,7 @@ public class Jobtracker {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -17088,7 +17764,7 @@ public class Jobtracker {
       this.jne = null;
     }
 
-    /** Returns true if field jne is set (has been asigned a value) and false otherwise */
+    /** Returns true if field jne is set (has been assigned a value) and false otherwise */
     public boolean isSetJne() {
       return this.jne != null;
     }
@@ -17132,7 +17808,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -17211,7 +17887,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -17221,7 +17897,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetJne()) {
-        lastComparison = TBaseHelper.compareTo(this.jne, typedOther.jne);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.jne, typedOther.jne);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -17233,34 +17909,34 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new org.apache.hadoop.thriftfs.api.IOException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 2: // JNE
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.jne = new JobNotFoundException();
               this.jne.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -17270,7 +17946,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetErr()) {
@@ -17310,23 +17986,39 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class killTaskAttempt_args implements TBase<killTaskAttempt_args, killTaskAttempt_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("killTaskAttempt_args");
+  public static class killTaskAttempt_args implements org.apache.thrift.TBase<killTaskAttempt_args, killTaskAttempt_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("killTaskAttempt_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
-    private static final TField ATTEMPT_ID_FIELD_DESC = new TField("attemptID", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField ATTEMPT_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("attemptID", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     public ThriftTaskAttemptID attemptID;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx"),
       ATTEMPT_ID((short)1, "attemptID");
 
@@ -17388,15 +18080,15 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.ATTEMPT_ID, new FieldMetaData("attemptID", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, ThriftTaskAttemptID.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.ATTEMPT_ID, new org.apache.thrift.meta_data.FieldMetaData("attemptID", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftTaskAttemptID.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(killTaskAttempt_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(killTaskAttempt_args.class, metaDataMap);
     }
 
     public killTaskAttempt_args() {
@@ -17446,7 +18138,7 @@ public class Jobtracker {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -17470,7 +18162,7 @@ public class Jobtracker {
       this.attemptID = null;
     }
 
-    /** Returns true if field attemptID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field attemptID is set (has been assigned a value) and false otherwise */
     public boolean isSetAttemptID() {
       return this.attemptID != null;
     }
@@ -17514,7 +18206,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -17593,7 +18285,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -17603,7 +18295,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetAttemptID()) {
-        lastComparison = TBaseHelper.compareTo(this.attemptID, typedOther.attemptID);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.attemptID, typedOther.attemptID);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -17615,34 +18307,34 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // ATTEMPT_ID
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.attemptID = new ThriftTaskAttemptID();
               this.attemptID.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -17652,7 +18344,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -17694,25 +18386,41 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class killTaskAttempt_result implements TBase<killTaskAttempt_result, killTaskAttempt_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("killTaskAttempt_result");
+  public static class killTaskAttempt_result implements org.apache.thrift.TBase<killTaskAttempt_result, killTaskAttempt_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("killTaskAttempt_result");
 
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
-    private static final TField TNE_FIELD_DESC = new TField("tne", TType.STRUCT, (short)2);
-    private static final TField JNE_FIELD_DESC = new TField("jne", TType.STRUCT, (short)3);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField TNE_FIELD_DESC = new org.apache.thrift.protocol.TField("tne", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField JNE_FIELD_DESC = new org.apache.thrift.protocol.TField("jne", org.apache.thrift.protocol.TType.STRUCT, (short)3);
 
     public org.apache.hadoop.thriftfs.api.IOException err;
     public TaskAttemptNotFoundException tne;
     public JobNotFoundException jne;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       ERR((short)1, "err"),
       TNE((short)2, "tne"),
       JNE((short)3, "jne");
@@ -17777,17 +18485,17 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
-      tmpMap.put(_Fields.TNE, new FieldMetaData("tne", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
-      tmpMap.put(_Fields.JNE, new FieldMetaData("jne", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.TNE, new org.apache.thrift.meta_data.FieldMetaData("tne", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.JNE, new org.apache.thrift.meta_data.FieldMetaData("jne", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(killTaskAttempt_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(killTaskAttempt_result.class, metaDataMap);
     }
 
     public killTaskAttempt_result() {
@@ -17843,7 +18551,7 @@ public class Jobtracker {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -17867,7 +18575,7 @@ public class Jobtracker {
       this.tne = null;
     }
 
-    /** Returns true if field tne is set (has been asigned a value) and false otherwise */
+    /** Returns true if field tne is set (has been assigned a value) and false otherwise */
     public boolean isSetTne() {
       return this.tne != null;
     }
@@ -17891,7 +18599,7 @@ public class Jobtracker {
       this.jne = null;
     }
 
-    /** Returns true if field jne is set (has been asigned a value) and false otherwise */
+    /** Returns true if field jne is set (has been assigned a value) and false otherwise */
     public boolean isSetJne() {
       return this.jne != null;
     }
@@ -17946,7 +18654,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -18041,7 +18749,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -18051,7 +18759,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetTne()) {
-        lastComparison = TBaseHelper.compareTo(this.tne, typedOther.tne);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.tne, typedOther.tne);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -18061,7 +18769,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetJne()) {
-        lastComparison = TBaseHelper.compareTo(this.jne, typedOther.jne);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.jne, typedOther.jne);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -18073,42 +18781,42 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new org.apache.hadoop.thriftfs.api.IOException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 2: // TNE
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.tne = new TaskAttemptNotFoundException();
               this.tne.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 3: // JNE
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.jne = new JobNotFoundException();
               this.jne.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -18118,7 +18826,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetErr()) {
@@ -18170,18 +18878,34 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class setJobPriority_args implements TBase<setJobPriority_args, setJobPriority_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("setJobPriority_args");
+  public static class setJobPriority_args implements org.apache.thrift.TBase<setJobPriority_args, setJobPriority_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("setJobPriority_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
-    private static final TField JOB_ID_FIELD_DESC = new TField("jobID", TType.STRUCT, (short)1);
-    private static final TField PRIORITY_FIELD_DESC = new TField("priority", TType.I32, (short)2);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField JOB_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("jobID", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField PRIORITY_FIELD_DESC = new org.apache.thrift.protocol.TField("priority", org.apache.thrift.protocol.TType.I32, (short)2);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     public ThriftJobID jobID;
@@ -18192,7 +18916,7 @@ public class Jobtracker {
     public ThriftJobPriority priority;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx"),
       JOB_ID((short)1, "jobID"),
       /**
@@ -18261,17 +18985,17 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.JOB_ID, new FieldMetaData("jobID", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, ThriftJobID.class)));
-      tmpMap.put(_Fields.PRIORITY, new FieldMetaData("priority", TFieldRequirementType.DEFAULT, 
-          new EnumMetaData(TType.ENUM, ThriftJobPriority.class)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.JOB_ID, new org.apache.thrift.meta_data.FieldMetaData("jobID", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftJobID.class)));
+      tmpMap.put(_Fields.PRIORITY, new org.apache.thrift.meta_data.FieldMetaData("priority", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.EnumMetaData(org.apache.thrift.protocol.TType.ENUM, ThriftJobPriority.class)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(setJobPriority_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(setJobPriority_args.class, metaDataMap);
     }
 
     public setJobPriority_args() {
@@ -18327,7 +19051,7 @@ public class Jobtracker {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -18351,7 +19075,7 @@ public class Jobtracker {
       this.jobID = null;
     }
 
-    /** Returns true if field jobID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field jobID is set (has been assigned a value) and false otherwise */
     public boolean isSetJobID() {
       return this.jobID != null;
     }
@@ -18383,7 +19107,7 @@ public class Jobtracker {
       this.priority = null;
     }
 
-    /** Returns true if field priority is set (has been asigned a value) and false otherwise */
+    /** Returns true if field priority is set (has been assigned a value) and false otherwise */
     public boolean isSetPriority() {
       return this.priority != null;
     }
@@ -18438,7 +19162,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -18533,7 +19257,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -18543,7 +19267,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetJobID()) {
-        lastComparison = TBaseHelper.compareTo(this.jobID, typedOther.jobID);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.jobID, typedOther.jobID);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -18553,7 +19277,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetPriority()) {
-        lastComparison = TBaseHelper.compareTo(this.priority, typedOther.priority);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.priority, typedOther.priority);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -18565,41 +19289,41 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // JOB_ID
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.jobID = new ThriftJobID();
               this.jobID.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 2: // PRIORITY
-            if (field.type == TType.I32) {
+            if (field.type == org.apache.thrift.protocol.TType.I32) {
               this.priority = ThriftJobPriority.findByValue(iprot.readI32());
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -18609,7 +19333,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -18664,23 +19388,39 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class setJobPriority_result implements TBase<setJobPriority_result, setJobPriority_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("setJobPriority_result");
+  public static class setJobPriority_result implements org.apache.thrift.TBase<setJobPriority_result, setJobPriority_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("setJobPriority_result");
 
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
-    private static final TField JNE_FIELD_DESC = new TField("jne", TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField JNE_FIELD_DESC = new org.apache.thrift.protocol.TField("jne", org.apache.thrift.protocol.TType.STRUCT, (short)2);
 
     public org.apache.hadoop.thriftfs.api.IOException err;
     public JobNotFoundException jne;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       ERR((short)1, "err"),
       JNE((short)2, "jne");
 
@@ -18742,15 +19482,15 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
-      tmpMap.put(_Fields.JNE, new FieldMetaData("jne", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
+      tmpMap.put(_Fields.JNE, new org.apache.thrift.meta_data.FieldMetaData("jne", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(setJobPriority_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(setJobPriority_result.class, metaDataMap);
     }
 
     public setJobPriority_result() {
@@ -18800,7 +19540,7 @@ public class Jobtracker {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -18824,7 +19564,7 @@ public class Jobtracker {
       this.jne = null;
     }
 
-    /** Returns true if field jne is set (has been asigned a value) and false otherwise */
+    /** Returns true if field jne is set (has been assigned a value) and false otherwise */
     public boolean isSetJne() {
       return this.jne != null;
     }
@@ -18868,7 +19608,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -18947,7 +19687,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -18957,7 +19697,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetJne()) {
-        lastComparison = TBaseHelper.compareTo(this.jne, typedOther.jne);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.jne, typedOther.jne);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -18969,34 +19709,34 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new org.apache.hadoop.thriftfs.api.IOException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 2: // JNE
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.jne = new JobNotFoundException();
               this.jne.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -19006,7 +19746,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetErr()) {
@@ -19046,23 +19786,39 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getDelegationToken_args implements TBase<getDelegationToken_args, getDelegationToken_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getDelegationToken_args");
+  public static class getDelegationToken_args implements org.apache.thrift.TBase<getDelegationToken_args, getDelegationToken_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getDelegationToken_args");
 
-    private static final TField CTX_FIELD_DESC = new TField("ctx", TType.STRUCT, (short)10);
-    private static final TField RENEWER_FIELD_DESC = new TField("renewer", TType.STRING, (short)1);
+    private static final org.apache.thrift.protocol.TField CTX_FIELD_DESC = new org.apache.thrift.protocol.TField("ctx", org.apache.thrift.protocol.TType.STRUCT, (short)10);
+    private static final org.apache.thrift.protocol.TField RENEWER_FIELD_DESC = new org.apache.thrift.protocol.TField("renewer", org.apache.thrift.protocol.TType.STRING, (short)1);
 
     public org.apache.hadoop.thriftfs.api.RequestContext ctx;
     public String renewer;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       CTX((short)10, "ctx"),
       RENEWER((short)1, "renewer");
 
@@ -19124,15 +19880,15 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.CTX, new FieldMetaData("ctx", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
-      tmpMap.put(_Fields.RENEWER, new FieldMetaData("renewer", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRING)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.CTX, new org.apache.thrift.meta_data.FieldMetaData("ctx", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.RequestContext.class)));
+      tmpMap.put(_Fields.RENEWER, new org.apache.thrift.meta_data.FieldMetaData("renewer", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getDelegationToken_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getDelegationToken_args.class, metaDataMap);
     }
 
     public getDelegationToken_args() {
@@ -19182,7 +19938,7 @@ public class Jobtracker {
       this.ctx = null;
     }
 
-    /** Returns true if field ctx is set (has been asigned a value) and false otherwise */
+    /** Returns true if field ctx is set (has been assigned a value) and false otherwise */
     public boolean isSetCtx() {
       return this.ctx != null;
     }
@@ -19206,7 +19962,7 @@ public class Jobtracker {
       this.renewer = null;
     }
 
-    /** Returns true if field renewer is set (has been asigned a value) and false otherwise */
+    /** Returns true if field renewer is set (has been assigned a value) and false otherwise */
     public boolean isSetRenewer() {
       return this.renewer != null;
     }
@@ -19250,7 +20006,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -19329,7 +20085,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetCtx()) {
-        lastComparison = TBaseHelper.compareTo(this.ctx, typedOther.ctx);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.ctx, typedOther.ctx);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -19339,7 +20095,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetRenewer()) {
-        lastComparison = TBaseHelper.compareTo(this.renewer, typedOther.renewer);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.renewer, typedOther.renewer);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -19351,33 +20107,33 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 10: // CTX
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.ctx = new org.apache.hadoop.thriftfs.api.RequestContext();
               this.ctx.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // RENEWER
-            if (field.type == TType.STRING) {
+            if (field.type == org.apache.thrift.protocol.TType.STRING) {
               this.renewer = iprot.readString();
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -19387,7 +20143,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       validate();
 
       oprot.writeStructBegin(STRUCT_DESC);
@@ -19429,23 +20185,39 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }
 
-  public static class getDelegationToken_result implements TBase<getDelegationToken_result, getDelegationToken_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final TStruct STRUCT_DESC = new TStruct("getDelegationToken_result");
+  public static class getDelegationToken_result implements org.apache.thrift.TBase<getDelegationToken_result, getDelegationToken_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("getDelegationToken_result");
 
-    private static final TField SUCCESS_FIELD_DESC = new TField("success", TType.STRUCT, (short)0);
-    private static final TField ERR_FIELD_DESC = new TField("err", TType.STRUCT, (short)1);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRUCT, (short)0);
+    private static final org.apache.thrift.protocol.TField ERR_FIELD_DESC = new org.apache.thrift.protocol.TField("err", org.apache.thrift.protocol.TType.STRUCT, (short)1);
 
     public org.apache.hadoop.thriftfs.api.ThriftDelegationToken success;
     public org.apache.hadoop.thriftfs.api.IOException err;
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements TFieldIdEnum {
+    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       SUCCESS((short)0, "success"),
       ERR((short)1, "err");
 
@@ -19507,15 +20279,15 @@ public class Jobtracker {
 
     // isset id assignments
 
-    public static final Map<_Fields, FieldMetaData> metaDataMap;
+    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
-      Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new FieldMetaData("success", TFieldRequirementType.DEFAULT, 
-          new StructMetaData(TType.STRUCT, org.apache.hadoop.thriftfs.api.ThriftDelegationToken.class)));
-      tmpMap.put(_Fields.ERR, new FieldMetaData("err", TFieldRequirementType.DEFAULT, 
-          new FieldValueMetaData(TType.STRUCT)));
+      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, org.apache.hadoop.thriftfs.api.ThriftDelegationToken.class)));
+      tmpMap.put(_Fields.ERR, new org.apache.thrift.meta_data.FieldMetaData("err", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRUCT)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      FieldMetaData.addStructMetaDataMap(getDelegationToken_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getDelegationToken_result.class, metaDataMap);
     }
 
     public getDelegationToken_result() {
@@ -19565,7 +20337,7 @@ public class Jobtracker {
       this.success = null;
     }
 
-    /** Returns true if field success is set (has been asigned a value) and false otherwise */
+    /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
       return this.success != null;
     }
@@ -19589,7 +20361,7 @@ public class Jobtracker {
       this.err = null;
     }
 
-    /** Returns true if field err is set (has been asigned a value) and false otherwise */
+    /** Returns true if field err is set (has been assigned a value) and false otherwise */
     public boolean isSetErr() {
       return this.err != null;
     }
@@ -19633,7 +20405,7 @@ public class Jobtracker {
       throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -19712,7 +20484,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetSuccess()) {
-        lastComparison = TBaseHelper.compareTo(this.success, typedOther.success);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -19722,7 +20494,7 @@ public class Jobtracker {
         return lastComparison;
       }
       if (isSetErr()) {
-        lastComparison = TBaseHelper.compareTo(this.err, typedOther.err);
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.err, typedOther.err);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -19734,34 +20506,34 @@ public class Jobtracker {
       return _Fields.findByThriftId(fieldId);
     }
 
-    public void read(TProtocol iprot) throws TException {
-      TField field;
+    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+      org.apache.thrift.protocol.TField field;
       iprot.readStructBegin();
       while (true)
       {
         field = iprot.readFieldBegin();
-        if (field.type == TType.STOP) { 
+        if (field.type == org.apache.thrift.protocol.TType.STOP) { 
           break;
         }
         switch (field.id) {
           case 0: // SUCCESS
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.success = new org.apache.hadoop.thriftfs.api.ThriftDelegationToken();
               this.success.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           case 1: // ERR
-            if (field.type == TType.STRUCT) {
+            if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
               this.err = new org.apache.hadoop.thriftfs.api.IOException();
               this.err.read(iprot);
             } else { 
-              TProtocolUtil.skip(iprot, field.type);
+              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
             }
             break;
           default:
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
         }
         iprot.readFieldEnd();
       }
@@ -19771,7 +20543,7 @@ public class Jobtracker {
       validate();
     }
 
-    public void write(TProtocol oprot) throws TException {
+    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       oprot.writeStructBegin(STRUCT_DESC);
 
       if (this.isSetSuccess()) {
@@ -19811,8 +20583,24 @@ public class Jobtracker {
       return sb.toString();
     }
 
-    public void validate() throws TException {
+    public void validate() throws org.apache.thrift.TException {
       // check for required fields
+    }
+
+    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+      try {
+        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
+    }
+
+    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+      try {
+        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+      } catch (org.apache.thrift.TException te) {
+        throw new java.io.IOException(te);
+      }
     }
 
   }

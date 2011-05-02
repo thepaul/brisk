@@ -27,6 +27,6 @@ export HADOOP_BIN=$HADOOP_HOME/bin
 #export PIG_HOME=
 export PIG_CLASSPATH=$HADOOP_HOME/conf:$CLASSPATH
 
-export HIVE_HOME=`dirname $0`/../resources/hive
+export HIVE_HOME=`pwd`/`dirname $0`/../resources/hive
 export HIVE_BIN=$HIVE_HOME/bin
 

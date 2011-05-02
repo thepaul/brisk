@@ -21,24 +21,18 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.apache.thrift.*;
-import org.apache.thrift.async.*;
-import org.apache.thrift.meta_data.*;
-import org.apache.thrift.transport.*;
-import org.apache.thrift.protocol.*;
-
 /**
  * Information about the compilation version of this server
  */
-public class VersionInfo implements TBase<VersionInfo, VersionInfo._Fields>, java.io.Serializable, Cloneable {
-  private static final TStruct STRUCT_DESC = new TStruct("VersionInfo");
+public class VersionInfo implements org.apache.thrift.TBase<VersionInfo, VersionInfo._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("VersionInfo");
 
-  private static final TField VERSION_FIELD_DESC = new TField("version", TType.STRING, (short)1);
-  private static final TField REVISION_FIELD_DESC = new TField("revision", TType.STRING, (short)2);
-  private static final TField COMPILE_DATE_FIELD_DESC = new TField("compileDate", TType.STRING, (short)4);
-  private static final TField COMPILING_USER_FIELD_DESC = new TField("compilingUser", TType.STRING, (short)5);
-  private static final TField URL_FIELD_DESC = new TField("url", TType.STRING, (short)6);
-  private static final TField BUILD_VERSION_FIELD_DESC = new TField("buildVersion", TType.STRING, (short)7);
+  private static final org.apache.thrift.protocol.TField VERSION_FIELD_DESC = new org.apache.thrift.protocol.TField("version", org.apache.thrift.protocol.TType.STRING, (short)1);
+  private static final org.apache.thrift.protocol.TField REVISION_FIELD_DESC = new org.apache.thrift.protocol.TField("revision", org.apache.thrift.protocol.TType.STRING, (short)2);
+  private static final org.apache.thrift.protocol.TField COMPILE_DATE_FIELD_DESC = new org.apache.thrift.protocol.TField("compileDate", org.apache.thrift.protocol.TType.STRING, (short)4);
+  private static final org.apache.thrift.protocol.TField COMPILING_USER_FIELD_DESC = new org.apache.thrift.protocol.TField("compilingUser", org.apache.thrift.protocol.TType.STRING, (short)5);
+  private static final org.apache.thrift.protocol.TField URL_FIELD_DESC = new org.apache.thrift.protocol.TField("url", org.apache.thrift.protocol.TType.STRING, (short)6);
+  private static final org.apache.thrift.protocol.TField BUILD_VERSION_FIELD_DESC = new org.apache.thrift.protocol.TField("buildVersion", org.apache.thrift.protocol.TType.STRING, (short)7);
 
   public String version;
   public String revision;
@@ -48,7 +42,7 @@ public class VersionInfo implements TBase<VersionInfo, VersionInfo._Fields>, jav
   public String buildVersion;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements TFieldIdEnum {
+  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     VERSION((short)1, "version"),
     REVISION((short)2, "revision"),
     COMPILE_DATE((short)4, "compileDate"),
@@ -122,23 +116,23 @@ public class VersionInfo implements TBase<VersionInfo, VersionInfo._Fields>, jav
 
   // isset id assignments
 
-  public static final Map<_Fields, FieldMetaData> metaDataMap;
+  public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.VERSION, new FieldMetaData("version", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.STRING)));
-    tmpMap.put(_Fields.REVISION, new FieldMetaData("revision", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.STRING)));
-    tmpMap.put(_Fields.COMPILE_DATE, new FieldMetaData("compileDate", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.STRING)));
-    tmpMap.put(_Fields.COMPILING_USER, new FieldMetaData("compilingUser", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.STRING)));
-    tmpMap.put(_Fields.URL, new FieldMetaData("url", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.STRING)));
-    tmpMap.put(_Fields.BUILD_VERSION, new FieldMetaData("buildVersion", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.STRING)));
+    Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.VERSION, new org.apache.thrift.meta_data.FieldMetaData("version", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.REVISION, new org.apache.thrift.meta_data.FieldMetaData("revision", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.COMPILE_DATE, new org.apache.thrift.meta_data.FieldMetaData("compileDate", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.COMPILING_USER, new org.apache.thrift.meta_data.FieldMetaData("compilingUser", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.URL, new org.apache.thrift.meta_data.FieldMetaData("url", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.BUILD_VERSION, new org.apache.thrift.meta_data.FieldMetaData("buildVersion", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    FieldMetaData.addStructMetaDataMap(VersionInfo.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(VersionInfo.class, metaDataMap);
   }
 
   public VersionInfo() {
@@ -212,7 +206,7 @@ public class VersionInfo implements TBase<VersionInfo, VersionInfo._Fields>, jav
     this.version = null;
   }
 
-  /** Returns true if field version is set (has been asigned a value) and false otherwise */
+  /** Returns true if field version is set (has been assigned a value) and false otherwise */
   public boolean isSetVersion() {
     return this.version != null;
   }
@@ -236,7 +230,7 @@ public class VersionInfo implements TBase<VersionInfo, VersionInfo._Fields>, jav
     this.revision = null;
   }
 
-  /** Returns true if field revision is set (has been asigned a value) and false otherwise */
+  /** Returns true if field revision is set (has been assigned a value) and false otherwise */
   public boolean isSetRevision() {
     return this.revision != null;
   }
@@ -260,7 +254,7 @@ public class VersionInfo implements TBase<VersionInfo, VersionInfo._Fields>, jav
     this.compileDate = null;
   }
 
-  /** Returns true if field compileDate is set (has been asigned a value) and false otherwise */
+  /** Returns true if field compileDate is set (has been assigned a value) and false otherwise */
   public boolean isSetCompileDate() {
     return this.compileDate != null;
   }
@@ -284,7 +278,7 @@ public class VersionInfo implements TBase<VersionInfo, VersionInfo._Fields>, jav
     this.compilingUser = null;
   }
 
-  /** Returns true if field compilingUser is set (has been asigned a value) and false otherwise */
+  /** Returns true if field compilingUser is set (has been assigned a value) and false otherwise */
   public boolean isSetCompilingUser() {
     return this.compilingUser != null;
   }
@@ -308,7 +302,7 @@ public class VersionInfo implements TBase<VersionInfo, VersionInfo._Fields>, jav
     this.url = null;
   }
 
-  /** Returns true if field url is set (has been asigned a value) and false otherwise */
+  /** Returns true if field url is set (has been assigned a value) and false otherwise */
   public boolean isSetUrl() {
     return this.url != null;
   }
@@ -332,7 +326,7 @@ public class VersionInfo implements TBase<VersionInfo, VersionInfo._Fields>, jav
     this.buildVersion = null;
   }
 
-  /** Returns true if field buildVersion is set (has been asigned a value) and false otherwise */
+  /** Returns true if field buildVersion is set (has been assigned a value) and false otherwise */
   public boolean isSetBuildVersion() {
     return this.buildVersion != null;
   }
@@ -420,7 +414,7 @@ public class VersionInfo implements TBase<VersionInfo, VersionInfo._Fields>, jav
     throw new IllegalStateException();
   }
 
-  /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
     if (field == null) {
       throw new IllegalArgumentException();
@@ -563,7 +557,7 @@ public class VersionInfo implements TBase<VersionInfo, VersionInfo._Fields>, jav
       return lastComparison;
     }
     if (isSetVersion()) {
-      lastComparison = TBaseHelper.compareTo(this.version, typedOther.version);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.version, typedOther.version);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -573,7 +567,7 @@ public class VersionInfo implements TBase<VersionInfo, VersionInfo._Fields>, jav
       return lastComparison;
     }
     if (isSetRevision()) {
-      lastComparison = TBaseHelper.compareTo(this.revision, typedOther.revision);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.revision, typedOther.revision);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -583,7 +577,7 @@ public class VersionInfo implements TBase<VersionInfo, VersionInfo._Fields>, jav
       return lastComparison;
     }
     if (isSetCompileDate()) {
-      lastComparison = TBaseHelper.compareTo(this.compileDate, typedOther.compileDate);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.compileDate, typedOther.compileDate);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -593,7 +587,7 @@ public class VersionInfo implements TBase<VersionInfo, VersionInfo._Fields>, jav
       return lastComparison;
     }
     if (isSetCompilingUser()) {
-      lastComparison = TBaseHelper.compareTo(this.compilingUser, typedOther.compilingUser);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.compilingUser, typedOther.compilingUser);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -603,7 +597,7 @@ public class VersionInfo implements TBase<VersionInfo, VersionInfo._Fields>, jav
       return lastComparison;
     }
     if (isSetUrl()) {
-      lastComparison = TBaseHelper.compareTo(this.url, typedOther.url);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.url, typedOther.url);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -613,7 +607,7 @@ public class VersionInfo implements TBase<VersionInfo, VersionInfo._Fields>, jav
       return lastComparison;
     }
     if (isSetBuildVersion()) {
-      lastComparison = TBaseHelper.compareTo(this.buildVersion, typedOther.buildVersion);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.buildVersion, typedOther.buildVersion);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -625,60 +619,60 @@ public class VersionInfo implements TBase<VersionInfo, VersionInfo._Fields>, jav
     return _Fields.findByThriftId(fieldId);
   }
 
-  public void read(TProtocol iprot) throws TException {
-    TField field;
+  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+    org.apache.thrift.protocol.TField field;
     iprot.readStructBegin();
     while (true)
     {
       field = iprot.readFieldBegin();
-      if (field.type == TType.STOP) { 
+      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
         break;
       }
       switch (field.id) {
         case 1: // VERSION
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.version = iprot.readString();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 2: // REVISION
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.revision = iprot.readString();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 4: // COMPILE_DATE
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.compileDate = iprot.readString();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 5: // COMPILING_USER
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.compilingUser = iprot.readString();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 6: // URL
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.url = iprot.readString();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 7: // BUILD_VERSION
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.buildVersion = iprot.readString();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         default:
-          TProtocolUtil.skip(iprot, field.type);
+          org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
       }
       iprot.readFieldEnd();
     }
@@ -688,7 +682,7 @@ public class VersionInfo implements TBase<VersionInfo, VersionInfo._Fields>, jav
     validate();
   }
 
-  public void write(TProtocol oprot) throws TException {
+  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
@@ -782,8 +776,24 @@ public class VersionInfo implements TBase<VersionInfo, VersionInfo._Fields>, jav
     return sb.toString();
   }
 
-  public void validate() throws TException {
+  public void validate() throws org.apache.thrift.TException {
     // check for required fields
+  }
+
+  private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+    try {
+      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
+  }
+
+  private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+    try {
+      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
   }
 
 }

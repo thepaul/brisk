@@ -13,7 +13,7 @@ import org.apache.thrift.TEnum;
 /**
  * Enum version of the ints in JobStatus
  */
-public enum ThriftJobState implements TEnum {
+public enum ThriftJobState implements org.apache.thrift.TEnum {
   RUNNING(1),
   SUCCEEDED(2),
   FAILED(3),

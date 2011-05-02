@@ -21,23 +21,17 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.apache.thrift.*;
-import org.apache.thrift.async.*;
-import org.apache.thrift.meta_data.*;
-import org.apache.thrift.transport.*;
-import org.apache.thrift.protocol.*;
+public class LocalOrRemoteBlock implements org.apache.thrift.TBase<LocalOrRemoteBlock, LocalOrRemoteBlock._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("LocalOrRemoteBlock");
 
-public class LocalOrRemoteBlock implements TBase<LocalOrRemoteBlock, LocalOrRemoteBlock._Fields>, java.io.Serializable, Cloneable {
-  private static final TStruct STRUCT_DESC = new TStruct("LocalOrRemoteBlock");
-
-  private static final TField REMOTE_BLOCK_FIELD_DESC = new TField("remote_block", TType.STRING, (short)1);
-  private static final TField LOCAL_BLOCK_FIELD_DESC = new TField("local_block", TType.STRUCT, (short)2);
+  private static final org.apache.thrift.protocol.TField REMOTE_BLOCK_FIELD_DESC = new org.apache.thrift.protocol.TField("remote_block", org.apache.thrift.protocol.TType.STRING, (short)1);
+  private static final org.apache.thrift.protocol.TField LOCAL_BLOCK_FIELD_DESC = new org.apache.thrift.protocol.TField("local_block", org.apache.thrift.protocol.TType.STRUCT, (short)2);
 
   public ByteBuffer remote_block;
   public LocalBlock local_block;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements TFieldIdEnum {
+  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     REMOTE_BLOCK((short)1, "remote_block"),
     LOCAL_BLOCK((short)2, "local_block");
 
@@ -99,15 +93,15 @@ public class LocalOrRemoteBlock implements TBase<LocalOrRemoteBlock, LocalOrRemo
 
   // isset id assignments
 
-  public static final Map<_Fields, FieldMetaData> metaDataMap;
+  public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.REMOTE_BLOCK, new FieldMetaData("remote_block", TFieldRequirementType.OPTIONAL, 
-        new FieldValueMetaData(TType.STRING)));
-    tmpMap.put(_Fields.LOCAL_BLOCK, new FieldMetaData("local_block", TFieldRequirementType.OPTIONAL, 
-        new StructMetaData(TType.STRUCT, LocalBlock.class)));
+    Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.REMOTE_BLOCK, new org.apache.thrift.meta_data.FieldMetaData("remote_block", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING        , true)));
+    tmpMap.put(_Fields.LOCAL_BLOCK, new org.apache.thrift.meta_data.FieldMetaData("local_block", org.apache.thrift.TFieldRequirementType.OPTIONAL, 
+        new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, LocalBlock.class)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    FieldMetaData.addStructMetaDataMap(LocalOrRemoteBlock.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(LocalOrRemoteBlock.class, metaDataMap);
   }
 
   public LocalOrRemoteBlock() {
@@ -118,7 +112,7 @@ public class LocalOrRemoteBlock implements TBase<LocalOrRemoteBlock, LocalOrRemo
    */
   public LocalOrRemoteBlock(LocalOrRemoteBlock other) {
     if (other.isSetRemote_block()) {
-      this.remote_block = TBaseHelper.copyBinary(other.remote_block);
+      this.remote_block = org.apache.thrift.TBaseHelper.copyBinary(other.remote_block);
 ;
     }
     if (other.isSetLocal_block()) {
@@ -137,16 +131,16 @@ public class LocalOrRemoteBlock implements TBase<LocalOrRemoteBlock, LocalOrRemo
   }
 
   public byte[] getRemote_block() {
-    setRemote_block(TBaseHelper.rightSize(remote_block));
-    return remote_block.array();
+    setRemote_block(org.apache.thrift.TBaseHelper.rightSize(remote_block));
+    return remote_block == null ? null : remote_block.array();
   }
 
-  public ByteBuffer BufferForRemote_block() {
+  public ByteBuffer bufferForRemote_block() {
     return remote_block;
   }
 
   public LocalOrRemoteBlock setRemote_block(byte[] remote_block) {
-    setRemote_block(ByteBuffer.wrap(remote_block));
+    setRemote_block(remote_block == null ? (ByteBuffer)null : ByteBuffer.wrap(remote_block));
     return this;
   }
 
@@ -159,7 +153,7 @@ public class LocalOrRemoteBlock implements TBase<LocalOrRemoteBlock, LocalOrRemo
     this.remote_block = null;
   }
 
-  /** Returns true if field remote_block is set (has been asigned a value) and false otherwise */
+  /** Returns true if field remote_block is set (has been assigned a value) and false otherwise */
   public boolean isSetRemote_block() {
     return this.remote_block != null;
   }
@@ -183,7 +177,7 @@ public class LocalOrRemoteBlock implements TBase<LocalOrRemoteBlock, LocalOrRemo
     this.local_block = null;
   }
 
-  /** Returns true if field local_block is set (has been asigned a value) and false otherwise */
+  /** Returns true if field local_block is set (has been assigned a value) and false otherwise */
   public boolean isSetLocal_block() {
     return this.local_block != null;
   }
@@ -227,7 +221,7 @@ public class LocalOrRemoteBlock implements TBase<LocalOrRemoteBlock, LocalOrRemo
     throw new IllegalStateException();
   }
 
-  /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
     if (field == null) {
       throw new IllegalArgumentException();
@@ -306,7 +300,7 @@ public class LocalOrRemoteBlock implements TBase<LocalOrRemoteBlock, LocalOrRemo
       return lastComparison;
     }
     if (isSetRemote_block()) {
-      lastComparison = TBaseHelper.compareTo(this.remote_block, typedOther.remote_block);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.remote_block, typedOther.remote_block);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -316,7 +310,7 @@ public class LocalOrRemoteBlock implements TBase<LocalOrRemoteBlock, LocalOrRemo
       return lastComparison;
     }
     if (isSetLocal_block()) {
-      lastComparison = TBaseHelper.compareTo(this.local_block, typedOther.local_block);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.local_block, typedOther.local_block);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -328,33 +322,33 @@ public class LocalOrRemoteBlock implements TBase<LocalOrRemoteBlock, LocalOrRemo
     return _Fields.findByThriftId(fieldId);
   }
 
-  public void read(TProtocol iprot) throws TException {
-    TField field;
+  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+    org.apache.thrift.protocol.TField field;
     iprot.readStructBegin();
     while (true)
     {
       field = iprot.readFieldBegin();
-      if (field.type == TType.STOP) { 
+      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
         break;
       }
       switch (field.id) {
         case 1: // REMOTE_BLOCK
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.remote_block = iprot.readBinary();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 2: // LOCAL_BLOCK
-          if (field.type == TType.STRUCT) {
+          if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
             this.local_block = new LocalBlock();
             this.local_block.read(iprot);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         default:
-          TProtocolUtil.skip(iprot, field.type);
+          org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
       }
       iprot.readFieldEnd();
     }
@@ -364,7 +358,7 @@ public class LocalOrRemoteBlock implements TBase<LocalOrRemoteBlock, LocalOrRemo
     validate();
   }
 
-  public void write(TProtocol oprot) throws TException {
+  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
@@ -396,7 +390,7 @@ public class LocalOrRemoteBlock implements TBase<LocalOrRemoteBlock, LocalOrRemo
       if (this.remote_block == null) {
         sb.append("null");
       } else {
-        TBaseHelper.toString(this.remote_block, sb);
+        org.apache.thrift.TBaseHelper.toString(this.remote_block, sb);
       }
       first = false;
     }
@@ -414,8 +408,24 @@ public class LocalOrRemoteBlock implements TBase<LocalOrRemoteBlock, LocalOrRemo
     return sb.toString();
   }
 
-  public void validate() throws TException {
+  public void validate() throws org.apache.thrift.TException {
     // check for required fields
+  }
+
+  private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+    try {
+      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
+  }
+
+  private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+    try {
+      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
   }
 
 }

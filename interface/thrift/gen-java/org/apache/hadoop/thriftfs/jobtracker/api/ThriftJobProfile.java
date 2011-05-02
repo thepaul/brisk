@@ -21,23 +21,17 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.apache.thrift.*;
-import org.apache.thrift.async.*;
-import org.apache.thrift.meta_data.*;
-import org.apache.thrift.transport.*;
-import org.apache.thrift.protocol.*;
-
 /**
  * Job metadata
  */
-public class ThriftJobProfile implements TBase<ThriftJobProfile, ThriftJobProfile._Fields>, java.io.Serializable, Cloneable {
-  private static final TStruct STRUCT_DESC = new TStruct("ThriftJobProfile");
+public class ThriftJobProfile implements org.apache.thrift.TBase<ThriftJobProfile, ThriftJobProfile._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("ThriftJobProfile");
 
-  private static final TField USER_FIELD_DESC = new TField("user", TType.STRING, (short)1);
-  private static final TField JOB_ID_FIELD_DESC = new TField("jobID", TType.STRUCT, (short)2);
-  private static final TField JOB_FILE_FIELD_DESC = new TField("jobFile", TType.STRING, (short)3);
-  private static final TField NAME_FIELD_DESC = new TField("name", TType.STRING, (short)4);
-  private static final TField QUEUE_NAME_FIELD_DESC = new TField("queueName", TType.STRING, (short)5);
+  private static final org.apache.thrift.protocol.TField USER_FIELD_DESC = new org.apache.thrift.protocol.TField("user", org.apache.thrift.protocol.TType.STRING, (short)1);
+  private static final org.apache.thrift.protocol.TField JOB_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("jobID", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+  private static final org.apache.thrift.protocol.TField JOB_FILE_FIELD_DESC = new org.apache.thrift.protocol.TField("jobFile", org.apache.thrift.protocol.TType.STRING, (short)3);
+  private static final org.apache.thrift.protocol.TField NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("name", org.apache.thrift.protocol.TType.STRING, (short)4);
+  private static final org.apache.thrift.protocol.TField QUEUE_NAME_FIELD_DESC = new org.apache.thrift.protocol.TField("queueName", org.apache.thrift.protocol.TType.STRING, (short)5);
 
   public String user;
   public ThriftJobID jobID;
@@ -46,7 +40,7 @@ public class ThriftJobProfile implements TBase<ThriftJobProfile, ThriftJobProfil
   public String queueName;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements TFieldIdEnum {
+  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     USER((short)1, "user"),
     JOB_ID((short)2, "jobID"),
     JOB_FILE((short)3, "jobFile"),
@@ -117,21 +111,21 @@ public class ThriftJobProfile implements TBase<ThriftJobProfile, ThriftJobProfil
 
   // isset id assignments
 
-  public static final Map<_Fields, FieldMetaData> metaDataMap;
+  public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.USER, new FieldMetaData("user", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.STRING)));
-    tmpMap.put(_Fields.JOB_ID, new FieldMetaData("jobID", TFieldRequirementType.DEFAULT, 
-        new StructMetaData(TType.STRUCT, ThriftJobID.class)));
-    tmpMap.put(_Fields.JOB_FILE, new FieldMetaData("jobFile", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.STRING)));
-    tmpMap.put(_Fields.NAME, new FieldMetaData("name", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.STRING)));
-    tmpMap.put(_Fields.QUEUE_NAME, new FieldMetaData("queueName", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.STRING)));
+    Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.USER, new org.apache.thrift.meta_data.FieldMetaData("user", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.JOB_ID, new org.apache.thrift.meta_data.FieldMetaData("jobID", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftJobID.class)));
+    tmpMap.put(_Fields.JOB_FILE, new org.apache.thrift.meta_data.FieldMetaData("jobFile", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.NAME, new org.apache.thrift.meta_data.FieldMetaData("name", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.QUEUE_NAME, new org.apache.thrift.meta_data.FieldMetaData("queueName", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    FieldMetaData.addStructMetaDataMap(ThriftJobProfile.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ThriftJobProfile.class, metaDataMap);
   }
 
   public ThriftJobProfile() {
@@ -199,7 +193,7 @@ public class ThriftJobProfile implements TBase<ThriftJobProfile, ThriftJobProfil
     this.user = null;
   }
 
-  /** Returns true if field user is set (has been asigned a value) and false otherwise */
+  /** Returns true if field user is set (has been assigned a value) and false otherwise */
   public boolean isSetUser() {
     return this.user != null;
   }
@@ -223,7 +217,7 @@ public class ThriftJobProfile implements TBase<ThriftJobProfile, ThriftJobProfil
     this.jobID = null;
   }
 
-  /** Returns true if field jobID is set (has been asigned a value) and false otherwise */
+  /** Returns true if field jobID is set (has been assigned a value) and false otherwise */
   public boolean isSetJobID() {
     return this.jobID != null;
   }
@@ -247,7 +241,7 @@ public class ThriftJobProfile implements TBase<ThriftJobProfile, ThriftJobProfil
     this.jobFile = null;
   }
 
-  /** Returns true if field jobFile is set (has been asigned a value) and false otherwise */
+  /** Returns true if field jobFile is set (has been assigned a value) and false otherwise */
   public boolean isSetJobFile() {
     return this.jobFile != null;
   }
@@ -271,7 +265,7 @@ public class ThriftJobProfile implements TBase<ThriftJobProfile, ThriftJobProfil
     this.name = null;
   }
 
-  /** Returns true if field name is set (has been asigned a value) and false otherwise */
+  /** Returns true if field name is set (has been assigned a value) and false otherwise */
   public boolean isSetName() {
     return this.name != null;
   }
@@ -295,7 +289,7 @@ public class ThriftJobProfile implements TBase<ThriftJobProfile, ThriftJobProfil
     this.queueName = null;
   }
 
-  /** Returns true if field queueName is set (has been asigned a value) and false otherwise */
+  /** Returns true if field queueName is set (has been assigned a value) and false otherwise */
   public boolean isSetQueueName() {
     return this.queueName != null;
   }
@@ -372,7 +366,7 @@ public class ThriftJobProfile implements TBase<ThriftJobProfile, ThriftJobProfil
     throw new IllegalStateException();
   }
 
-  /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
     if (field == null) {
       throw new IllegalArgumentException();
@@ -499,7 +493,7 @@ public class ThriftJobProfile implements TBase<ThriftJobProfile, ThriftJobProfil
       return lastComparison;
     }
     if (isSetUser()) {
-      lastComparison = TBaseHelper.compareTo(this.user, typedOther.user);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.user, typedOther.user);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -509,7 +503,7 @@ public class ThriftJobProfile implements TBase<ThriftJobProfile, ThriftJobProfil
       return lastComparison;
     }
     if (isSetJobID()) {
-      lastComparison = TBaseHelper.compareTo(this.jobID, typedOther.jobID);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.jobID, typedOther.jobID);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -519,7 +513,7 @@ public class ThriftJobProfile implements TBase<ThriftJobProfile, ThriftJobProfil
       return lastComparison;
     }
     if (isSetJobFile()) {
-      lastComparison = TBaseHelper.compareTo(this.jobFile, typedOther.jobFile);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.jobFile, typedOther.jobFile);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -529,7 +523,7 @@ public class ThriftJobProfile implements TBase<ThriftJobProfile, ThriftJobProfil
       return lastComparison;
     }
     if (isSetName()) {
-      lastComparison = TBaseHelper.compareTo(this.name, typedOther.name);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.name, typedOther.name);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -539,7 +533,7 @@ public class ThriftJobProfile implements TBase<ThriftJobProfile, ThriftJobProfil
       return lastComparison;
     }
     if (isSetQueueName()) {
-      lastComparison = TBaseHelper.compareTo(this.queueName, typedOther.queueName);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.queueName, typedOther.queueName);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -551,54 +545,54 @@ public class ThriftJobProfile implements TBase<ThriftJobProfile, ThriftJobProfil
     return _Fields.findByThriftId(fieldId);
   }
 
-  public void read(TProtocol iprot) throws TException {
-    TField field;
+  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+    org.apache.thrift.protocol.TField field;
     iprot.readStructBegin();
     while (true)
     {
       field = iprot.readFieldBegin();
-      if (field.type == TType.STOP) { 
+      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
         break;
       }
       switch (field.id) {
         case 1: // USER
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.user = iprot.readString();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 2: // JOB_ID
-          if (field.type == TType.STRUCT) {
+          if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
             this.jobID = new ThriftJobID();
             this.jobID.read(iprot);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 3: // JOB_FILE
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.jobFile = iprot.readString();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 4: // NAME
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.name = iprot.readString();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 5: // QUEUE_NAME
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.queueName = iprot.readString();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         default:
-          TProtocolUtil.skip(iprot, field.type);
+          org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
       }
       iprot.readFieldEnd();
     }
@@ -608,7 +602,7 @@ public class ThriftJobProfile implements TBase<ThriftJobProfile, ThriftJobProfil
     validate();
   }
 
-  public void write(TProtocol oprot) throws TException {
+  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
@@ -689,8 +683,24 @@ public class ThriftJobProfile implements TBase<ThriftJobProfile, ThriftJobProfil
     return sb.toString();
   }
 
-  public void validate() throws TException {
+  public void validate() throws org.apache.thrift.TException {
     // check for required fields
+  }
+
+  private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+    try {
+      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
+  }
+
+  private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+    try {
+      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
   }
 
 }

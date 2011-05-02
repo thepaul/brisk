@@ -21,19 +21,13 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.apache.thrift.*;
-import org.apache.thrift.async.*;
-import org.apache.thrift.meta_data.*;
-import org.apache.thrift.transport.*;
-import org.apache.thrift.protocol.*;
+public class UpgradeStatusReport implements org.apache.thrift.TBase<UpgradeStatusReport, UpgradeStatusReport._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("UpgradeStatusReport");
 
-public class UpgradeStatusReport implements TBase<UpgradeStatusReport, UpgradeStatusReport._Fields>, java.io.Serializable, Cloneable {
-  private static final TStruct STRUCT_DESC = new TStruct("UpgradeStatusReport");
-
-  private static final TField VERSION_FIELD_DESC = new TField("version", TType.I32, (short)1);
-  private static final TField PERCENT_COMPLETE_FIELD_DESC = new TField("percentComplete", TType.I16, (short)2);
-  private static final TField FINALIZED_FIELD_DESC = new TField("finalized", TType.BOOL, (short)3);
-  private static final TField STATUS_TEXT_FIELD_DESC = new TField("statusText", TType.STRING, (short)4);
+  private static final org.apache.thrift.protocol.TField VERSION_FIELD_DESC = new org.apache.thrift.protocol.TField("version", org.apache.thrift.protocol.TType.I32, (short)1);
+  private static final org.apache.thrift.protocol.TField PERCENT_COMPLETE_FIELD_DESC = new org.apache.thrift.protocol.TField("percentComplete", org.apache.thrift.protocol.TType.I16, (short)2);
+  private static final org.apache.thrift.protocol.TField FINALIZED_FIELD_DESC = new org.apache.thrift.protocol.TField("finalized", org.apache.thrift.protocol.TType.BOOL, (short)3);
+  private static final org.apache.thrift.protocol.TField STATUS_TEXT_FIELD_DESC = new org.apache.thrift.protocol.TField("statusText", org.apache.thrift.protocol.TType.STRING, (short)4);
 
   public int version;
   public short percentComplete;
@@ -44,7 +38,7 @@ public class UpgradeStatusReport implements TBase<UpgradeStatusReport, UpgradeSt
   public String statusText;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements TFieldIdEnum {
+  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     VERSION((short)1, "version"),
     PERCENT_COMPLETE((short)2, "percentComplete"),
     FINALIZED((short)3, "finalized"),
@@ -119,19 +113,19 @@ public class UpgradeStatusReport implements TBase<UpgradeStatusReport, UpgradeSt
   private static final int __FINALIZED_ISSET_ID = 2;
   private BitSet __isset_bit_vector = new BitSet(3);
 
-  public static final Map<_Fields, FieldMetaData> metaDataMap;
+  public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.VERSION, new FieldMetaData("version", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I32)));
-    tmpMap.put(_Fields.PERCENT_COMPLETE, new FieldMetaData("percentComplete", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I16)));
-    tmpMap.put(_Fields.FINALIZED, new FieldMetaData("finalized", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.BOOL)));
-    tmpMap.put(_Fields.STATUS_TEXT, new FieldMetaData("statusText", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.STRING)));
+    Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.VERSION, new org.apache.thrift.meta_data.FieldMetaData("version", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+    tmpMap.put(_Fields.PERCENT_COMPLETE, new org.apache.thrift.meta_data.FieldMetaData("percentComplete", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I16)));
+    tmpMap.put(_Fields.FINALIZED, new org.apache.thrift.meta_data.FieldMetaData("finalized", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+    tmpMap.put(_Fields.STATUS_TEXT, new org.apache.thrift.meta_data.FieldMetaData("statusText", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    FieldMetaData.addStructMetaDataMap(UpgradeStatusReport.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(UpgradeStatusReport.class, metaDataMap);
   }
 
   public UpgradeStatusReport() {
@@ -196,7 +190,7 @@ public class UpgradeStatusReport implements TBase<UpgradeStatusReport, UpgradeSt
     __isset_bit_vector.clear(__VERSION_ISSET_ID);
   }
 
-  /** Returns true if field version is set (has been asigned a value) and false otherwise */
+  /** Returns true if field version is set (has been assigned a value) and false otherwise */
   public boolean isSetVersion() {
     return __isset_bit_vector.get(__VERSION_ISSET_ID);
   }
@@ -219,7 +213,7 @@ public class UpgradeStatusReport implements TBase<UpgradeStatusReport, UpgradeSt
     __isset_bit_vector.clear(__PERCENTCOMPLETE_ISSET_ID);
   }
 
-  /** Returns true if field percentComplete is set (has been asigned a value) and false otherwise */
+  /** Returns true if field percentComplete is set (has been assigned a value) and false otherwise */
   public boolean isSetPercentComplete() {
     return __isset_bit_vector.get(__PERCENTCOMPLETE_ISSET_ID);
   }
@@ -242,7 +236,7 @@ public class UpgradeStatusReport implements TBase<UpgradeStatusReport, UpgradeSt
     __isset_bit_vector.clear(__FINALIZED_ISSET_ID);
   }
 
-  /** Returns true if field finalized is set (has been asigned a value) and false otherwise */
+  /** Returns true if field finalized is set (has been assigned a value) and false otherwise */
   public boolean isSetFinalized() {
     return __isset_bit_vector.get(__FINALIZED_ISSET_ID);
   }
@@ -270,7 +264,7 @@ public class UpgradeStatusReport implements TBase<UpgradeStatusReport, UpgradeSt
     this.statusText = null;
   }
 
-  /** Returns true if field statusText is set (has been asigned a value) and false otherwise */
+  /** Returns true if field statusText is set (has been assigned a value) and false otherwise */
   public boolean isSetStatusText() {
     return this.statusText != null;
   }
@@ -336,7 +330,7 @@ public class UpgradeStatusReport implements TBase<UpgradeStatusReport, UpgradeSt
     throw new IllegalStateException();
   }
 
-  /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
     if (field == null) {
       throw new IllegalArgumentException();
@@ -447,7 +441,7 @@ public class UpgradeStatusReport implements TBase<UpgradeStatusReport, UpgradeSt
       return lastComparison;
     }
     if (isSetVersion()) {
-      lastComparison = TBaseHelper.compareTo(this.version, typedOther.version);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.version, typedOther.version);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -457,7 +451,7 @@ public class UpgradeStatusReport implements TBase<UpgradeStatusReport, UpgradeSt
       return lastComparison;
     }
     if (isSetPercentComplete()) {
-      lastComparison = TBaseHelper.compareTo(this.percentComplete, typedOther.percentComplete);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.percentComplete, typedOther.percentComplete);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -467,7 +461,7 @@ public class UpgradeStatusReport implements TBase<UpgradeStatusReport, UpgradeSt
       return lastComparison;
     }
     if (isSetFinalized()) {
-      lastComparison = TBaseHelper.compareTo(this.finalized, typedOther.finalized);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.finalized, typedOther.finalized);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -477,7 +471,7 @@ public class UpgradeStatusReport implements TBase<UpgradeStatusReport, UpgradeSt
       return lastComparison;
     }
     if (isSetStatusText()) {
-      lastComparison = TBaseHelper.compareTo(this.statusText, typedOther.statusText);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.statusText, typedOther.statusText);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -489,49 +483,49 @@ public class UpgradeStatusReport implements TBase<UpgradeStatusReport, UpgradeSt
     return _Fields.findByThriftId(fieldId);
   }
 
-  public void read(TProtocol iprot) throws TException {
-    TField field;
+  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+    org.apache.thrift.protocol.TField field;
     iprot.readStructBegin();
     while (true)
     {
       field = iprot.readFieldBegin();
-      if (field.type == TType.STOP) { 
+      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
         break;
       }
       switch (field.id) {
         case 1: // VERSION
-          if (field.type == TType.I32) {
+          if (field.type == org.apache.thrift.protocol.TType.I32) {
             this.version = iprot.readI32();
             setVersionIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 2: // PERCENT_COMPLETE
-          if (field.type == TType.I16) {
+          if (field.type == org.apache.thrift.protocol.TType.I16) {
             this.percentComplete = iprot.readI16();
             setPercentCompleteIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 3: // FINALIZED
-          if (field.type == TType.BOOL) {
+          if (field.type == org.apache.thrift.protocol.TType.BOOL) {
             this.finalized = iprot.readBool();
             setFinalizedIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 4: // STATUS_TEXT
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.statusText = iprot.readString();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         default:
-          TProtocolUtil.skip(iprot, field.type);
+          org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
       }
       iprot.readFieldEnd();
     }
@@ -541,7 +535,7 @@ public class UpgradeStatusReport implements TBase<UpgradeStatusReport, UpgradeSt
     validate();
   }
 
-  public void write(TProtocol oprot) throws TException {
+  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
@@ -591,8 +585,26 @@ public class UpgradeStatusReport implements TBase<UpgradeStatusReport, UpgradeSt
     return sb.toString();
   }
 
-  public void validate() throws TException {
+  public void validate() throws org.apache.thrift.TException {
     // check for required fields
+  }
+
+  private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+    try {
+      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
+  }
+
+  private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+    try {
+      // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+      __isset_bit_vector = new BitSet(1);
+      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
   }
 
 }

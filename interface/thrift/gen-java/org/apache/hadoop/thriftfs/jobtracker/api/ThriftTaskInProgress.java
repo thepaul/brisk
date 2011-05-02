@@ -21,12 +21,6 @@ import java.util.Arrays;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.apache.thrift.*;
-import org.apache.thrift.async.*;
-import org.apache.thrift.meta_data.*;
-import org.apache.thrift.transport.*;
-import org.apache.thrift.protocol.*;
-
 /**
  * A ThriftTaskInProgress contains a list of
  * task attempts (speculatively executed instances of the same task).
@@ -37,23 +31,23 @@ import org.apache.thrift.protocol.*;
  * Assumption: there won't be so many task attempts that retrieving a single task
  * will be too expensive.
  */
-public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftTaskInProgress._Fields>, java.io.Serializable, Cloneable {
-  private static final TStruct STRUCT_DESC = new TStruct("ThriftTaskInProgress");
+public class ThriftTaskInProgress implements org.apache.thrift.TBase<ThriftTaskInProgress, ThriftTaskInProgress._Fields>, java.io.Serializable, Cloneable {
+  private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("ThriftTaskInProgress");
 
-  private static final TField EXEC_START_TIME_FIELD_DESC = new TField("execStartTime", TType.I64, (short)2);
-  private static final TField EXEC_FINISH_TIME_FIELD_DESC = new TField("execFinishTime", TType.I64, (short)3);
-  private static final TField PROGRESS_FIELD_DESC = new TField("progress", TType.DOUBLE, (short)4);
-  private static final TField START_TIME_FIELD_DESC = new TField("startTime", TType.I64, (short)5);
-  private static final TField FAILED_FIELD_DESC = new TField("failed", TType.BOOL, (short)6);
-  private static final TField COMPLETE_FIELD_DESC = new TField("complete", TType.BOOL, (short)7);
-  private static final TField TASK_ID_FIELD_DESC = new TField("taskID", TType.STRUCT, (short)8);
-  private static final TField TASKS_FIELD_DESC = new TField("tasks", TType.LIST, (short)9);
-  private static final TField TASK_STATUSES_FIELD_DESC = new TField("taskStatuses", TType.MAP, (short)10);
-  private static final TField TASK_DIAGNOSTIC_DATA_FIELD_DESC = new TField("taskDiagnosticData", TType.MAP, (short)11);
-  private static final TField COUNTERS_FIELD_DESC = new TField("counters", TType.STRUCT, (short)12);
-  private static final TField MOST_RECENT_STATE_FIELD_DESC = new TField("mostRecentState", TType.STRING, (short)13);
-  private static final TField RUNNING_ATTEMPTS_FIELD_DESC = new TField("runningAttempts", TType.LIST, (short)14);
-  private static final TField SUCCESSFUL_ATTEMPT_FIELD_DESC = new TField("successfulAttempt", TType.STRING, (short)15);
+  private static final org.apache.thrift.protocol.TField EXEC_START_TIME_FIELD_DESC = new org.apache.thrift.protocol.TField("execStartTime", org.apache.thrift.protocol.TType.I64, (short)2);
+  private static final org.apache.thrift.protocol.TField EXEC_FINISH_TIME_FIELD_DESC = new org.apache.thrift.protocol.TField("execFinishTime", org.apache.thrift.protocol.TType.I64, (short)3);
+  private static final org.apache.thrift.protocol.TField PROGRESS_FIELD_DESC = new org.apache.thrift.protocol.TField("progress", org.apache.thrift.protocol.TType.DOUBLE, (short)4);
+  private static final org.apache.thrift.protocol.TField START_TIME_FIELD_DESC = new org.apache.thrift.protocol.TField("startTime", org.apache.thrift.protocol.TType.I64, (short)5);
+  private static final org.apache.thrift.protocol.TField FAILED_FIELD_DESC = new org.apache.thrift.protocol.TField("failed", org.apache.thrift.protocol.TType.BOOL, (short)6);
+  private static final org.apache.thrift.protocol.TField COMPLETE_FIELD_DESC = new org.apache.thrift.protocol.TField("complete", org.apache.thrift.protocol.TType.BOOL, (short)7);
+  private static final org.apache.thrift.protocol.TField TASK_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("taskID", org.apache.thrift.protocol.TType.STRUCT, (short)8);
+  private static final org.apache.thrift.protocol.TField TASKS_FIELD_DESC = new org.apache.thrift.protocol.TField("tasks", org.apache.thrift.protocol.TType.LIST, (short)9);
+  private static final org.apache.thrift.protocol.TField TASK_STATUSES_FIELD_DESC = new org.apache.thrift.protocol.TField("taskStatuses", org.apache.thrift.protocol.TType.MAP, (short)10);
+  private static final org.apache.thrift.protocol.TField TASK_DIAGNOSTIC_DATA_FIELD_DESC = new org.apache.thrift.protocol.TField("taskDiagnosticData", org.apache.thrift.protocol.TType.MAP, (short)11);
+  private static final org.apache.thrift.protocol.TField COUNTERS_FIELD_DESC = new org.apache.thrift.protocol.TField("counters", org.apache.thrift.protocol.TType.STRUCT, (short)12);
+  private static final org.apache.thrift.protocol.TField MOST_RECENT_STATE_FIELD_DESC = new org.apache.thrift.protocol.TField("mostRecentState", org.apache.thrift.protocol.TType.STRING, (short)13);
+  private static final org.apache.thrift.protocol.TField RUNNING_ATTEMPTS_FIELD_DESC = new org.apache.thrift.protocol.TField("runningAttempts", org.apache.thrift.protocol.TType.LIST, (short)14);
+  private static final org.apache.thrift.protocol.TField SUCCESSFUL_ATTEMPT_FIELD_DESC = new org.apache.thrift.protocol.TField("successfulAttempt", org.apache.thrift.protocol.TType.STRING, (short)15);
 
   public long execStartTime;
   public long execFinishTime;
@@ -74,7 +68,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
   public String successfulAttempt;
 
   /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-  public enum _Fields implements TFieldIdEnum {
+  public enum _Fields implements org.apache.thrift.TFieldIdEnum {
     EXEC_START_TIME((short)2, "execStartTime"),
     EXEC_FINISH_TIME((short)3, "execFinishTime"),
     PROGRESS((short)4, "progress"),
@@ -182,46 +176,46 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
   private static final int __COMPLETE_ISSET_ID = 5;
   private BitSet __isset_bit_vector = new BitSet(6);
 
-  public static final Map<_Fields, FieldMetaData> metaDataMap;
+  public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
   static {
-    Map<_Fields, FieldMetaData> tmpMap = new EnumMap<_Fields, FieldMetaData>(_Fields.class);
-    tmpMap.put(_Fields.EXEC_START_TIME, new FieldMetaData("execStartTime", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I64)));
-    tmpMap.put(_Fields.EXEC_FINISH_TIME, new FieldMetaData("execFinishTime", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I64)));
-    tmpMap.put(_Fields.PROGRESS, new FieldMetaData("progress", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.DOUBLE)));
-    tmpMap.put(_Fields.START_TIME, new FieldMetaData("startTime", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.I64)));
-    tmpMap.put(_Fields.FAILED, new FieldMetaData("failed", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.BOOL)));
-    tmpMap.put(_Fields.COMPLETE, new FieldMetaData("complete", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.BOOL)));
-    tmpMap.put(_Fields.TASK_ID, new FieldMetaData("taskID", TFieldRequirementType.DEFAULT, 
-        new StructMetaData(TType.STRUCT, ThriftTaskID.class)));
-    tmpMap.put(_Fields.TASKS, new FieldMetaData("tasks", TFieldRequirementType.DEFAULT, 
-        new ListMetaData(TType.LIST, 
-            new StructMetaData(TType.STRUCT, ThriftTaskAttemptID.class))));
-    tmpMap.put(_Fields.TASK_STATUSES, new FieldMetaData("taskStatuses", TFieldRequirementType.DEFAULT, 
-        new MapMetaData(TType.MAP, 
-            new FieldValueMetaData(TType.STRING), 
-            new StructMetaData(TType.STRUCT, ThriftTaskStatus.class))));
-    tmpMap.put(_Fields.TASK_DIAGNOSTIC_DATA, new FieldMetaData("taskDiagnosticData", TFieldRequirementType.DEFAULT, 
-        new MapMetaData(TType.MAP, 
-            new FieldValueMetaData(TType.STRING), 
-            new ListMetaData(TType.LIST, 
-                new FieldValueMetaData(TType.STRING)))));
-    tmpMap.put(_Fields.COUNTERS, new FieldMetaData("counters", TFieldRequirementType.DEFAULT, 
-        new StructMetaData(TType.STRUCT, ThriftGroupList.class)));
-    tmpMap.put(_Fields.MOST_RECENT_STATE, new FieldMetaData("mostRecentState", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.STRING)));
-    tmpMap.put(_Fields.RUNNING_ATTEMPTS, new FieldMetaData("runningAttempts", TFieldRequirementType.DEFAULT, 
-        new ListMetaData(TType.LIST, 
-            new FieldValueMetaData(TType.STRING))));
-    tmpMap.put(_Fields.SUCCESSFUL_ATTEMPT, new FieldMetaData("successfulAttempt", TFieldRequirementType.DEFAULT, 
-        new FieldValueMetaData(TType.STRING)));
+    Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
+    tmpMap.put(_Fields.EXEC_START_TIME, new org.apache.thrift.meta_data.FieldMetaData("execStartTime", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.EXEC_FINISH_TIME, new org.apache.thrift.meta_data.FieldMetaData("execFinishTime", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.PROGRESS, new org.apache.thrift.meta_data.FieldMetaData("progress", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.DOUBLE)));
+    tmpMap.put(_Fields.START_TIME, new org.apache.thrift.meta_data.FieldMetaData("startTime", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I64)));
+    tmpMap.put(_Fields.FAILED, new org.apache.thrift.meta_data.FieldMetaData("failed", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+    tmpMap.put(_Fields.COMPLETE, new org.apache.thrift.meta_data.FieldMetaData("complete", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.BOOL)));
+    tmpMap.put(_Fields.TASK_ID, new org.apache.thrift.meta_data.FieldMetaData("taskID", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftTaskID.class)));
+    tmpMap.put(_Fields.TASKS, new org.apache.thrift.meta_data.FieldMetaData("tasks", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+            new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftTaskAttemptID.class))));
+    tmpMap.put(_Fields.TASK_STATUSES, new org.apache.thrift.meta_data.FieldMetaData("taskStatuses", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.MapMetaData(org.apache.thrift.protocol.TType.MAP, 
+            new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING), 
+            new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftTaskStatus.class))));
+    tmpMap.put(_Fields.TASK_DIAGNOSTIC_DATA, new org.apache.thrift.meta_data.FieldMetaData("taskDiagnosticData", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.MapMetaData(org.apache.thrift.protocol.TType.MAP, 
+            new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING), 
+            new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+                new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)))));
+    tmpMap.put(_Fields.COUNTERS, new org.apache.thrift.meta_data.FieldMetaData("counters", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, ThriftGroupList.class)));
+    tmpMap.put(_Fields.MOST_RECENT_STATE, new org.apache.thrift.meta_data.FieldMetaData("mostRecentState", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+    tmpMap.put(_Fields.RUNNING_ATTEMPTS, new org.apache.thrift.meta_data.FieldMetaData("runningAttempts", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
+            new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING))));
+    tmpMap.put(_Fields.SUCCESSFUL_ATTEMPT, new org.apache.thrift.meta_data.FieldMetaData("successfulAttempt", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+        new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
     metaDataMap = Collections.unmodifiableMap(tmpMap);
-    FieldMetaData.addStructMetaDataMap(ThriftTaskInProgress.class, metaDataMap);
+    org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(ThriftTaskInProgress.class, metaDataMap);
   }
 
   public ThriftTaskInProgress() {
@@ -381,7 +375,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
     __isset_bit_vector.clear(__EXECSTARTTIME_ISSET_ID);
   }
 
-  /** Returns true if field execStartTime is set (has been asigned a value) and false otherwise */
+  /** Returns true if field execStartTime is set (has been assigned a value) and false otherwise */
   public boolean isSetExecStartTime() {
     return __isset_bit_vector.get(__EXECSTARTTIME_ISSET_ID);
   }
@@ -404,7 +398,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
     __isset_bit_vector.clear(__EXECFINISHTIME_ISSET_ID);
   }
 
-  /** Returns true if field execFinishTime is set (has been asigned a value) and false otherwise */
+  /** Returns true if field execFinishTime is set (has been assigned a value) and false otherwise */
   public boolean isSetExecFinishTime() {
     return __isset_bit_vector.get(__EXECFINISHTIME_ISSET_ID);
   }
@@ -427,7 +421,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
     __isset_bit_vector.clear(__PROGRESS_ISSET_ID);
   }
 
-  /** Returns true if field progress is set (has been asigned a value) and false otherwise */
+  /** Returns true if field progress is set (has been assigned a value) and false otherwise */
   public boolean isSetProgress() {
     return __isset_bit_vector.get(__PROGRESS_ISSET_ID);
   }
@@ -450,7 +444,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
     __isset_bit_vector.clear(__STARTTIME_ISSET_ID);
   }
 
-  /** Returns true if field startTime is set (has been asigned a value) and false otherwise */
+  /** Returns true if field startTime is set (has been assigned a value) and false otherwise */
   public boolean isSetStartTime() {
     return __isset_bit_vector.get(__STARTTIME_ISSET_ID);
   }
@@ -473,7 +467,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
     __isset_bit_vector.clear(__FAILED_ISSET_ID);
   }
 
-  /** Returns true if field failed is set (has been asigned a value) and false otherwise */
+  /** Returns true if field failed is set (has been assigned a value) and false otherwise */
   public boolean isSetFailed() {
     return __isset_bit_vector.get(__FAILED_ISSET_ID);
   }
@@ -496,7 +490,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
     __isset_bit_vector.clear(__COMPLETE_ISSET_ID);
   }
 
-  /** Returns true if field complete is set (has been asigned a value) and false otherwise */
+  /** Returns true if field complete is set (has been assigned a value) and false otherwise */
   public boolean isSetComplete() {
     return __isset_bit_vector.get(__COMPLETE_ISSET_ID);
   }
@@ -518,7 +512,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
     this.taskID = null;
   }
 
-  /** Returns true if field taskID is set (has been asigned a value) and false otherwise */
+  /** Returns true if field taskID is set (has been assigned a value) and false otherwise */
   public boolean isSetTaskID() {
     return this.taskID != null;
   }
@@ -557,7 +551,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
     this.tasks = null;
   }
 
-  /** Returns true if field tasks is set (has been asigned a value) and false otherwise */
+  /** Returns true if field tasks is set (has been assigned a value) and false otherwise */
   public boolean isSetTasks() {
     return this.tasks != null;
   }
@@ -598,7 +592,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
     this.taskStatuses = null;
   }
 
-  /** Returns true if field taskStatuses is set (has been asigned a value) and false otherwise */
+  /** Returns true if field taskStatuses is set (has been assigned a value) and false otherwise */
   public boolean isSetTaskStatuses() {
     return this.taskStatuses != null;
   }
@@ -633,7 +627,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
     this.taskDiagnosticData = null;
   }
 
-  /** Returns true if field taskDiagnosticData is set (has been asigned a value) and false otherwise */
+  /** Returns true if field taskDiagnosticData is set (has been assigned a value) and false otherwise */
   public boolean isSetTaskDiagnosticData() {
     return this.taskDiagnosticData != null;
   }
@@ -657,7 +651,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
     this.counters = null;
   }
 
-  /** Returns true if field counters is set (has been asigned a value) and false otherwise */
+  /** Returns true if field counters is set (has been assigned a value) and false otherwise */
   public boolean isSetCounters() {
     return this.counters != null;
   }
@@ -681,7 +675,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
     this.mostRecentState = null;
   }
 
-  /** Returns true if field mostRecentState is set (has been asigned a value) and false otherwise */
+  /** Returns true if field mostRecentState is set (has been assigned a value) and false otherwise */
   public boolean isSetMostRecentState() {
     return this.mostRecentState != null;
   }
@@ -720,7 +714,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
     this.runningAttempts = null;
   }
 
-  /** Returns true if field runningAttempts is set (has been asigned a value) and false otherwise */
+  /** Returns true if field runningAttempts is set (has been assigned a value) and false otherwise */
   public boolean isSetRunningAttempts() {
     return this.runningAttempts != null;
   }
@@ -744,7 +738,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
     this.successfulAttempt = null;
   }
 
-  /** Returns true if field successfulAttempt is set (has been asigned a value) and false otherwise */
+  /** Returns true if field successfulAttempt is set (has been assigned a value) and false otherwise */
   public boolean isSetSuccessfulAttempt() {
     return this.successfulAttempt != null;
   }
@@ -920,7 +914,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
     throw new IllegalStateException();
   }
 
-  /** Returns true if field corresponding to fieldID is set (has been asigned a value) and false otherwise */
+  /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
   public boolean isSet(_Fields field) {
     if (field == null) {
       throw new IllegalArgumentException();
@@ -1191,7 +1185,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
       return lastComparison;
     }
     if (isSetExecStartTime()) {
-      lastComparison = TBaseHelper.compareTo(this.execStartTime, typedOther.execStartTime);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.execStartTime, typedOther.execStartTime);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1201,7 +1195,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
       return lastComparison;
     }
     if (isSetExecFinishTime()) {
-      lastComparison = TBaseHelper.compareTo(this.execFinishTime, typedOther.execFinishTime);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.execFinishTime, typedOther.execFinishTime);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1211,7 +1205,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
       return lastComparison;
     }
     if (isSetProgress()) {
-      lastComparison = TBaseHelper.compareTo(this.progress, typedOther.progress);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.progress, typedOther.progress);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1221,7 +1215,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
       return lastComparison;
     }
     if (isSetStartTime()) {
-      lastComparison = TBaseHelper.compareTo(this.startTime, typedOther.startTime);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.startTime, typedOther.startTime);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1231,7 +1225,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
       return lastComparison;
     }
     if (isSetFailed()) {
-      lastComparison = TBaseHelper.compareTo(this.failed, typedOther.failed);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.failed, typedOther.failed);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1241,7 +1235,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
       return lastComparison;
     }
     if (isSetComplete()) {
-      lastComparison = TBaseHelper.compareTo(this.complete, typedOther.complete);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.complete, typedOther.complete);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1251,7 +1245,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
       return lastComparison;
     }
     if (isSetTaskID()) {
-      lastComparison = TBaseHelper.compareTo(this.taskID, typedOther.taskID);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.taskID, typedOther.taskID);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1261,7 +1255,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
       return lastComparison;
     }
     if (isSetTasks()) {
-      lastComparison = TBaseHelper.compareTo(this.tasks, typedOther.tasks);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.tasks, typedOther.tasks);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1271,7 +1265,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
       return lastComparison;
     }
     if (isSetTaskStatuses()) {
-      lastComparison = TBaseHelper.compareTo(this.taskStatuses, typedOther.taskStatuses);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.taskStatuses, typedOther.taskStatuses);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1281,7 +1275,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
       return lastComparison;
     }
     if (isSetTaskDiagnosticData()) {
-      lastComparison = TBaseHelper.compareTo(this.taskDiagnosticData, typedOther.taskDiagnosticData);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.taskDiagnosticData, typedOther.taskDiagnosticData);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1291,7 +1285,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
       return lastComparison;
     }
     if (isSetCounters()) {
-      lastComparison = TBaseHelper.compareTo(this.counters, typedOther.counters);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.counters, typedOther.counters);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1301,7 +1295,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
       return lastComparison;
     }
     if (isSetMostRecentState()) {
-      lastComparison = TBaseHelper.compareTo(this.mostRecentState, typedOther.mostRecentState);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.mostRecentState, typedOther.mostRecentState);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1311,7 +1305,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
       return lastComparison;
     }
     if (isSetRunningAttempts()) {
-      lastComparison = TBaseHelper.compareTo(this.runningAttempts, typedOther.runningAttempts);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.runningAttempts, typedOther.runningAttempts);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1321,7 +1315,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
       return lastComparison;
     }
     if (isSetSuccessfulAttempt()) {
-      lastComparison = TBaseHelper.compareTo(this.successfulAttempt, typedOther.successfulAttempt);
+      lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.successfulAttempt, typedOther.successfulAttempt);
       if (lastComparison != 0) {
         return lastComparison;
       }
@@ -1333,76 +1327,76 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
     return _Fields.findByThriftId(fieldId);
   }
 
-  public void read(TProtocol iprot) throws TException {
-    TField field;
+  public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
+    org.apache.thrift.protocol.TField field;
     iprot.readStructBegin();
     while (true)
     {
       field = iprot.readFieldBegin();
-      if (field.type == TType.STOP) { 
+      if (field.type == org.apache.thrift.protocol.TType.STOP) { 
         break;
       }
       switch (field.id) {
         case 2: // EXEC_START_TIME
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.execStartTime = iprot.readI64();
             setExecStartTimeIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 3: // EXEC_FINISH_TIME
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.execFinishTime = iprot.readI64();
             setExecFinishTimeIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 4: // PROGRESS
-          if (field.type == TType.DOUBLE) {
+          if (field.type == org.apache.thrift.protocol.TType.DOUBLE) {
             this.progress = iprot.readDouble();
             setProgressIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 5: // START_TIME
-          if (field.type == TType.I64) {
+          if (field.type == org.apache.thrift.protocol.TType.I64) {
             this.startTime = iprot.readI64();
             setStartTimeIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 6: // FAILED
-          if (field.type == TType.BOOL) {
+          if (field.type == org.apache.thrift.protocol.TType.BOOL) {
             this.failed = iprot.readBool();
             setFailedIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 7: // COMPLETE
-          if (field.type == TType.BOOL) {
+          if (field.type == org.apache.thrift.protocol.TType.BOOL) {
             this.complete = iprot.readBool();
             setCompleteIsSet(true);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 8: // TASK_ID
-          if (field.type == TType.STRUCT) {
+          if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
             this.taskID = new ThriftTaskID();
             this.taskID.read(iprot);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 9: // TASKS
-          if (field.type == TType.LIST) {
+          if (field.type == org.apache.thrift.protocol.TType.LIST) {
             {
-              TList _list13 = iprot.readListBegin();
+              org.apache.thrift.protocol.TList _list13 = iprot.readListBegin();
               this.tasks = new ArrayList<ThriftTaskAttemptID>(_list13.size);
               for (int _i14 = 0; _i14 < _list13.size; ++_i14)
               {
@@ -1414,13 +1408,13 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
               iprot.readListEnd();
             }
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 10: // TASK_STATUSES
-          if (field.type == TType.MAP) {
+          if (field.type == org.apache.thrift.protocol.TType.MAP) {
             {
-              TMap _map16 = iprot.readMapBegin();
+              org.apache.thrift.protocol.TMap _map16 = iprot.readMapBegin();
               this.taskStatuses = new HashMap<String,ThriftTaskStatus>(2*_map16.size);
               for (int _i17 = 0; _i17 < _map16.size; ++_i17)
               {
@@ -1434,13 +1428,13 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
               iprot.readMapEnd();
             }
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 11: // TASK_DIAGNOSTIC_DATA
-          if (field.type == TType.MAP) {
+          if (field.type == org.apache.thrift.protocol.TType.MAP) {
             {
-              TMap _map20 = iprot.readMapBegin();
+              org.apache.thrift.protocol.TMap _map20 = iprot.readMapBegin();
               this.taskDiagnosticData = new HashMap<String,List<String>>(2*_map20.size);
               for (int _i21 = 0; _i21 < _map20.size; ++_i21)
               {
@@ -1448,7 +1442,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
                 List<String> _val23;
                 _key22 = iprot.readString();
                 {
-                  TList _list24 = iprot.readListBegin();
+                  org.apache.thrift.protocol.TList _list24 = iprot.readListBegin();
                   _val23 = new ArrayList<String>(_list24.size);
                   for (int _i25 = 0; _i25 < _list24.size; ++_i25)
                   {
@@ -1463,28 +1457,28 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
               iprot.readMapEnd();
             }
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 12: // COUNTERS
-          if (field.type == TType.STRUCT) {
+          if (field.type == org.apache.thrift.protocol.TType.STRUCT) {
             this.counters = new ThriftGroupList();
             this.counters.read(iprot);
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 13: // MOST_RECENT_STATE
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.mostRecentState = iprot.readString();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 14: // RUNNING_ATTEMPTS
-          if (field.type == TType.LIST) {
+          if (field.type == org.apache.thrift.protocol.TType.LIST) {
             {
-              TList _list27 = iprot.readListBegin();
+              org.apache.thrift.protocol.TList _list27 = iprot.readListBegin();
               this.runningAttempts = new ArrayList<String>(_list27.size);
               for (int _i28 = 0; _i28 < _list27.size; ++_i28)
               {
@@ -1495,18 +1489,18 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
               iprot.readListEnd();
             }
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         case 15: // SUCCESSFUL_ATTEMPT
-          if (field.type == TType.STRING) {
+          if (field.type == org.apache.thrift.protocol.TType.STRING) {
             this.successfulAttempt = iprot.readString();
           } else { 
-            TProtocolUtil.skip(iprot, field.type);
+            org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
           }
           break;
         default:
-          TProtocolUtil.skip(iprot, field.type);
+          org.apache.thrift.protocol.TProtocolUtil.skip(iprot, field.type);
       }
       iprot.readFieldEnd();
     }
@@ -1516,7 +1510,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
     validate();
   }
 
-  public void write(TProtocol oprot) throws TException {
+  public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
     validate();
 
     oprot.writeStructBegin(STRUCT_DESC);
@@ -1546,7 +1540,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
     if (this.tasks != null) {
       oprot.writeFieldBegin(TASKS_FIELD_DESC);
       {
-        oprot.writeListBegin(new TList(TType.STRUCT, this.tasks.size()));
+        oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, this.tasks.size()));
         for (ThriftTaskAttemptID _iter30 : this.tasks)
         {
           _iter30.write(oprot);
@@ -1558,7 +1552,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
     if (this.taskStatuses != null) {
       oprot.writeFieldBegin(TASK_STATUSES_FIELD_DESC);
       {
-        oprot.writeMapBegin(new TMap(TType.STRING, TType.STRUCT, this.taskStatuses.size()));
+        oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.STRUCT, this.taskStatuses.size()));
         for (Map.Entry<String, ThriftTaskStatus> _iter31 : this.taskStatuses.entrySet())
         {
           oprot.writeString(_iter31.getKey());
@@ -1571,12 +1565,12 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
     if (this.taskDiagnosticData != null) {
       oprot.writeFieldBegin(TASK_DIAGNOSTIC_DATA_FIELD_DESC);
       {
-        oprot.writeMapBegin(new TMap(TType.STRING, TType.LIST, this.taskDiagnosticData.size()));
+        oprot.writeMapBegin(new org.apache.thrift.protocol.TMap(org.apache.thrift.protocol.TType.STRING, org.apache.thrift.protocol.TType.LIST, this.taskDiagnosticData.size()));
         for (Map.Entry<String, List<String>> _iter32 : this.taskDiagnosticData.entrySet())
         {
           oprot.writeString(_iter32.getKey());
           {
-            oprot.writeListBegin(new TList(TType.STRING, _iter32.getValue().size()));
+            oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, _iter32.getValue().size()));
             for (String _iter33 : _iter32.getValue())
             {
               oprot.writeString(_iter33);
@@ -1601,7 +1595,7 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
     if (this.runningAttempts != null) {
       oprot.writeFieldBegin(RUNNING_ATTEMPTS_FIELD_DESC);
       {
-        oprot.writeListBegin(new TList(TType.STRING, this.runningAttempts.size()));
+        oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRING, this.runningAttempts.size()));
         for (String _iter34 : this.runningAttempts)
         {
           oprot.writeString(_iter34);
@@ -1715,8 +1709,26 @@ public class ThriftTaskInProgress implements TBase<ThriftTaskInProgress, ThriftT
     return sb.toString();
   }
 
-  public void validate() throws TException {
+  public void validate() throws org.apache.thrift.TException {
     // check for required fields
+  }
+
+  private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
+    try {
+      write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
+  }
+
+  private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
+    try {
+      // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+      __isset_bit_vector = new BitSet(1);
+      read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
+    } catch (org.apache.thrift.TException te) {
+      throw new java.io.IOException(te);
+    }
   }
 
 }

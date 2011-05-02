@@ -13,7 +13,7 @@ import org.apache.thrift.TEnum;
 /**
  * States that the jobtracker may be in
  */
-public enum JobTrackerState implements TEnum {
+public enum JobTrackerState implements org.apache.thrift.TEnum {
   INITIALIZING(0),
   RUNNING(1);
 
