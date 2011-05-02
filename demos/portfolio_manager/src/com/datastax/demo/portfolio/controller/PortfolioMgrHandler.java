@@ -4,8 +4,6 @@ import java.nio.ByteBuffer;
 import java.nio.charset.CharacterCodingException;
 import java.util.*;
 
-import org.apache.commons.collections.BufferUtils;
-
 import com.datastax.demo.portfolio.Portfolio;
 import com.datastax.demo.portfolio.Position;
 

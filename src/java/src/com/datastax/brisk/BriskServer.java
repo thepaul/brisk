@@ -203,6 +203,8 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
                 }
                 catch (Exception e)
                 {
+                    e.printStackTrace();
+                    
                     throw new IOException(serializer + " failed to deserialize " + sstable.getColumnFamilyName()
                             + " with " + sstable.metadata + " from " + file, e);
                 }

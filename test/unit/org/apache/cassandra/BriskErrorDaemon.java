@@ -8,13 +8,9 @@ import java.util.concurrent.ExecutorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.datastax.brisk.BriskServer;
-
 import org.apache.cassandra.config.DatabaseDescriptor;
 import org.apache.cassandra.hadoop.trackers.TrackerInitializer;
-import org.apache.cassandra.service.AbstractCassandraDaemon.CleaningThreadPool;
 import org.apache.cassandra.thrift.*;
-import org.apache.thrift.TProcessorFactory;
 import org.apache.thrift.protocol.TProtocolFactory;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TThreadPoolServer;

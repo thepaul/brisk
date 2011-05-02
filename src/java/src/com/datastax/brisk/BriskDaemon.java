@@ -1,12 +1,12 @@
 package com.datastax.brisk;
 
-import java.io.InputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.management.ManagementFactory;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
-import java.util.concurrent.ExecutorService;
 import java.util.Properties;
+import java.util.concurrent.ExecutorService;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
