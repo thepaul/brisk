@@ -13,7 +13,6 @@ Group:          Development/Libraries
 License:        Apache Software License
 URL:            http://cassandra.apache.org/
 Source0:        brisk-src.tar.gz
-#Source0:        http://www.ibiblio.org/pub/mirrors/apache/%{username}/%{version}/%{relname}-src.tar.gz
 BuildRoot:      %{_tmppath}/%{relname}-root-%(%{__id_u} -n)
 
 BuildRequires: java-devel
@@ -74,8 +73,9 @@ mkdir -p %{buildroot}/usr/bin
 # copy over configurations and env setup
 cp -p resources/%{username}/conf/* %{buildroot}/etc/%{briskname}/%{username}/default.conf
 cp -p resources/%{username}/lib/*.jar %{buildroot}/usr/share/%{briskname}/%{username}/lib
-cp -p redhat/%{username} %{buildroot}/etc/rc.d/init.d/
-cp -p packaging-common/brisk.default %{buildroot}/etc/default/%{username}
+#cp -p redhat/%{username} %{buildroot}/etc/rc.d/init.d/
+cp -p packaging-common/brisk.default %{buildroot}/etc/default/brisk
+cp -p packaging-common/brisk.init %{buildroot}/etc/rc.d/init.d/brisk
 cp -p packaging-common/%{username}.conf %{buildroot}/etc/security/limits.d/
 cp -p packaging-common/%{username}.in.sh %{buildroot}/usr/share/%{briskname}/%{username}
 
@@ -120,12 +120,12 @@ fi
 #%doc CHANGES.txt LICENSE.txt README.txt NEWS.txt NOTICE.txt
 %attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_sbindir}/cassandra
-%attr(755,root,root) /etc/rc.d/init.d/%{username}
-%attr(755,root,root) /etc/default/%{username}
+%attr(755,root,root) /etc/rc.d/init.d/brisk
+%attr(755,root,root) /etc/default/brisk
 %attr(755,root,root) /etc/security/limits.d/%{username}.conf
 # chown on brisk as cassandra is our only user for now
 %attr(755,%{username},%{username}) /usr/share/%{briskname}*
-%attr(755,%{username},%{username}) %config(noreplace) /%{_sysconfdir}/%{username}
+%attr(755,%{username},%{username}) %config(noreplace) /%{_sysconfdir}/brisk/%{username}
 %attr(755,%{username},%{username}) %config(noreplace) /var/lib/%{username}/*
 %attr(755,%{username},%{username}) /var/log/%{username}*
 %attr(755,%{username},%{username}) /var/run/%{username}*

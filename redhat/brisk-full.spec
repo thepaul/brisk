@@ -42,7 +42,26 @@ Homepage: http://www.datastax.com/products/brisk
 %build
 
 %install
+mkdir -p %{buildroot}/etc/brisk/default.conf
+mkdir -p %{buildroot}/usr/bin/
+
+cp -p packaging-common/brisk-env.sh %{buildroot}/etc/brisk/default.conf
+cp -p bin/brisk %{buildroot}/usr/bin/
 
 %clean
+%{__rm} -rf %{buildroot}
 
+%files
+%defattr(-,root,root,0755)
+%attr(755,%{username},%{username}) %config(noreplace) /%{_sysconfdir}/brisk/*
+
+%post
+alternatives --install /etc/%{briskname}/%{username}/conf %{username} /etc/%{briskname}/default.conf/ 0
+exit 0
+
+%postun
+# only delete alternative on removal, not upgrade
+if [ "$1" = "0" ]; then
+    alternatives --remove %{username} /etc/%{briskname}/default.conf/
+fi
 exit 0
