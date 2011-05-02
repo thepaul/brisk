@@ -3,6 +3,7 @@ package org.apache.cassandra.hadoop.hive.metastore;
 import java.io.IOException;
 
 import org.apache.cassandra.hadoop.CassandraProxyClient;
+import org.apache.cassandra.hadoop.CassandraProxyClient.ConnectionStrategy;
 import org.apache.cassandra.thrift.Cassandra;
 import org.apache.cassandra.thrift.ConsistencyLevel;
 import org.apache.cassandra.thrift.InvalidRequestException;
@@ -36,7 +37,7 @@ public class CassandraClientHolder
             client = CassandraProxyClient.newProxyConnection(conf.get(CONF_PARAM_HOST, "localhost"), 
                     conf.getInt(CONF_PARAM_PORT, 9160), 
                     conf.getBoolean(CONF_PARAM_FRAMED,true), 
-                    conf.getBoolean(CONF_PARAM_RANDOMIZE_CONNECTIONS, true));
+                    ConnectionStrategy.valueOf(conf.get(CONF_PARAM_CONNECTION_STRATEGY, "STICKY")));
             
         }
         catch (IOException ioe) 
@@ -103,8 +104,8 @@ public class CassandraClientHolder
     public static final String CONF_PARAM_PORT = CONF_PARAM_PREFIX+"port";
     /** Boolean indicating use of Framed vs. Non-Framed Thrift transport (true) */
     public static final String CONF_PARAM_FRAMED = CONF_PARAM_PREFIX+"framed";
-    /** Pick a host at random from the ring as opposed to using the same host (true) */
-    public static final String CONF_PARAM_RANDOMIZE_CONNECTIONS = CONF_PARAM_PREFIX+"randomizeConnections";
+    /** Pick a host at random from the ring as opposed to using the same host (STICKY) */
+    public static final String CONF_PARAM_CONNECTION_STRATEGY = CONF_PARAM_PREFIX+"connectionStrategy";
     /** Name of the ColumnFamily in which we will store meta information (MetaStore) */
     public static final String CONF_PARAM_CF_NAME = CONF_PARAM_PREFIX + "metaStoreColumnFamilyName";
     /** Name of the keyspace in which to store meta data (HiveMetaStore) */

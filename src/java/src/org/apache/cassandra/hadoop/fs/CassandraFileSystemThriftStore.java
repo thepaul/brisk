@@ -28,6 +28,7 @@ import java.util.*;
 import com.datastax.brisk.BriskInternalServer;
 
 import org.apache.cassandra.hadoop.CassandraProxyClient;
+import org.apache.cassandra.hadoop.CassandraProxyClient.ConnectionStrategy;
 import org.apache.cassandra.hadoop.trackers.CassandraJobConf;
 import org.apache.cassandra.io.util.FileUtils;
 import org.apache.cassandra.locator.BriskSimpleSnitch;
@@ -111,7 +112,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         if (conf instanceof CassandraJobConf)
             client = new BriskInternalServer();
         else
-            client = CassandraProxyClient.newProxyConnection(host, port, true, false);
+            client = CassandraProxyClient.newProxyConnection(host, port, true, ConnectionStrategy.STICKY);
 
         KsDef ks = checkKeyspace();
 
