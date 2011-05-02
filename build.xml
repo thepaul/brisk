@@ -101,7 +101,7 @@
           <include name="**/*.jar" />
         </fileset>
 	<fileset dir="${hadoop.dir}">
-          <include name="**/*.jar" />
+          <include name="*.jar" />
         </fileset>
 	<fileset dir="${hadoop.dir.lib}">
           <include name="**/*.jar" />
