@@ -220,7 +220,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
             
             Map<String,String> stratOpts = new HashMap<String,String>();
             stratOpts.put(BriskSimpleSnitch.BRISK_DC, System.getProperty("cfs.replication","1"));
-            stratOpts.put(BriskSimpleSnitch.DEFAULT_DC, "0");
+            stratOpts.put(BriskSimpleSnitch.CASSANDRA_DC, "0");
 
             cfsKs = new KsDef()
                 .setName(keySpace)
