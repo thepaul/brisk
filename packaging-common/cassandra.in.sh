@@ -1,6 +1,6 @@
 
 # The directory where Cassandra's configs live (required)
-CASSANDRA_CONF=/etc/brisk/cassandra/conf
+CASSANDRA_CONF=/etc/brisk/cassandra
 
 # The java classpath (required)
 CLASSPATH=$CASSANDRA_CONF

@@ -5,7 +5,7 @@
 %define briskname brisk
 
 Name:           brisk-full
-Version:        0.1
+Version:        1beta1
 Release:        1
 Summary:        Meta RPM for full installation of the DataStax Brisk platform
 
