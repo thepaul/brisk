@@ -350,7 +350,19 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
             // CL=ONE as there are NOT multiple versions of the blocks.
             List<Row> rows = StorageProxy.read(Arrays.asList(rc), ConsistencyLevel.ONE);
             
-            IColumn col = validateAndGetColumn(rows, sblockId);
+            IColumn col = null;
+            try 
+            {
+            	col = validateAndGetColumn(rows, sblockId);
+            } catch (NotFoundException e) 
+            {
+            	// This is a best effort to get the value. Sometimes due to the size of
+            	// the sublocks, the normal replication may time out leaving a replicate without
+            	// the piece of data. Hence we re try with higher CL.
+            	rows = StorageProxy.read(Arrays.asList(rc), ConsistencyLevel.QUORUM);
+            }
+            
+            col = validateAndGetColumn(rows, sblockId);
             
             ByteBuffer value = col.value();
             

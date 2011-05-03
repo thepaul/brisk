@@ -62,12 +62,17 @@ public class BriskSimpleSnitch extends AbstractEndpointSnitch
     
     public String getDatacenter(InetAddress endpoint)
     {
-        EndpointState es = Gossiper.instance.getEndpointStateForEndpoint(endpoint);
-        
         if(endpoint.equals(FBUtilities.getLocalAddress()))
             return myDC;
-        
-        assert es != null : "Endpoint "+endpoint+" has no gossip state";
+
+        EndpointState es = Gossiper.instance.getEndpointStateForEndpoint(endpoint);
+
+        if (es == null)
+        {
+            if (logger.isDebugEnabled())
+                logger.debug("No endpoint state for " + endpoint + " defaulting DC to " + DEFAULT_DC);
+            return DEFAULT_DC;
+        }
 
         String DC = es.getApplicationState(ApplicationState.DC).value;
       

@@ -1,32 +1,77 @@
 #!/bin/sh
 
-export CASSANDRA_HOME=`pwd`/`dirname $0`/../resources/cassandra
+# Use JAVA_HOME if set, otherwise look for java in PATH
+if [ -x $JAVA_HOME/bin/java ]; then
+    JAVA=$JAVA_HOME/bin/java
+else
+    JAVA=`which java`
+fi
+
+if [ -z $BRISK_HOME ]; then
+    abspath=$(cd ${0%/*} && echo $PWD)
+    export BRISK_HOME=`dirname "$abspath"`
+fi
+
+#
+# Set the logging root
+#
+if [ -z $BRISK_LOG_ROOT ]; then
+    export BRISK_LOG_ROOT=$BRISK_HOME/logs
+fi
+
+#
+# Initialize cassandra env
+#
+export CASSANDRA_HOME=$BRISK_HOME/resources/cassandra
 export CASSANDRA_BIN=$CASSANDRA_HOME/bin
 
 . $CASSANDRA_BIN/cassandra.in.sh
  
-for jar in `pwd`/`dirname $0`/../build/brisk*.jar; do
+#
+# Add brisk jars
+#
+for jar in $BRISK_HOME/build/brisk*.jar; do
     export CLASSPATH=$CLASSPATH:$jar
 done
 
-for jar in `pwd`/`dirname $0`/../lib/brisk*.jar; do
+for jar in $BRISK_HOME/lib/brisk*.jar; do
     export CLASSPATH=$CLASSPATH:$jar
 done
 
-for jar in `pwd`/`dirname $0`/../resources/hive/lib/hive-cassandra*.jar; do
+#
+#Add hive cassandra driver
+#
+for jar in $BRISK_HOME/resources/hive/lib/hive-cassandra*.jar; do
     export CLASSPATH=$CLASSPATH:$jar
 done
 
+#
+# Initialize Hadoop env
+#
 export HADOOP_CLASSPATH=$CLASSPATH
 
-#hadoop requires absolute home
-export HADOOP_HOME=`pwd`/`dirname $0`/../resources/hadoop
+export HADOOP_HOME=$BRISK_HOME/resources/hadoop
 export HADOOP_BIN=$HADOOP_HOME/bin
-#export HADOOP_LOG_DIR=
+export HADOOP_LOG_DIR=$BRISK_LOG_ROOT/hadoop
+
+
+if [ -n "$HADOOP_NATIVE_ROOT" ]; then
+    for jar in $HADOOP_NATIVE_ROOT/*.jar; do   
+	export CLASSPATH=$CLASSPATH:$jar
+    done
+
+    JAVA_PLATFORM=`$HADOOP_HOME/bin/hadoop org.apache.hadoop.util.PlatformName | sed -e "s/ /_/g"`
+
+    export JAVA_LIBRARY_PATH=$HADOOP_NATIVE_DIR/lib/native/${JAVA_PLATFORM}/
+fi
 
 #export PIG_HOME=
-export PIG_CLASSPATH=$HADOOP_HOME/conf:$CLASSPATH
+#export PIG_CLASSPATH=$HADOOP_HOME/conf:$CLASSPATH
 
-export HIVE_HOME=`pwd`/`dirname $0`/../resources/hive
+
+#
+# Initialize Hive env
+#
+export HIVE_HOME=$BRISK_HOME/resources/hive
 export HIVE_BIN=$HIVE_HOME/bin
 
