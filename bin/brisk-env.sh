@@ -1,5 +1,11 @@
 #!/bin/sh
 
+# Use JAVA_HOME if set, otherwise look for java in PATH
+if [ -x $JAVA_HOME/bin/java ]; then
+    JAVA=$JAVA_HOME/bin/java
+else
+    JAVA=`which java`
+fi
 
 if [ -z $BRISK_HOME ]; then
     abspath=$(cd ${0%/*} && echo $PWD)
@@ -13,7 +19,6 @@ if [ -z $BRISK_LOG_ROOT ]; then
     export BRISK_LOG_ROOT=$BRISK_HOME/logs
 fi
 
-
 #
 # Initialize cassandra env
 #
@@ -22,7 +27,6 @@ export CASSANDRA_BIN=$CASSANDRA_HOME/bin
 
 . $CASSANDRA_BIN/cassandra.in.sh
  
-
 #
 # Add brisk jars
 #
@@ -34,7 +38,6 @@ for jar in $BRISK_HOME/lib/brisk*.jar; do
     export CLASSPATH=$CLASSPATH:$jar
 done
 
-
 #
 #Add hive cassandra driver
 #
@@ -42,18 +45,25 @@ for jar in $BRISK_HOME/resources/hive/lib/hive-cassandra*.jar; do
     export CLASSPATH=$CLASSPATH:$jar
 done
 
-
 #
 # Initialize Hadoop env
 #
 export HADOOP_CLASSPATH=$CLASSPATH
 
-#hadoop requires absolute home
 export HADOOP_HOME=$BRISK_HOME/resources/hadoop
 export HADOOP_BIN=$HADOOP_HOME/bin
 export HADOOP_LOG_DIR=$BRISK_LOG_ROOT/hadoop
 
 
+if [ -n "$HADOOP_NATIVE_ROOT" ]; then
+    for jar in $HADOOP_NATIVE_ROOT/*.jar; do   
+	export CLASSPATH=$CLASSPATH:$jar
+    done
+
+    JAVA_PLATFORM=`$HADOOP_HOME/bin/hadoop org.apache.hadoop.util.PlatformName | sed -e "s/ /_/g"`
+
+    export JAVA_LIBRARY_PATH=$HADOOP_NATIVE_DIR/lib/native/${JAVA_PLATFORM}/
+fi
 
 #export PIG_HOME=
 #export PIG_CLASSPATH=$HADOOP_HOME/conf:$CLASSPATH
