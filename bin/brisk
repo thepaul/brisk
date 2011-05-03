@@ -17,19 +17,13 @@ BIN=`dirname $0`
 
 if [ "x$1" = "xcassandra" ]; then
     shift
-    $CASSANDRA_BIN/cassandra $* -Djava.library.path=$JAVA_LIBRARY_PATH 
+    $CASSANDRA_BIN/cassandra $* -Djava.library.path=$JAVA_LIBRARY_PATH -Dbrisk.log.root=$BRISK_LOG_ROOT
     exit $?
 fi
 
 if [ "x$1" = "xhadoop" ]; then
     shift
     $HADOOP_BIN/hadoop $*
-    exit $?
-fi
-
-if [ "x$1" = "xpig" ]; then
-    shift
-    $PIG_HOME/bin/pig $*
     exit $?
 fi
 
@@ -40,11 +34,11 @@ if [ "x$1" = "xhive" ]; then
     export CLASSPATH=`echo $CLASSPATH | sed -E "s/antlr|slf4j/dne/g"`
     export HADOOP_CLASSPATH=$CLASSPATH
     
-    $HIVE_BIN/hive $*
+    $HIVE_BIN/hive -hiveconf hive.log.dir=$BRISK_LOG_ROOT/hive -hiveconf brisk.home=$BRISK_HOME $*
     exit $?
 fi
 
-echo "$0: cassandra [options] | hadoop [options] | hive [options] | pig [options] | sqoop [options]"
+echo "$0: cassandra [options] | hadoop [options] | hive [options]"
 exit 1
 
 # vi:ai sw=4 ts=4 tw=0 et
