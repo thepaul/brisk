@@ -133,7 +133,7 @@ fi
 %attr(755,%{username},%{username}) /var/run/%{username}*
 
 %post
-alternatives --install /etc/%{briskname}/%{username}/conf %{username} /etc/%{briskname}/%{username}/default.conf/ 0
+alternatives --install /etc/%{briskname}/%{username} %{username} /etc/%{briskname}/%{username}/default.conf/ 0
 exit 0
 
 %postun
