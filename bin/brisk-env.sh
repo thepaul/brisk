@@ -62,7 +62,7 @@ if [ -n "$HADOOP_NATIVE_ROOT" ]; then
 
     JAVA_PLATFORM=`$HADOOP_HOME/bin/hadoop org.apache.hadoop.util.PlatformName | sed -e "s/ /_/g"`
 
-    export JAVA_LIBRARY_PATH=$HADOOP_NATIVE_DIR/lib/native/${JAVA_PLATFORM}/
+    export JAVA_LIBRARY_PATH=$HADOOP_NATIVE_ROOT/lib/native/${JAVA_PLATFORM}/
 fi
 
 #export PIG_HOME=
