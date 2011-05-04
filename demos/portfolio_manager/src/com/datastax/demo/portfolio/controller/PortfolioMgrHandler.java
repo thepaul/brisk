@@ -8,6 +8,7 @@ import com.datastax.demo.portfolio.Portfolio;
 import com.datastax.demo.portfolio.Position;
 
 import org.apache.cassandra.hadoop.CassandraProxyClient;
+import org.apache.cassandra.hadoop.CassandraProxyClient.ConnectionStrategy;
 import org.apache.cassandra.thrift.*;
 import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.thrift.TException;
@@ -47,7 +48,7 @@ public class PortfolioMgrHandler implements com.datastax.demo.portfolio.Portfoli
 
         try
         {
-            List<KeySlice> kslices = getClient().get_range_slices(pcp, sp, kr, ConsistencyLevel.ONE);
+            List<KeySlice> kslices = getClient().get_range_slices(pcp, sp, kr, ConsistencyLevel.ONE);            
 
             List<Portfolio> portfolios = new ArrayList<Portfolio>();
             for (KeySlice ks : kslices)
@@ -110,7 +111,7 @@ public class PortfolioMgrHandler implements com.datastax.demo.portfolio.Portfoli
         {
             try
             {
-                client = CassandraProxyClient.newProxyConnection("localhost", 9160, true, true);
+                client = CassandraProxyClient.newProxyConnection("localhost", 9160, true, ConnectionStrategy.RANDOM);
 
                 client.set_keyspace("PortfolioDemo");
             }
