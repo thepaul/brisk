@@ -34,8 +34,10 @@ if [ "x$1" = "xhive" ]; then
     #we need to remove the conflicting antlr jar
     export CLASSPATH=`echo $CLASSPATH | sed -E "s/antlr|slf4j/dne/g"`
     export HADOOP_CLASSPATH=$CLASSPATH
-    
-    $HIVE_BIN/hive -hiveconf hive.log.dir=$BRISK_LOG_ROOT/hive -hiveconf brisk.home=$BRISK_HOME $*
+
+    export HIVE_OPTS="-hiveconf hive.log.dir=$BRISK_LOG_ROOT/hive -hiveconf brisk.home=$BRISK_HOME"
+  
+    $HIVE_BIN/hive $*
     exit $?
 fi
 

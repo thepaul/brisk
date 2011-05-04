@@ -229,6 +229,8 @@
 	<dependency groupId="org.apache.hive" artifactId="hive-exec" version="${hive.build.version}"/>
 	<dependency groupId="org.apache.hive" artifactId="hive-cli" version="${hive.build.version}"/>
 	<dependency groupId="org.apache.hive" artifactId="hive-shims" version="${hive.build.version}"/>
+	<dependency groupId="org.apache.hive" artifactId="hive-serde" version="${hive.build.version}"/>
+	<dependency groupId="org.apache.hive" artifactId="hive-service" version="${hive.build.version}"/>
 	<dependency groupId="org.apache.hive" artifactId="hive-jdbc" version="${hive.build.version}"/>
 	<dependency groupId="org.apache.hive" artifactId="hive-hwi" version="${hive.build.version}" type="jar" classifier="compile"/>
 	<dependency groupId="org.apache.hive" artifactId="hive-hwi" version="${hive.build.version}" type="war" classifier="compile"/>
