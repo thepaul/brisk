@@ -49,48 +49,11 @@ public class PortfolioMgrHandler implements com.datastax.demo.portfolio.Portfoli
         try
         {
             List<KeySlice> kslices = getClient().get_range_slices(pcp, sp, kr, ConsistencyLevel.ONE);            
+            CqlResult result = getClient().execute_cql_query(ByteBufferUtil.bytes(buildPortfoliosQuery(start_key, limit)), Compression.NONE);
 
-            List<Portfolio> portfolios = new ArrayList<Portfolio>();
-            for (KeySlice ks : kslices)
-            {
-                Portfolio p = new Portfolio();
-                p.setName(new String(ks.getKey()));
-
-                Map<ByteBuffer, Long> tickerLookup = new HashMap<ByteBuffer, Long>();
-                List<ByteBuffer> tickers = new ArrayList<ByteBuffer>();
-
-                for (ColumnOrSuperColumn cosc : ks.getColumns())
-                {
-                    tickers.add(cosc.getColumn().name);
-                    tickerLookup.put(cosc.getColumn().name, ByteBufferUtil.toLong(cosc.getColumn().value));
-                }
-
-                Map<ByteBuffer, List<ColumnOrSuperColumn>> prices = getClient().multiget_slice(tickers, scp, sp,
-                        ConsistencyLevel.ONE);
-
-                double total = 0;
-                double basis = 0;
-
-                Random r = new Random(Long.valueOf(new String(ks.getKey())));
-
-                for (Map.Entry<ByteBuffer, List<ColumnOrSuperColumn>> entry : prices.entrySet())
-                {
-                    if (!entry.getValue().isEmpty())
-                    {
-                        Double price = Double.valueOf(ByteBufferUtil.string(entry.getValue().get(0).column.value));
-                        Position s = new Position(ByteBufferUtil.string(entry.getKey()), price, tickerLookup.get(entry.getKey()));
-                        p.addToConstituents(s);
-                        total += price * tickerLookup.get(entry.getKey());
-                        basis += r.nextDouble() * 100 * tickerLookup.get(entry.getKey());
-                    }
-                }
-
-                p.setPrice(total);
-                p.setBasis(basis);
-
-                portfolios.add(p);
-            }
-
+            List<Portfolio> portfolios = buildPorfoliosFromRangeSlices(kslices);
+            //List<Portfolio> portfolios = buildPorfoliosFromCqlResult(result);
+            
             addLossInformation(portfolios);
             addHistInformation(portfolios);
 
@@ -100,6 +63,105 @@ public class PortfolioMgrHandler implements com.datastax.demo.portfolio.Portfoli
         {
             throw new TException(e);
         }
+    }
+
+    private List<Portfolio> buildPorfoliosFromRangeSlices(List<KeySlice> kslices) throws Exception
+    {
+        List<Portfolio> portfolios = new ArrayList<Portfolio>();
+        for (KeySlice ks : kslices)
+        {
+            Portfolio p = new Portfolio();
+            p.setName(new String(ks.getKey()));
+
+            Map<ByteBuffer, Long> tickerLookup = new HashMap<ByteBuffer, Long>();
+            List<ByteBuffer> tickers = new ArrayList<ByteBuffer>();
+
+            for (ColumnOrSuperColumn cosc : ks.getColumns())
+            {
+                tickers.add(cosc.getColumn().name);
+                tickerLookup.put(cosc.getColumn().name, ByteBufferUtil.toLong(cosc.getColumn().value));
+            }
+
+            Map<ByteBuffer, List<ColumnOrSuperColumn>> prices = getClient().multiget_slice(tickers, scp, sp,
+                    ConsistencyLevel.ONE);
+
+            double total = 0;
+            double basis = 0;
+
+            Random r = new Random(Long.valueOf(new String(ks.getKey())));
+
+            for (Map.Entry<ByteBuffer, List<ColumnOrSuperColumn>> entry : prices.entrySet())
+            {
+                if (!entry.getValue().isEmpty())
+                {
+                    Double price = Double.valueOf(ByteBufferUtil.string(entry.getValue().get(0).column.value));
+                    Position s = new Position(ByteBufferUtil.string(entry.getKey()), price, tickerLookup.get(entry.getKey()));
+                    p.addToConstituents(s);
+                    total += price * tickerLookup.get(entry.getKey());
+                    basis += r.nextDouble() * 100 * tickerLookup.get(entry.getKey());
+
+                }
+            }
+
+
+            p.setPrice(total);
+            p.setBasis(basis);
+
+            portfolios.add(p);
+
+        }
+        return portfolios;
+    }
+    
+    private List<Portfolio> buildPorfoliosFromCqlResult(CqlResult result) throws Exception
+    {
+        List<Portfolio> portfolios = new ArrayList<Portfolio>();
+        for (CqlRow row : result.rows)
+        {
+            Portfolio p = new Portfolio();
+            p.setName(new String(row.getKey()));
+
+            Map<ByteBuffer, Long> tickerLookup = new HashMap<ByteBuffer, Long>();
+            List<ByteBuffer> tickers = new ArrayList<ByteBuffer>();
+
+            for (Column cosc : row.getColumns())
+            {
+                tickers.add(cosc.name);
+                tickerLookup.put(cosc.name, ByteBufferUtil.toLong(cosc.value));
+            }
+
+            // TODO convert to CQL
+            Map<ByteBuffer, List<ColumnOrSuperColumn>> prices = getClient().multiget_slice(tickers, scp, sp,
+                    ConsistencyLevel.ONE);
+
+            double total = 0;
+            double basis = 0;
+
+            Random r = new Random(Long.valueOf(new String(row.getKey())));
+
+            for (Map.Entry<ByteBuffer, List<ColumnOrSuperColumn>> entry : prices.entrySet())
+            {
+                if (!entry.getValue().isEmpty())
+                {
+                    Double price = Double.valueOf(ByteBufferUtil.string(entry.getValue().get(0).column.value));
+                    Position s = new Position(ByteBufferUtil.string(entry.getKey()), price, tickerLookup.get(entry.getKey()));
+                    p.addToConstituents(s);
+                    total += price * tickerLookup.get(entry.getKey());
+                    basis += r.nextDouble() * 100 * tickerLookup.get(entry.getKey());
+                }
+            }
+
+            p.setPrice(total);
+            p.setBasis(basis);
+
+            portfolios.add(p);
+        }
+        return portfolios;
+    }
+    
+    private static String buildPortfoliosQuery(String startKey, int limit)
+    {
+        return String.format("select 1..1000 from Portfolios WHERE KEY > '%s' LIMIT %d", startKey, limit);
     }
 
     private Cassandra.Iface getClient()
@@ -113,7 +175,6 @@ public class PortfolioMgrHandler implements com.datastax.demo.portfolio.Portfoli
             {
 
                 client = CassandraProxyClient.newProxyConnection("localhost", 9160, true, ConnectionStrategy.RANDOM);
-
 
                 client.set_keyspace("PortfolioDemo");
             }
