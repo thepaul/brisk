@@ -47,6 +47,7 @@ mkdir -p %{buildroot}/usr/bin/
 
 cp -p packaging-common/brisk-env.sh %{buildroot}/etc/brisk/default.conf
 cp -p bin/brisk %{buildroot}/usr/bin/
+cp -p bin/brisktool %{buildroot}/usr/bin/
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -54,6 +55,7 @@ cp -p bin/brisk %{buildroot}/usr/bin/
 %files
 %defattr(-,root,root,0755)
 %attr(755,root,root) %{_bindir}/brisk
+%attr(755,root,root) %{_bindir}/brisktool
 %attr(755,%{username},%{username}) %config(noreplace) /%{_sysconfdir}/brisk
 
 %post
