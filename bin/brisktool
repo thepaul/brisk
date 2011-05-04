@@ -1,0 +1,16 @@
+#!/bin/sh
+
+if [ "x$BRISK_ENV" = "x" ]; then
+    for include in /etc/brisk/brisk-env.sh \
+                   ~/.brisk-env.sh \
+                   `dirname $0`/brisk-env.sh; do
+        if [ -r $include ]; then
+            . $include
+            break
+        fi
+    done
+elif [ -r $BRISK_ENV ]; then
+    . $BRISK_ENV
+fi
+
+$JAVA -cp $CLASSPATH -Dstorage-config=$CASSANDRA_CONF -Dlog4j.configuration=log4j-tools.properties com.datastax.brisk.BriskTool $*
