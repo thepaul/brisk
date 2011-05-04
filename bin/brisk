@@ -15,19 +15,6 @@ fi
 
 BIN=`dirname $0`
 
-update_jobtracker()
-{
-    JOBTRACKER=`$BIN/brisktool jobtracker`;
-    
-    if [ "x$JOBTRACKER" = "x" ]; then
-	echo "error finding jobtracker address"
-	exit 1
-    else
-	sed -e "s/<!--brisk jobtracker-->/$JOBTRACKER/g" $HADOOP_HOME/conf/mapred-site.xml.brisk > $HADOOP_HOME/conf/mapred-site.xml
-    fi
-}
-
-
 if [ "x$1" = "xcassandra" ]; then
     shift
     $CASSANDRA_BIN/cassandra $* -Djava.library.path=$JAVA_LIBRARY_PATH
@@ -36,8 +23,6 @@ fi
 
 if [ "x$1" = "xhadoop" ]; then
     shift
-
-    update_jobtracker
 
     $HADOOP_BIN/hadoop $*    
     exit $?
@@ -50,9 +35,9 @@ if [ "x$1" = "xhive" ]; then
     export CLASSPATH=`echo $CLASSPATH | sed -E "s/antlr|slf4j/dne/g"`
     export HADOOP_CLASSPATH=$CLASSPATH
 
-    update_jobtracker
-    
-    $HIVE_BIN/hive -hiveconf hive.log.dir=$BRISK_LOG_ROOT/hive -hiveconf brisk.home=$BRISK_HOME $*
+    export HIVE_OPTS="-hiveconf hive.log.dir=$BRISK_LOG_ROOT/hive -hiveconf brisk.home=$BRISK_HOME"
+  
+    $HIVE_BIN/hive $*
     exit $?
 fi
 
