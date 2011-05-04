@@ -28,9 +28,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.apache.cassandra.config.ConfigurationException;
-import org.apache.cassandra.gms.ApplicationState;
-import org.apache.cassandra.gms.EndpointState;
-import org.apache.cassandra.gms.Gossiper;
+import org.apache.cassandra.gms.*;
 import org.apache.cassandra.hadoop.trackers.TrackerInitializer;
 import org.apache.cassandra.service.StorageService;
 import org.apache.cassandra.utils.FBUtilities;
@@ -42,7 +40,7 @@ public class BriskSimpleSnitch extends AbstractEndpointSnitch
 {
     protected static Logger logger = LoggerFactory.getLogger(BriskSimpleSnitch.class);
     public static final String BRISK_DC = "Brisk";
-    public static final String DEFAULT_DC = "Cassandra";
+    public static final String CASSANDRA_DC = "Cassandra";
     
     protected String myDC;
 
@@ -55,7 +53,7 @@ public class BriskSimpleSnitch extends AbstractEndpointSnitch
         }
         else
         {
-            myDC = DEFAULT_DC;
+            myDC = CASSANDRA_DC;
             logger.info("Hadoop trackers not running, setting my DC to " + myDC);
         }
     }
@@ -70,12 +68,21 @@ public class BriskSimpleSnitch extends AbstractEndpointSnitch
         if (es == null)
         {
             if (logger.isDebugEnabled())
-                logger.debug("No endpoint state for " + endpoint + " defaulting DC to " + DEFAULT_DC);
-            return DEFAULT_DC;
+                logger.debug("No endpoint state for " + endpoint + " defaulting DC to " + BRISK_DC);
+            return BRISK_DC;
         }
 
-        String DC = es.getApplicationState(ApplicationState.DC).value;
+        VersionedValue state = es.getApplicationState(ApplicationState.DC);
       
+        if(state == null || state.value == null)
+        {
+            if (logger.isDebugEnabled())
+                logger.debug("No endpoint state for " + endpoint + " defaulting DC to " + BRISK_DC);
+            return BRISK_DC;           
+        }
+        
+        String DC = state.value;
+        
         if(logger.isDebugEnabled())
             logger.debug("DC for endpoint "+endpoint+" is "+DC);
         
