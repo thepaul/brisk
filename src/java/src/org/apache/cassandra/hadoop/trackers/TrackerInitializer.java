@@ -5,7 +5,6 @@ import java.net.InetAddress;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.cassandra.service.StorageService;
 import org.apache.cassandra.utils.FBUtilities;
 import org.apache.hadoop.mapred.JobTracker;
 import org.apache.hadoop.mapred.TaskTracker;
@@ -28,7 +27,7 @@ public class TrackerInitializer
         try
         {                    
             logger.info("Waiting for gossip to start");
-            Thread.sleep(StorageService.RING_DELAY);
+            Thread.sleep(5000);
         }
         catch (InterruptedException e)
         {
