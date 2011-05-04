@@ -27,7 +27,7 @@ public class TrackerInitializer
         try
         {                    
             logger.info("Waiting for gossip to start");
-            Thread.sleep(15000);
+            Thread.sleep(5000);
         }
         catch (InterruptedException e)
         {
