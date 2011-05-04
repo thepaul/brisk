@@ -262,4 +262,10 @@ public class BriskErrorServer implements Brisk.Iface
         return null;
     }
 
+    public String get_jobtracker_address() throws NotFoundException, TException
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

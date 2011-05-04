@@ -23,7 +23,8 @@ fi
 
 if [ "x$1" = "xhadoop" ]; then
     shift
-    $HADOOP_BIN/hadoop $*
+
+    $HADOOP_BIN/hadoop $*    
     exit $?
 fi
 
