@@ -315,18 +315,48 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
     {
         ByteBuffer pathKey = getPathKey(path);
         ColumnOrSuperColumn pathInfo;
+        int loopcount = 0;
+        int maxRetries = 10;
 
-        try
+        while (true)
         {
-            pathInfo = client.get(pathKey, inodeDataPath, consistencyLevelRead);
-        }
-        catch (NotFoundException e)
-        {
-            return null;
-        }
-        catch (Exception e)
-        {
-            throw new IOException(e);
+            try
+            {
+                pathInfo = client.get(pathKey, inodeDataPath, consistencyLevelRead);
+                break;
+            }
+            catch (NotFoundException e)
+            {
+                if (loopcount < maxRetries) {
+                    loopcount++;
+                    logger.info("Trying to retrieve INode. Try " + loopcount + " of " + maxRetries + ".");
+                    try
+                    {
+                        Thread.sleep(1050);
+                    }
+                    catch (InterruptedException e2) {
+                        throw new IOException(e2);
+                    }
+                } else {
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                if (loopcount < maxRetries) {
+                    loopcount++;
+                    logger.info("Trying to retrieve INode. Try " + loopcount + " of " + maxRetries + ".");
+                    try
+                    {
+                        Thread.sleep(1050);
+                    }
+                    catch (InterruptedException e2) {
+                        throw new IOException(e2);
+                    }
+                } else {
+                    throw new IOException(e);
+                }
+            }
         }
 
         return INode.deserialize(ByteBufferUtil.inputStream(pathInfo.column.value), pathInfo.column.getTimestamp());
