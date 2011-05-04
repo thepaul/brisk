@@ -21977,7 +21977,7 @@
   <!-- end class org.apache.hadoop.ipc.metrics.RpcInstrumentation.Detailed -->
 </package>
 <package name="org.apache.hadoop.log">
-  <!-- start class org.apache.hadoop.log.EventCounter -->
+  <!-- start class org.apache.hadoop.log.metrics.EventCounter -->
   <class name="EventCounter" extends="org.apache.hadoop.log.metrics.EventCounter"
     abstract="false"
     static="false" final="false" visibility="public"
@@ -21992,7 +21992,7 @@
  @deprecated use {@link org.apache.hadoop.log.metrics.EventCounter} instead]]>
     </doc>
   </class>
-  <!-- end class org.apache.hadoop.log.EventCounter -->
+  <!-- end class org.apache.hadoop.log.metrics.EventCounter -->
   <!-- start class org.apache.hadoop.log.LogLevel -->
   <class name="LogLevel" extends="java.lang.Object"
     abstract="false"
