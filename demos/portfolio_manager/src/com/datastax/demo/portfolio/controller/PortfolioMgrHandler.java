@@ -129,26 +129,23 @@ public class PortfolioMgrHandler implements com.datastax.demo.portfolio.Portfoli
                 tickers.add(cosc.name);
                 tickerLookup.put(cosc.name, ByteBufferUtil.toLong(cosc.value));
             }
-
-            // TODO convert to CQL
-            Map<ByteBuffer, List<ColumnOrSuperColumn>> prices = getClient().multiget_slice(tickers, scp, sp,
-                    ConsistencyLevel.ONE);
-
+            
             double total = 0;
             double basis = 0;
 
             Random r = new Random(Long.valueOf(new String(row.getKey())));
-
-            for (Map.Entry<ByteBuffer, List<ColumnOrSuperColumn>> entry : prices.entrySet())
+            
+            for ( ByteBuffer ticker : tickers )
             {
-                if (!entry.getValue().isEmpty())
-                {
-                    Double price = Double.valueOf(ByteBufferUtil.string(entry.getValue().get(0).column.value));
-                    Position s = new Position(ByteBufferUtil.string(entry.getKey()), price, tickerLookup.get(entry.getKey()));
-                    p.addToConstituents(s);
-                    total += price * tickerLookup.get(entry.getKey());
-                    basis += r.nextDouble() * 100 * tickerLookup.get(entry.getKey());
-                }
+                CqlResult tResult = getClient().execute_cql_query(ByteBufferUtil.bytes(buildStocksQuery(ByteBufferUtil.string(ticker))), Compression.NONE);
+                CqlRow tRow = tResult.getRowsIterator().next();
+
+                Double price = Double.valueOf(ByteBufferUtil.string(tRow.columns.get(0).value));
+                Position s = new Position(ByteBufferUtil.string(tRow.key), price, tickerLookup.get(tRow.key));
+                p.addToConstituents(s);
+                total += price * tickerLookup.get(tRow.key);
+                basis += r.nextDouble() * 100 * tickerLookup.get(tRow.key);
+
             }
 
             p.setPrice(total);
@@ -161,7 +158,12 @@ public class PortfolioMgrHandler implements com.datastax.demo.portfolio.Portfoli
     
     private static String buildPortfoliosQuery(String startKey, int limit)
     {
-        return String.format("select 1..1000 from Portfolios WHERE KEY > '%s' LIMIT %d", startKey, limit);
+        return String.format("select FIRST 1000 ''..'' FROM Portfolios WHERE KEY >= '%s' LIMIT %d", startKey, limit);
+    }
+    
+    private static String buildStocksQuery(String ticker) 
+    {
+        return String.format("select FIRST 1000 ''..'' FROM Stocks WHERE key = %s",ticker);
     }
 
     private Cassandra.Iface getClient()
