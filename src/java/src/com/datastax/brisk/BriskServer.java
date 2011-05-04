@@ -16,6 +16,8 @@ import org.apache.cassandra.db.*;
 import org.apache.cassandra.db.filter.QueryPath;
 import org.apache.cassandra.db.marshal.AbstractType;
 import org.apache.cassandra.dht.Token;
+import org.apache.cassandra.hadoop.trackers.CassandraJobConf;
+import org.apache.cassandra.hadoop.trackers.TrackerInitializer;
 import org.apache.cassandra.io.sstable.Component;
 import org.apache.cassandra.io.sstable.IndexHelper;
 import org.apache.cassandra.io.sstable.SSTableReader;
@@ -412,6 +414,16 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
             throw new NotFoundException();
 
         return col;
+    }
+
+    public String get_jobtracker_address() throws NotFoundException, TException
+    {
+        if(!TrackerInitializer.isTrackerNode)
+        {
+            throw new NotFoundException();
+        }
+                
+        return CassandraJobConf.getJobTrackerNode().getHostName()+":8012";
     }
 
 }

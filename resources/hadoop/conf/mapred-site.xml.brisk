@@ -33,7 +33,7 @@
 
 <property>
   <name>mapred.job.tracker</name>
-  <value>localhost:8012</value>
+  <value><!--brisk jobtracker--></value>
   <description>
     The address of the job tracker
   </description>                                                                                                      
