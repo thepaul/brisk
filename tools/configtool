@@ -183,20 +183,6 @@ def configureCassandraYaml():
     
     print '[INFO] cassandra.yaml configured.'
     
-def configureMapredSiteXML():
-    with open(hconfPath + 'mapred-site.xml', 'r') as f:
-        mapredSite = f.read()
-    
-    if seedList:
-        # Set job tracker address
-        p = re.compile('<name>mapred.job.tracker</name>\s*.*</value>')
-        mapredSite = p.sub('<name>mapred.job.tracker</name>\n  <value>' + seedList[0] + ':8012</value>', mapredSite)
-    
-    with open(hconfPath + 'mapred-site.xml', 'w') as f:
-        f.write(mapredSite)
-        
-    print '[INFO] mapred-site.xml configured.'
-    
 def configureOpsCenterConf():
     try:
         with open(opsConfPath + 'opscenterd.conf', 'r') as f:
@@ -224,5 +210,4 @@ if not commandLineSwitches():
     promptUserInfo()
 
 configureCassandraYaml()
-configureMapredSiteXML()
 configureOpsCenterConf()
