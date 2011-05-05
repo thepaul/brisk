@@ -290,7 +290,7 @@ public class CassandraOutputStream extends OutputStream
     {
         nextBlock = new Block(currentBlockUUID, 
                               filePos - bytesWrittenToBlock - pos, bytesWrittenToBlock,
-                              subBlocks.toArray(new SubBlock[subBlocks.size()]));
+                              subBlocks.toArray(new SubBlock[]{}));
         blocks.add(nextBlock);
         // Clean up the sub blocks collection for the next block.
         subBlocks.clear();
@@ -311,7 +311,7 @@ public class CassandraOutputStream extends OutputStream
         		System.getProperty("user.name","none"), 
         		perms, 
         		INode.FileType.FILE, 
-        		blocks.toArray(new Block[blocks.size()]));
+        		blocks.toArray(new Block[]{}));
         
         store.storeINode(path, inode);
     }
