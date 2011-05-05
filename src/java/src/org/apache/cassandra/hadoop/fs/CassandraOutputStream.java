@@ -278,7 +278,7 @@ public class CassandraOutputStream extends OutputStream
     private synchronized void nextSubBlockOutputStream() {
     	// SubBlock  offset ==> bytesWrittenToBlock - bytesWrittenToSubBlock - pos
         nextSubBlock = new SubBlock(generateTimeUUID(), 
-                                    bytesWrittenToBlock - bytesWrittenToSubBlock - pos, bytesWrittenToSubBlock);
+                                    bytesWrittenToBlock - bytesWrittenToSubBlock - pos, bytesWrittenToSubBlock - pos);
 
         subBlocks.add(nextSubBlock);
         
@@ -289,7 +289,7 @@ public class CassandraOutputStream extends OutputStream
     private synchronized void nextBlockOutputStream() throws IOException
     {
         nextBlock = new Block(currentBlockUUID, 
-                              filePos - bytesWrittenToBlock - pos, bytesWrittenToBlock,
+                              filePos - bytesWrittenToBlock - pos, bytesWrittenToBlock - pos,
                               subBlocks.toArray(new SubBlock[]{}));
         blocks.add(nextBlock);
         // Clean up the sub blocks collection for the next block.
