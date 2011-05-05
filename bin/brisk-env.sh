@@ -48,8 +48,6 @@ done
 #
 # Initialize Hadoop env
 #
-export HADOOP_CLASSPATH=$CLASSPATH
-
 export HADOOP_HOME=$BRISK_HOME/resources/hadoop
 export HADOOP_BIN=$HADOOP_HOME/bin
 export HADOOP_LOG_DIR=$BRISK_LOG_ROOT/hadoop
@@ -64,6 +62,8 @@ if [ -n "$HADOOP_NATIVE_ROOT" ]; then
 
     export JAVA_LIBRARY_PATH=$HADOOP_NATIVE_ROOT/lib/native/${JAVA_PLATFORM}/
 fi
+
+export HADOOP_CLASSPATH=$CLASSPATH
 
 #export PIG_HOME=
 #export PIG_CLASSPATH=$HADOOP_HOME/conf:$CLASSPATH
