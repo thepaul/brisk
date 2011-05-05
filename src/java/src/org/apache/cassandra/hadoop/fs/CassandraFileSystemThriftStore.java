@@ -204,6 +204,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
             // this is a workaround until 
             // http://issues.apache.org/jira/browse/CASSANDRA-1278
             cf.setMemtable_flush_after_mins(1);
+            cf.setMemtable_throughput_in_mb(128);
 
             cf.setColumn_metadata(Arrays.asList(new ColumnDef(pathCol, "BytesType").setIndex_type(IndexType.KEYS)
                     .setIndex_name("path"), new ColumnDef(sentCol, "BytesType").setIndex_type(IndexType.KEYS)
@@ -219,6 +220,11 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
             cf.setGc_grace_seconds(60);
             cf.setComment("Stores blocks of information associated with a inode");
             cf.setKeyspace(keySpace);
+            
+            // Optimization for 128 MB blocks.
+            cf.setMemtable_throughput_in_mb(128);
+            cf.setMin_compaction_threshold(16);
+            cf.setMax_compaction_threshold(64);
 
             cfs.add(cf);
             
