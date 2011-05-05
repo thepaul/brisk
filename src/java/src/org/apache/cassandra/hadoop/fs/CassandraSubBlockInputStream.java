@@ -24,7 +24,7 @@ import java.io.InputStream;
  * Inner inputStream for SubBlocks that provides an abstraction to
  * @link {@link CassandraInputStream} to read a flow of data.
  * 
- *  It handles the SubBlock swtich and closes the underlying inputstream.
+ *  It handles the SubBlock switch and closes the underlying inputstream.
  *
  */
 public class CassandraSubBlockInputStream extends InputStream {

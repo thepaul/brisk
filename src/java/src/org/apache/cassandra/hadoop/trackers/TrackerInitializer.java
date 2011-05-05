@@ -69,7 +69,8 @@ public class TrackerInitializer
         }
         else
         {
-            logger.info("We are not the job tracker: "+jobTrackerAddr+" vs "+FBUtilities.getLocalAddress());
+            if(logger.isDebugEnabled())
+                logger.debug("We are not the job tracker: "+jobTrackerAddr+" vs "+FBUtilities.getLocalAddress());
         }
               
         

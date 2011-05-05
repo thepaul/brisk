@@ -23,9 +23,6 @@ import org.apache.log4j.Logger;
 
 /**
  * Smaller component of a @link {@link Block}.
- * 
- * @author patricioe (Patricio Echague - patricioe@gmail.com)
- *
  */
 public class SubBlock
 {
