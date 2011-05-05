@@ -83,7 +83,6 @@ fi
 
 for f in ${HIVE_LIB}/*.jar; do
   CLASSPATH=${CLASSPATH}:$f;
-  export CLASSPATH=`echo $CLASSPATH | sed -E "s/slf4j/dne/g"`
 done
 
 # add the auxillary jars such as serdes
