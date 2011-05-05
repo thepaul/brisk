@@ -68,8 +68,8 @@ public class PortfolioMgrHandler implements com.datastax.demo.portfolio.Portfoli
             List<KeySlice> kslices = getClient().get_range_slices(pcp, sp, kr, ConsistencyLevel.ONE);            
             CqlResult result = getClient().execute_cql_query(ByteBufferUtil.bytes(buildPortfoliosQuery(start_key, limit)), Compression.NONE);
 
-            List<Portfolio> portfolios = buildPorfoliosFromRangeSlices(kslices);
-            //List<Portfolio> portfolios = buildPorfoliosFromCqlResult(result);
+            //List<Portfolio> portfolios = buildPorfoliosFromRangeSlices(kslices);
+            List<Portfolio> portfolios = buildPorfoliosFromCqlResult(result);
             
             addLossInformation(portfolios);
             addHistInformation(portfolios);
@@ -154,15 +154,15 @@ public class PortfolioMgrHandler implements com.datastax.demo.portfolio.Portfoli
             
             for ( ByteBuffer ticker : tickers )
             {
-                CqlResult tResult = getClient().execute_cql_query(ByteBufferUtil.bytes(buildStocksQuery(ByteBufferUtil.string(ticker))), Compression.NONE);
-                CqlRow tRow = tResult.getRowsIterator().next();
-
-                Double price = Double.valueOf(ByteBufferUtil.string(tRow.columns.get(0).value));
-                Position s = new Position(ByteBufferUtil.string(tRow.key), price, tickerLookup.get(tRow.key));
-                p.addToConstituents(s);
-                total += price * tickerLookup.get(tRow.key);
-                basis += r.nextDouble() * 100 * tickerLookup.get(tRow.key);
-
+                CqlResult tResult = getClient().execute_cql_query(ByteBufferUtil.bytes(buildStocksQuery(ticker)), Compression.NONE);
+                CqlRow tRow = tResult.getRowsIterator().hasNext() ? tResult.getRowsIterator().next() : null;
+                if ( tRow != null ) {
+                    Double price = Double.valueOf(ByteBufferUtil.string(tRow.columns.get(0).value));
+                    Position s = new Position(ByteBufferUtil.string(tRow.key), price, tickerLookup.get(tRow.key));
+                    p.addToConstituents(s);
+                    total += price * tickerLookup.get(tRow.key);
+                    basis += r.nextDouble() * 100 * tickerLookup.get(tRow.key);
+                }
             }
 
             p.setPrice(total);
@@ -178,9 +178,10 @@ public class PortfolioMgrHandler implements com.datastax.demo.portfolio.Portfoli
         return String.format("select FIRST 1000 ''..'' FROM Portfolios WHERE KEY >= '%s' LIMIT %d", startKey, limit);
     }
     
-    private static String buildStocksQuery(String ticker) 
+    private static String buildStocksQuery(ByteBuffer ticker) throws Exception
     {
-        return String.format("select FIRST 1000 ''..'' FROM Stocks WHERE key = %s",ticker);
+     
+        return String.format("select FIRST 1000 ''..'' FROM Stocks WHERE key = '%s'",ByteBufferUtil.bytesToHex(ticker));        
     }
 
     private Cassandra.Iface getClient()
