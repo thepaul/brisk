@@ -249,7 +249,9 @@ public class CassandraOutputStream extends OutputStream
         nextBlockOutputStream();
 
         //store.storeBlock(nextBlock, backupStream);
-        //internalClose();
+        
+        // Save the INode after ending the Block.
+        internalClose();
 
         bytesWrittenToBlock = 0;
     }
