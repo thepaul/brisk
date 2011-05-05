@@ -84,6 +84,10 @@ fi
 for f in ${HIVE_LIB}/*.jar; do
   CLASSPATH=${CLASSPATH}:$f;
 done
+
+#FIXME
+# removes the multiple SLF4J bindings
+# but this should be taken care of within bin/brisk
 CLASSPATH=`echo $CLASSPATH | sed -E "s/slf4j/dne/g"`
 
 # add the auxillary jars such as serdes
