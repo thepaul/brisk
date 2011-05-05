@@ -65,7 +65,7 @@ if [ "x$1" = "xhive" ]; then
     fi
 
     export HIVE_OPTS="$HIVE_OPTS -hiveconf hive.log.dir=$BRISK_LOG_ROOT/hive -hiveconf brisk.home=$BRISK_HOME"
-  
+
     $HIVE_BIN/hive $*
     exit $?
 fi
