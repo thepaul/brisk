@@ -34,7 +34,18 @@ if [ "x$1" = "xhadoop" ]; then
 	fi
     fi
 
-    $HADOOP_BIN/hadoop $HADOOP_CMD $HADOOP_JT $*
+    #special case for jar
+    if [ "x$HADOOP_CMD" = "xjar" ]; then
+	HADOOP_JAR=$1
+	shift
+	
+	#incase someone just runs "hadoop jar"
+	if [ "x$HADOOP_JAR" = "x" ]; then
+	    HADOOP_JT=
+	fi
+    fi
+
+    $HADOOP_BIN/hadoop $HADOOP_CMD $HADOOP_JAR $* $HADOOP_JT
     exit $?
 fi
 
