@@ -1,5 +1,6 @@
 usr/sbin
 usr/bin
 etc/brisk
+etc/sysctl.d
 var/lib/cassandra
 var/log/cassandra
