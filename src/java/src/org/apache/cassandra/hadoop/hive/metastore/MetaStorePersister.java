@@ -201,7 +201,7 @@ public class MetaStorePersister
             colName.append(((Database)base).getName().toLowerCase());
         } else if ( base instanceof Table ) 
         {
-            colName.append(((Table)base).getTableName());
+            colName.append(((Table)base).getTableName().toLowerCase());
         } else if ( base instanceof Index ) 
         {
             colName.append(((Index)base).getOrigTableName())
@@ -211,7 +211,7 @@ public class MetaStorePersister
             .append(((Index)base).getIndexName());
         } else if ( base instanceof Partition ) 
         {
-            colName.append(((Partition)base).getTableName());
+            colName.append(((Partition)base).getTableName().toLowerCase());
             for( String value : ((Partition)base).getValues()) 
             {
                 colName.append(COL_NAME_SEP).append(value);

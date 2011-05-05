@@ -219,6 +219,14 @@ public class CassandraHiveMetaStoreTest extends CleanupHelper {
         metaStore.createDatabase(database);
         Database foundDb = metaStore.getDatabase("cidbname");
         assertNotNull(foundDb);
+        Table table = new Table();
+        table.setDbName("cidbname");
+        table.setTableName("TaBlE");
+        metaStore.createTable(table);
+        
+        Table foundTable = metaStore.getTable("cidBname", "table");        
+        assertNotNull(foundTable);
+        
     }
     
     
