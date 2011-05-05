@@ -42,10 +42,13 @@ if [ "x$1" = "xhadoop" ]; then
 	#incase someone just runs "hadoop jar"
 	if [ "x$HADOOP_JAR" = "x" ]; then
 	    HADOOP_JT=
+	else
+	    MAINCLASS=$1
+	    shift
 	fi
     fi
 
-    $HADOOP_BIN/hadoop $HADOOP_CMD $HADOOP_JAR $* $HADOOP_JT
+    $HADOOP_BIN/hadoop $HADOOP_CMD $HADOOP_JAR $MAINCLASS $HADOOP_JT $*
     exit $?
 fi
 
