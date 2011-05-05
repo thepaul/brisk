@@ -101,7 +101,7 @@ public class CassandraFileSystemTest extends CleanupHelper
         tmp.deleteOnExit();
 
         //Write file
-        fs.copyFromLocalFile(new Path("file://"+tmp.getAbsolutePath()), new Path("/mytestdir/testfile"));
+        fs.copyFromLocalFile(new Path("file://"+tmp.getAbsoluteFile()), new Path("/mytestdir/testfile"));
         
         if(flush)
         {
