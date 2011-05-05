@@ -1,9 +1,6 @@
 package org.apache.cassandra.hadoop.hive.metastore;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -210,8 +207,18 @@ public class CassandraHiveMetaStoreTest extends CleanupHelper {
         }
         metaStore.createDatabase(database);
         foundDatabase = metaStore.getDatabase("add_drop_readd_db");
-        assertEquals(database, foundDatabase);
-        
+        assertEquals(database, foundDatabase);        
+    }
+    
+    @Test
+    public void testCaseInsensitiveNaming() throws Exception 
+    {
+        CassandraHiveMetaStore metaStore = new CassandraHiveMetaStore();
+        metaStore.setConf(buildConfiguration());
+        Database database = new Database("CiDbNaMe", "My Database", "file:///tmp/", new HashMap<String, String>());
+        metaStore.createDatabase(database);
+        Database foundDb = metaStore.getDatabase("cidbname");
+        assertNotNull(foundDb);
     }
     
     
