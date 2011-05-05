@@ -23,7 +23,18 @@ fi
 
 if [ "x$1" = "xhadoop" ]; then
     shift
-    $HADOOP_BIN/hadoop $*
+
+    HADOOP_CMD=$1
+    shift
+
+    JOBTRACKER=`$BIN/brisktool jobtracker`
+    if [ "x$JOBTRACKER" != "x" ]; then
+	if [ "x$HADOOP_CMD" != "x" ]; then
+	    HADOOP_JT="-D brisk.job.tracker=$JOBTRACKER"
+	fi
+    fi
+
+    $HADOOP_BIN/hadoop $HADOOP_CMD $HADOOP_JT $*
     exit $?
 fi
 
@@ -33,8 +44,15 @@ if [ "x$1" = "xhive" ]; then
     #we need to remove the conflicting antlr jar
     export CLASSPATH=`echo $CLASSPATH | sed -E "s/antlr|slf4j/dne/g"`
     export HADOOP_CLASSPATH=$CLASSPATH
-    
-    $HIVE_BIN/hive -hiveconf hive.log.dir=$BRISK_LOG_ROOT/hive -hiveconf brisk.home=$BRISK_HOME $*
+
+    JOBTRACKER=`$BIN/brisktool jobtracker`;
+    if [ "x$JOBTRACKER" != "x" ]; then
+	HIVE_OPTS="$HIVE_OPTS -hiveconf brisk.job.tracker=$JOBTRACKER"
+    fi
+
+    export HIVE_OPTS="$HIVE_OPTS -hiveconf hive.log.dir=$BRISK_LOG_ROOT/hive -hiveconf brisk.home=$BRISK_HOME"
+  
+    $HIVE_BIN/hive $*
     exit $?
 fi
 

@@ -63,4 +63,9 @@ service Brisk extends cassandra.Cassandra
    LocalOrRemoteBlock get_cfs_sblock(1:required string caller_host_name, 2:required binary block_id, 3:required binary sblock_id, 4:i32 offset=0)
     throws (1:InvalidRequestException ire, 2:UnavailableException ue, 3:TimedOutException te, 4:NotFoundException nfe),
 
+
+   /** returns the hostname:port of the jobtracker control port
+    * 
+    */  
+    string get_jobtracker_address() throws (1:NotFoundException nfe)
 }

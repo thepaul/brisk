@@ -1,6 +1,8 @@
 package org.apache.cassandra.hadoop.fs;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.util.List;
@@ -8,11 +10,13 @@ import java.util.List;
 import org.junit.Test;
 
 import org.apache.cassandra.EmbeddedBriskErrorServer;
+import org.apache.cassandra.EmbeddedServer;
 import org.apache.cassandra.config.DatabaseDescriptor;
 import org.apache.cassandra.hadoop.CassandraProxyClient;
 import org.apache.cassandra.hadoop.CassandraProxyClient.ConnectionStrategy;
 import org.apache.cassandra.thrift.*;
 import org.apache.cassandra.utils.ByteBufferUtil;
+import org.apache.cassandra.utils.FBUtilities;
 
 public class CassandraProxyClientTest
 {
@@ -66,6 +70,10 @@ public class CassandraProxyClientTest
         
         assertEquals(11, client.get_count(ByteBufferUtil.EMPTY_BYTE_BUFFER, new ColumnParent("test"), new SlicePredicate(), ConsistencyLevel.ALL));
         
+    
+        
     }
+    
+   
 
 }
