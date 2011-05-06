@@ -162,7 +162,7 @@
       <artifact:remoteRepository id="java.net2" url="${artifact.remoteRepository.java.net2}"/>
       <artifact:remoteRepository id="apache"    url="${artifact.remoteRepository.apache}"/>
       <artifact:remoteRepository id="datastax-snapshot"  url="${artifact.remoteRepository.datastax-snapshot}">
-      	<snapshots updatePolicy="always"/>
+      	<snapshots updatePolicy="${snapshot.datastax.updatePolicy}"/>
       </artifact:remoteRepository>
       <artifact:remoteRepository id="datastax-deps"  url="${artifact.remoteRepository.datastax-deps}">
       	<releases updatePolicy="always"/>
@@ -215,7 +215,7 @@
 	<dependency groupId="org.apache.cassandra" artifactId="apache-cassandra-cql" version="${cassandra-cql.build.version}"/>
 	<dependency groupId="joda-time" artifactId="joda-time" version="1.6.2"/>
     <remoteRepository id="datastax-snapshot"  url="${artifact.remoteRepository.datastax-snapshot}">
-    	<snapshots updatePolicy="always"/>
+    	<snapshots updatePolicy="${snapshot.datastax.updatePolicy}"/>
     </remoteRepository>      	
 	<remoteRepository refid="datastax-deps"/>       
 	<remoteRepository refid="central"/>
