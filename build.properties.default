@@ -14,3 +14,5 @@ hive.build.version:		       0.7.0-SNAPSHOT
 cassandra.build.version:	       0.8.0-beta1-SNAPSHOT
 cassandra-thrift.build.version:	       0.8.0-beta1-SNAPSHOT
 cassandra-cql.build.version:	       0.8.0-beta1-SNAPSHOT
+# change this to always for frequent checks
+snapshot.datastax.updatePolicy: daily
