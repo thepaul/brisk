@@ -297,7 +297,8 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         {
             raf = new RandomAccessFile(blockInfo.file, "r");
 
-            logger.info("Mmapping " + blockInfo.length + " bytes");
+            if(logger.isDebugEnabled())
+                logger.debug("Mmapping " + blockInfo.length + " bytes");
 
             MappedByteBuffer bb = raf.getChannel().map(FileChannel.MapMode.READ_ONLY, blockInfo.offset,
                     blockInfo.length);
@@ -397,9 +398,9 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
     public void storeINode(Path path, INode inode) throws IOException
     {
-        logger.info("Writing inode to: " + path);
-        
+                
         if (logger.isDebugEnabled() && inode.getBlocks() != null) {
+            logger.debug("Writing inode to: " + path);
         	printBlocksDebug(inode.getBlocks());
         }
 

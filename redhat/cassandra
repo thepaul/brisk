@@ -17,16 +17,23 @@ export CASSANDRA_OWNR=cassandra
 NAME="cassandra"
 log_file=/var/log/cassandra/cassandra.log
 pid_file=/var/run/cassandra/cassandra.pid
+HADOOP_ENABLED=0
+# enable overcommit if you enable hadoop
+OVERCOMMIT_ENABLED=0
 EXTRA_FLAGS=""
 # Read configuration variable file if it is present
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
-
+# brisk specific settings
+[ -r /etc/default/brisk ] && . /etc/default/brisk
 
 CASSANDRA_PROG=/usr/sbin/cassandra
 
 case "$1" in
     start)
         # Cassandra startup
+        if [ "$OVERCOMMIT_ENABLED" = "1" ]; then
+        	/sbin/sysctl -w vm.overcommit_memory = 1
+        fi
         if [ "$HADOOP_ENABLED" = "0" ]; then
     		echo "Brisk daemon starting with Hadoop disabled (edit /etc/default/brisk to enable)"
 		else
