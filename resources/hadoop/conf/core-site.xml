@@ -14,14 +14,16 @@
     <value>org.apache.cassandra.hadoop.fs.CassandraFileSystem</value>
  </property>
 
- <!-- 64 MB default --> 
+ <!-- 128 MB default --> 
  <property>
   <name>fs.local.block.size</name>
   <value>134217728</value>
-<!--
-  <value>67108864</value> 
--->
-</property>
+ </property>
+
+ <property>
+  <name>dfs.block.size</name>
+  <value>134217728</value>
+ </property>
 
   <property>
     <name>io.file.buffer.size</name>

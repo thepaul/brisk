@@ -1,3 +1,20 @@
+/**
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.apache.cassandra.hadoop.hive.metastore;
 
 import java.nio.ByteBuffer;
@@ -16,11 +33,12 @@ import org.apache.thrift.meta_data.FieldMetaData;
 /**
  * Generically persist and load the Hive Meta Store model classes
  * 
- * @author zznate
  *
  */
 public class MetaStorePersister
 {
+    private static final String COL_NAME_SEP = "::";
+
     private static final Logger log = LoggerFactory.getLogger(MetaStorePersister.class);
     
     private TSerializer serializer;
@@ -37,6 +55,7 @@ public class MetaStorePersister
     public void save(Map<? extends TFieldIdEnum, FieldMetaData> metaData,
             TBase base, String databaseName) throws CassandraHiveMetaStoreException
     {
+        databaseName = databaseName.toLowerCase();
         // FIXME turns out metaData is not needed anymore. Remove from sig.
         // TODO need to add ID field to column name lookup to avoid overwrites
         if ( log.isDebugEnabled() )
@@ -68,6 +87,7 @@ public class MetaStorePersister
     public TBase load(TBase base, String databaseName) 
         throws CassandraHiveMetaStoreException, NotFoundException
     {
+        databaseName = databaseName.toLowerCase();
         if ( log.isDebugEnabled() )
             log.debug("in load with class: {} dbname: {}", base.getClass().getName(), databaseName);
         deserializer = new TDeserializer();        
@@ -102,6 +122,7 @@ public class MetaStorePersister
     public List<TBase> find(TBase base, String databaseName, String prefix, int count) 
         throws CassandraHiveMetaStoreException
     {
+        databaseName = databaseName.toLowerCase();
         if ( log.isDebugEnabled() )
             log.debug("in find with class: {} dbname: {} prefix: {} and count: {}", 
                     new Object[]{base.getClass().getName(), databaseName, prefix, count});
@@ -145,6 +166,7 @@ public class MetaStorePersister
     @SuppressWarnings("unchecked")
     public void removeAll(List<TBase> bases, String databaseName) 
     {
+        databaseName = databaseName.toLowerCase();
         serializer = new TSerializer();        
         BatchMutation batchMutation = new BatchMutation();     
         try
@@ -173,26 +195,26 @@ public class MetaStorePersister
     
     private String buildEntityColumnName(TBase base) {
         StringBuilder colName = new StringBuilder(96);
-        colName.append(base.getClass().getName()).append("::");
+        colName.append(base.getClass().getName()).append(COL_NAME_SEP);
         if ( base instanceof Database )
         {
-            colName.append(((Database)base).getName());
+            colName.append(((Database)base).getName().toLowerCase());
         } else if ( base instanceof Table ) 
         {
-            colName.append(((Table)base).getTableName());
+            colName.append(((Table)base).getTableName().toLowerCase());
         } else if ( base instanceof Index ) 
         {
             colName.append(((Index)base).getOrigTableName())
-            .append("::")
+            .append(COL_NAME_SEP)
             .append(((Index)base).getIndexTableName())
-            .append("::")
+            .append(COL_NAME_SEP)
             .append(((Index)base).getIndexName());
         } else if ( base instanceof Partition ) 
         {
-            colName.append(((Partition)base).getTableName());
+            colName.append(((Partition)base).getTableName().toLowerCase());
             for( String value : ((Partition)base).getValues()) 
             {
-                colName.append("::").append(value);
+                colName.append(COL_NAME_SEP).append(value);
             }
         } else if ( base instanceof Type )
         {
@@ -215,7 +237,7 @@ public class MetaStorePersister
      */
     private SliceRange buildEntitySlicePrefix(TBase base, String prefix, int count) {
         StringBuilder colName = new StringBuilder(96);
-        colName.append(base.getClass().getName()).append("::");
+        colName.append(base.getClass().getName()).append(COL_NAME_SEP);
         if ( prefix != null && !prefix.isEmpty() ) 
             colName.append(prefix);
         SliceRange sliceRange = new SliceRange(ByteBufferUtil.bytes(colName.toString()), 

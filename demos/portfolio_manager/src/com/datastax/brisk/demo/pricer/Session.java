@@ -374,6 +374,8 @@ public class Session
         
         CfDef histCfDef = new CfDef("PortfolioDemo", "StockHist").setGc_grace_seconds(60);
         
+        CfDef histLossCfDef = new CfDef("PortfolioDemo", "HistLoss").setGc_grace_seconds(60);
+        
         keyspace.setName("PortfolioDemo");
         keyspace.setStrategy_class(replicationStrategy);
         
@@ -387,7 +389,7 @@ public class Session
             keyspace.setStrategy_options(replicationStrategyOptions);
         }
 
-        keyspace.setCf_defs(new ArrayList<CfDef>(Arrays.asList(portfolioCfDef, stockCfDef, histCfDef)));
+        keyspace.setCf_defs(new ArrayList<CfDef>(Arrays.asList(portfolioCfDef, stockCfDef, histCfDef, histLossCfDef)));
 
         Cassandra.Client client = getClient(false);
 

@@ -1,5 +1,5 @@
 #!/bin/sh
-# postinst script for cassandra
+# postinst script for brisk
 
 set -e
 
@@ -38,6 +38,9 @@ case "$1" in
             chown -R cassandra: /var/lib/cassandra
             chown -R cassandra: /var/log/cassandra
         fi
+
+        # enable overcommit
+        sysctl -w vm.overcommit_memory=1
     ;;
 
     abort-upgrade|abort-remove|abort-deconfigure)

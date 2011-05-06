@@ -123,7 +123,7 @@ public class CassandraFileSystemTest extends CleanupHelper
         //Check file status
         FileStatus stat = fs.getFileStatus(new Path("/mytestdir/testfile"));
 
-        assertEquals(1024*1024, stat.getLen());
+        assertEquals(tmp.getAbsoluteFile().length(), stat.getLen());
         assertEquals(false, stat.isDir());
 
         //Check block info
