@@ -196,7 +196,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
             cf.setName(inodeCf);
             cf.setComparator_type("BytesType");
             cf.setKey_cache_size(100000);
-            cf.setRow_cache_size(0);
+            cf.setRow_cache_size(100);
             cf.setGc_grace_seconds(60);
             cf.setComment("Stores file meta data");
             cf.setKeyspace(keySpace);
