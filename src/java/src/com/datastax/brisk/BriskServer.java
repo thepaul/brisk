@@ -69,15 +69,16 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
         // This logic is only used on mmap spec machines
         if (DatabaseDescriptor.getDiskAccessMode() == DiskAccessMode.mmap)
         {
-            
-            logger.info("Checking for local block: "+blockId+" from "+callerHostName+" on "+FBUtilities.getLocalAddress().getHostName() );
+            if(logger.isDebugEnabled())
+                logger.debug("Checking for local block: "+blockId+" from "+callerHostName+" on "+FBUtilities.getLocalAddress().getHostName() );
             
             List<String> hosts = getKeyLocations(blockId);
             boolean isLocal = false;
             
             for (String hostName : hosts)
             {
-                logger.info("Block " + blockId + " lives on " + hostName);
+                if(logger.isDebugEnabled())
+                    logger.debug("Block " + blockId + " lives on " + hostName);
                 
                 if (hostName.equals(callerHostName) && hostName.equals(FBUtilities.getLocalAddress().getHostName()))
                 {
@@ -89,20 +90,23 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
             
             if(isLocal)
             {
-                logger.info("Local block should be on this node "+blockId);
+                if(logger.isDebugEnabled())
+                    logger.debug("Local block should be on this node "+blockId);
                 
                 LocalBlock localBlock = getLocalSubBlock(blockId, sblockId, offset);
                 
                 if(localBlock != null)
                 {
-                    logger.info("Local block found: "+localBlock);
+                    if(logger.isDebugEnabled())
+                        logger.debug("Local block found: "+localBlock);
                     
                     return new LocalOrRemoteBlock().setLocal_block(localBlock);
                 }
             }       
         }
         
-        logger.info("Checking for remote block: "+blockId);
+        if(logger.isDebugEnabled())
+            logger.debug("Checking for remote block: "+blockId);
        
         //Fallback to storageProxy
         return getRemoteSubBlock(blockId, sblockId, offset);
@@ -243,7 +247,8 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
              
                 int bytesReadFromStart = mappedLength - (int)file.bytesRemaining();
 
-                logger.info("BlockLength = "+sblockLength+" Availible "+file.bytesRemaining());
+                if(logger.isDebugEnabled())
+                    logger.debug("BlockLength = "+sblockLength+" Availible "+file.bytesRemaining());
                 
                 assert offset <= sblockLength : String.format("%d > %d", offset,  sblockLength);
 
@@ -274,7 +279,6 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
     private Integer seekToSubColumn(CFMetaData metadata, FileDataInput file, ByteBuffer sblockId) throws IOException
     {
         int columns = file.readInt();
-        int n = 0;
         for (int i = 0; i < columns; i++)
         {
             Integer dataLength = isSubBlockFound(metadata, file, sblockId);
