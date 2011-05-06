@@ -274,7 +274,7 @@ public class CassandraHiveMetaStore implements RawStore {
             log.debug("Altering oldTableName {} on datbase: {} new Table: {}",
                     new Object[]{oldTableName, databaseName, table.getTableName()});        
         
-        if ( oldTableName.equals(table.getTableName()) )
+        if ( oldTableName.equalsIgnoreCase(table.getTableName()) )
         {
             createTable(table);
         }
@@ -328,6 +328,7 @@ public class CassandraHiveMetaStore implements RawStore {
     
     public boolean dropTable(String databaseName, String tableName) throws MetaException
     {
+        log.debug("in dropTable with databaseName: {} and tableName: {}", databaseName, tableName);
         Table table = new Table();
         table.setDbName(databaseName);
         table.setTableName(tableName);
@@ -399,6 +400,9 @@ public class CassandraHiveMetaStore implements RawStore {
     public boolean dropIndex(String databaseName, String originalTableName, String indexName)
             throws MetaException
     {
+        if ( log.isDebugEnabled() )
+            log.debug("In dropIndex with databaseName: {} and originalTableName: {} indexName: {}", 
+                    new Object[]{ databaseName, originalTableName, indexName});
         Index index = new Index();
         index.setDbName(databaseName);
         index.setOrigTableName(originalTableName);
