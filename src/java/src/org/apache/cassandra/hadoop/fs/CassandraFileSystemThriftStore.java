@@ -398,9 +398,8 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
     public void storeINode(Path path, INode inode) throws IOException
     {
-                
+    	logger.info("Writing inode: " + path);
         if (logger.isDebugEnabled() && inode.getBlocks() != null) {
-            logger.debug("Writing inode to: " + path);
         	printBlocksDebug(inode.getBlocks());
         }
 
