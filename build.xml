@@ -686,7 +686,7 @@
   </macrodef>
 
   <target name="test" depends="build-test" description="Execute unit tests">
-    <testmacro suitename="unit" inputdir="${test.unit.src}" timeout="60000">
+    <testmacro suitename="unit" inputdir="${test.unit.src}" timeout="120000">
     
     </testmacro>
   </target>
