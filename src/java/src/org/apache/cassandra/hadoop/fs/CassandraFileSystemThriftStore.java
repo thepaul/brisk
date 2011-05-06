@@ -222,7 +222,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
             cf.setKeyspace(keySpace);
             
             // Optimization for 128 MB blocks.
-            cf.setMemtable_throughput_in_mb(128);
+            cf.setMemtable_throughput_in_mb(256);
             cf.setMin_compaction_threshold(16);
             cf.setMax_compaction_threshold(64);
 
