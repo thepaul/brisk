@@ -18,6 +18,7 @@
 package org.apache.cassandra.hadoop.hive.metastore;
 
 import java.util.*;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -348,6 +349,15 @@ public class CassandraHiveMetaStore implements RawStore {
     public boolean addIndex(Index index) throws InvalidObjectException,
             MetaException
     {
+        if ( index.getParameters() != null )
+        {
+            Set<Entry<String, String>> entrySet = index.getParameters().entrySet();
+            for (Map.Entry<String, String> entry : entrySet )
+            {
+                if ( entry.getValue() == null )
+                    entrySet.remove(entry);
+            }
+        }
         metaStorePersister.save(index.metaDataMap, index, index.getDbName());
         return false;
     }
