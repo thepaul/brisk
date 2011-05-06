@@ -326,9 +326,28 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         ByteBuffer pathKey = getPathKey(path);
         ColumnOrSuperColumn pathInfo;
 
-        try
+        pathInfo = performGet(pathKey, inodeDataPath, consistencyLevelRead);
+        
+        // If not found and I already tried with CL= ONE, retry with higher CL.
+        if (pathInfo == null && consistencyLevelRead.equals(ConsistencyLevel.ONE))
         {
-            pathInfo = client.get(pathKey, inodeDataPath, consistencyLevelRead);
+        	pathInfo = performGet(pathKey, inodeDataPath, ConsistencyLevel.QUORUM);
+        	
+            if (pathInfo == null)
+            {
+            	// Now give up and return null.
+            	return null;
+            }
+        }
+
+        return INode.deserialize(ByteBufferUtil.inputStream(pathInfo.column.value), pathInfo.column.getTimestamp());
+    }
+
+	private ColumnOrSuperColumn performGet(ByteBuffer key, ColumnPath cp, ConsistencyLevel cl) throws IOException {
+        ColumnOrSuperColumn result;
+        try 
+        {
+            result = client.get(key, cp, cl);
         }
         catch (NotFoundException e)
         {
@@ -338,11 +357,11 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         {
             throw new IOException(e);
         }
+        
+        return result;
+	}
 
-        return INode.deserialize(ByteBufferUtil.inputStream(pathInfo.column.value), pathInfo.column.getTimestamp());
-    }
-
-    /**
+	/**
      * {@inheritDoc}
      */
     public void storeSubBlock(UUID parentBlockUUID, SubBlock sblock, ByteArrayOutputStream os) throws IOException
