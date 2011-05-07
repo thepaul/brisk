@@ -490,7 +490,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         List<IndexExpression> indexExpressions = new ArrayList<IndexExpression>();
 
         indexExpressions.add(new IndexExpression(sentCol, IndexOperator.EQ, sentinelValue));
-        indexExpressions.add(new IndexExpression(pathCol, IndexOperator.GTE, ByteBufferUtil.bytes(startPath)));
+        indexExpressions.add(new IndexExpression(pathCol, IndexOperator.GT, ByteBufferUtil.bytes(startPath)));
 
         // Limit listings to this root by incrementing the last char
         if (startPath.length() > 1)

@@ -114,7 +114,7 @@ public class CassandraFileSystemTest extends CleanupHelper
         Set<Path> allPaths = fs.store.listDeepSubPaths(new Path("/mytestdir"));
 
         //Verify deep paths
-        assertEquals(6, allPaths.size());
+        assertEquals(5, allPaths.size());
 
         //verify shallow path
         Set<Path> thisPath = fs.store.listSubPaths(new Path("/mytestdir"));
