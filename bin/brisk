@@ -52,7 +52,7 @@ case "$1" in
                     $HADOOP_BIN/hadoop $HADOOP_CMD $HADOOP_JAR $MAINCLASS ${*:3} $HADOOP_JT
                     exit $?
                 else
-                    $HADOOP_BIN/hadoop $HADOOP_CMD ${*:2}
+                    $HADOOP_BIN/hadoop $HADOOP_CMD $HADOOP_JT ${*:2}
                     exit $?
                 fi
             ;;
