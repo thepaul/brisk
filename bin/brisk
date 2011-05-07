@@ -1,4 +1,9 @@
 #!/bin/sh
+if [ -z "$BASH_VERSION" ]; then
+    bash $0 $*
+    exit $?
+fi
+
 if [ "x$BRISK_ENV" = "x" ]; then
     for include in /etc/brisk/brisk-env.sh \
                    ~/.brisk-env.sh \
