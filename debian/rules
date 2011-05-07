@@ -21,6 +21,7 @@ build-stamp:
 	printf "version=%s" $(VERSION) > build.properties
 
 	$(ANT) jar
+	cd demos/portfolio_manager && $(ANT)
 
 	touch build-stamp
 
