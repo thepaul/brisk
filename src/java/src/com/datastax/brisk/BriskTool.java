@@ -88,8 +88,7 @@ public class BriskTool
         }
         catch (IOException e)
         {
-            System.err.println("Unknown exception when running command: ");
-            e.printStackTrace();
+            System.err.println("Error when running command '" + cmd + "': " + e);
             System.exit(2);
         }
         
