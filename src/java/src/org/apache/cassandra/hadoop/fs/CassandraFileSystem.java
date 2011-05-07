@@ -405,6 +405,7 @@ public class CassandraFileSystem extends FileSystem
 
 	/**
      * FileStatus for Cassandra file systems.
+     * {@inheritDoc}
      */
     @Override
     public FileStatus getFileStatus(Path f) throws IOException

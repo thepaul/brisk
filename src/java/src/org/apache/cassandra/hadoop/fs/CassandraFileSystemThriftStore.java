@@ -196,7 +196,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
             cf.setName(inodeCf);
             cf.setComparator_type("BytesType");
             cf.setKey_cache_size(100000);
-            cf.setRow_cache_size(0);
+            cf.setRow_cache_size(100);
             cf.setGc_grace_seconds(60);
             cf.setComment("Stores file meta data");
             cf.setKeyspace(keySpace);
@@ -222,7 +222,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
             cf.setKeyspace(keySpace);
             
             // Optimization for 128 MB blocks.
-            cf.setMemtable_throughput_in_mb(128);
+            cf.setMemtable_throughput_in_mb(256);
             cf.setMin_compaction_threshold(16);
             cf.setMax_compaction_threshold(64);
 
@@ -398,9 +398,8 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
     public void storeINode(Path path, INode inode) throws IOException
     {
-                
+    	logger.info("Writing inode: " + path);
         if (logger.isDebugEnabled() && inode.getBlocks() != null) {
-            logger.debug("Writing inode to: " + path);
         	printBlocksDebug(inode.getBlocks());
         }
 
