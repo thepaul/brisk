@@ -227,8 +227,8 @@ public class CassandraFileSystem extends FileSystem
     @Override
     public boolean rename(Path src, Path dst) throws IOException
     {
-        if(logger.isDebugEnabled())
-            logger.debug("Renaming " + src + " to " + dst);
+        //if(logger.isDebugEnabled())
+            logger.info("Renaming " + src + " to " + dst);
 
         Path absoluteSrc = makeAbsolute(src);
         INode srcINode = store.retrieveINode(absoluteSrc);

@@ -501,6 +501,8 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
      */
     public void deleteINode(Path path) throws IOException
     {
+        logger.info("Deleting inode: "+path);
+        
         try
         {
             client.remove(getPathKey(path), inodePath, System.currentTimeMillis(), consistencyLevelWrite);
