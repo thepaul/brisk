@@ -165,11 +165,13 @@ public class CassandraFileSystem extends FileSystem
         }
         if (inode.isFile())
         {
+            logger.info(f.makeQualified(this));
             return new FileStatus[] { new CassandraFileStatus(f.makeQualified(this), inode) };
         }
         ArrayList<FileStatus> ret = new ArrayList<FileStatus>();
         for (Path p : store.listSubPaths(absolutePath))
         {
+            logger.info("Getting subPath: "+p.makeQualified(this));
             ret.add(getFileStatus(p.makeQualified(this)));
         }
         return ret.toArray(new FileStatus[0]);
