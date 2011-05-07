@@ -322,15 +322,15 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         // If not found and I already tried with CL= ONE, retry with higher CL.
         if (pathInfo == null && consistencyLevelRead.equals(ConsistencyLevel.ONE))
         {
-        	pathInfo = performGet(pathKey, inodeDataPath, ConsistencyLevel.QUORUM);
-        	
-            if (pathInfo == null)
-            {
-            	// Now give up and return null.
-            	return null;
-            }
+        	pathInfo = performGet(pathKey, inodeDataPath, ConsistencyLevel.QUORUM);          
         }
 
+        if (pathInfo == null)
+        {
+            // Now give up and return null.
+            return null;
+        }
+        
         return INode.deserialize(ByteBufferUtil.inputStream(pathInfo.column.value), pathInfo.column.getTimestamp());
     }
 
