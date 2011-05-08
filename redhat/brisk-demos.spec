@@ -55,4 +55,4 @@ rm -rf %{buildroot}/usr/share/brisk-demos/portfolio_manager/build
 %defattr(-,root,root,0755)
 %attr(755,%{username},%{username}) %{_datadir}/brisk-demos
 
-exit 0
+
