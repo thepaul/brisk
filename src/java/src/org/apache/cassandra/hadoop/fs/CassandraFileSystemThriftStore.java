@@ -195,17 +195,17 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
             CfDef cf = new CfDef();
             cf.setName(inodeCf);
             cf.setComparator_type("BytesType");
-            cf.setKey_cache_size(100000);
-            cf.setRow_cache_size(100);
+            cf.setKey_cache_size(1000000);
+            cf.setRow_cache_size(0);
             cf.setGc_grace_seconds(60);
             cf.setComment("Stores file meta data");
             cf.setKeyspace(keySpace);
-            
+
             // this is a workaround until 
             // http://issues.apache.org/jira/browse/CASSANDRA-1278
             cf.setMemtable_flush_after_mins(1);
             cf.setMemtable_throughput_in_mb(128);
-
+            
             cf.setColumn_metadata(Arrays.asList(new ColumnDef(pathCol, "BytesType").setIndex_type(IndexType.KEYS)
                     .setIndex_name("path"), new ColumnDef(sentCol, "BytesType").setIndex_type(IndexType.KEYS)
                     .setIndex_name("sentinel")));
@@ -215,17 +215,17 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
             cf = new CfDef();
             cf.setName(sblockCf);
             cf.setComparator_type("BytesType");
-            cf.setKey_cache_size(100000);
+            cf.setKey_cache_size(1000000);
             cf.setRow_cache_size(0);
             cf.setGc_grace_seconds(60);
             cf.setComment("Stores blocks of information associated with a inode");
             cf.setKeyspace(keySpace);
-            
+
             // Optimization for 128 MB blocks.
-            cf.setMemtable_throughput_in_mb(256);
+            cf.setMemtable_throughput_in_mb(128);
             cf.setMin_compaction_threshold(16);
             cf.setMax_compaction_threshold(64);
-
+            
             cfs.add(cf);
             
             Map<String,String> stratOpts = new HashMap<String,String>();
@@ -398,8 +398,9 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
     public void storeINode(Path path, INode inode) throws IOException
     {
-    	logger.info("Writing inode: " + path);
+                
         if (logger.isDebugEnabled() && inode.getBlocks() != null) {
+            logger.debug("Writing inode to: " + path);
         	printBlocksDebug(inode.getBlocks());
         }
 
@@ -501,8 +502,6 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
      */
     public void deleteINode(Path path) throws IOException
     {
-        logger.info("Deleting inode: "+path);
-        
         try
         {
             client.remove(getPathKey(path), inodePath, System.currentTimeMillis(), consistencyLevelWrite);

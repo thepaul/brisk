@@ -18,6 +18,7 @@
 package org.apache.cassandra.hadoop.hive.metastore;
 
 import java.util.*;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -274,7 +275,7 @@ public class CassandraHiveMetaStore implements RawStore {
             log.debug("Altering oldTableName {} on datbase: {} new Table: {}",
                     new Object[]{oldTableName, databaseName, table.getTableName()});        
         
-        if ( oldTableName.equals(table.getTableName()) )
+        if ( oldTableName.equalsIgnoreCase(table.getTableName()) )
         {
             createTable(table);
         }
@@ -328,6 +329,7 @@ public class CassandraHiveMetaStore implements RawStore {
     
     public boolean dropTable(String databaseName, String tableName) throws MetaException
     {
+        log.debug("in dropTable with databaseName: {} and tableName: {}", databaseName, tableName);
         Table table = new Table();
         table.setDbName(databaseName);
         table.setTableName(tableName);
@@ -347,6 +349,15 @@ public class CassandraHiveMetaStore implements RawStore {
     public boolean addIndex(Index index) throws InvalidObjectException,
             MetaException
     {
+        if ( index.getParameters() != null )
+        {
+            Set<Entry<String, String>> entrySet = index.getParameters().entrySet();
+            for (Map.Entry<String, String> entry : entrySet )
+            {
+                if ( entry.getValue() == null )
+                    entrySet.remove(entry);
+            }
+        }
         metaStorePersister.save(index.metaDataMap, index, index.getDbName());
         return false;
     }
@@ -399,6 +410,9 @@ public class CassandraHiveMetaStore implements RawStore {
     public boolean dropIndex(String databaseName, String originalTableName, String indexName)
             throws MetaException
     {
+        if ( log.isDebugEnabled() )
+            log.debug("In dropIndex with databaseName: {} and originalTableName: {} indexName: {}", 
+                    new Object[]{ databaseName, originalTableName, indexName});
         Index index = new Index();
         index.setDbName(databaseName);
         index.setOrigTableName(originalTableName);
