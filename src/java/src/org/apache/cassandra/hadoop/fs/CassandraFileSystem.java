@@ -39,7 +39,7 @@ public class CassandraFileSystem extends FileSystem
     public final CassandraFileSystemStore store;
 
     private Path                          workingDir;
-    
+
     private long                          subBlockSize;
 
     public CassandraFileSystem()
@@ -171,12 +171,20 @@ public class CassandraFileSystem extends FileSystem
         ArrayList<FileStatus> ret = new ArrayList<FileStatus>();
         for (Path p : store.listSubPaths(absolutePath))
         {
-            //we shouldn't list ourselves
-            if(p.equals(f))
+            // we shouldn't list ourselves
+            if (p.equals(f))
                 continue;
-            
-            logger.info("Getting subPath: "+p.makeQualified(this));
-            ret.add(getFileStatus(p.makeQualified(this)));
+
+            try
+            {
+                FileStatus stat = getFileStatus(p.makeQualified(this));
+
+                ret.add(stat);
+            }
+            catch (FileNotFoundException e)
+            {
+                logger.warn("No file found for: " + p);
+            }
         }
         return ret.toArray(new FileStatus[0]);
     }
@@ -288,13 +296,11 @@ public class CassandraFileSystem extends FileSystem
             String dstPath = dst.toUri().getPath();
             Path newDst = new Path(oldSrcPath.replaceFirst(srcPath, dstPath));
             store.storeINode(newDst, inode);
-            store.deleteINode(oldSrc);            
-         }
+            store.deleteINode(oldSrc);
+        }
 
-        
         if (!paths.contains(src))
             store.deleteINode(src);
-        
 
         return true;
     }
@@ -317,6 +323,7 @@ public class CassandraFileSystem extends FileSystem
         }
         else
         {
+
             FileStatus[] contents = listStatus(absolutePath);
             if (contents == null)
             {
@@ -334,12 +341,12 @@ public class CassandraFileSystem extends FileSystem
                 }
             }
             store.deleteINode(absolutePath);
+
         }
         return true;
     }
 
-
-	@Override
+    @Override
     @Deprecated
     public boolean delete(Path path) throws IOException
     {
@@ -370,28 +377,27 @@ public class CassandraFileSystem extends FileSystem
 
         INode inode = ((CassandraFileStatus) file).inode;
 
-        long end = start+len;
-        
-        if (logger.isDebugEnabled()) {
+        long end = start + len;
+
+        if (logger.isDebugEnabled())
+        {
             logger.debug(String.format("Looking up Blocks Start: %d Len: %d", start, len));
         }
-        
+
         List<Block> usedBlocks = new ArrayList<Block>();
         for (Block block : inode.getBlocks())
         {
 
-            //See if the two windows overlap
-            if ( ((start >= block.offset && start < (block.offset + block.length)) ||
-                  (end   >= block.offset && end   < (block.offset + block.length)))
-                  ||
-                  ((block.offset >= start && block.offset < end ) ||
-                  ((block.offset+block.length) >= start && (block.offset+block.length) < end )))
-            {               
+            // See if the two windows overlap
+            if (((start >= block.offset && start < (block.offset + block.length)) || (end >= block.offset && end < (block.offset + block.length)))
+                    || ((block.offset >= start && block.offset < end) || ((block.offset + block.length) >= start && (block.offset + block.length) < end)))
+            {
                 usedBlocks.add(block);
             }
         }
-        
-        if (logger.isDebugEnabled()) {
+
+        if (logger.isDebugEnabled())
+        {
             logger.debug("Blocks used:");
             printBlocksDebug(usedBlocks);
         }
@@ -400,18 +406,22 @@ public class CassandraFileSystem extends FileSystem
     }
 
     /**
-     * Print this List by invoking its objects' toString(); using the logger in debug mode.
-     * @param blocks list of blocks to be printed
+     * Print this List by invoking its objects' toString(); using the logger in
+     * debug mode.
+     * 
+     * @param blocks
+     *            list of blocks to be printed
      */
-    private void printBlocksDebug(List<Block> blocks) {
-        for (Block block : blocks) {
+    private void printBlocksDebug(List<Block> blocks)
+    {
+        for (Block block : blocks)
+        {
             logger.debug(block);
         }
     }
 
-	/**
-     * FileStatus for Cassandra file systems.
-     * {@inheritDoc}
+    /**
+     * FileStatus for Cassandra file systems. {@inheritDoc}
      */
     @Override
     public FileStatus getFileStatus(Path f) throws IOException
