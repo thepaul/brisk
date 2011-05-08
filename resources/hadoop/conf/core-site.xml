@@ -6,32 +6,32 @@
 <configuration>
   <property>
     <name>fs.default.name</name>
-    <value>cassandra://localhost:9160</value>
+    <value>cfs:///</value>
   </property>
 
  <property>
-    <name>fs.cassandra.impl</name>
+    <name>fs.cfs.impl</name>
     <value>org.apache.cassandra.hadoop.fs.CassandraFileSystem</value>
  </property>
 
  <!-- 64 MB default --> 
- <property>
+<property>
   <name>fs.local.block.size</name>
   <value>67108864</value> 
 </property>
 
 <!-- 2 MB SubBlock Size -->
- <property>
+<property>
   <name>fs.local.subblock.size</name>
   <value>2097152</value> 
 </property>
 
- <property>
+<property>
   <name>brisk.consistencylevel.read</name>
   <value>ONE</value>
 </property>
 
- <property>
+<property>
   <name>brisk.consistencylevel.write</name>
   <value>QUORUM</value>
 </property>
