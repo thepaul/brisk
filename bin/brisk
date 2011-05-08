@@ -49,7 +49,7 @@ case "$1" in
                     else
                         MAINCLASS=$3
                     fi
-                    $HADOOP_BIN/hadoop $HADOOP_CMD $HADOOP_JAR $MAINCLASS ${*:3} $HADOOP_JT
+                    $HADOOP_BIN/hadoop $HADOOP_CMD $HADOOP_JAR $MAINCLASS $HADOOP_JT ${*:3}
                     exit $?
                 else
                     $HADOOP_BIN/hadoop $HADOOP_CMD $HADOOP_JT ${*:2}
