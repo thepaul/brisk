@@ -301,8 +301,8 @@ public class CassandraFileSystem extends FileSystem
 
     public boolean delete(Path path, boolean recursive) throws IOException
     {
-        if(logger.isDebugEnabled())
-            logger.debug("Deleting " + path + " " + recursive);
+        //if(logger.isDebugEnabled())
+            logger.info("Deleting " + path + " " + recursive);
 
         Path absolutePath = makeAbsolute(path);
         INode inode = store.retrieveINode(absolutePath);
