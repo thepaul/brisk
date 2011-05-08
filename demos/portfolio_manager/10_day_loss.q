@@ -2,7 +2,7 @@
 DROP TABLE IF EXISTS Portfolios;
 create external table Portfolios(row_key string, column_name string, value string)
 STORED BY 'org.apache.hadoop.hive.cassandra.CassandraStorageHandler'
-WITH SERDEPROPERTIES ("cassandra.columns.mapping" = ":key,name,value",
+WITH SERDEPROPERTIES ("cassandra.columns.mapping" = ":key,:column,:value",
   "cassandra.ks.name" = "PortfolioDemo",
   "cassandra.ks.repfactor" = "1",
   "cassandra.ks.strategy" = "org.apache.cassandra.locator.SimpleStrategy",
