@@ -8,12 +8,12 @@
 <property><name>mapred.reduce.tasks.speculative.execution</name><value>false</value></property>
 
 <!-- The maximum number of map tasks that will be run simultaneously by a task tracker -->
-<property><name>mapred.tasktracker.map.tasks.maximum</name><value>2</value></property>
+<property><name>mapred.tasktracker.map.tasks.maximum</name><value>8</value></property>
 
 <!-- The default number of map tasks per job. Ignored when mapred.job.tracker is "local". -->
-<property><name>mapred.map.tasks</name><value>2</value></property>
+<property><name>mapred.map.tasks</name><value>32</value></property>
 
-<property><name>mapred.map.tasks.speculative.execution</name><value>true</value></property>
+<property><name>mapred.map.tasks.speculative.execution</name><value>false</value></property>
 <property><name>mapred.job.reuse.jvm.num.tasks</name><value>20</value></property>
 <property><name>io.sort.factor</name><value>40</value></property>
 
@@ -21,10 +21,10 @@
      Typically set to 99% of the cluster's reduce capacity, 
      so that if a node fails the reduces can still be executed in a single wave. 
      Ignored when mapred.job.tracker is "local". -->
-<property><name>mapred.reduce.tasks</name><value>21</value></property>
+<property><name>mapred.reduce.tasks</name><value>28</value></property>
 
 <!-- The maximum number of reduce tasks that will be run simultaneously by a task tracker -->
-<property><name>mapred.tasktracker.reduce.tasks.maximum</name><value>4</value></property>
+<property><name>mapred.tasktracker.reduce.tasks.maximum</name><value>7</value></property>
 
 <property><name>tasktracker.http.threads</name><value>80</value></property>
 <property><name>mapred.reduce.parallel.copies</name><value>20</value></property>
@@ -37,8 +37,7 @@
 
 <property>
   <name>mapred.child.java.opts</name>
-  
-    <value>-Xmx1024M</value>
+    <value>-Xmx300M</value>
     <!--  Uncomment this line and comment out the one aboce to run in debug mode.
     <value>-Xmx1024M -Xdebug -Xrunjdwp:transport=dt_socket,address=1044,server=y,suspend=y</value>
     --> 
