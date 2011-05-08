@@ -27,6 +27,7 @@ import java.util.*;
 
 import com.datastax.brisk.BriskInternalServer;
 
+import org.apache.cassandra.config.DatabaseDescriptor;
 import org.apache.cassandra.hadoop.CassandraProxyClient;
 import org.apache.cassandra.hadoop.CassandraProxyClient.ConnectionStrategy;
 import org.apache.cassandra.hadoop.trackers.CassandraJobConf;
@@ -103,10 +104,10 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         int port = uri.getPort();
 
         if (host == null || host.isEmpty() || host.equals("null"))
-            host = InetAddress.getLocalHost().getHostName();
+            host = FBUtilities.getLocalAddress().getHostName();
 
         if (port == -1)
-            port = 9160; // default
+            port = DatabaseDescriptor.getRpcPort(); // default
 
         // We could be running inside of cassandra...
         if (conf instanceof CassandraJobConf)
@@ -195,12 +196,17 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
             CfDef cf = new CfDef();
             cf.setName(inodeCf);
             cf.setComparator_type("BytesType");
-            cf.setKey_cache_size(0);
+            cf.setKey_cache_size(1000000);
             cf.setRow_cache_size(0);
             cf.setGc_grace_seconds(60);
             cf.setComment("Stores file meta data");
             cf.setKeyspace(keySpace);
 
+            // this is a workaround until 
+            // http://issues.apache.org/jira/browse/CASSANDRA-1278
+            cf.setMemtable_flush_after_mins(1);
+            cf.setMemtable_throughput_in_mb(128);
+            
             cf.setColumn_metadata(Arrays.asList(new ColumnDef(pathCol, "BytesType").setIndex_type(IndexType.KEYS)
                     .setIndex_name("path"), new ColumnDef(sentCol, "BytesType").setIndex_type(IndexType.KEYS)
                     .setIndex_name("sentinel")));
@@ -210,12 +216,17 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
             cf = new CfDef();
             cf.setName(sblockCf);
             cf.setComparator_type("BytesType");
-            cf.setKey_cache_size(0);
+            cf.setKey_cache_size(1000000);
             cf.setRow_cache_size(0);
             cf.setGc_grace_seconds(60);
             cf.setComment("Stores blocks of information associated with a inode");
             cf.setKeyspace(keySpace);
 
+            // Optimization for 128 MB blocks.
+            cf.setMemtable_throughput_in_mb(128);
+            cf.setMin_compaction_threshold(16);
+            cf.setMax_compaction_threshold(64);
+            
             cfs.add(cf);
             
             Map<String,String> stratOpts = new HashMap<String,String>();
@@ -317,9 +328,28 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         ByteBuffer pathKey = getPathKey(path);
         ColumnOrSuperColumn pathInfo;
 
-        try
+        pathInfo = performGet(pathKey, inodeDataPath, consistencyLevelRead);
+        
+        // If not found and I already tried with CL= ONE, retry with higher CL.
+        if (pathInfo == null && consistencyLevelRead.equals(ConsistencyLevel.ONE))
         {
-            pathInfo = client.get(pathKey, inodeDataPath, consistencyLevelRead);
+        	pathInfo = performGet(pathKey, inodeDataPath, ConsistencyLevel.QUORUM);          
+        }
+
+        if (pathInfo == null)
+        {
+            // Now give up and return null.
+            return null;
+        }
+        
+        return INode.deserialize(ByteBufferUtil.inputStream(pathInfo.column.value), pathInfo.column.getTimestamp());
+    }
+
+	private ColumnOrSuperColumn performGet(ByteBuffer key, ColumnPath cp, ConsistencyLevel cl) throws IOException {
+        ColumnOrSuperColumn result;
+        try 
+        {
+            result = client.get(key, cp, cl);
         }
         catch (NotFoundException e)
         {
@@ -329,11 +359,11 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         {
             throw new IOException(e);
         }
+        
+        return result;
+	}
 
-        return INode.deserialize(ByteBufferUtil.inputStream(pathInfo.column.value), pathInfo.column.getTimestamp());
-    }
-
-    /**
+	/**
      * {@inheritDoc}
      */
     public void storeSubBlock(UUID parentBlockUUID, SubBlock sblock, ByteArrayOutputStream os) throws IOException
@@ -490,7 +520,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         List<IndexExpression> indexExpressions = new ArrayList<IndexExpression>();
 
         indexExpressions.add(new IndexExpression(sentCol, IndexOperator.EQ, sentinelValue));
-        indexExpressions.add(new IndexExpression(pathCol, IndexOperator.GTE, ByteBufferUtil.bytes(startPath)));
+        indexExpressions.add(new IndexExpression(pathCol, IndexOperator.GT, ByteBufferUtil.bytes(startPath)));
 
         // Limit listings to this root by incrementing the last char
         if (startPath.length() > 1)
@@ -504,7 +534,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         try
         {
             List<KeySlice> keys = client.get_indexed_slices(inodeParent, new IndexClause(indexExpressions,
-                    ByteBufferUtil.EMPTY_BYTE_BUFFER, 100000), pathPredicate, consistencyLevelWrite);
+                    ByteBufferUtil.EMPTY_BYTE_BUFFER, 100000), pathPredicate, consistencyLevelRead);
 
             Set<Path> matches = new HashSet<Path>(keys.size());
 

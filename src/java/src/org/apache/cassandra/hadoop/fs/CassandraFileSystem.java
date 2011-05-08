@@ -170,6 +170,10 @@ public class CassandraFileSystem extends FileSystem
         ArrayList<FileStatus> ret = new ArrayList<FileStatus>();
         for (Path p : store.listSubPaths(absolutePath))
         {
+            //we shouldn't list ourselves
+            if(p.equals(f))
+                continue;
+            
             ret.add(getFileStatus(p.makeQualified(this)));
         }
         return ret.toArray(new FileStatus[0]);
@@ -405,6 +409,7 @@ public class CassandraFileSystem extends FileSystem
 
 	/**
      * FileStatus for Cassandra file systems.
+     * {@inheritDoc}
      */
     @Override
     public FileStatus getFileStatus(Path f) throws IOException

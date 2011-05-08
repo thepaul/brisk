@@ -1,6 +1,6 @@
 #!/bin/sh
 if [ -z "$BASH_VERSION" ]; then
-    bash $0 $*
+    bash $0 "$@"
     exit $?
 fi
 
@@ -28,29 +28,38 @@ case "$1" in
         shift
         HADOOP_CMD=$1
 
-        JOBTRACKER=`$BIN/brisktool jobtracker`
-        if [ "x$JOBTRACKER" != "x" ]; then
-            if [ "x$HADOOP_CMD" != "x" ]; then
-                HADOOP_JT="-D brisk.job.tracker=$JOBTRACKER"
-            fi
-        else
-            echo "Unable to start job: jobtracker not found"
-            exit 2
-        fi
-
-        #special case for jar
-        if [ "x$HADOOP_CMD" = "xjar" ]; then
-            HADOOP_JAR=$2
-            
-            #incase someone just runs "hadoop jar"
-            if [ "x$HADOOP_JAR" = "x" ]; then
-                HADOOP_JT=""
-            else
-                MAINCLASS=$3
-            fi
-        fi
-        $HADOOP_BIN/hadoop $HADOOP_CMD $HADOOP_JAR $MAINCLASS $HADOOP_JT ${*:3}
-        exit $?
+        case "$HADOOP_CMD" in
+            job|queue|jar)
+                JOBTRACKER=`$BIN/brisktool jobtracker`
+                if [ "x$JOBTRACKER" != "x" ]; then
+                    if [ "x$HADOOP_CMD" != "x" ]; then
+                        HADOOP_JT="-Dbrisk.job.tracker=$JOBTRACKER"
+                    fi
+                else
+                    echo "Unable to run $HADOOP_CMD: jobtracker not found"
+                    exit 2
+                fi
+                #special case for jar
+                if [ "x$HADOOP_CMD" = "xjar" ]; then
+                    HADOOP_JAR=$2
+                    
+                    #incase someone just runs "hadoop jar"
+                    if [ "x$HADOOP_JAR" = "x" ]; then
+                        HADOOP_JT=""
+                    else
+                        MAINCLASS=$3
+                    fi
+                    $HADOOP_BIN/hadoop $HADOOP_CMD $HADOOP_JAR $MAINCLASS $HADOOP_JT "${@:4}"
+                    exit $?
+                else
+                    $HADOOP_BIN/hadoop $HADOOP_CMD $HADOOP_JT "${@:2}"
+                    exit $?
+                fi
+            ;;
+            *)
+                $HADOOP_BIN/hadoop $HADOOP_CMD "${@:2}"
+                exit $?
+        esac
         ;;
     hive)
         shift
@@ -69,7 +78,7 @@ case "$1" in
 
         export HIVE_OPTS="$HIVE_OPTS -hiveconf hive.log.dir=$BRISK_LOG_ROOT/hive -hiveconf brisk.home=$BRISK_HOME"
 
-        $HIVE_BIN/hive $*
+        $HIVE_BIN/hive "$@"
         exit $?
         ;;
     *)

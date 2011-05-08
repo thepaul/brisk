@@ -19,9 +19,11 @@ package com.datastax.brisk;
 
 import java.io.IOException;
 
+import org.apache.cassandra.config.DatabaseDescriptor;
 import org.apache.cassandra.thrift.Brisk;
 import org.apache.cassandra.thrift.NotFoundException;
 import org.apache.cassandra.thrift.TBinaryProtocol;
+import org.apache.cassandra.utils.FBUtilities;
 import org.apache.thrift.TException;
 import org.apache.thrift.transport.*;
 
@@ -32,8 +34,8 @@ import org.apache.thrift.transport.*;
 public class BriskTool
 {
     
-    private int port = 9160;
-    private String host = "localhost";
+    private int port = DatabaseDescriptor.getRpcPort();
+    private String host = FBUtilities.getLocalAddress().getHostName();
     
     private enum Commands {
         jobtracker
@@ -91,7 +93,7 @@ public class BriskTool
             System.err.println("Error when running command '" + cmd + "': " + e);
             System.exit(2);
         }
-        
+        System.exit(0);
     }
                 
     private void usage()
@@ -113,7 +115,7 @@ public class BriskTool
         }
         catch (TTransportException e)
         {
-            throw new IOException("unable to connect to server", e);
+            throw new IOException("unable to connect to brisk server");
         }
 
         Brisk.Iface client = new Brisk.Client(new TBinaryProtocol(trans));

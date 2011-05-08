@@ -75,7 +75,7 @@ Description: realtime analytics and distributed database (cassandra libraries)
 
 Package: brisk-full
 Architecture: all
-Depends: brisk (=${Source-Version}), brisk-hive (=${Source-Version})
+Depends: brisk (=${Source-Version}), brisk-hive (=${Source-Version}), brisk-demos (=${Source-Version})
 Description: realtime analytics and distributed database (cassandra libraries)
  Brisk is a realtime analytics system marrying the distributed database
  Cassandra and the mapreduce system Hadoop together.
