@@ -171,6 +171,10 @@ public class CassandraFileSystem extends FileSystem
         ArrayList<FileStatus> ret = new ArrayList<FileStatus>();
         for (Path p : store.listSubPaths(absolutePath))
         {
+            //we shouldn't list ourselves
+            if(p.equals(f))
+                continue;
+            
             logger.info("Getting subPath: "+p.makeQualified(this));
             ret.add(getFileStatus(p.makeQualified(this)));
         }
