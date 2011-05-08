@@ -54,7 +54,6 @@ public class BriskSimpleSnitch extends AbstractEndpointSnitch
         else
         {
             myDC = CASSANDRA_DC;
-            logger.info("Hadoop trackers not running, setting my DC to " + myDC);
         }
     }
     
