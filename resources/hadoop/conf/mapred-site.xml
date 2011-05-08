@@ -16,7 +16,7 @@
 
 <property>
   <name>mapred.child.java.opts</name>
-  <value>-Xmx200m</value>
+  <value>-Xmx256m</value>
   <description>
     Tune your mapred jvm arguments for best performance. 
     Also see documentation from jvm vendor.
