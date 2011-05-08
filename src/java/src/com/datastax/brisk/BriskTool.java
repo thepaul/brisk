@@ -113,7 +113,7 @@ public class BriskTool
         }
         catch (TTransportException e)
         {
-            throw new IOException("unable to connect to server", e);
+            throw new IOException("unable to connect to brisk server");
         }
 
         Brisk.Iface client = new Brisk.Client(new TBinaryProtocol(trans));
