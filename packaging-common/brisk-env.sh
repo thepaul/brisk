@@ -4,7 +4,7 @@ export CASSANDRA_HOME=/usr/share/brisk/cassandra
 export CASSANDRA_BIN=/usr/sbin
 
 if [ "x$CASSANDRA_INCLUDE" = "x" ]; then
-    for include in /usr/share/brisk/cassandra/cassandra.in.sh \
+    for include in /usr/share/cassandra/cassandra.in.sh \
                    /usr/local/share/cassandra/cassandra.in.sh \
                    /opt/cassandra/cassandra.in.sh \
                    ~/.cassandra.in.sh \
