@@ -161,6 +161,7 @@
       <artifact:remoteRepository id="central"   url="${artifact.remoteRepository.central}"/>
       <artifact:remoteRepository id="java.net2" url="${artifact.remoteRepository.java.net2}"/>
       <artifact:remoteRepository id="apache"    url="${artifact.remoteRepository.apache}"/>
+      <artifact:remoteRepository id="datastax-release" url="${artifact.remoteRepository.datastax-release}"/>
       <artifact:remoteRepository id="datastax-snapshot"  url="${artifact.remoteRepository.datastax-snapshot}">
       	<snapshots updatePolicy="${snapshot.datastax.updatePolicy}"/>
       </artifact:remoteRepository>
@@ -200,7 +201,8 @@
 	<dependency groupId="org.apache.hadoop" artifactId="hadoop-test" version="${hadoop.build.version}"/>
 	<dependency groupId="org.slf4j" artifactId="slf4j-log4j12" version="1.6.1"/>		
 
-	<remoteRepository refid="datastax-snapshot"/>      	
+	<remoteRepository refid="datastax-snapshot"/>
+        <remoteRepository refid="datastax-release"/>      	
 	<remoteRepository refid="central"/>
 	<remoteRepository refid="apache"/>
 	<remoteRepository refid="java.net2"/>
@@ -218,6 +220,7 @@
     	<snapshots updatePolicy="${snapshot.datastax.updatePolicy}"/>
     </remoteRepository>      	
 	<remoteRepository refid="datastax-deps"/>       
+        <remoteRepository refid="datastax-release"/>
 	<remoteRepository refid="central"/>
 	<remoteRepository refid="apache"/>
 	<remoteRepository refid="java.net2"/>
@@ -248,6 +251,7 @@
 	<dependency groupId="commons-codec" artifactId="commons-codec" version="1.3"/>
 
 	<remoteRepository refid="datastax-snapshot"/>
+        <remoteRepository refid="datastax-release"/>
 	<remoteRepository refid="datanucleus"/>
 	<remoteRepository refid="central"/>
 	<remoteRepository refid="apache"/>
