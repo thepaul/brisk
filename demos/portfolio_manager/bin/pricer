@@ -16,26 +16,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+BRISK_HOME=`dirname $0`/../../..
 
-if [ "x$BRISK_HOME" = "x" ]; then
-    BRISK_HOME=`dirname $0`/../../..
-fi
-
-if [ "x$CLASSPATH" = "x" ]; then
-    # Cassandra class files.
-    if [ ! -d $BRISK_HOME/build/classes ]; then	
-	if [ ! -d $BRISK_HOME/lib ]; then
-            echo "Unable to locate brisk files" >&2
-            exit 1
-	fi
+for include in /etc/brisk/brisk-env.sh \
+               ~/.brisk-env.sh \
+               $BRISK_HOME/bin/brisk-env.sh; do
+    if [ -r $include ]; then
+        . $include
+	break
     fi
+done
 
-    CLASSPATH=$BRISK_HOME/build/classes
-    CLASSPATH=$CLASSPATH:`dirname $0`/../portfolio.jar
-    for jar in $BRISK_HOME/resources/cassandra/lib/*.jar; do
-        CLASSPATH=$CLASSPATH:$jar
-    done
-fi
+CLASSPATH=$CLASSPATH:`dirname $0`/../portfolio.jar
 
 if [ -x $JAVA_HOME/bin/java ]; then
     JAVA=$JAVA_HOME/bin/java
