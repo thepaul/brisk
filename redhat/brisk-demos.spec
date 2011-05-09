@@ -1,7 +1,6 @@
 %global username cassandra
 
 %define relname %{name}-%{version}
-%define cass_name apache-cassandra-%{version}
 %define briskname brisk
 
 Name:           brisk-demos
@@ -13,7 +12,7 @@ Group:          Development/Libraries
 License:        Apache Software License
 URL:            http://www.datastax.com/products/brisk
 Source0:        brisk-src.tar.gz
-BuildRoot:      %{_tmppath}/%{relname}-root-%(%{__id_u} -n)
+BuildRoot:      %{_tmppath}/%{name}-%{version}-root-%(%{__id_u} -n)
 
 BuildRequires: java-devel
 BuildRequires: jpackage-utils
@@ -54,6 +53,6 @@ rm -rf %{buildroot}/usr/share/brisk-demos/portfolio_manager/build
 
 %files
 %defattr(-,root,root,0755)
-%attr(755,%{username},%{username}) /usr/share/brisk-demos
+%attr(755,%{username},%{username}) %{_datadir}/brisk-demos
 
-exit 0
+
