@@ -18,7 +18,10 @@ elif [ -r $CASSANDRA_INCLUDE ]; then
     . $CASSANDRA_INCLUDE
 fi
 
- 
+# jasper hack
+for jar in `find /usr/share/brisk/hadoop/lib/jasper*.jar`; do
+    export CLASSPATH=$jar:$CLASSPATH
+done
 for jar in `find /usr/share/brisk/*/lib`; do
     export CLASSPATH=$CLASSPATH:$jar
 done
