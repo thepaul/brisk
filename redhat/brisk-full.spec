@@ -42,10 +42,10 @@ Homepage: http://www.datastax.com/products/brisk
 %build
 
 %install
-mkdir -p %{buildroot}/etc/brisk/default.conf
+mkdir -p %{buildroot}/usr/share/brisk/default.conf
 mkdir -p %{buildroot}/usr/bin/
 
-cp -p packaging-common/brisk-env.sh %{buildroot}/etc/brisk/default.conf
+cp -p packaging-common/brisk-env.sh %{buildroot}/usr/share/brisk/default.conf
 cp -p bin/brisk %{buildroot}/usr/bin/
 cp -p bin/brisktool %{buildroot}/usr/bin/
 
@@ -56,15 +56,15 @@ cp -p bin/brisktool %{buildroot}/usr/bin/
 %defattr(-,root,root,0755)
 %attr(755,root,root) %{_bindir}/brisk
 %attr(755,root,root) %{_bindir}/brisktool
-%attr(755,%{username},%{username}) %config(noreplace) /%{_sysconfdir}/brisk
+%attr(755,%{username},%{username}) %config(noreplace) /usr/share/brisk/default.conf
 
 %post
-alternatives --install /etc/%{briskname} brisk /etc/%{briskname}/default.conf/ 0
+alternatives --install /etc/%{briskname}/brisk-env.sh brisk /usr/share/%{briskname}/default.conf/brisk-env.sh 0
 exit 0
 
 %postun
 # only delete alternative on removal, not upgrade
 if [ "$1" = "0" ]; then
-    alternatives --remove brisk /etc/%{briskname}/default.conf/
+    alternatives --remove brisk /usr/share/%{briskname}/default.conf/brisk-env.sh
 fi
 exit 0
