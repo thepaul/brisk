@@ -1,4 +1,4 @@
-brisk (1.0~beta1-1.1) stable; urgency=low
+brisk (1.0~beta1-2) stable; urgency=low
 
   * Recommend but don't force the Sun jre.
   * Fix hive execution.
