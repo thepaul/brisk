@@ -66,7 +66,6 @@ mkdir -p %{buildroot}/usr/share/%{username}
 mkdir -p %{buildroot}/usr/share/%{briskname}/%{username}
 mkdir -p %{buildroot}/usr/share/%{briskname}/%{username}/lib
 mkdir -p %{buildroot}/usr/share/%{briskname}/%{username}/default.conf
-mkdir -p %{buildroot}/etc/%{briskname}/%{username}/default.conf
 mkdir -p %{buildroot}/etc/rc.d/init.d/
 mkdir -p %{buildroot}/etc/security/limits.d/
 mkdir -p %{buildroot}/etc/default
@@ -74,7 +73,7 @@ mkdir -p %{buildroot}/usr/sbin
 mkdir -p %{buildroot}/usr/bin
 
 # copy over configurations and env setup
-cp -p resources/%{username}/conf/* %{buildroot}/etc/%{briskname}/%{username}/default.conf
+cp -p resources/%{username}/conf/* %{buildroot}/usr/share/%{briskname}/%{username}/default.conf
 cp -p resources/%{username}/lib/*.jar %{buildroot}/usr/share/%{briskname}/%{username}/lib
 cp -p build/%{briskrel}.jar %{buildroot}/usr/share/%{briskname}/brisk.jar
 cp -p redhat/%{username} %{buildroot}/etc/rc.d/init.d/
@@ -129,19 +128,19 @@ fi
 # chown on brisk as cassandra is our only user for now
 %attr(755,%{username},%{username}) /usr/share/%{briskname}*
 %attr(755,%{username},%{username}) /usr/share/%{username}
-%attr(755,%{username},%{username}) %config(noreplace) /%{_sysconfdir}/brisk/%{username}
+%attr(755,%{username},%{username}) %config(noreplace) /usr/share/%{briskname}/%{username}
 %attr(755,%{username},%{username}) %config(noreplace) /var/lib/%{username}/*
 %attr(755,%{username},%{username}) /var/log/%{username}*
 %attr(755,%{username},%{username}) /var/run/%{username}*
 
 %post
-alternatives --install /etc/%{briskname}/%{username} %{username} /etc/%{briskname}/%{username}/default.conf/ 0
+alternatives --install /etc/%{briskname}/%{username} %{username} /usr/share/%{briskname}/%{username}/default.conf/ 0
 exit 0
 
 %postun
 # only delete alternative on removal, not upgrade
 if [ "$1" = "0" ]; then
-    alternatives --remove %{username} /etc/%{briskname}/%{username}/default.conf/
+    alternatives --remove %{username} /usr/share/%{briskname}/%{username}/default.conf/
 fi
 exit 0
 

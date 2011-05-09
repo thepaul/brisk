@@ -24,13 +24,19 @@ Known Issues
 	BRISK-173 AMI has intermittent issue with starting up raid devices
 	BRISK-175 NullPointerException running ALTER TABLE foo TOUCH
 	BRISK-176 Cleaner build for source download that connects major components modified on disk and remotely
+	BRISK-177 Centos does not support sed -E - hive script needs to change to sed -r
 
 For the latest on these issues: https://datastax.jira.com/browse/BRISK
 
 Product Download & Documents Links 
 -----------------------------------
-Product downloads, updates in form of AMI, rpm, .deb are available from DataStax website.  
-         http://www.datastax.com/products/brisk 
+Product downloads, updates in form of AMI, Source and Binary Archives, .deb are available from DataStax website.  
+
+	archive https://github.com/riptano/brisk/archives/brisk1
+	debian debian.datastax.com
+	rpm coming soon to: rpm.datastax.com
+        
+	http://www.datastax.com/products/brisk 
 
 Sources & build directions are hosted on github -
 	https://github.com/riptano/brisk
