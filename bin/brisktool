@@ -20,4 +20,4 @@ else
     JAVA=`which java`
 fi
 
-$JAVA_HOME/bin/java -cp $CLASSPATH -Dstorage-config=$CASSANDRA_CONF -Dlog4j.configuration=log4j-tools.properties com.datastax.brisk.BriskTool $*
+$JAVA -cp $CLASSPATH -Dstorage-config=$CASSANDRA_CONF -Dlog4j.configuration=log4j-tools.properties com.datastax.brisk.BriskTool $*
