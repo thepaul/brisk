@@ -1,3 +1,10 @@
+brisk (1.0~beta1-1.1) stable; urgency=low
+
+  * Recommend but don't force the Sun jre.
+  * Fix hive execution.
+
+ -- Brandon Williams <brandon@datastax.com>  Mon, 09 May 2011 15:33:52 -0500
+
 brisk (1.0~beta1-1) stable; urgency=low
 
   * Initial release.
