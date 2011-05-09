@@ -7,9 +7,9 @@ Standards-Version: 3.8.3
 
 Package: brisk
 Architecture: all
-Depends: sun-java6-jre (>= 6.24-1~squeeze1), jsvc (>= 1.0), libcommons-daemon-java (>= 1.0), adduser, brisk-libhadoop (=${Source-Version}), brisk-libcassandra (=${Source-Version})
+Depends: sun-java6-jre | java6-runtime-headless, jsvc (>= 1.0), libcommons-daemon-java (>= 1.0), adduser, brisk-libhadoop (=${Source-Version}), brisk-libcassandra (=${Source-Version})
 Conflicts: apache-cassandra
-Recommends: libjna-java
+Recommends: sun-java6-jre, libjna-java
 Description: realtime analytics and distributed database (basic files)
  Brisk is a realtime analytics system marrying the distributed database
  Cassandra and the mapreduce system Hadoop together.
