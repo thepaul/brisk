@@ -2,7 +2,7 @@ Source: brisk
 Section: misc
 Priority: extra
 Maintainer: Brandon Williams <brandon@datastax.com>
-Build-Depends: debhelper (>= 5), sun-java6-jdk, ant (>= 1.7)
+Build-Depends: debhelper (>= 5), sun-java6-jdk, ant (>= 1.7), ant-optional, thrift-compiler
 Standards-Version: 3.8.3
 
 Package: brisk
