@@ -22,6 +22,9 @@ Known Issues
 	BRISK-169 HiveSQL drop table hangs (infinite loop of queries in DEBUG) after performing lots of alters to a table or after inserting data into a table with an index
 	BRISK-172 Tests/Jobs that read mapred-site.xml directly will fail to find JobTracker
 	BRISK-173 AMI has intermittent issue with starting up raid devices
+	BRISK-175 NullPointerException running ALTER TABLE foo TOUCH
+	BRISK-176 Cleaner build for source download that connects major components modified on disk and remotely
+
 For the latest on these issues: https://datastax.jira.com/browse/BRISK
 
 Product Download & Documents Links 
