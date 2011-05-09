@@ -1,3 +1,4 @@
 resources/hive/lib/* usr/share/brisk/hive/lib
 resources/hive/conf/* etc/brisk/hive
 resources/hive/bin/hive usr/bin
+resources/hive/bin/hive-config.sh usr/bin
