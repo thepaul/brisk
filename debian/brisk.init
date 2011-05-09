@@ -81,10 +81,7 @@ fi
 #
 classpath()
 {
-    cp="$EXTRA_CLASSPATH"
-    for j in `find /usr/share/$NAME`; do
-        [ "x$cp" = "x" ] && cp=$j || cp=$cp:$j
-    done
+    cp="$EXTRA_CLASSPATH:$CLASSPATH"
 
     # use JNA if installed in standard location
     [ -r /usr/share/java/jna.jar ] && cp="$cp:/usr/share/java/jna.jar"
