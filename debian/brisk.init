@@ -128,7 +128,7 @@ do_start()
     if [ "$HADOOP_ENABLED" = "0" ]; then
         echo "$DESC starting with Hadoop disabled (edit /etc/default/brisk to enable)"
     else
-        EXTRA_FLAGS="$EXTRA_FLAGS -t"
+        EXTRA_FLAGS="$EXTRA_FLAGS -Dhadoop-trackers=true -Dhadoop.log.dir=$HADOOP_LOG_DIR"
         echo "$DESC starting with Hadoop enabled (edit /etc/default/brisk to disable)"
     fi
 
@@ -146,7 +146,8 @@ do_start()
         -XX:HeapDumpPath="$cassandra_home/java_`date +%s`.hprof" \
         -XX:ErrorFile="$cassandra_home/hs_err_`date +%s`.log" \
         $JVM_OPTS \
-        com.datastax.brisk.BriskDaemon $EXTRA_FLAGS
+        $EXTRA_FLAGS \
+        com.datastax.brisk.BriskDaemon
 
     is_running && return 0
     for tries in `seq $WAIT_FOR_START`; do
