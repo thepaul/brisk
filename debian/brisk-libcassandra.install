@@ -1,6 +1,4 @@
-resources/cassandra/conf/log4j-server.properties etc/brisk/cassandra
-resources/cassandra/conf/cassandra.yaml etc/brisk/cassandra
-resources/cassandra/conf/cassandra-env.sh etc/brisk/cassandra
+resources/cassandra/conf/* etc/brisk/cassandra
 packaging-common/cassandra.in.sh usr/share/cassandra
 packaging-common/cassandra.conf etc/security/limits.d
 resources/cassandra/lib/* usr/share/brisk/cassandra/lib
