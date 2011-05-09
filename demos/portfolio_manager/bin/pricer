@@ -16,22 +16,23 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+
+if [ "x$BRISK_HOME" = "x" ]; then
+    BRISK_HOME=`dirname $0`/../../..
+fi
+
 if [ "x$CLASSPATH" = "x" ]; then
     # Cassandra class files.
-    if [ ! -d `dirname $0`/../../../build/classes ]; then
-        echo "Unable to locate cassandra class files" >&2
-        exit 1
+    if [ ! -d $BRISK_HOME/build/classes ]; then	
+	if [ ! -d $BRISK_HOME/lib ]; then
+            echo "Unable to locate brisk files" >&2
+            exit 1
+	fi
     fi
 
-    # Stress class files.
-    if [ ! -d `dirname $0`/../build/classes ]; then
-        echo "Unable to locate stress class files" >&2
-        exit 1
-    fi
-
-    CLASSPATH=`dirname $0`/../../../build/classes
-    CLASSPATH=$CLASSPATH:`dirname $0`/../build/classes
-    for jar in `dirname $0`/../../../resources/cassandra/lib/*.jar; do
+    CLASSPATH=$BRISK_HOME/build/classes
+    CLASSPATH=$CLASSPATH:`dirname $0`/../portfolio.jar
+    for jar in $BRISK_HOME/resources/cassandra/lib/*.jar; do
         CLASSPATH=$CLASSPATH:$jar
     done
 fi

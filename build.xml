@@ -516,8 +516,12 @@
       </jar>
     </target>
       
+    <target name="demos" depends="jar">
+      <ant antfile="build.xml" dir="${basedir}/demos/portfolio_manager"/>
+    </target>
+
     <!-- creates release tarballs -->
-    <target name="artifacts" depends="jar,javadoc"
+    <target name="artifacts" depends="jar,javadoc,demos"
             description="Create Cassandra release artifacts">
       <mkdir dir="${dist.dir}"/>
       <copy todir="${dist.dir}/lib">
@@ -539,6 +543,16 @@
       <exec executable="cp">
 	<arg line="-r ${basedir}/resources ${dist.dir}/resources"/>
       </exec>
+      <copy todir="${dist.dir}/demos">
+        <fileset dir="${basedir}/demos">
+          <include name="**" />
+          <exclude name="**/build.xml" />
+	  <exclude name="**/src/**" />
+	  <exclude name="**/resources/**" />
+	  <exclude name="**/thrift/**" />
+	  <exclude name="**/build/**" />
+        </fileset>
+      </copy>
       <copy todir="${dist.dir}/">
         <fileset dir="${basedir}">
           <include name="*.txt" />
@@ -561,6 +575,7 @@
         <tarfileset dir="${dist.dir}" prefix="${final.name}" mode="755">
           <include name="bin/*"/>
 	  <include name="resources/cassandra/bin/*"/>
+	  <include name="demos/**/bin/*"/>
 	  <include name="resources/hadoop/bin/*"/>
 	  <include name="resources/hive/bin/*"/>
           <not>
@@ -575,7 +590,9 @@
         <tarfileset dir="${basedir}"
                     prefix="${final.name}-src">
           <include name="**"/>
+          <exclude name="resources/**/*.jar" />
           <exclude name="build/**" />
+          <exclude name="demos/**/build/**" />	  
           <exclude name="src/gen-java/**" />
           <exclude name=".git/**" />
           <exclude name="bin/*" /> <!-- handled separately below -->
@@ -597,6 +614,7 @@
 	  <include name="resources/cassandra/bin/*"/>
 	  <include name="resources/hadoop/bin/*"/>
 	  <include name="resources/hive/bin/*"/>
+	  <include name="demos/**/bin/*"/>
           <exclude name="bin/*.in.sh" />
           <exclude name="bin/*.bat" />
         </tarfileset>
