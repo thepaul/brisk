@@ -4,3 +4,4 @@ etc/brisk
 etc/sysctl.d
 var/lib/cassandra
 var/log/cassandra
+usr/share/cassandra
