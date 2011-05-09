@@ -44,6 +44,7 @@ Homepage: http://www.datastax.com/products/brisk
 %install
 mkdir -p %{buildroot}/usr/share/brisk/default.conf
 mkdir -p %{buildroot}/usr/bin/
+mkdir -p %{buildroot}/etc/brisk
 
 cp -p packaging-common/brisk-env.sh %{buildroot}/usr/share/brisk/default.conf
 cp -p bin/brisk %{buildroot}/usr/bin/
@@ -54,6 +55,7 @@ cp -p bin/brisktool %{buildroot}/usr/bin/
 
 %files
 %defattr(-,root,root,0755)
+%attr(755,root,root) %config /etc/brisk
 %attr(755,root,root) %{_bindir}/brisk
 %attr(755,root,root) %{_bindir}/brisktool
 %attr(755,%{username},%{username}) %config(noreplace) /usr/share/brisk/default.conf

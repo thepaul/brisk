@@ -49,7 +49,7 @@ ant clean jar -Drelease=true
 
 %install
 %{__rm} -rf %{buildroot}
-mkdir -p %{buildroot}%{_sysconfdir}/hive/
+mkdir -p %{buildroot}/etc/brisk
 mkdir -p %{buildroot}/usr/share/%{briskname}/hive/lib
 mkdir -p %{buildroot}/usr/share/%{briskname}/hive/default.conf
 mkdir -p %{buildroot}/usr/bin
@@ -73,6 +73,7 @@ exit 0
 %files
 %defattr(-,root,root,0755)
 # do we need a %doc task?
+%attr(755,root,root) %config /etc/brisk
 %attr(755,root,root) %{_bindir}/*
 %attr(755,%{username},%{username}) %config(noreplace) /usr/share/%{briskname}/hive
 
@@ -86,6 +87,6 @@ exit 0
 %postun
 # only delete alternative on removal, not upgrade
 if [ "$1" = "0" ]; then
-    alternatives --remove hive /etc/%{briskname}/usr/share/default.conf/
+    alternatives --remove hive /usr/share/%{briskname}/usr/share/default.conf/
 fi
 exit 0

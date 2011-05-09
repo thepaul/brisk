@@ -69,6 +69,7 @@ mkdir -p %{buildroot}/usr/share/%{briskname}/%{username}/default.conf
 mkdir -p %{buildroot}/etc/rc.d/init.d/
 mkdir -p %{buildroot}/etc/security/limits.d/
 mkdir -p %{buildroot}/etc/default
+mkdir -p %{buildroot}/etc/brisk
 mkdir -p %{buildroot}/usr/sbin
 mkdir -p %{buildroot}/usr/bin
 
@@ -124,6 +125,7 @@ fi
 %attr(755,root,root) %{_sbindir}/cassandra
 %attr(755,root,root) /etc/rc.d/init.d/cassandra
 %attr(755,root,root) /etc/default/brisk
+%attr(755,root,root) %config(noreplace) /etc/brisk
 %attr(755,root,root) /etc/security/limits.d/%{username}.conf
 # chown on brisk as cassandra is our only user for now
 %attr(755,%{username},%{username}) /usr/share/%{briskname}*

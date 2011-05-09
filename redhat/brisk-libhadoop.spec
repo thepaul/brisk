@@ -49,7 +49,7 @@ ant clean jar -Drelease=true
 
 %install
 %{__rm} -rf %{buildroot}
-mkdir -p %{buildroot}%{_sysconfdir}/hadoop/
+mkdir -p %{buildroot}/etc/brisk
 mkdir -p %{buildroot}/usr/share/%{briskname}/hadoop/lib
 mkdir -p %{buildroot}/usr/share/%{briskname}/hadoop/default.conf
 mkdir -p %{buildroot}/usr/bin
@@ -75,6 +75,7 @@ exit 0
 %files
 %defattr(-,root,root,0755)
 # do we need a %doc task?
+%attr(755,root,root) %config /etc/brisk
 %attr(755,root,root) %{_bindir}/*
 %attr(755,%{username},%{username}) %config(noreplace) /usr/share/%{briskname}/hadoop
 
