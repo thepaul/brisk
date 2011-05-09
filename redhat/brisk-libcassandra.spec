@@ -8,7 +8,7 @@
 
 Name:           brisk-libcassandra
 Version:        0.8.0
-Release:        beta1
+Release:        beta2
 Summary:        Cassandra is a highly scalable, eventually consistent, distributed, structured key-value store.
 
 Group:          Development/Libraries
@@ -62,6 +62,7 @@ ant clean jar -Drelease=true
 %install
 %{__rm} -rf %{buildroot}
 mkdir -p %{buildroot}%{_sysconfdir}/%{username}/
+mkdir -p %{buildroot}/usr/share/%{username}
 mkdir -p %{buildroot}/usr/share/%{briskname}/%{username}
 mkdir -p %{buildroot}/usr/share/%{briskname}/%{username}/lib
 mkdir -p %{buildroot}/usr/share/%{briskname}/%{username}/default.conf
@@ -79,7 +80,7 @@ cp -p build/%{briskrel}.jar %{buildroot}/usr/share/%{briskname}/brisk.jar
 cp -p redhat/%{username} %{buildroot}/etc/rc.d/init.d/
 cp -p packaging-common/brisk.default %{buildroot}/etc/default/brisk
 cp -p packaging-common/%{username}.conf %{buildroot}/etc/security/limits.d/
-cp -p packaging-common/%{username}.in.sh %{buildroot}/usr/share/%{briskname}/%{username}
+cp -p packaging-common/%{username}.in.sh %{buildroot}/usr/share/%{username}/
 
 # move cassandra to /usr/sbin
 mv resources/%{username}/bin/cassandra %{buildroot}/usr/sbin
@@ -127,6 +128,7 @@ fi
 %attr(755,root,root) /etc/security/limits.d/%{username}.conf
 # chown on brisk as cassandra is our only user for now
 %attr(755,%{username},%{username}) /usr/share/%{briskname}*
+%attr(755,%{username},%{username}) /usr/share/%{username}
 %attr(755,%{username},%{username}) %config(noreplace) /%{_sysconfdir}/brisk/%{username}
 %attr(755,%{username},%{username}) %config(noreplace) /var/lib/%{username}/*
 %attr(755,%{username},%{username}) /var/log/%{username}*
