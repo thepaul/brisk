@@ -69,7 +69,7 @@ case "$1" in
         shift
 
         #we need to remove the conflicting antlr jar
-        export CLASSPATH=`echo $CLASSPATH | sed -E "s/antlr|slf4j/dne/g"`
+        export CLASSPATH=`echo $CLASSPATH | sed -r "s/antlr|slf4j/dne/g"`
         export HADOOP_CLASSPATH=$CLASSPATH
 
         JOBTRACKER=`$BIN/brisktool jobtracker`;
