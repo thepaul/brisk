@@ -83,7 +83,7 @@ export HIVE_CONF_DIR=/etc/brisk/hive
 export HIVE_BIN=$HIVE_HOME/bin
 if [ -z "$HIVE_LOG_ROOT" ]; then
     if [ -w /var/log/hive ]; then
-        export HIVE_LOG_ROOT=/var/log/hive
+        export HIVE_LOG_ROOT=/var/log
     else
         export HIVE_LOG_ROOT=$HOME
     fi
