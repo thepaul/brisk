@@ -130,7 +130,7 @@ fi
 # chown on brisk as cassandra is our only user for now
 %attr(755,%{username},%{username}) /usr/share/%{briskname}*
 %attr(755,%{username},%{username}) /usr/share/%{username}
-%attr(755,%{username},%{username}) %config(noreplace) /usr/share/%{briskname}/%{username}
+%attr(755,%{username},%{username}) %config(noreplace) /usr/share/%{briskname}/%{username}/default.conf
 %attr(755,%{username},%{username}) %config(noreplace) /var/lib/%{username}/*
 %attr(755,%{username},%{username}) /var/log/%{username}*
 %attr(755,%{username},%{username}) /var/run/%{username}*

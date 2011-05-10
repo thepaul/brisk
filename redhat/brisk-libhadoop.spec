@@ -50,16 +50,16 @@ ant clean jar -Drelease=true
 %install
 %{__rm} -rf %{buildroot}
 mkdir -p %{buildroot}/etc/brisk
+mkdir -p %{buildroot}/usr/share/%{briskname}/hadoop/bin
 mkdir -p %{buildroot}/usr/share/%{briskname}/hadoop/lib
 mkdir -p %{buildroot}/usr/share/%{briskname}/hadoop/default.conf
-mkdir -p %{buildroot}/usr/bin
 
 # copy over configurations and libs
 cp -p resources/hadoop/conf/* %{buildroot}/usr/share/%{briskname}/hadoop/default.conf
 cp -p resources/hadoop/*.jar %{buildroot}/usr/share/%{briskname}/hadoop/lib
 cp -p resources/hadoop/lib/*.jar %{buildroot}/usr/share/%{briskname}/hadoop/lib
 # copy the hadoop binary
-cp -p resources/hadoop/bin/hadoop %{buildroot}/usr/bin
+cp -p resources/hadoop/bin/* %{buildroot}/usr/share/brisk/hadoop/bin
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -76,14 +76,16 @@ exit 0
 %defattr(-,root,root,0755)
 # do we need a %doc task?
 %attr(755,root,root) %config /etc/brisk
-%attr(755,root,root) %{_bindir}/*
-%attr(755,%{username},%{username}) %config(noreplace) /usr/share/%{briskname}/hadoop
+%attr(755,%{username},%{username}) %config(noreplace) /usr/share/%{briskname}/hadoop/default.conf
 
 # chown on brisk as cassandra is our only user for now
 %attr(755,%{username},%{username}) /usr/share/%{briskname}*
 
 %post
 alternatives --install /etc/%{briskname}/hadoop hadoop /usr/share/%{briskname}/hadoop/default.conf/ 0
+# symlink bin files
+[ -e /usr/bin/hadoop ]  || ln -s /usr/share/brisk/hadoop/bin/hadoop /usr/bin/hadoop
+[ -e /usr/bin/hadoop-config.sh ] || ln -s /usr/share/brisk/hadoop/bin/hadoop-config.sh /usr/bin/hadoop-config.sh
 exit 0
 
 %postun
