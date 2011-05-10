@@ -30,16 +30,29 @@ for jar in `find /usr/share/brisk/*/lib`; do
     export CLASSPATH=$CLASSPATH:$jar
 done
 
+if [ -n "$HADOOP_NATIVE_ROOT" ]; then
+    for jar in $HADOOP_NATIVE_ROOT/*.jar; do
+    export CLASSPATH=$CLASSPATH:$jar
+    done
+
+    JAVA_PLATFORM=`$HADOOP_HOME/bin/hadoop org.apache.hadoop.util.PlatformName | sed -e "s/ /_/g"`
+
+    export JAVA_LIBRARY_PATH=$HADOOP_NATIVE_ROOT/lib/native/${JAVA_PLATFORM}/
+fi
+
 export HADOOP_CLASSPATH=$CLASSPATH
 
 #hadoop requires absolute home
 export HADOOP_HOME=/usr/share/brisk/hadoop
-export HADOOP_BIN=/usr/bin
+export HADOOP_CONF_DIR=/etc/brisk/hadoop
+export HADOOP_BIN=$HADOOP_HOME/bin
 export HADOOP_LOG_DIR=/var/log/hadoop
 
-#export PIG_HOME=
-export PIG_CLASSPATH=$HADOOP_HOME/conf:$CLASSPATH
+#make the hadoop command accessible
+export PATH=$HADOOP_BIN:$PATH
+
 
 export HIVE_HOME=/usr/share/brisk/hive
-export HIVE_BIN=/usr/bin
+export HIVE_CONF_DIR=/etc/brisk/hive
+export HIVE_BIN=$HIVE_HOME/bin
 export HIVE_LOG_ROOT=/var/log/hive
