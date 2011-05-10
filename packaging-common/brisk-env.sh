@@ -41,7 +41,13 @@ done
 export HADOOP_HOME=/usr/share/brisk/hadoop
 export HADOOP_CONF_DIR=/etc/brisk/hadoop
 export HADOOP_BIN=$HADOOP_HOME/bin
-export HADOOP_LOG_DIR=/var/log/hadoop
+if [ -z "$HADOOP_LOG_DIR" ]; then
+    if [ -w /var/log/hadoop ]; then
+        export HADOOP_LOG_DIR=/var/log/hadoop
+    else
+        export HADOOP_LOG_DIR=$HOME
+    fi
+fi
 
 # needed for webapps
 CLASSPATH=$CLASSPATH:$HADOOP_HOME:$HADOOP_HOME:/etc/brisk/hadoop
@@ -75,4 +81,11 @@ export PATH=$HADOOP_BIN:$PATH
 export HIVE_HOME=/usr/share/brisk/hive
 export HIVE_CONF_DIR=/etc/brisk/hive
 export HIVE_BIN=$HIVE_HOME/bin
-export HIVE_LOG_ROOT=/var/log/hive
+if [ -z "$HIVE_LOG_ROOT" ]; then
+    if [ -w /var/log/hive ]; then
+        export HIVE_LOG_ROOT=/var/log/hive
+    else
+        export HIVE_LOG_ROOT=$HOME
+    fi
+fi
+
