@@ -44,6 +44,7 @@ export HADOOP_CLASSPATH=$CLASSPATH
 
 #hadoop requires absolute home
 export HADOOP_HOME=/usr/share/brisk/hadoop
+CLASSPATH=$CLASSPATH:$HADOOP_HOME
 export HADOOP_CONF_DIR=/etc/brisk/hadoop
 export HADOOP_BIN=$HADOOP_HOME/bin
 export HADOOP_LOG_DIR=/var/log/hadoop
