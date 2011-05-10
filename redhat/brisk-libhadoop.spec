@@ -84,8 +84,8 @@ exit 0
 %post
 alternatives --install /etc/%{briskname}/hadoop hadoop /usr/share/%{briskname}/hadoop/default.conf/ 0
 # symlink bin files
-ln -s /usr/share/brisk/hadoop/bin/hadoop /usr/bin/hadoop
-ln -s /usr/share/brisk/hadoop/bin/hadoop-config.sh /usr/bin/hadoop-config.sh
+[ -e /usr/bin/hadoop ]  || ln -s /usr/share/brisk/hadoop/bin/hadoop /usr/bin/hadoop
+[ -e /usr/bin/hadoop-config.sh ] || ln -s /usr/share/brisk/hadoop/bin/hadoop-config.sh /usr/bin/hadoop-config.sh
 exit 0
 
 %postun

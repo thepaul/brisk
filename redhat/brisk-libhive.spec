@@ -82,8 +82,8 @@ exit 0
 %post
 alternatives --install /etc/%{briskname}/hive hive /usr/share/%{briskname}/hive/default.conf/ 0
 # symlink bin files
-ln -s /usr/share/brisk/hive/bin/hive /usr/bin/hive
-ln -s /usr/share/brisk/hive/bin/hive-config.sh /usr/bin/hive-config.sh
+[ -e /usr/bin/hive ] || ln -s /usr/share/brisk/hive/bin/hive /usr/bin/hive
+[ -e /usr/bin/hive ] || ln -s /usr/share/brisk/hive/bin/hive-config.sh /usr/bin/hive-config.sh
 exit 0
 
 %postun
