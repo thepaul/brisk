@@ -82,5 +82,5 @@ export HADOOP_CLASSPATH=$CLASSPATH
 #
 export HIVE_HOME=$BRISK_HOME/resources/hive
 export HIVE_BIN=$HIVE_HOME/bin
-export HIVE_LOG_DIR=$BRISK_LOG_ROOT/hive
+export HIVE_LOG_ROOT=$BRISK_LOG_ROOT/hive
 
