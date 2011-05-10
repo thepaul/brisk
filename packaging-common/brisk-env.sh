@@ -1,5 +1,9 @@
 #!/bin/sh
 
+if [ -z "$JAVA_HOME" ]; then
+    export JAVA_HOME=$(readlink -f `which java` | sed "s:bin/java::")
+fi
+
 export CASSANDRA_HOME=/usr/share/brisk/cassandra
 export CASSANDRA_BIN=/usr/sbin
 
