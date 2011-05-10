@@ -365,6 +365,9 @@ public class CassandraHiveMetaStore implements RawStore {
     public Index getIndex(String databaseName, String tableName, String indexName)
             throws MetaException
     {
+        if ( log.isDebugEnabled() )
+            log.debug("in getIndex with databaseName: {}, tableName: {} indexName: {}",
+                    new String[]{databaseName, tableName, indexName});        
         Index index = new Index();
         index.setDbName(databaseName);
         index.setIndexName(indexName);
