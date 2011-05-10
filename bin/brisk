@@ -80,7 +80,7 @@ case "$1" in
             exit 2
         fi
 
-        export HIVE_OPTS="$HIVE_OPTS -hiveconf hive.log.dir=$BRISK_LOG_ROOT/hive -hiveconf brisk.home=$BRISK_HOME"
+        export HIVE_OPTS="$HIVE_OPTS -hiveconf hive.log.dir=$HIVE_LOG_ROOT/hive -hiveconf brisk.bin=$BIN"
 
         $HIVE_BIN/hive "$@"
         exit $?
