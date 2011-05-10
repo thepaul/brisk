@@ -56,7 +56,7 @@ mkdir -p %{buildroot}/usr/bin
 
 # copy over configurations and libs
 cp -p resources/hive/conf/* %{buildroot}/usr/share/%{briskname}/hive/default.conf
-cp -p resources/hive/lib/*.jar %{buildroot}/usr/share/%{briskname}/hive/lib
+cp -pr resources/hive/lib/* %{buildroot}/usr/share/%{briskname}/hive/lib/
 # copy the hive binary
 cp -p resources/hive/bin/hive %{buildroot}/usr/bin
 
