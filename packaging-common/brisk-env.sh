@@ -38,4 +38,4 @@ export PIG_CLASSPATH=$HADOOP_HOME/conf:$CLASSPATH
 
 export HIVE_HOME=/usr/share/brisk/hive
 export HIVE_BIN=/usr/bin
-
+export HIVE_LOG_ROOT=/var/log/hive

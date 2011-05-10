@@ -36,6 +36,17 @@ install: build
 	dh_link usr/share/brisk/brisk-$(VERSION).jar \
 		usr/share/brisk/brisk.jar
 
+	# hacks for awful shell scripting, these must be absolute
+	ln -s /usr/share/brisk/hadoop/bin/hadoop \
+		$(CURDIR)/debian/brisk/usr/bin/hadoop
+	ln -s /usr/share/brisk/hadoop/bin/hadoop-config.sh \
+		$(CURDIR)/debian/brisk/usr/bin/hadoop-config.sh
+
+	ln -s /usr/share/brisk/hive/bin/hive \
+		$(CURDIR)/debian/brisk/usr/bin/hive
+	ln -s /usr/share/brisk/hive/bin/hive-config.sh \
+		$(CURDIR)/debian/brisk/usr/bin/hive-config.sh
+
 
 # Build architecture-independent files here.
 binary-indep: build install
