@@ -26,22 +26,11 @@ JVM_SEARCH_DIRS="/usr/lib/jvm/java-6-sun"
 [ -e /usr/share/brisk/brisk.jar ] || exit 0
 [ -e /etc/brisk/brisk-env.sh ] || exit 0
 
-# Read Brisk environment file.
-. /etc/brisk/brisk-env.sh
-
-# Read Cassandra environment file.
-. /etc/brisk/cassandra/cassandra-env.sh
-
 # Read configuration variable file if it is present
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
 
 # redhat init functions
 . /etc/init.d/functions
-
-if [ -z "$JVM_OPTS" ]; then
-    echo "Initialization failed; \$JVM_OPTS not set!" >&2
-    exit 3
-fi
 
 # If JAVA_HOME has not been set, try to determine it.
 if [ -z "$JAVA_HOME" ]; then
@@ -69,21 +58,6 @@ if [ -z "$JAVA_HOME" ]; then
         done
     fi
 fi
-
-#
-# Function that returns the applications classpath
-#
-classpath()
-{
-    cp="$EXTRA_CLASSPATH:$CLASSPATH"
-
-    # use JNA if installed in standard location
-    [ -r /usr/share/java/jna.jar ] && cp="$cp:/usr/share/java/jna.jar"
-
-    # Include the conf directory for purposes of log4j-server.properties, and
-    # commons-daemon in support of the daemonization class.
-    printf "$cp:$CONFDIR:/usr/share/java/commons-daemon.jar"
-}
 
 #
 # Function that returns 0 if process is running, or nonzero if not.
