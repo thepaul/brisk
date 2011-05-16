@@ -37,7 +37,7 @@ import org.apache.hadoop.hive.metastore.api.Database;
 import org.apache.hadoop.hive.metastore.api.Table;
 import org.apache.thrift.transport.TTransportException;
 
-public class MetaStorePersisterTest extends BaseMetaStoreTest
+public class MetaStorePersisterTest extends MetaStoreTestBase
 {
 
     private MetaStorePersister metaStorePersister;

@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class SchemaManagerServiceTest extends BaseMetaStoreTest
+public class SchemaManagerServiceTest extends MetaStoreTestBase
 {
     private CassandraClientHolder cassandraClientHolder;
     private Configuration configuration;

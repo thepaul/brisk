@@ -23,7 +23,7 @@ import org.apache.thrift.transport.TTransportException;
  * 
  * @author zznate
  */
-public class CassandraHiveMetaStoreTest extends BaseMetaStoreTest {
+public class CassandraHiveMetaStoreTest extends MetaStoreTestBase {
 
     @Test
     public void testSetConf() 
