@@ -9,8 +9,10 @@ import org.apache.cassandra.config.DatabaseDescriptor;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.thrift.transport.TTransportException;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 
-public abstract class BaseMetaStoreTest extends CleanupHelper
+
+public abstract class MetaStoreTestBase extends CleanupHelper
 {
 
     @BeforeClass
