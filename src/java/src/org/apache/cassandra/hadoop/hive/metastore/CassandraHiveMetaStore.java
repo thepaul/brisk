@@ -63,7 +63,7 @@ public class CassandraHiveMetaStore implements RawStore {
         configuration = conf;
         cassandraClientHolder = new CassandraClientHolder(configuration);
         SchemaManagerService schemaManagerService = 
-            new SchemaManagerService(cassandraClientHolder, configuration);
+            new SchemaManagerService(this, configuration);
         schemaManagerService.createMetaStoreIfNeeded();                
         metaStorePersister = new MetaStorePersister(configuration);
     }

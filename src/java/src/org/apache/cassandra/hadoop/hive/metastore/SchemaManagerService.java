@@ -1,12 +1,17 @@
 package org.apache.cassandra.hadoop.hive.metastore;
 
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 import org.apache.cassandra.config.KSMetaData;
 import org.apache.cassandra.thrift.CfDef;
 import org.apache.cassandra.thrift.KsDef;
+import org.apache.commons.lang.StringUtils;
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hive.metastore.api.Database;
+import org.apache.hadoop.hive.metastore.api.NoSuchObjectException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,11 +28,13 @@ public class SchemaManagerService
     private static Logger log = LoggerFactory.getLogger(SchemaManagerService.class);
     private CassandraClientHolder cassandraClientHolder;
     private Configuration configuration;
+    private CassandraHiveMetaStore cassandraHiveMetaStore;
     
-    public SchemaManagerService(CassandraClientHolder cassandraClientHolder, Configuration configuration)
+    public SchemaManagerService(CassandraHiveMetaStore cassandraHiveMetaStore, Configuration configuration)
     {
-        this.cassandraClientHolder = cassandraClientHolder;
+        this.cassandraHiveMetaStore = cassandraHiveMetaStore;
         this.configuration = configuration;
+        this.cassandraClientHolder = new CassandraClientHolder(this.configuration);
     }
     
     /**
@@ -91,5 +98,69 @@ public class SchemaManagerService
             throw new CassandraHiveMetaStoreException("Could not create Hive MetaStore database: " + e.getMessage(), e);
         }    
     }
+    
+    /**
+     * Returns a List of Keyspace definitions that are not yet created as 'databases' 
+     * in the Hive meta store. The list of keyspaces required for brisk operation are ignored.
+     * @return
+     */
+    public List<KsDef> findUnmappedKeyspaces() 
+    {
+        List<KsDef> defs;
+        try 
+        {
+            defs = cassandraClientHolder.getClient().describe_keyspaces();
+            
+            for (Iterator<KsDef> iterator = defs.iterator(); iterator.hasNext();)
+            {
+                KsDef ksDef = iterator.next();
+                String name = ksDef.name;
+                log.debug("Found ksDef name: {}",name);
+                if ( StringUtils.indexOfAny(name, SYSTEM_KEYSPACES) > -1 || isKeyspaceMapped(name))
+                {
+                    log.debug("REMOVING ksDef name from unmapped List: {}",name);
+                    iterator.remove();
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            throw new CassandraHiveMetaStoreException("Could not retrieve unmapped keyspaces",ex);            
+        }
+        return defs;
+    }
+    
+    /**
+     * Returns true if this keyspaceName returns a Database via
+     * {@link CassandraHiveMetaStore#getDatabase(String)}
+     * @param keyspaceName
+     * @return
+     */
+    public boolean isKeyspaceMapped(String keyspaceName) 
+    {
+        try 
+        {
+            return cassandraHiveMetaStore.getDatabase(keyspaceName) != null;            
+        } 
+        catch (NoSuchObjectException e) 
+        {
+            return false;    
+        }        
+    }
+    
+    public void createKeyspaceSchema(KsDef ksDef)
+    {
+        // table.setParameters: "EXTERNAL"="TRUE"
+    }
+    
+    
+    /**
+     * Contains 'system', as well as keyspace names for meta store, and Cassandra File System
+     * FIXME: need to ref. the configuration value of the meta store keyspace. Should also coincide
+     * with BRISK-190 
+     */
+    public static final String[] SYSTEM_KEYSPACES = new String[] {
+        "system", CassandraClientHolder.DEF_META_STORE_KEYSPACE, "cfs"
+    };
     
 }
