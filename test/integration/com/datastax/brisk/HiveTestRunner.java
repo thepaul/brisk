@@ -63,7 +63,7 @@ public class HiveTestRunner {
                    	new_query = orig_query.replace("[[DATA_DIR]]", dataDir);
                 	new_query = new_query.replace("[[EXAMPLES]]", examplesDir);
  
-                	System.out.print("-- Statement: " + new_query); 
+                	//System.out.print("-- Statement: " + new_query); 
                 	results.write("-- Statement: " + orig_query);
                 	results.newLine();
 
@@ -75,7 +75,7 @@ public class HiveTestRunner {
                 	//Print run time to standard out, but not to file
                 	long secDiff = TimeUnit.SECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
                 	long msDiff = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
-                	System.out.println(" [Runtime: " + secDiff + "s / " + msDiff + "ms]"); 
+                	//System.out.println(" [Runtime: " + secDiff + "s / " + msDiff + "ms]"); 
 
                 	// Not Supported: res.getMetaData().getColumnCount();
                 	// Workaround: Iterate thru columns until exception reached.
