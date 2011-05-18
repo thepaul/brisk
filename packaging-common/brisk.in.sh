@@ -31,9 +31,23 @@ elif [ -r $CASSANDRA_INCLUDE ]; then
 fi
 
 #
+# Initialize Hive env
+#
+export HIVE_HOME=/usr/share/brisk/hive
+export HIVE_CONF_DIR=/etc/brisk/hive
+export HIVE_BIN=$HIVE_HOME/bin
+if [ -z "$HIVE_LOG_ROOT" ]; then
+    if [ -w /var/log/hive ]; then
+        export HIVE_LOG_ROOT=/var/log
+    else
+        export HIVE_LOG_ROOT=$HOME
+    fi
+fi
+
+#
 #Add hive cassandra driver
 #
-for jar in $BRISK_HOME/resources/hive/lib/hive-cassandra*.jar; do
+for jar in $HIVE_HOME/lib/hive-cassandra*.jar; do
     export CLASSPATH=$CLASSPATH:$jar
 done
 
@@ -75,17 +89,5 @@ export HADOOP_CLASSPATH=$CLASSPATH
 #make the hadoop command accessible
 export PATH=$HADOOP_BIN:$PATH
 
-#
-# Initialize Hive env
-#
-export HIVE_HOME=/usr/share/brisk/hive
-export HIVE_CONF_DIR=/etc/brisk/hive
-export HIVE_BIN=$HIVE_HOME/bin
-if [ -z "$HIVE_LOG_ROOT" ]; then
-    if [ -w /var/log/hive ]; then
-        export HIVE_LOG_ROOT=/var/log
-    else
-        export HIVE_LOG_ROOT=$HOME
-    fi
-fi
+
 

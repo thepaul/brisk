@@ -31,8 +31,8 @@ Product Download & Documents Links
 Product downloads, updates in form of AMI, Source and Binary Archives, .deb are available from DataStax website.  
 
 	archive https://github.com/riptano/brisk/archives/brisk1
-	debian debian.datastax.com
-	rpm coming soon to: rpm.datastax.com
+	debian  debian.datastax.com
+	rpm     rpm.datastax.com
         
 	http://www.datastax.com/products/brisk 
 
