@@ -8,7 +8,7 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class runHiveTest{
+public class runHiveTest {
     public static Connection connection = null;
     
 	@BeforeClass
