@@ -18,7 +18,10 @@ public class HiveTestRunner {
 	
     public static void runQueries(Connection con, String testScript) throws Exception  
     {  
-    	String s = new String();  
+    	String s = new String(); 
+    	String orig_query = new String();  
+    	String new_query = new String();  
+
         StringBuffer sb = new StringBuffer(); 
         
         Statement stmt = con.createStatement();
@@ -27,6 +30,8 @@ public class HiveTestRunner {
     	String rootDir = System.getProperty("user.dir");
     	String testDir = rootDir + "/test/integration/com/datastax/brisk/testCases/";
     	String resultsDir = rootDir + "/test/integration/com/datastax/brisk/testResults/";
+    	String dataDir = rootDir + "/test/integration/com/datastax/brisk/testData";
+    	String examplesDir = rootDir + "/resources/hive/examples/files";
 
     	String script = testDir + testScript;
     	String actualOutput = resultsDir + testScript + ".out";
@@ -52,17 +57,20 @@ public class HiveTestRunner {
   
             for(int i = 0; i<inst.length; i++)  
             {  
-                if(!inst[i].trim().equals("") && !inst[i].startsWith("--")) {  
-
-                	System.out.print("-- Statement: " + inst[i].trim()); 
-                	System.out.flush();
-                	results.write("-- Statement: " + inst[i].trim());
+            	orig_query = inst[i].trim();
+            	
+                if(!orig_query.equals("") && !orig_query.startsWith("--")) {  
+                   	new_query = orig_query.replace("[[DATA_DIR]]", dataDir);
+                	new_query = new_query.replace("[[EXAMPLES]]", examplesDir);
+ 
+                	System.out.print("-- Statement: " + new_query); 
+                	results.write("-- Statement: " + orig_query);
                 	results.newLine();
 
                 	long start = System.nanoTime();
                     
                 	//Run Query
-                	res = stmt.executeQuery(inst[i]);  
+                	res = stmt.executeQuery(new_query);  
                     
                 	//Print run time to standard out, but not to file
                 	long secDiff = TimeUnit.SECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
