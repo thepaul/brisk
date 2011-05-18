@@ -49,13 +49,13 @@ ant clean jar -Drelease=true
 
 %install
 %{__rm} -rf %{buildroot}
-mkdir -p %{buildroot}/etc/brisk
+mkdir -p %{buildroot}/etc/brisk/hive
 mkdir -p %{buildroot}/usr/share/%{briskname}/hive/bin
 mkdir -p %{buildroot}/usr/share/%{briskname}/hive/lib
-mkdir -p %{buildroot}/usr/share/%{briskname}/hive/default.conf
+mkdir -p %{buildroot}/var/log/hive
 
 # copy over configurations and libs
-cp -p resources/hive/conf/* %{buildroot}/usr/share/%{briskname}/hive/default.conf
+cp -p resources/hive/conf/* %{buildroot}/etc/%{briskname}/hive/
 cp -pr resources/hive/lib/* %{buildroot}/usr/share/%{briskname}/hive/lib/
 # copy the hive binary
 cp -rp resources/hive/bin/* %{buildroot}/usr/share/brisk/hive/bin
@@ -73,22 +73,8 @@ exit 0
 %files
 %defattr(-,root,root,0755)
 # do we need a %doc task?
-%attr(755,root,root) %config /etc/brisk
-%attr(755,%{username},%{username}) %config(noreplace) /usr/share/%{briskname}/hive/default.conf
+%attr(755,%{username},%{username}) %config(noreplace) /etc/%{briskname}/hive
 
 # chown on brisk as cassandra is our only user for now
 %attr(755,%{username},%{username}) /usr/share/%{briskname}*
-
-%post
-alternatives --install /etc/%{briskname}/hive hive /usr/share/%{briskname}/hive/default.conf/ 0
-# symlink bin files
-[ -e /usr/bin/hive ] || ln -s /usr/share/brisk/hive/bin/hive /usr/bin/hive
-[ -e /usr/bin/hive ] || ln -s /usr/share/brisk/hive/bin/hive-config.sh /usr/bin/hive-config.sh
-exit 0
-
-%postun
-# only delete alternative on removal, not upgrade
-if [ "$1" = "0" ]; then
-    alternatives --remove hive /usr/share/%{briskname}/usr/share/default.conf/
-fi
-exit 0
+%attr(755,%{username},%{username}) /var/log/hive
