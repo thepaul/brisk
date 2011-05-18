@@ -41,7 +41,7 @@ case "$1" in
 			[ -e /etc/brisk/brisk-env.sh ] || exit 0
 			# Read Brisk environment file.
 			. /etc/brisk/brisk-env.sh			
-			EXTRA_FLAGS="$EXTRA_FLAGS -t"			   		
+			EXTRA_FLAGS="$EXTRA_FLAGS -t -Djava.library.path=$JAVA_LIBRARY_PATH"			   		
     		echo "Brisk daemon starting with Hadoop enabled (edit /etc/default/brisk to disable)"
 		fi
         
