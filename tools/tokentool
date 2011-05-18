@@ -20,15 +20,11 @@ def run():
         # Read from the commandline
         
         # Gather then number of datacenters
-        datacenters = readInt(sys.argv[1], True)
+        datacenters = len(sys.argv) - 1
 
         # Gather the number of nodes in each datacenter
-        if len(sys.argv) > datacenters + 1:
-            for i in range(0, datacenters):
-                nodesperdc.append(readInt(sys.argv[i + 2], True))
-        else:
-            print "Please input a valid number of arguments."
-            sys.exit(1)
+        for i in range(0, datacenters):
+            nodesperdc.append(readInt(sys.argv[i + 1], True))
     else:
         # Read from interactive prompts
         
@@ -57,6 +53,9 @@ def splitRing(numOfNodes, offset=0):
 
 
 try:
+    print "Command line usage:"
+    print "    tools/tokentool <# of nodes in DC1> [<# of nodes in DC2> <# of nodes in DC3> ...]"
+    print
     run()
 except KeyboardInterrupt:
     print
