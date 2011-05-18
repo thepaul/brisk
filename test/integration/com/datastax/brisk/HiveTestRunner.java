@@ -1,0 +1,106 @@
+package com.datastax.brisk;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+
+import java.sql.SQLException;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.sql.Connection;
+import java.util.concurrent.TimeUnit;
+
+import junitx.framework.FileAssert;
+
+public class HiveTestRunner {
+	
+    public static void runQueries(Connection con, String testScript) throws Exception  
+    {  
+    	String s = new String();  
+        StringBuffer sb = new StringBuffer(); 
+        
+        Statement stmt = con.createStatement();
+        ResultSet res;
+        
+    	String rootDir = System.getProperty("user.dir");
+    	String testDir = rootDir + "/test/integration/com/datastax/brisk/testCases/";
+    	String resultsDir = rootDir + "/test/integration/com/datastax/brisk/testResults/";
+
+    	String script = testDir + testScript;
+    	String actualOutput = resultsDir + testScript + ".out";
+    	String expectedOutput = resultsDir + testScript + ".exp";
+    	
+        try{        	
+            FileReader fr = new FileReader(new File(script));                      
+            BufferedReader br = new BufferedReader(fr);  
+            
+            FileWriter fstream = new FileWriter(actualOutput);
+            BufferedWriter results = new BufferedWriter(fstream);
+              
+            while((s = br.readLine()) != null)  {
+                // Ignore empty lines ands comments (starting with "--")
+                if(!s.trim().equals("") && !s.startsWith("--")) {  
+                	sb.append(s.trim() + " ");  
+            	}
+            }  
+            br.close();  
+  
+            // Use ";" as a delimiter for each request 
+            String[] inst = sb.toString().split(";");  
+  
+            for(int i = 0; i<inst.length; i++)  
+            {  
+                if(!inst[i].trim().equals("") && !inst[i].startsWith("--")) {  
+
+                	System.out.print("-- Statement: " + inst[i].trim()); 
+                	System.out.flush();
+                	results.write("-- Statement: " + inst[i].trim());
+                	results.newLine();
+
+                	long start = System.nanoTime();
+                    
+                	//Run Query
+                	res = stmt.executeQuery(inst[i]);  
+                    
+                	//Print run time to standard out, but not to file
+                	long secDiff = TimeUnit.SECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+                	long msDiff = TimeUnit.MILLISECONDS.convert(System.nanoTime() - start, TimeUnit.NANOSECONDS);
+                	System.out.println(" [Runtime: " + secDiff + "s / " + msDiff + "ms]"); 
+
+                	// Not Supported: res.getMetaData().getColumnCount();
+                	// Workaround: Iterate thru columns until exception reached.
+                	while (res.next()) {                     
+                		for (int j=1; j<=10; j++) {                            	
+                			try {
+                				results.write(res.getString(j) + ", ");    
+                			} catch (SQLException e) {
+                				if (e.getMessage().startsWith("Invalid columnIndex")) {
+                					break;
+                				} else {
+                					System.out.println("  - SQLException: " + e.toString()); 
+                					results.write("  - SQLException: " + e.toString()); 
+                				}
+                			}   
+                		}
+                		results.newLine();                     
+                	}
+                }
+            }
+            
+            // Close files after running test
+            br.close();
+            fr.close();
+            results.close();
+            fstream.close();
+		    System.out.flush();
+       
+            // Verify that the two files are identical
+            FileAssert.assertEquals("---------- FILE DIFF FOUND ---------- \n",new File(expectedOutput), new File(actualOutput));
+
+        } catch (Exception e) {
+     		  System.out.println(e.getMessage());
+          }
+    }  // finish parser
+}
