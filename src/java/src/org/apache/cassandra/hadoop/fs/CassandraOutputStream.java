@@ -251,8 +251,8 @@ public class CassandraOutputStream extends OutputStream
         
         nextBlockOutputStream();
 
-        //store.storeBlock(nextBlock, backupStream);
-        //internalClose();
+        // Wait for writers to complete
+        store.waitForStoreSubBlockToComplete();
 
         bytesWrittenToBlock = 0;
     }
@@ -316,7 +316,7 @@ public class CassandraOutputStream extends OutputStream
         		INode.FileType.FILE, 
         		blocks.toArray(new Block[]{}));
         
-        // Wait for writters to complete
+        // Wait for writers to complete
         store.waitForStoreSubBlockToComplete();
         
         store.storeINode(path, inode);
