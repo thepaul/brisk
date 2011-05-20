@@ -418,6 +418,15 @@ public class CassandraFileSystem extends FileSystem
             logger.debug(block);
         }
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void close() throws IOException {
+    	super.close();
+    	store.close();
+    }
 
     /**
      * FileStatus for Cassandra file systems. {@inheritDoc}

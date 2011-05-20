@@ -50,6 +50,22 @@ public interface CassandraFileSystemStore
      * @throws IOException if an error occur
      */
     void storeSubBlock(UUID currentBlockUUID, SubBlock subBlock, ByteArrayOutputStream file) throws IOException;
+    
+    /**
+     * Schedules a sub block write operation. The content of <code>os</code> is copied for the thread to work on.
+     * This call must be followed by {@link #waitForStoreSubBlockToComplete()}
+     * 
+     * @param currentBlockUUID parent UUID used as row key for the subBlock row.
+     * @param subBlock sub Block to be written 
+     * @param os content of the subBLock
+     */
+    public void scheduleStoreSubBlock(UUID parentBlockUUID, final SubBlock sblock, ByteArrayOutputStream os);
+    
+    /**
+     * Wait for completion of tasks ran by {@link #schedukeStoreSubBlock(UUID, SubBlock, ByteArrayOutputStream)}.
+     * @throws IOException
+     */
+    void waitForStoreSubBlockToComplete() throws IOException; 
 
     INode retrieveINode(Path path) throws IOException;
 
@@ -86,4 +102,10 @@ public interface CassandraFileSystemStore
     Set<Path> listDeepSubPaths(Path path) throws IOException;
 
     BlockLocation[] getBlockLocation(List<Block> usedBlocks, long start, long len) throws IOException;
+    
+    /**
+     * Closes this store.
+     * @throws IOException 
+     */
+    void close() throws IOException;
 }
