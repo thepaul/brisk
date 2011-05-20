@@ -8,17 +8,10 @@ public class StatusHolder {
 	/**
 	 * Holds a Set of status per thread.
 	 */
-    private static ThreadLocal<HashSet<Future<Boolean>>> statuses = new ThreadLocal<HashSet<Future<Boolean>>>();
+    private HashSet<Future<Boolean>> statuses = new HashSet<Future<Boolean>>();
     
     public void addStatus(Future<Boolean> status) {
-    	HashSet<Future<Boolean>> futureSet = statuses.get();
-    	
-    	if (futureSet == null) {
-    		futureSet = new HashSet<Future<Boolean>>();
-    		statuses.set(futureSet);
-    	}
-    	
-    	futureSet.add(status);
+    	statuses.add(status);
     }
     
     /**
@@ -26,33 +19,27 @@ public class StatusHolder {
      * @throws StatusHolderException 
      */
     public void waitForCompletion() throws StatusHolderException {
-    	HashSet<Future<Boolean>> futureSet = statuses.get();
     	
-    	if (futureSet == null) {
-    		// Nothing to release
-    		return;
-    	}
-    	
-    	Boolean aState;
-    	for (Future<Boolean> future : futureSet) {
-    		try {
-    			aState = future.get();
-    		} catch (Exception e) {
-    			statuses.remove();
-    			throw new StatusHolderException("One of the threads did not finish successfuly", e);
-    		}
-			
-			if (aState) {
-				statuses.remove();
-				throw new StatusHolderException("One of the threads did not finish successfuly");
+    	try {
+    		
+    		Boolean thereWasError;
+    		
+	    	for (Future<Boolean> future : statuses) {
+	    		thereWasError = future.get();
+	    			
+	    		if (thereWasError) {
+	    			throw new StatusHolderException("One of the threads did not finish successfuly");
+	    		}
 			}
+	    		
+    	} catch (Exception e) {
+			throw new StatusHolderException("One of the threads did not finish successfuly", e);
+		} finally {
+			statuses.clear();
 		}
-    	
-    	// If no Exception, then remove the entries.
-    	statuses.remove();
     }
-    
-    
+
+
     public class StatusHolderException extends Exception {
 
 		public StatusHolderException(String arg0, Exception e) {

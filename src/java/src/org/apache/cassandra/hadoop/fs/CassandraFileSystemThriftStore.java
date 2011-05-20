@@ -17,48 +17,72 @@
  */
 package org.apache.cassandra.hadoop.fs;
 
-import java.io.*;
-import java.net.InetAddress;
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.RandomAccessFile;
 import java.net.URI;
 import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.ThreadFactory;
-import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
-import com.datastax.brisk.BriskInternalServer;
-
-import org.apache.cassandra.config.DatabaseDescriptor;
-import org.apache.cassandra.hadoop.CassandraProxyClient;
-import org.apache.cassandra.hadoop.CassandraProxyClient.ConnectionStrategy;
 import org.apache.cassandra.hadoop.fs.StatusHolder.StatusHolderException;
 import org.apache.cassandra.hadoop.fs.connection.ConnectionFactory;
 import org.apache.cassandra.hadoop.fs.connection.ConnectionPoolableObjectFactory;
-import org.apache.cassandra.hadoop.trackers.CassandraJobConf;
 import org.apache.cassandra.io.util.FileUtils;
 import org.apache.cassandra.locator.BriskSimpleSnitch;
 import org.apache.cassandra.service.StorageService;
-import org.apache.cassandra.thrift.*;
-import org.apache.cassandra.thrift.Brisk.Iface;
+import org.apache.cassandra.thrift.Brisk;
+import org.apache.cassandra.thrift.Cassandra;
+import org.apache.cassandra.thrift.CfDef;
+import org.apache.cassandra.thrift.Column;
+import org.apache.cassandra.thrift.ColumnDef;
+import org.apache.cassandra.thrift.ColumnOrSuperColumn;
+import org.apache.cassandra.thrift.ColumnParent;
+import org.apache.cassandra.thrift.ColumnPath;
+import org.apache.cassandra.thrift.ConsistencyLevel;
+import org.apache.cassandra.thrift.IndexClause;
+import org.apache.cassandra.thrift.IndexExpression;
+import org.apache.cassandra.thrift.IndexOperator;
+import org.apache.cassandra.thrift.IndexType;
+import org.apache.cassandra.thrift.InvalidRequestException;
+import org.apache.cassandra.thrift.KeySlice;
+import org.apache.cassandra.thrift.KsDef;
+import org.apache.cassandra.thrift.LocalBlock;
+import org.apache.cassandra.thrift.LocalOrRemoteBlock;
+import org.apache.cassandra.thrift.Mutation;
+import org.apache.cassandra.thrift.NotFoundException;
+import org.apache.cassandra.thrift.SlicePredicate;
+import org.apache.cassandra.thrift.StorageType;
 import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.cassandra.utils.FBUtilities;
 import org.apache.cassandra.utils.UUIDGen;
-import org.apache.commons.pool.BasePoolableObjectFactory;
-import org.apache.commons.pool.PoolableObjectFactory;
 import org.apache.commons.pool.impl.GenericObjectPool;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.BlockLocation;
 import org.apache.hadoop.fs.Path;
 import org.apache.log4j.Logger;
 import org.apache.thrift.TException;
+
+import com.datastax.brisk.concurrent.JMXEnabledThreadPoolExecutor;
+import com.datastax.brisk.concurrent.NamedThreadFactory;
 
 /**
  * 
@@ -126,7 +150,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
     /**
      * Cassandra is faster at writing. This pool allows parallel writes.
      */
-    private ThreadPoolExecutor writersPool;
+    private ExecutorService writersPool;
     
     private BlockingQueue<Runnable> writerQueue;
     
@@ -166,41 +190,26 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
             throw new IOException(e);
         }
         
-        int cpus = Runtime.getRuntime().availableProcessors();
-        writerQueue = new LinkedBlockingQueue<Runnable>(cpus);
-        writersPool = new ThreadPoolExecutor(1, cpus, 2, TimeUnit.MINUTES, writerQueue, new ThriftStoreThreadFactory("SUB_BLOCK-WRITERS"));
+        int concurrentWriters = getSubBlockWriterThreads(conf);
+        writerQueue = new LinkedBlockingQueue<Runnable>(getSubBlockWorkQueueSize(conf));
+        writersPool = new JMXEnabledThreadPoolExecutor(concurrentWriters, 60, TimeUnit.SECONDS, writerQueue, new NamedThreadFactory("SUB_BLOCK-WRITERS"));
         
         // Keep as max idle as min threads we have and block for 60 secs before throwing an exception.
-        connectionPool = new GenericObjectPool(new ConnectionPoolableObjectFactory(connectionFactory), cpus + 5,
-        		GenericObjectPool.WHEN_EXHAUSTED_BLOCK, 60000L, cpus);
+        // Max is 2 times the amount of workers.
+        connectionPool = new GenericObjectPool(new ConnectionPoolableObjectFactory(connectionFactory), concurrentWriters * 2,
+        		GenericObjectPool.WHEN_EXHAUSTED_BLOCK, 60000L, concurrentWriters);
     }
-    
-    
-    private class ThriftStoreThreadFactory implements ThreadFactory {
-    	
-    	private final AtomicInteger created = new AtomicInteger();
-    	
-    	private final String poolName;
-    	
-    	public ThriftStoreThreadFactory(String poolName) {
-    		this.poolName = poolName;
-    	}
+ 
 
-		@Override
-		public Thread newThread(Runnable r) {
-			return new WriterThread(r, poolName + "-" + created.incrementAndGet());
-		}
-    	
-    }
-    
-    private class WriterThread extends Thread {
+    private int getSubBlockWorkQueueSize(Configuration conf) {
+		return conf.getInt("concurrent.writers.workqueue.size", Integer.MAX_VALUE);
+	}
 
-    	public WriterThread(Runnable runnable, String name) {
-    		super(runnable, name);
-    	}
-    }
+	private int getSubBlockWriterThreads(Configuration conf) {
+		return conf.getInt("concurrent.writers.subblocks", Runtime.getRuntime().availableProcessors());
+	}
 
-    /**
+	/**
      * Set to different set of Column Families is the archive location is selected.
      */
     private void initCFNames(URI uri) {

@@ -49,4 +49,24 @@
   <value>QUORUM</value>
 </property>
 
+<!-- 
+    Write to SubBlocks CF are Asynchronous.It defines how many concurrent
+    writer are used. 1 per CPU is the default if this value is not present 
+ -->
+<property>
+  <name>concurrent.writers.subblocks</name>
+  <value>4</value>
+</property>
+
+<!-- 
+    The size of the work queue used for the concurrent.writers.subblock.
+    Default: Integer.MAX_VALUE. (just comment this out for the default to take effect)
+    Defining this value to the same as concurrent.writers.subblocks is a bad idea since
+    the queue might block when it is full. Either higher or default is recommended.
+ -->
+<property>
+  <name>concurrent.writers.workqueue.size</name>
+  <value>40</value>
+</property>
+
 </configuration>

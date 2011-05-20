@@ -269,7 +269,6 @@ public class CassandraOutputStream extends OutputStream
     	
     	nextSubBlockOutputStream();
     	
-    	//store.storeSubBlock(currentBlockUUID, nextSubBlock, backupStream);
     	store.scheduleStoreSubBlock(currentBlockUUID, nextSubBlock, backupStream);
     	
     	// Get the stream ready for next subBlock
