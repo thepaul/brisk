@@ -23,6 +23,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import org.apache.cassandra.utils.FBUtilities;
 import org.apache.cassandra.utils.UUIDGen;
@@ -71,6 +72,7 @@ public class CassandraOutputStream extends OutputStream
     private final Progressable       progress;
     
     private FsPermission             perms;
+
     
     /**
      * Holds the current block UUID to be written.
@@ -99,6 +101,7 @@ public class CassandraOutputStream extends OutputStream
         	throw new IllegalArgumentException(
         			String.format("blockSize{%d} cannot be smaller than SubBlockSize{%d}", blockSize, subBlockSize));
         }
+
     }
 
     public long getPos() throws IOException
@@ -266,7 +269,8 @@ public class CassandraOutputStream extends OutputStream
     	
     	nextSubBlockOutputStream();
     	
-    	store.storeSubBlock(currentBlockUUID, nextSubBlock, backupStream);
+    	//store.storeSubBlock(currentBlockUUID, nextSubBlock, backupStream);
+    	store.scheduleStoreSubBlock(currentBlockUUID, nextSubBlock, backupStream);
     	
     	// Get the stream ready for next subBlock
     	backupStream.reset();
@@ -312,6 +316,9 @@ public class CassandraOutputStream extends OutputStream
         		perms, 
         		INode.FileType.FILE, 
         		blocks.toArray(new Block[]{}));
+        
+        // Wait for writters to complete
+        store.waitForStoreSubBlockToComplete();
         
         store.storeINode(path, inode);
     }

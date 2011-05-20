@@ -24,20 +24,36 @@ import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.util.*;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import com.datastax.brisk.BriskInternalServer;
 
 import org.apache.cassandra.config.DatabaseDescriptor;
 import org.apache.cassandra.hadoop.CassandraProxyClient;
 import org.apache.cassandra.hadoop.CassandraProxyClient.ConnectionStrategy;
+import org.apache.cassandra.hadoop.fs.StatusHolder.StatusHolderException;
+import org.apache.cassandra.hadoop.fs.connection.ConnectionFactory;
+import org.apache.cassandra.hadoop.fs.connection.ConnectionPoolableObjectFactory;
 import org.apache.cassandra.hadoop.trackers.CassandraJobConf;
 import org.apache.cassandra.io.util.FileUtils;
 import org.apache.cassandra.locator.BriskSimpleSnitch;
 import org.apache.cassandra.service.StorageService;
 import org.apache.cassandra.thrift.*;
+import org.apache.cassandra.thrift.Brisk.Iface;
 import org.apache.cassandra.utils.ByteBufferUtil;
 import org.apache.cassandra.utils.FBUtilities;
 import org.apache.cassandra.utils.UUIDGen;
+import org.apache.commons.pool.BasePoolableObjectFactory;
+import org.apache.commons.pool.PoolableObjectFactory;
+import org.apache.commons.pool.impl.GenericObjectPool;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.BlockLocation;
 import org.apache.hadoop.fs.Path;
@@ -106,6 +122,22 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
     private ConsistencyLevel            consistencyLevelWrite;
 
     private Cassandra.Iface             client;
+    
+    /**
+     * Cassandra is faster at writing. This pool allows parallel writes.
+     */
+    private ThreadPoolExecutor writersPool;
+    
+    private BlockingQueue<Runnable> writerQueue;
+    
+    private GenericObjectPool connectionPool;
+    
+    private ConnectionFactory connectionFactory;
+    
+    /**
+     * Keep a Set per Thread to retrieve the status of a set of scheduled writes.
+     */
+    private static StatusHolder writersStatusHolder = new StatusHolder();
 
     public CassandraFileSystemThriftStore()
     {
@@ -114,21 +146,8 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 
     public void initialize(URI uri, Configuration conf) throws IOException
     {
-
-        String host = uri.getHost();
-        int port = uri.getPort();
-
-        if (host == null || host.isEmpty() || host.equals("null"))
-            host = FBUtilities.getLocalAddress().getHostName();
-
-        if (port == -1)
-            port = DatabaseDescriptor.getRpcPort(); // default
-
-        // We could be running inside of cassandra...
-        if (conf instanceof CassandraJobConf)
-            client = new BriskInternalServer();
-        else
-            client = CassandraProxyClient.newProxyConnection(host, port, true, ConnectionStrategy.STICKY);
+    	connectionFactory = new ConnectionFactory(uri, conf);
+    	client = connectionFactory.createConnection();
 
         KsDef ks = checkKeyspace();
 
@@ -146,6 +165,39 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         {
             throw new IOException(e);
         }
+        
+        int cpus = Runtime.getRuntime().availableProcessors();
+        writerQueue = new LinkedBlockingQueue<Runnable>(cpus);
+        writersPool = new ThreadPoolExecutor(1, cpus, 2, TimeUnit.MINUTES, writerQueue, new ThriftStoreThreadFactory("SUB_BLOCK-WRITERS"));
+        
+        // Keep as max idle as min threads we have and block for 60 secs before throwing an exception.
+        connectionPool = new GenericObjectPool(new ConnectionPoolableObjectFactory(connectionFactory), cpus + 5,
+        		GenericObjectPool.WHEN_EXHAUSTED_BLOCK, 60000L, cpus);
+    }
+    
+    
+    private class ThriftStoreThreadFactory implements ThreadFactory {
+    	
+    	private final AtomicInteger created = new AtomicInteger();
+    	
+    	private final String poolName;
+    	
+    	public ThriftStoreThreadFactory(String poolName) {
+    		this.poolName = poolName;
+    	}
+
+		@Override
+		public Thread newThread(Runnable r) {
+			return new WriterThread(r, poolName + "-" + created.incrementAndGet());
+		}
+    	
+    }
+    
+    private class WriterThread extends Thread {
+
+    	public WriterThread(Runnable runnable, String name) {
+    		super(runnable, name);
+    	}
     }
 
     /**
@@ -509,10 +561,81 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
             throw new IOException(e);
         }
     }
+    
+    
+    public void scheduleStoreSubBlock(UUID parentBlockUUID, final SubBlock sblock, ByteArrayOutputStream os)
+    {
+    	assert parentBlockUUID != null;
+    	
+    	// Row key is the Block id to which this SubBLock belongs to.
+        final ByteBuffer parentBlockId = uuidToByteBuffer(parentBlockUUID);
+
+        // Clone the array to free it up since an independent
+        final ByteBuffer data = ByteBuffer.wrap(os.toByteArray().clone());
+        
+        Future<Boolean> subBlockWriterFutureStatus = writersPool.submit(new Callable<Boolean>() {
+
+			private boolean thereWasError = false;
+
+			// Perform the write in a separate thread.
+			@Override
+			public Boolean call() throws Exception {
+				
+		        if (logger.isDebugEnabled()) {
+		        	logger.debug("Storing " + sblock);
+		        }
+				
+				Cassandra.Iface innerClient = null;
+				
+	            try
+	            {
+	            	// Borrow a client
+	            	innerClient = (Cassandra.Iface) connectionPool.borrowObject();
+	            	
+	                // Row Key: UUID of SubBLock Block parent
+	                // Column name: Sub Block UUID
+	                // Column value: Sub Block Data.
+	            	
+	            	innerClient.insert(
+	                    parentBlockId, 
+	                    sblockParent, 
+	                    new Column().setName(uuidToByteBuffer(sblock.id)).setValue(data).setTimestamp(System.currentTimeMillis()), 
+	                    consistencyLevelWrite);
+	            }
+	            catch (Exception e)
+	            {
+	                //throw new IOException(e);
+	            	logger.error("Unable to write subBlock", e);
+	            	thereWasError = true;
+	            }
+	            finally 
+	            {
+	            	if (innerClient != null)
+	            	{
+	            		// Return a client to the pool.
+	            		connectionPool.returnObject(innerClient);
+	            	}
+	            }
+	            
+	            return thereWasError;
+			}
+		});
+        
+        // Add the status to the status list of the current thread
+        writersStatusHolder.addStatus(subBlockWriterFutureStatus);
+        
+    }
+    
+    public void waitForStoreSubBlockToComplete() throws IOException {
+    	try {
+			writersStatusHolder.waitForCompletion();
+		} catch (StatusHolderException e) {
+			throw new IOException(e);
+		}	
+    }
 
     public void storeINode(Path path, INode inode) throws IOException
     {
-                
         if (logger.isDebugEnabled() && inode.getBlocks() != null) {
             logger.debug("Writing inode to: " + path);
         	printBlocksDebug(inode.getBlocks());
@@ -723,4 +846,22 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         }
 
     }
+
+	@Override
+	public void close() throws IOException {
+		try {
+			writersPool.shutdown();
+			writersPool.awaitTermination(30, TimeUnit.SECONDS);
+		} catch (InterruptedException e) {
+			logger.error("Some writers were killed after 30 secs. It can be a bug. Please report!", e);
+		}
+		
+		try {
+			connectionPool.close();
+		} catch (Exception e) {
+			logger.warn("Error while closing the connection pool");
+			// It kinda sucks but I need to be complaint with the interface.
+			throw new IOException(e);
+		}
+	}
 }
