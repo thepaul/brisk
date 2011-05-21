@@ -51,6 +51,7 @@ import org.apache.cassandra.locator.BriskSimpleSnitch;
 import org.apache.cassandra.service.StorageService;
 import org.apache.cassandra.thrift.Brisk;
 import org.apache.cassandra.thrift.Cassandra;
+import org.apache.cassandra.thrift.Cassandra.Iface;
 import org.apache.cassandra.thrift.CfDef;
 import org.apache.cassandra.thrift.Column;
 import org.apache.cassandra.thrift.ColumnDef;
@@ -172,7 +173,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
     {
     	connectionFactory = new ConnectionFactory(uri, conf);
     	client = connectionFactory.createConnection();
-
+    	
         KsDef ks = checkKeyspace();
 
         if (ks == null)
@@ -181,18 +182,12 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
         initConsistencyLevels(ks, conf);
         initCFNames(uri);
 
-        try
-        {
-            client.set_keyspace(keySpace);
-        }
-        catch (Exception e)
-        {
-            throw new IOException(e);
-        }
+        setKeyspaceToClient(client);
         
         int concurrentWriters = getSubBlockWriterThreads(conf);
         writerQueue = new LinkedBlockingQueue<Runnable>(getSubBlockWorkQueueSize(conf));
-        writersPool = new JMXEnabledThreadPoolExecutor(concurrentWriters, 60, TimeUnit.SECONDS, writerQueue, new NamedThreadFactory("SUB_BLOCK-WRITERS"));
+        writersPool = new JMXEnabledThreadPoolExecutor(concurrentWriters, 60, TimeUnit.SECONDS, writerQueue, 
+        		new NamedThreadFactory("SUB_BLOCK-WRITERS-" + System.currentTimeMillis()));
         
         // Keep as max idle as min threads we have and block for 60 secs before throwing an exception.
         // Max is 2 times the amount of workers.
@@ -201,7 +196,18 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
     }
  
 
-    private int getSubBlockWorkQueueSize(Configuration conf) {
+    private void setKeyspaceToClient(Iface aClient) throws IOException {
+        try
+        {
+        	aClient.set_keyspace(keySpace);
+        }
+        catch (Exception e)
+        {
+            throw new IOException(e);
+        }
+	}
+
+	private int getSubBlockWorkQueueSize(Configuration conf) {
 		return conf.getInt("concurrent.writers.workqueue.size", Integer.MAX_VALUE);
 	}
 
@@ -600,6 +606,7 @@ public class CassandraFileSystemThriftStore implements CassandraFileSystemStore
 	            {
 	            	// Borrow a client
 	            	innerClient = (Cassandra.Iface) connectionPool.borrowObject();
+	            	setKeyspaceToClient(innerClient);
 	            	
 	                // Row Key: UUID of SubBLock Block parent
 	                // Column name: Sub Block UUID
