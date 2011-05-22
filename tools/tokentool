@@ -1,6 +1,13 @@
 #! /usr/bin/python
 
-import sys
+import sys, random
+
+MAXRANGE = (2**127)
+MAXRANGE = 100
+
+tokenSet = {}
+offsetSet = {}
+clashSet = {}
 
 def readInt(number, exitOnFail=False):
     returnVal = None
@@ -13,50 +20,135 @@ def readInt(number, exitOnFail=False):
     return returnVal
 
 def run():
-    datacenters = None
-    nodesperdc = []
-
-    if (len(sys.argv) > 1):
-        # Read from the commandline
-        
+    global offsetSet, clashSet
+    if (len(sys.argv) == 1):
+        print "Command line usage:"
+        print "    tools/tokentool <# of nodes in DC1> [<# of nodes in DC2> <# of nodes in DC3> ...]"
+        print
+    else:
         # Gather then number of datacenters
-        datacenters = len(sys.argv) - 1
+        datacenters = readInt(len(sys.argv) - 1)
 
         # Gather the number of nodes in each datacenter
+        nodesperdc = []
         for i in range(0, datacenters):
             nodesperdc.append(readInt(sys.argv[i + 1], True))
-    else:
-        # Read from interactive prompts
-        
-        # Gather then number of datacenters
-        while not datacenters:
-            datacenters = readInt(raw_input("How many datacenters are in your cluster? "))
-
-        # Gather the number of nodes in each datacenter
-        for i in range(0, datacenters):
-            thisDCNodes = None
-            while not thisDCNodes:
-                thisDCNodes = readInt(raw_input("How many nodes are in your DC%d? " % (i + 1)))
-            nodesperdc.append(thisDCNodes)
     
-    # Print tokens for each datacenter
-    for i in range(len(nodesperdc)):
+    # Calculate the tokens for each datacenter
+    for i, node in enumerate(nodesperdc):
+        splitRing(i, node)
+    
+    oldOffsetSet = {}
+    # Calculate tension
+    while True:
+
+        # Loop over all dcs
+        keys = tokenSet.keys()
+        keys.reverse()
+        for dc in keys:
+
+            # Allow the first dc to stay in it's initial spot
+            if dc == 0:
+                continue
+            
+            # Loop over all nodes
+            for node in tokenSet[dc].keys():
+                closestMinToken = 0
+                closestMaxToken = MAXRANGE
+
+                # Add an offset to the token if an offset exists
+                if dc in offsetSet:
+                    token = (tokenSet[dc][node] + offsetSet[dc]) % MAXRANGE
+                else:
+                    token = tokenSet[dc][node]
+
+                # Compare each node to all other nodes of the other dcs
+                for otherdc in tokenSet.keys():
+                    if dc != otherdc:
+
+                        # Find the tokens that will be compared against
+                        offset = 0
+                        for othernode in tokenSet[otherdc].keys():
+
+                            # Add an offset to the token if an offset exists
+                            if otherdc in offsetSet:
+                                othertoken = (tokenSet[otherdc][othernode] + offsetSet[otherdc]) % MAXRANGE
+                            else:
+                                othertoken = tokenSet[otherdc][othernode]
+                            
+                            # Find the floor token
+                            if othertoken <= token:
+                                if othertoken > closestMinToken:
+                                    closestMinToken = othertoken
+                            else:
+                                # Find the ceiling token on the next pass
+                                # then exit the loop
+                                if othertoken < closestMaxToken:
+                                    closestMaxToken = othertoken
+                                break
+                
+                # If the token has clashed, offset the token by a random
+                # integer close to that of the number of clashes
+                if dc in clashSet:
+                    offset = (closestMinToken + closestMaxToken) / 2 - tokenSet[dc][node] + random.randint(0, clashSet[dc])
+                else:
+                    offset = (closestMinToken + closestMaxToken) / 2 - tokenSet[dc][node]           
+
+            # Save the offset
+            offsetSet[dc] = offset
+
+        # Verify the offsets have stopped shifting
+        normalizedOffsets = True
+
+        # Copy offsetSet the first time around
+        if len(oldOffsetSet) == 0:
+            normalizedOffsets = False
+            oldOffsetSet = offsetSet.copy()
+        else:
+            seenTokens = []
+            for dc in offsetSet.keys():
+
+                # Confirm there are no token conflicts
+                for node in tokenSet[dc].keys():
+                    token = (tokenSet[dc][node] + offsetSet[dc]) % MAXRANGE
+
+                    if token in seenTokens:
+                        normalizedOffsets = False
+                        if dc in clashSet:
+                            clashSet[dc] = clashSet[dc] + 1
+                        else:
+                            clashSet[dc] = 1
+                        break
+                    seenTokens.append(token)
+                
+                # Check to makes sure offsets still aren't shifting
+                if offsetSet[dc] != oldOffsetSet[dc]:
+                    normalizedOffsets = False
+                    break
+
+            oldOffsetSet = offsetSet.copy()
+
+        # Stop looping if offsets have settled
+        if normalizedOffsets:
+            break
+
+    # Recalculate the shifted tokens and print
+    for i, dc in enumerate(tokenSet.keys()):
         print "DC%d:" % (i + 1)
-        splitRing(nodesperdc[i], (2**127) / 4 / len(nodesperdc) * i)
+        for node in tokenSet[dc].keys():
+            if dc in offsetSet:
+                newToken = (tokenSet[dc][node] + offsetSet[dc]) % MAXRANGE
+                print "Node %d: %d" % (node, newToken)
+            else:
+                print "Node %d: %d" % (node, tokenSet[dc][node])
         print
 
-def splitRing(numOfNodes, offset=0):
+def splitRing(dc, numOfNodes):
+    global tokenSet
+    tokenSet[dc] = {}
     for i in range(0, numOfNodes):
-        print "token position %d: %d" % (i, (i*(2**127)/numOfNodes + offset) % (2**127))
+        token = (i * MAXRANGE / numOfNodes) % MAXRANGE
+        tokenSet[dc][i] = token
 
 
-
-
-try:
-    print "Command line usage:"
-    print "    tools/tokentool <# of nodes in DC1> [<# of nodes in DC2> <# of nodes in DC3> ...]"
-    print
-    run()
-except KeyboardInterrupt:
-    print
-    pass
+run()
