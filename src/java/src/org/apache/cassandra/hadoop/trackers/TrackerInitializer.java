@@ -28,6 +28,8 @@ import org.apache.hadoop.mapred.TaskTracker;
 import org.apache.hadoop.metrics2.util.MBeans;
 import org.apache.log4j.Logger;
 
+import com.datastax.brisk.BriskSchema;
+
 //Will start job and or task trackers
 //depending on the ring
 public class TrackerInitializer
@@ -36,6 +38,11 @@ public class TrackerInitializer
     private static final CountDownLatch jobTrackerStarted = new CountDownLatch(1);
     public static final String  trackersProperty = "hadoop-trackers";
     public static final boolean isTrackerNode = System.getProperty(trackersProperty, "false").equalsIgnoreCase("true");
+    
+    // Hold the reference to the taskTracker and JobTracker thread.
+    private static Thread jobTrackerThread;
+    private static Thread taskTrackerThread;
+    
     
     public static void init() 
     {
@@ -51,11 +58,13 @@ public class TrackerInitializer
            throw new RuntimeException(e);
         }
         
+        checkCreateSystemSchema();
+        
         //Are we a JobTracker?
         InetAddress jobTrackerAddr = CassandraJobConf.getJobTrackerNode();
-        if(jobTrackerAddr.equals(FBUtilities.getLocalAddress()))
+        if(amIJobTracker(jobTrackerAddr))
         {
-            Thread jobTrackerThread = getJobTrackerThread();
+            jobTrackerThread = getJobTrackerThread();
             jobTrackerThread.start();
             
             try
@@ -65,7 +74,9 @@ public class TrackerInitializer
             catch (InterruptedException e)
             {
                 throw new RuntimeException("JobTracker not started",e);
-            }            
+            }
+            
+            // insert JobTracker address.
         }
         else
         {
@@ -73,12 +84,27 @@ public class TrackerInitializer
                 logger.debug("We are not the job tracker: "+jobTrackerAddr+" vs "+FBUtilities.getLocalAddress());
         }
               
-        
-        getTaskTrackerThread().start();
+        taskTrackerThread = getTaskTrackerThread();
+        taskTrackerThread.start();
     }
     
     
-    private static Thread getJobTrackerThread()
+    private static boolean amIJobTracker(InetAddress jobTrackerAddr) {
+		return jobTrackerAddr.equals(FBUtilities.getLocalAddress());
+	}
+
+
+	private static void checkCreateSystemSchema() {
+		try {
+			BriskSchema.init();
+			BriskSchema.createKeySpace();
+		} catch (IOException e) {
+			throw new RuntimeException("Unable to create Brisk system schema",e);
+		}
+	}
+
+
+	private static Thread getJobTrackerThread()
     {
        Thread jobTrackerThread = new Thread(new Runnable() {
             
