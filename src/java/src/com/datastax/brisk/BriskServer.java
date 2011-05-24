@@ -470,4 +470,10 @@ public class BriskServer extends CassandraServer implements Brisk.Iface
         return CassandraJobConf.getJobTrackerNode().getHostName()+":8012";
     }
 
+	@Override
+	public String move_job_tracker(String new_jobtracker)
+			throws NotFoundException, TException {
+		return "received: " + new_jobtracker + " returned: " + CassandraJobConf.getJobTrackerNode().toString();
+	}
+
 }

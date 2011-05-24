@@ -21,6 +21,7 @@ import java.io.IOException;
 
 import org.apache.cassandra.config.DatabaseDescriptor;
 import org.apache.cassandra.thrift.Brisk;
+import org.apache.cassandra.thrift.Brisk.Iface;
 import org.apache.cassandra.thrift.NotFoundException;
 import org.apache.cassandra.thrift.TBinaryProtocol;
 import org.apache.cassandra.utils.FBUtilities;
@@ -38,7 +39,8 @@ public class BriskTool
     private String host = FBUtilities.getLocalAddress().getHostName();
     
     private enum Commands {
-        jobtracker
+        jobtracker,
+        movejt
     }
     
     public BriskTool(String[] args)
@@ -107,8 +109,7 @@ public class BriskTool
     
     private Brisk.Iface getConnection() throws IOException
     {
-        TSocket socket = new TSocket(host, port);
-        TTransport trans = new TFramedTransport(socket);
+        TTransport trans = new TFramedTransport(new TSocket(host, port));
         try
         {
             trans.open();
@@ -121,7 +122,6 @@ public class BriskTool
         Brisk.Iface client = new Brisk.Client(new TBinaryProtocol(trans));
 
         return client;
-        
     }
     
     private void runCommand(Commands cmd) throws IOException
@@ -131,13 +131,36 @@ public class BriskTool
         switch(cmd)
         {
         case jobtracker:
-           getJobTracker(client); break;
+           getJobTracker(client); 
+           break;
+        case movejt:
+           moveJobTracker(client); 
+           break;
         default:
             throw new IllegalStateException("no handler for command: "+cmd);
         }        
     }
     
-    private void getJobTracker(Brisk.Iface client)
+    private void moveJobTracker(Iface client) {
+        try
+        {
+            String previousJobTracker = client.get_jobtracker_address();
+            // TODO (patricioe) move the Job Tracker
+            String newJobTracker = client.move_job_tracker("333.333.333.333");
+            System.out.println("(Mock operation) JobTracker move from: " + previousJobTracker + " to: " + newJobTracker);
+        }catch(NotFoundException e)
+        {
+            System.err.println("No jobtracker found");
+            System.exit(2);
+        }
+        catch (TException e)
+        {
+            System.err.println("Error when moving the Job Tracker: "+e);
+            System.exit(2);
+        }
+	}
+
+	private void getJobTracker(Brisk.Iface client)
     {
         try
         {
